@@ -1,6 +1,5 @@
-# JAX-RS Template Application
+# P2PDinner Rest API
 
-This is a template for a lightweight RESTful API using JAX-RS. The sample code is a call for getting the current time.
     
 ## Running the application locally
 

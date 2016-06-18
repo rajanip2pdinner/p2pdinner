@@ -1,0 +1,24 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+#map-canvas {
+    width: 800px;
+    height: 600px;
+    background-color: #CCC;
+}
+
+.slider-bar{
+    display:block; width:80px; background-color:darkred; position:relative;
+}
+
+.slider, .slider-bar{
+    height:30px;
+}
+
+

@@ -1,0 +1,36 @@
+extends layout
+
+block content
+	div(class="panel panel-primary")
+		div(class="panel-heading")
+			h3(class="panel-title") Menu Items Available for Listing
+		div(class="panel-body")
+			div(class="table-responsive")
+				table(class="table table-striped")
+					thead
+						tr(class="info")
+							th Title
+							th Description
+							th Category
+							th Special Needs
+							th Delivery
+							th List for Dinner
+						each item in data
+							tr
+								td=item.title
+								td=item.description
+								td=item.dinnerCategories
+								td=item.dinnerSpecialNeeds
+								td=item.dinnerDelivery 
+								td
+									a(href="/listings/add/" + item.id)
+										i(class="fa fa-3x fa-list pull-left")
+		div(class="panel-footer")
+			a(href="/profiles/signout", class="pull-right" style="margin-left:1em")
+				i(class="fa fa-2x fa-sign-out")
+			a(class="pull-right", href="/menuitems/add" style="margin-left:1em")
+				i(class="fa fa-2x fa-plus")
+			a(href="/profiles/validate", class="pull-right")
+				i(class="fa fa-2x fa-home")
+			
+		div(class="clearfix")

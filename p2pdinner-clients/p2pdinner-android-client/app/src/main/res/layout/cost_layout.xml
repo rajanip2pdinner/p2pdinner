@@ -1,0 +1,135 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dollars_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/cost_per_plate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:paddingBottom="20dp"
+        android:text="@string/cost_per_plate" />
+
+    <TextView
+        android:id="@+id/dollar_amt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/cost_per_plate"
+        android:padding="10dp"
+        android:text="@string/initial_dollar_amt" />
+
+    <TextView
+        android:id="@+id/dollar_amt_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/dollar_amt"
+        android:layout_below="@+id/cost_per_plate"
+        android:padding="10dp"
+        android:text="@string/dollar_label" />
+
+    <Button
+        android:id="@+id/increment_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/decrement_amount"
+        android:textColor="@color/background_material_light"
+        android:layout_below="@+id/cost_per_plate"
+        android:text="+" />
+
+    <Button
+        android:id="@+id/decrement_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/background_material_light"
+        android:layout_below="@+id/cost_per_plate"
+        android:text="-" />
+
+    <TextView
+        android:id="@+id/cents_amt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dollar_amt"
+        android:padding="10dp"
+        android:text="@string/initial_dollar_amt" />
+
+    <TextView
+        android:id="@+id/cents_amt_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dollar_amt_label"
+        android:layout_toRightOf="@+id/cents_amt"
+        android:padding="10dp"
+        android:text="@string/cents_label" />
+
+    <Button
+        android:id="@+id/increment_cent_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/increment_amount"
+        android:layout_toLeftOf="@+id/decrement_cent_amount"
+        android:textColor="@color/background_material_light"
+        android:text="+" />
+
+    <Button
+        android:id="@+id/decrement_cent_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/decrement_amount"
+        android:layout_toRightOf="@+id/increment_amount"
+        android:textColor="@color/background_material_light"
+        android:text="-" />
+
+    <!-- max orders -->
+    <TextView
+        android:id="@+id/max_orders_per_plate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:paddingTop="20dp"
+        android:layout_below="@+id/cents_amt"
+        android:text="@string/max_orders_per_plate" />
+
+    <TextView
+        android:id="@+id/available_quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/max_orders_per_plate"
+        android:padding="10dp"
+        android:text="1" />
+
+    <Button
+        android:id="@+id/increment_available_quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/max_orders_per_plate"
+        android:layout_toLeftOf="@+id/decrement_cent_amount"
+        android:textColor="@color/background_material_light"
+        android:text="+" />
+
+    <Button
+        android:id="@+id/decrement_available_quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/max_orders_per_plate"
+        android:layout_toRightOf="@+id/increment_amount"
+        android:textColor="@color/background_material_light"
+        android:text="-" />
+
+
+    <Button
+        android:id="@+id/btnNext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="@string/next"
+        android:textColor="@color/background_material_light"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+</RelativeLayout>
+

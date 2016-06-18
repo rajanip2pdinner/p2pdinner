@@ -1,0 +1,163 @@
+<!doctype html>
+
+<html ng-app="p2pdinnerApp">
+	<head>
+		<meta charset="utf-8">
+		<title>Menu Management</title>
+
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<link href="bower_components/bootstrap/dist/css/bootstrap-theme.css" rel="stylesheet">
+		<link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+		<link href="bower_components/datatables/media/css/jquery.dataTables.min.css" rel="stylesheet">
+		<link href="bower_components/datatables/media/css/jquery.dataTables_themeroller.css" rel="stylesheet">
+		<link href="bower_components/ng-table/ng-table.css" rel="stylesheet" >
+		<script src="bower_components/jquery/dist/jquery.js"></script>
+		<script src="bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
+
+		<script src="bower_components/angular/angular.js"></script>
+		<script src="bower_components/angular-route/angular-route.js"></script>
+		<script src="bower_components/ng-table/ng-table.js"></script>
+
+		<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/controllers.js"></script>
+		<script src="js/services.js"></script>
+
+		<body ng-controller="MenuItemCtrl" ng-init="init()">
+			<div class="container">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						Add Menu Item
+					</div>
+					<div class="panel-body" >
+						<div class="form-group">
+							<label for="title">Title</label>
+							<input type="title" class="form-control" id="title" placeholder="Title" ng-model="title">
+						</div>
+						<div class="form-group">
+							<label for="description">Description</label>
+							<input type="description" class="form-control" id="description" placeholder="Description" ng-model="description">
+						</div>
+						<div class="form-group">
+							<label for="category">Category</label>
+							<select id="category" class="form-control" ng-options="opt.name for opt in dinner_categories track by opt.name" ng-model="dinner_category" ></select>
+						</div>
+						<div class="form-group">
+							<label for="special_needs">Special Needs</label>
+							<select class="form-control" id="special_needs" ng-options="opt.name for opt in dinner_special_needs track by opt.name" ng-model="dinner_special_need" ></select>
+						</div>
+						<div class="form-group">
+							<label for="delivery">Delivery</label>
+							<select id="delivery" class="form-control" ng-options="opt.name for opt in dinner_deliveries track by opt.name" ng-model="dinner_delivery" ></select>
+						</div>
+						<button type="submit" class="btn btn-primary" ng-click="createMenuItem();">
+							Submit
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="container">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						Menu Items
+					</div>
+					<table class="table table-striped" id="menu_items" ng-table>
+						<thead>
+							<th>Title</th>
+							<th>Description</th>
+							<th>Categories</th>
+							<th>Special Needs</th>
+							<th>Delivery</th>
+							<th></th>
+						</thead>
+						<tbody>
+							<tr ng-repeat="m in menu">
+								<td>{{m.title}}</td>
+								<td>{{m.description}}</td>
+								<td>{{m.dinnerCategories}}</td>
+								<td>{{m.dinnerSpecialNeeds}}</td>
+								<td>{{m.dinnerDelivery}}</td>
+								<td><a ng-click="showAddToDinnerListDialog(m.id);"><span class="glyphicon glyphicon-list" aria-hidden="true"></span></a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<br/>
+			<div class="container">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						Current Listings
+					</div>
+					<table class="table table-striped" id="listings" ng-table>
+						<thead>
+							<th>Title</th>
+							<th>Description</th>
+							<th>Categories</th>
+							<th>Special Needs</th>
+							<th>Delivery</th>
+							<th>cost</th>
+							<th>Available Quantity</th>
+						</thead>
+						<tbody>
+							<tr ng-repeat="l in current_listings">
+								<td>{{l.title}}</td>
+								<td>{{l.description}}</td>
+								<td>{{l.categories}}</td>
+								<td>{{l.special_needs}}</td>
+								<td>{{l.delivery}}</td>
+								<td>{{l.listing.cost_per_item}}</td>
+								<td>{{l.listing.quantity_available}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="container">
+				<div class="modal fade" id="myModal">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<h4 class="modal-title">List This Item For Dinner</h4>
+							</div>
+							<div class="modal-body">
+								<div class="form-group">
+									<label for="cost_per_item">Cost Per Item</label>
+									<input type="title" class="form-control" id="cost_per_item" placeholder="Cost" ng-model="cost_per_item">
+								</div>
+								<div class="form-group">
+									<label for="available_quantity">Available Quantity</label>
+									<input type="available_quantity" class="form-control" id="available_quantity" placeholder="Quantity Available" ng-model="available_quantity">
+								</div>
+								<div class="form-group">
+									<label for="start_time">Start Time(MM/DD/YY HH24:MI:SS)</label>
+									<input type="start_time" class="form-control" id="start_time" placeholder="Start Time" ng-model="start_time">
+								</div>
+								<div class="form-group">
+									<label for="end_time">End Time (MM/DD/YY HH24:MI:SS)</label>
+									<input type="end_time" class="form-control" id="end_time" placeholder="End Time" ng-model="end_time">
+								</div>
+								<div class="form-group">
+									<label for="close_time">Close Time (MM/DD/YY HH24:MI:SS)</label>
+									<input type="close_time" class="form-control" id="close_time" placeholder="Close Time" ng-model="close_time">
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">
+									Close
+								</button>
+								<button type="button" class="btn btn-primary" ng-click="addToDinnerList();">
+									Save changes
+								</button>
+							</div>
+						</div><!-- /.modal-content -->
+					</div><!-- /.modal-dialog -->
+				</div><!-- /.modal -->
+
+		</body>
+</html>

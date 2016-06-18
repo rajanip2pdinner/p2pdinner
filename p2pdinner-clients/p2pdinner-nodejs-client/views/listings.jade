@@ -1,0 +1,35 @@
+extends layout
+
+block content
+  div(class="panel panel-primary")
+    div(class="panel-heading")
+      h3(class="panel-title") Listed Items
+    div(class="table-responsive")
+      table(class="table table-hover")
+        thead
+          tr(class="info")
+            th Title
+            th Description
+            th Category
+            th Delivery
+            th Cost/Item
+            th Available Quantity
+            th Add To Cart
+        each item in data
+          tr
+            td=item.title
+            td=item.description
+            td=item.categories
+            td=item.delivery
+            td=item.listing.cost_per_item
+            td=item.listing.quantity_available
+            td
+              a(href="/cart/add/" + item.listing.listing_id  )
+                i(class="fa fa-2x fa-shopping-cart")
+    div(class="panel-footer")
+      a(href="/profiles/signout", class="pull-right" style="margin-left:1em")
+        i(class="fa fa-2x fa-sign-out")
+      a(href="/cart/view", class="pull-right" style="margin-left:1em")
+        i(class="fa fa-2x fa-cart-arrow-down")
+      a(href="/profiles/validate", class="pull-right")
+        i(class="fa fa-2x fa-home")

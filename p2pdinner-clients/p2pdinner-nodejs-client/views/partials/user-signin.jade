@@ -1,0 +1,32 @@
+div(class="container",id="signin")
+	div(class="row")
+		div class="span4 offset4"
+			div class="panel panel-default"
+				div(class="panel-heading") P2PDinner - Login
+				
+				div(class="panel-body")
+					div(class="alert alert-warning alert-dismissible", role="alert", ng-show="hasError")
+						button(type="button",class="close",data-dismiss="alert",aria-label="Close")
+							span(aria-hidden="true") &times;
+						
+						strong {{errorMessage}}
+					
+					form(role="form")
+						div(class="form-group"
+							label(for="emailAddress") Email address
+							input(type="email",class="form-control",id="emailAddress",placeholder="Enter email", ng-model="emailAddress")
+						
+						div(class="form-group")
+							label(for="password") Password
+							input(type="password",class="form-control",id="password",placeholder="Password" ng-model="password")
+						
+						button(type="submit",class="btn btn-primary",ng-click="validateUser();") Sign In
+							
+						
+						a(href="#/register")Register
+					
+				
+			
+		
+	
+

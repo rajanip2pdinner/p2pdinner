@@ -1,0 +1,325 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "P2PDinner Services",
+        "description": "Dinner Services API"
+    },
+    "schemes": [
+        "https"
+    ],
+    "host": "p2pdinner-services.herokuapp.com",
+    "basePath": "/services",
+    "produces": [
+        "application/json"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "paths": {
+        "/profile": {
+            "post": {
+                "summary": "Create a user profile",
+                "operationId": "createProfile",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/UserProfile"
+                        }
+                    }
+                ],
+                "tags": [
+                    "userProfile"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Create profile",
+                        "schema": {
+                            "$ref": "#/definitions/UserProfile"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/profile/validate": {
+            "get": {
+                "summary": "Get Profile by emailaddress",
+                "tags": [
+                    "userProfile"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "emailAddress",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "password",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Profile",
+                        "schema": {
+                            "$ref": "#/definitions/UserProfile"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/places/nearbysearch": {
+            "get": {
+                "summary": "Search listing based on latitude and longitude",
+                "tags": [
+                    "places search"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "latitude",
+                        "type": "number",
+                        "format": "double",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "longitude",
+                        "type": "number",
+                        "format": "double",
+                        "required": false
+                    },
+                    {
+                        "in": "query",
+                        "name": "address",
+                        "type": "string",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Listings",
+                        "schema": {
+                            "$ref": "#/definitions/Listings"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "UserProfile": {
+            "required": [
+                "emailAddress",
+                "addressLine1",
+                "addressLine2",
+                "city",
+                "state",
+                "zip",
+                "password",
+                "devices"
+            ],
+            "properties": {
+                "emailAddress": {
+                    "type": "string"
+                },
+                "addressLine1": {
+                    "type": "string"
+                },
+                "addressLine2": {
+                    "type": "string"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "state": {
+                    "type": "string"
+                },
+                "zip": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "devices": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Device"
+                    }
+                }
+            }
+        },
+        "Device": {
+            "required": [
+                "deviceType",
+                "notificationsEnabled",
+                "registrationId"
+            ],
+            "properties": {
+                "deviceType": {
+                    "type": "string",
+                    "enum": [
+                        "iOS",
+                        "Android"
+                    ]
+                },
+                "notificationsEnabled": {
+                    "type": "boolean"
+                },
+                "registrationId": {
+                    "type": "string"
+                }
+            }
+        },
+        "Location": {
+            "required": [
+                "lat",
+                "lng"
+            ],
+            "properties": {
+                "lat": {
+                    "type": "number",
+                    "format": "double"
+                },
+                "lng": {
+                    "type": "number",
+                    "format": "double"
+                }
+            }
+        },
+        "Listing": {
+            "required": [
+                "listing_id",
+                "cost_per_item",
+                "quantity_available"
+            ],
+            "properties": {
+                "listing_id": {
+                    "type": "integer"
+                },
+                "cost_per_item": {
+                    "type": "number",
+                    "format": "double"
+                },
+                "quantity_available": {
+                    "type": "integer"
+                }
+            }
+        },
+        "MenuItem": {
+            "required": [
+                "title",
+                "description",
+                "categories",
+                "special_needs",
+                "delivery",
+                "listing"
+            ],
+            "properties": {
+                "title": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "categories": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "special_needs": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "delivery": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "listing": {
+                    "$ref": "#/definitions/Listing"
+                }
+            }
+        },
+        "Listings": {
+            "required": [
+                "status",
+                "results"
+            ],
+            "properties": {
+                "status": {
+                    "type": "string"
+                },
+                "results": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Result"
+                    }
+                }
+            }
+        },
+        "Result": {
+            "required": [
+                "location",
+                "profile_id",
+                "menu_items"
+            ],
+            "properties": {
+                "location": {
+                    "$ref": "#/definitions/Location"
+                },
+                "profile_id": {
+                    "type": "integer"
+                },
+                "menu_items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/MenuItem"
+                    }
+                }
+            }
+        },
+        "Error": {
+            "required": [
+                "status",
+                "message"
+            ],
+            "properties": {
+                "status": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,14 @@
+extends layout
+
+block content
+	if (code !== undefined)
+		div(class='alert alert-danger')=message
+	div(class="panel panel-default")
+		div(class="modal-body")
+			form(role="form",  method="post", action="/cart/add")
+				div(class="form-group")
+					label(class="col-xs-3 control-label") Quantity
+					input(class="form-control",id="quantity", name="quantity", placeholder="Quantity")
+					input(type="hidden", class="form-control",id="listingId", name="listingId", value="#{listingId}")
+				div(class="btn-group pull-right")
+				button(class="btn btn-success", type="submit") Add To Cart	

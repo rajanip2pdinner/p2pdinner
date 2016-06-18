@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/place_linear_layout">
+
+    <TextView android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/address" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:inputType="textMultiLine"
+        android:layout_height="wrap_content"
+        android:minLines="3"
+        android:maxLines="6"
+        android:gravity="top"
+        android:id="@+id/current_address" />
+
+    <TextView android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/delivery_options" />
+
+    <EditText
+        android:id="@+id/deliveryOptions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/delivery_options"
+        android:focusable="false"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnNext"
+            android:text="@string/next"
+            android:textColor="@color/background_material_light"
+            android:layout_alignParentBottom="true"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+    </RelativeLayout>
+</LinearLayout>

@@ -1,0 +1,72 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xmlns:cxf="http://cxf.apache.org/core"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+				http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+				http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd 
+				http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd 
+				http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
+    <import resource="classpath:META-INF/cxf/cxf.xml"/>
+    <import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
+
+
+    <context:component-scan base-package="com.p2p"/>
+    <jpa:repositories base-package="com.p2p.data.repositories"/>
+
+
+    <bean id="oAuthDataProvider" class="com.p2p.security.StormPathDataProvider"/>
+    <bean id="oAuthRequestFilter" class="org.apache.cxf.rs.security.oauth2.filters.OAuthRequestFilter">
+        <property name="dataProvider" ref="oAuthDataProvider"/>
+    </bean>
+    <bean id="accessTokenService" class="com.p2p.security.StormPathAcessTokenService" />
+    <bean id="accessTokenValidateService" class="com.p2p.security.StormPathAccessTokenValidatorService">
+    </bean>
+    <jaxrs:server id="p2pservice" address="/">
+        <!--
+        <jaxrs:features>
+            <cxf:logging />
+        </jaxrs:features>
+        -->
+        <jaxrs:serviceBeans>
+            <ref bean="timeService"/>
+            <ref bean="keyValueService"/>
+            <ref bean="dinnerCategoryService"/>
+            <ref bean="dinnerDeliveryService"/>
+            <ref bean="dinnerSpecialNeedService"/>
+            <ref bean="dinnerListingService"/>
+            <ref bean="userProfileService"/>
+            <ref bean="menuService"/>
+            <ref bean="placesSearchService"/>
+            <ref bean="dinnerCartService"/>
+            <ref bean="tierService"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <bean id="jsonProvider" class="org.codehaus.jackson.jaxrs.JacksonJsonProvider"/>
+            <bean id="p2pExceptionMapper" class="com.p2p.exceptions.P2PDinnerExceptionMapper"/>
+            <bean id="exceptionProvider" class="com.p2p.exceptions.SecurityExceptionMapper"/>
+            <ref bean="oAuthRequestFilter"/>
+        </jaxrs:providers>
+    </jaxrs:server>
+    <jaxrs:server id="authenticationServer" address="/oauth">
+    	 <jaxrs:providers>
+            	<bean id="jsonProvider" class="org.codehaus.jackson.jaxrs.JacksonJsonProvider"/>
+            </jaxrs:providers>
+        <jaxrs:serviceBeans>
+            <ref bean="accessTokenService"/>
+            <ref bean="accessTokenValidateService"/>
+        </jaxrs:serviceBeans>
+    </jaxrs:server>
+    <bean id="timeService" class="com.p2p.services.TimeService"/>
+    <bean id="keyValueService" class="com.p2p.services.KeyValueService"/>
+    <bean id="dinnerCategoryService" class="com.p2p.services.DinnerCategoryService"/>
+    <bean id="dinnerDeliveryService" class="com.p2p.services.DinnerDeliveryService"/>
+    <bean id="dinnerSpecialNeedService" class="com.p2p.services.DinnerSpecialNeedService"/>
+    <bean id="dinnerListingService" class="com.p2p.services.DinnerListingService"/>
+    <bean id="userProfileService" class="com.p2p.services.UserProfileService"/>
+    <bean id="menuService" class="com.p2p.services.MenuService"/>
+    <bean id="placesSearchService" class="com.p2p.services.PlacesSearchService"/>
+    <bean id="dinnerCartService" class="com.p2p.services.DinnerCartService"/>
+    <bean id="tierService" class="com.p2p.services.TierService"/>
+</beans>

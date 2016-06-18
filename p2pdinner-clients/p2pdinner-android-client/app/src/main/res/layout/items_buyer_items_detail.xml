@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="2dp"
+    android:layout_weight="100">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="25">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/darker_gray"
+                android:textStyle="bold"
+                android:padding="2dp"
+                android:id="@+id/title"
+                android:text="Steak Dinner - American"
+                android:textSize="@dimen/abc_text_size_large_material" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/holo_orange_dark"
+                android:textStyle="bold"
+                android:id="@+id/total_amount"
+                android:text="$4.99"
+                android:layout_alignParentRight="true"
+                android:layout_alignRight="@+id/title"
+                android:padding="2dp"
+                android:textSize="@dimen/abc_text_size_large_material" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:paddingTop="2dp">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/food_images"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:maxHeight="100dp"
+                android:maxWidth="100dp"
+                android:src="@drawable/add_photo" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/darker_gray"
+                android:textStyle="bold"
+                android:padding="5dp"
+                android:id="@+id/profilename"
+                android:text="Molly's Home"
+                android:textSize="@dimen/abc_text_size_subtitle_material_toolbar" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/darker_gray"
+                android:textStyle="bold"
+                android:id="@+id/address"
+                android:layout_below="@+id/confirmation_code"
+                android:layout_alignParentLeft="true"
+                android:text="680 2nd Street, San Francisco"
+                android:paddingLeft="10dp"
+                android:textSize="@dimen/abc_text_size_small_material" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/darker_gray"
+                android:textStyle="bold"
+                android:padding="10dp"
+                android:id="@+id/confirmation_code"
+                android:layout_below="@+id/profilename"
+                android:layout_alignParentLeft="true"
+                android:text="1.3 mi"
+                android:textSize="@dimen/abc_text_size_small_material"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/darker_gray"
+                android:textStyle="bold"
+                android:id="@+id/timings"
+                android:paddingLeft="10dp"
+                android:layout_below="@+id/address"
+                android:text="8:30 PM - 9:45 PM"
+                android:textSize="@dimen/abc_text_size_small_material" />
+            <!-- <ImageView
+                android:id="@+id/delivery_types"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:maxHeight="40dp"
+                android:maxWidth="40dp"
+                android:layout_below="@+id/timings"
+                android:src="@drawable/dinein" /> -->
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

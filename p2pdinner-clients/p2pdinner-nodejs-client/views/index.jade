@@ -1,0 +1,25 @@
+extends layout
+
+block content
+	if (status !== undefined && status !== 200)
+		div(class='alert alert-danger')=msg
+	div(class="panel panel-default")
+		div(class="panel-heading clearfix")
+			h3(class="panel-title pull-left") Login
+		div(class="modal-body")
+			form(role="form",  method="post", action="/profiles/validate", id='frm_validate')
+				div(class="form-group")
+					label(class="col-xs-3 control-label") Email Address
+					input(type="email",class="form-control",id="emailAddress", name="emailAddress", placeholder="Enter email")
+				div(class="form-group")
+					label(class="col-xs-3 control-label") Password
+					input(type="password",class="form-control",id="password",placeholder="Password", name="password")
+				div(class="btn-group pull-right")
+				button(class="btn btn-success", type="submit") Login
+				span &nbsp;&nbsp;
+				button(class="btn btn-success", id="register_btn", type="button") Register
+				span &nbsp;&nbsp; 
+				button(class="btn btn-danger") Reset
+				span &nbsp;&nbsp; 
+	script(src="javascripts/index.js")
+				

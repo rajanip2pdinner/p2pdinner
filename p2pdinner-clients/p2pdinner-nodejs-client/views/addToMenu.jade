@@ -1,0 +1,58 @@
+extends layout
+
+block content
+	div(class="panel panel-primary")
+		div(class="panel-heading clearfix")
+			h3(class="panel-title pull-left") Add Item to Menu
+		div(class="modal-body")
+			form(role="form",  method="post", action="/menuitems/add", enctype="multipart/form-data")
+				div(class="form-group")
+					label(class="col-xs-3 control-label") Title
+					input(class="form-control",id="title", name="title", placeholder="Title")
+				div(class="form-group")
+					label(class="col-xs-3 control-label") Description
+					input(class="form-control",id="description", name="description", placeholder="Description")
+				div(class="form-group")
+					label(class="col-xs-3 control-label") Category
+					select(class="form-control",id="category", name="category", placeholder="Category")
+						option
+						each item in categories
+							option=item.name
+				div(class="form-group")
+					label(class="col-xs-3 control-label") Special Needs
+					select(class="form-control",id="special_needs", name="special_needs", placeholder="Special Needs")
+						option
+						each item in special_needs
+							option=item.name
+				div(class="form-group")
+					label(class="col-xs-3 control-label") Delivery
+					select(class="form-control",id="delivery_type", name="delivery_type", placeholder="Delivery Method")
+						option
+						each item in delivery_types
+							option=item.name
+				div(class="form-group")
+					label(class="col-xs-3 control-label") Available Quantity
+					input(class="form-control",id="available_quantity", name="available_quantity", placeholder="Available Quantity")
+				div(class="form-group")
+					label(class="col-xs-3 control-label") Cost Per Item
+					input(class="form-control",id="cost_per_item", name="cost_per_item", placeholder="Cost Per Item")
+				div(class="form-group")
+					label(class="col-xs-3 control-label") Address Line1
+					input(class="form-control",id="address_line1", name="address_line1", placeholder="Address Line 1")
+				div(class="form-group")
+					label(class="col-xs-3 control-label") Address Line2
+					input(class="form-control",id="address_line2", name="address_line2", placeholder="Address Line 2")
+				div(class="form-group")
+					label(class="col-xs-3 control-label") City
+					input(class="form-control",id="city", name="city", placeholder="City")
+				div(class="form-group")
+					label(class="col-xs-3 control-label") Upload Image
+					span(class="btn btn-default btn-file")
+						input(class="file",id="image1", name="image", placeholder="image", type="file")
+				div(class="form-group")
+					label(class="col-xs-3 control-label") State
+					select(class="form-control",id="states", name="states", placeholder="State")
+						option
+				div(class="btn-group pull-right")
+				button(class="btn btn-success", type="submit") Add To Menu
+	script(src="/javascripts/addToMenu.js")

@@ -1,0 +1,180 @@
+//
+//  ViewController.m
+//  P2PDinner
+//
+//  Created by selvam on 2/3/15.
+//  Copyright (c) 2015 P2PDinner. All rights reserved.
+//
+
+#import "FindDinnerViewController.h"
+#import "AppConstants.h"
+#import "Utility.h"
+#import "Servicehandler.h"
+#import "TimeRequest.h"
+#import "TimeResponce.h"
+#import "AddressRequest.h"
+#import "BuyerHandler.h"
+#import "ActivityView.h"
+#import "AddressResponce.h"
+#import "DinnerResultViewController.h"
+#import "MyOrderItemHandler.h"
+@import CoreLocation;
+
+@interface FindDinnerViewController () <CLLocationManagerDelegate>{
+    ActivityView *activityView;
+}
+@property (strong, nonatomic) CLLocationManager *locationManager;
+-(void)updateAddressFieldUsingService:(NSString *)RequestURL;
+@end
+@implementation FindDinnerViewController
+
+- (void)viewDidLoad {
+    activityView=[[ActivityView alloc]initWithFrame:self.view.frame];
+    [self.navigationItem.backBarButtonItem setTitle:@"Back"];
+    [super viewDidLoad];
+    dinnerDate=[NSDate date];
+    guestValue=2;
+    LocationManger *locationMgr=[LocationManger sharedLocationManager];
+    [locationMgr updateLocation];
+    locationMgr.delegate=self;
+    findDinnerButton.layer.cornerRadius = 5;
+    // This will remove extra separators from tableview
+    dinnerUISetup.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+}
+- (void)currentUserLocation:(CLLocation *)Location{
+    [[LocationManger sharedLocationManager]stopUpdatingLocation];
+    CLGeocoder * geoCoder = [[CLGeocoder alloc] init];
+    [geoCoder reverseGeocodeLocation:Location completionHandler:^(NSArray *placemarks, NSError *error) {
+        for (CLPlacemark * placemark in placemarks)
+        {
+          NSArray *addressArray= [NSArray arrayWithObjects:[placemark subThoroughfare],[placemark locality],[placemark thoroughfare],[placemark administrativeArea], nil];
+            addressArray=[Utility removeNilArrayOfString:addressArray];
+            selectedAddressField.text=[addressArray componentsJoinedByString:@","];
+          
+            
+        }
+    }];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+#pragma UISetupDinnerView
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return 3;
+}
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    UITableViewCell *cell ;
+    if(indexPath.row==firstCell){
+        cell= [tableView dequeueReusableCellWithIdentifier:PlaceCustomCellIdentifier];
+        selectedAddressField=(UITextField *)[cell viewWithTag:111];
+        [selectedAddressField.layer setBorderColor:[[[UIColor colorWithRed:0.97 green:0.62 blue:0.20 alpha:1.0] colorWithAlphaComponent:0.5] CGColor]];
+        [selectedAddressField.layer setBorderWidth:0.5];
+        
+        //The rounded corner part, where you specify your view's corner radius:
+        selectedAddressField.layer.cornerRadius = 5;
+    }
+    else if(indexPath.row==secondCell)
+    {
+        cell= [tableView dequeueReusableCellWithIdentifier:GuestCustomCellIdentifier];
+        guestTableViewCell =(GuestTableviewCell *) cell;
+        [guestTableViewCell setGuestCount:guestValue];
+    }
+    else if(indexPath.row==thirdCell)
+    {
+        cell= [tableView dequeueReusableCellWithIdentifier:DatePicCoustomCellIdentifier];
+        selectedDate = (UILabel *) [cell viewWithTag:999];
+//        cell.layer.shadowOffset = CGSizeMake(1, 0);
+//        cell.layer.shadowColor = [[UIColor blackColor] CGColor];
+//        cell.layer.shadowRadius = 5;
+//        cell.layer.shadowOpacity = .25;
+    }
+    else if(indexPath.row==fourthCell)
+    {
+        cell= [tableView dequeueReusableCellWithIdentifier:FindDinnerCoustomCellIdentifier];
+        UIButton *button = (UIButton *) [cell viewWithTag:555];
+        button.layer.cornerRadius = 5;
+    }
+    return cell;
+}
+- (BOOL)textFieldShouldReturn:(UITextField *)textField{
+    
+    NSString *str = [textField.text stringByReplacingOccurrencesOfString:@" "
+                                                              withString:@"+"];
+    NSRegularExpression *re = [NSRegularExpression regularExpressionWithPattern:@"[@#$.,!\\d]" options:0 error:nil];
+    
+    str = [re stringByReplacingMatchesInString:str
+                                       options:0
+                                         range:NSMakeRange(0, [str length])
+                                  withTemplate:@""];
+    
+    NSString *requestURL=[NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/geocode/json?address=%@",str];
+    [self updateAddressFieldUsingService:requestURL];
+    
+    [textField resignFirstResponder];
+    return YES;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.row==2) {
+        return 108;
+    }
+    return 138;
+}
+-(NSArray *)shortByDistance:(NSArray *)dinnerResultArray{
+    NSSortDescriptor *distance = [[NSSortDescriptor alloc] initWithKey:@"distance" ascending:YES];
+    return [dinnerResultArray  sortedArrayUsingDescriptors:[NSArray arrayWithObject:distance]];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:DatePickerViewControllerSegue]) {
+        DatePicker *datePickerViewController =(DatePicker *) segue.destinationViewController;
+#warning Known issue Need to send old Date
+        datePickerViewController.delegate=self;
+    }
+    if ([segue.identifier isEqualToString:@"DinnerResult"]) {
+        DinnerResultViewController *dinnerResult=(DinnerResultViewController *) segue.destinationViewController;
+        NSArray *dinnerListArray=[[MyOrderItemHandler sharedSellerHistoryHandler]getResultsArryForAllCurrentListRessponce:[sender objectForKey:@"results"] forSeachResultType:kOrderSearchResult];
+        
+        [dinnerResult setDinnerListArray:[self shortByDistance:dinnerListArray]];
+    }
+    
+}
+#pragma DatePicker Delegate
+- (void)selectedDate:(NSDate *)selectedDateValue{
+    dinnerDate=selectedDateValue;
+    
+    
+    selectedDate.text=[Utility dateToStringFormat:selectedDateValue timeZone:LOCAL];
+}
+- (IBAction)findDinner:(id)sender{
+    guestValue=guestTableViewCell.guestCount;
+    [activityView startAnimating:@"Loading..."];
+    [self.view addSubview:activityView];
+    NSString *requestFormat=[NSString stringWithFormat:@"%@&q=close_time::%@|guests::%d",selectedAddressField.text,[Utility dateToStringFormat:@"MM/dd/yyyy HH:mm:s" dateString:dinnerDate timeZone:UTC],guestValue];
+    
+    
+    [[BuyerHandler sharedBuyerHandler] getSearchResultBasedOnLoactionAndFilterRequest:requestFormat resultHandler:^(NSError *error, NSArray *response) {
+        [activityView stopAnimating];
+        [activityView removeFromSuperview];
+        //Need to handle service error issue
+        if (!error) {
+            
+            [self performSegueWithIdentifier:@"DinnerResult" sender:response];
+        }
+        
+    }];
+    
+}
+
+- (void)updateAddressFieldUsingService:(NSString *)requestURL
+{
+    [[LocationServiceHandler sharedLocationHandler] getLocationAdderess:requestURL serviceCallBack:^(NSError *error, NSString *response) {
+        selectedAddressField.text=response;
+    }];
+    
+    
+}
+
+//
+@end

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="actionbar_text" type="color">#FFFF8800</item>
+    <item name="tab_underline_color" type="color">#FFFF8800</item>
+</resources>

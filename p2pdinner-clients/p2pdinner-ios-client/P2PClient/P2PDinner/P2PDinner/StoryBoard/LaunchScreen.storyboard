@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <scenes>
+        <!--Launch Screen-->
+        <scene sceneID="4Vb-Ch-o9e">
+            <objects>
+                <viewController storyboardIdentifier="LaunchScreenController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="eiA-XF-Hyu" customClass="LaunchScreen" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="o5q-DP-mye"/>
+                        <viewControllerLayoutGuide type="bottom" id="pTy-qx-HaP"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="hcz-fj-HJU">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" tag="100" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="f5V-U4-CEV">
+                                <rect key="frame" x="290" y="290" width="20" height="20"/>
+                            </activityIndicatorView>
+                            <imageView userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="P2Plogo.png" translatesAutoresizingMaskIntoConstraints="NO" id="HZv-DT-Yck">
+                                <rect key="frame" x="236" y="133" width="128" height="128"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.96862745098039216" green="0.59215686274509804" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="f5V-U4-CEV" firstAttribute="centerX" secondItem="hcz-fj-HJU" secondAttribute="centerX" id="5j5-TS-FVx"/>
+                            <constraint firstItem="HZv-DT-Yck" firstAttribute="top" secondItem="f5V-U4-CEV" secondAttribute="top" constant="-157" id="Fm3-qn-udw"/>
+                            <constraint firstAttribute="centerX" secondItem="HZv-DT-Yck" secondAttribute="centerX" id="PgI-oy-aA7"/>
+                            <constraint firstItem="f5V-U4-CEV" firstAttribute="centerY" secondItem="hcz-fj-HJU" secondAttribute="centerY" id="csN-Xh-6GA"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="activtyIndicator" destination="f5V-U4-CEV" id="wG1-kt-o6W"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ced-q3-9XB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="628.5" y="-441"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="P2Plogo.png" width="128" height="128"/>
+    </resources>
+</document>

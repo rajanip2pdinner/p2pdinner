@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<dataset>
+	<user_profile id="11" email_address="seller@p2pdinner.com"/>
+	<user_profile id="12" email_address="buyer@p2pdinner.com"/>
+	<devices device_id="11" userprofile_id="11" />
+	<devices device_id="12" userprofile_id="12" />
+    <menu_items  id="11" title="Lemon Rice" description="Lemon Rice"  is_active="true" userprofile_id="11" />
+    <dinner_listing id="11" available_quantity="100" menu_item_id="11" cost_per_item="5.99"/>
+    <dinner_cart cart_id="11" order_status="READY_TO_PROCESS" buyer_id="11" pass_code="abcxdscs" created_date="2015-05-09 13:00:00" modified_date="2015-05-09 13:00:00"/>
+    <dinner_cart_item cart_item_id="11" order_quantity="5" total_price="20.00" dinnercart_cart_id="11" dinnerlisting_id="11" />
+    <dinner_cart_dinner_cart_item dinner_cart_cart_id="11" cartitems_cart_item_id="11" />  
+    <dinner_cart cart_id="12" order_status="RECEIVED" buyer_id="11" />
+    <dinner_cart_item cart_item_id="12" order_quantity="5" total_price="20.00" dinnercart_cart_id="12" dinnerlisting_id="11" />
+    <dinner_cart_dinner_cart_item dinner_cart_cart_id="12" cartitems_cart_item_id="12" />
+    <!--  New cart --> 
+    <dinner_cart cart_id="13" order_status="RECEIVED" buyer_id="12" pass_code="abcxdscs" created_date="2015-05-09 13:00:00" modified_date="2015-05-09 13:00:00" />
+    <dinner_cart_item cart_item_id="13" order_quantity="5" total_price="20.00" dinnercart_cart_id="13" dinnerlisting_id="11" />
+    <dinner_cart_dinner_cart_item dinner_cart_cart_id="13" cartitems_cart_item_id="13" />  
+</dataset>

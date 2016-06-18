@@ -1,0 +1,111 @@
+---
+swagger : '2.0'
+info:
+  version: 1.0.0
+  title: P2PDinner Services
+  description: Dinner Services API
+schemes:
+  - https
+host: p2pdinner-services.herokuapp.com
+basePath: /services
+produces: 
+  - application/json
+consumes: 
+  - application/json
+paths:
+  /profile:
+      post:
+        summary: Create a user profile
+        operationId: createProfile
+        parameters:
+          - in: body
+            name: body
+            required: true
+            schema:
+              $ref: '#/definitions/UserProfile'
+        tags:
+          - userProfile
+        responses:
+          200:
+            description: Create profile
+            schema:
+              $ref: '#/definitions/UserProfile'
+          default:
+            description: Unexpected error
+            schema:
+              $ref: '#/definitions/Error'
+  /profile/validate:
+      get:
+        summary: Get Profile by emailaddress
+        parameters:
+          - in : query
+            name: emailAddress
+            required: true
+            type: string
+          - in: query
+            name: password
+            required: true
+            type: string
+        responses:
+          200:
+            description: Profile
+            schema:
+              $ref: '#/definitions/UserProfile'
+          default:
+            description: Unexpected error
+            schema:
+              $ref: '#/definitions/Error'
+definitions:
+  UserProfile:
+    required:
+      - emailAddress
+      - addressLine1
+      - addressLine2
+      - city
+      - state
+      - zip
+      - password
+      - devices
+    properties:
+      emailAddress:
+        type: string
+      addressLine1:
+        type: string
+      addressLine2:
+        type: string
+      city:
+        type: string
+      state:
+        type: string
+      zip:
+        type: string
+      password:
+        type: string
+      devices:
+        type: array
+        items:
+          $ref : '#/definitions/Device'
+  Device:
+    required:
+      - deviceType
+      - notificationsEnabled
+      - registrationId
+    properties:
+      deviceType:
+        type: string
+        enum:
+          - iOS
+          - Android
+      notificationsEnabled:
+        type: boolean
+      registrationId:
+        type: string
+  Error:
+    required:
+      - status
+      - message
+    properties:
+      status:
+        type: string
+      message:
+        type: string

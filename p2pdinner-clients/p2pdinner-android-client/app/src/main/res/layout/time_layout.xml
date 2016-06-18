@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/available_label" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id= "@+id/available_date"
+        android:focusable="false"
+        android:paddingLeft="20sp"/>
+
+    <TextView android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/from_label" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id= "@+id/from_time"
+        android:focusable="false"
+        android:paddingLeft="20sp"/>
+
+    <TextView android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/to_label" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id= "@+id/to_time"
+        android:focusable="false"
+        android:paddingLeft="20sp"/>
+
+    <TextView android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/accept_orders_till_label" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id= "@+id/accept_orders_till"
+        android:focusable="false"
+        android:paddingLeft="10sp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnNext"
+            android:text="@string/next"
+            android:textColor="@color/background_material_light"
+            android:layout_alignParentBottom="true"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+    </RelativeLayout>
+</LinearLayout>

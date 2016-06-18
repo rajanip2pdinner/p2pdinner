@@ -1,0 +1,1 @@
+web: java  -noverify -cp p2pdinner-web/target/classes:p2pdinner-web/target/dependency/* com.p2p.Main

@@ -1,0 +1,34 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+	version="2.0">
+
+	<persistence-unit name="p2pdinner-test"
+		transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<class>com.p2p.domain.KeyValue</class>
+		<class>com.p2p.domain.DinnerCategory</class>
+		<class>com.p2p.domain.DinnerListing</class>
+		<class>com.p2p.domain.DinnerSpecialNeeds</class>
+		<class>com.p2p.domain.DinnerDelivery</class>
+		<class>com.p2p.domain.UserProfile</class>
+		<class>com.p2p.domain.MenuItem</class>
+		<class>com.p2p.domain.State</class>
+		<class>com.p2p.domain.Order</class>
+		<class>com.p2p.domain.DinnerCart</class>
+		<class>com.p2p.domain.DinnerCartItem</class>
+		<class>com.p2p.domain.Device</class>
+		<class>com.p2p.domain.Tier</class>
+		<shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
+		<properties>
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.cache.use_second_level_cache"
+				value="false" />
+			<property name="hibernate.cache.use_query_cache" value="false" />
+			<!-- property name="hibernate.cache.region.factory_class" value="org.hibernate.cache.ehcache.EhCacheRegionFactory"/> -->
+			<property name="hibernate.hbm2ddl.auto" value="create" />
+			
+			<property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
+		</properties>
+	</persistence-unit>
+</persistence>

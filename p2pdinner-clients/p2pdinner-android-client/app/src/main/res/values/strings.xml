@@ -1,0 +1,88 @@
+<resources>
+    <string name="app_name">P2PDinner</string>
+    <!-- API Keys -->
+    <string name="google_client_id">p2pdinner-android-client</string>
+    <string name="google_client_key">AIzaSyCz556iChPAfIT6npZRbNYkbGqGzVh1F-U</string>
+    <string name="gcm_project_id">711498564915</string>
+    <string name="facebook_app_id">852778748075548</string>
+    <string name="p2pdinner_client_id">4JZ3E3677HPE48HY01AXE5YMH</string>
+    <string name="p2pdinner_client_secret">BVyV1t92cQdrIQqfVprJvEjhjPlAGyZkkNdVEtGLhGc</string>
+    <string name="p2pdinner_user_name">rajani1@p2pdinner.com</string>
+    <string name="p2pdinner_password">Welcome123</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_search">Search</string>
+    <string name="title_activity_user_options">UserOptionsActivity</string>
+    <string name="title_activity_facebook_login">FacebookLoginActivity</string>
+    <string name="ok">OK</string>
+    <string name="title_activity_create_dinner">CreateDinnerActivity</string>
+    <string name="title_activity_list_dinner">ListDinnerActivity</string>
+    <string name="title_activity_seller_listings">SellerOrdersListingActivity</string>
+    <string name="description">Food Item</string>
+    <string name="cost">Cost</string>
+    <string name="photos">Photos</string>
+    <string name="place">Place</string>
+    <string name="time">Time</string>
+    <string name="spl_needs">Spl.Needs</string>
+
+    <string name="title">Title</string>
+    <string name="category">Category</string>
+    <string name="category_prompt">Select Category...</string>
+    <string name="add_photo">Add Photo</string>
+    <string name="loading">Loading...</string>
+    <string name="available_label">Available</string>
+    <string name="date_picker_dialog_title">Select Availability Date</string>
+    <string name="from_label">Between</string>
+    <string name="to_label">to</string>
+    <string name="accept_orders_till_label">Can order upto</string>
+    <string name="delivery_options">Delivery Options</string>
+    <string name="address">Address</string>
+    <string name="initial_dollar_amt">1</string>
+    <string name="dollar_label">Dollars</string>
+    <string name="cents_label">Cents</string>
+    <string name="price_of_an_order_label"></string>
+    <string name="next">Next >></string>
+    <string name="finish">Sell</string>
+    <string name="cost_per_plate">Cost Per Plate</string>
+    <string name="max_orders_per_plate">No. Of plates available</string>
+    <string name="i_want_dinner">I Want Dinner</string>
+    <string name="i_have_dinner">I Have Dinner</string>
+    <string name="select_category">Select a Category...</string>
+    <string name="select_splneed">Select special needs</string>
+    <string name="select_delivery">Select Delivery Type</string>
+    <string name="title_activity_find_dinner">FindDinnerActivity</string>
+    <string name="finddinner">Find Dinner</string>
+    <string name="labelGuest"> Guests</string>
+    <string name="plus">+</string>
+    <string name="minus">-</string>
+    <string name="labelToday">Today</string>
+    <string name="search_near_address">Search near this address</string>
+    <string name="title_activity_dinner_listing">DinnerListingActivity</string>
+    <string name="title_activity_dinner_listing_detail">DinnerListingDetailActivity</string>
+    <string name="title_activity_seller_listing_detail">SellerListingDetailActivity</string>
+    <string name="create_new">Create New</string>
+    <string name="select_favorites">Select from Favorites</string>
+    <string name="copyright">Copyright</string>
+    <string name="privacy">Privacy</string>
+    <string name="tc"><![CDATA[Terms & Conditions]]></string>
+    <string name="copyRightUri">/legal/copyright.html</string>
+    <string name="privacyUri">/legal/privacy.html</string>
+    <string name="tcUri">/legal/Terms.html</string>
+    <string name="buy_now">Buy Now</string>
+    <string-array name="legal_options">
+        <item>Copyright</item>
+        <item>Privacy</item>
+        <item><![CDATA[Terms & Conditions]]></item>
+    </string-array>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string-array name="tab_labels">
+        <item>FOOD ITEM</item>
+        <item>PHOTO</item>
+        <item>TIME</item>
+        <item>PLACE</item>
+        <item>COST</item>
+        <item>Spl. Needs</item>
+    </string-array>
+</resources>

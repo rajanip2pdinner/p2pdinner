@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.p2pdinner">
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- [START gcm_permission] -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <!-- [END gcm_permission] -->
+    <application
+        android:name=".P2PDinnerApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/launch_image"
+        android:label="@string/app_name"
+        android:theme="@style/CustomActionBarTheme">
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <activity
+            android:name=".activities.MainActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name=".activities.UserOptionsActivity"
+            android:label="@string/title_activity_user_options" />
+        <activity
+            android:name=".activities.FacebookLoginActivity"
+            android:label="@string/title_activity_facebook_login" />
+        <activity
+            android:name=".activities.CreateDinnerActivity"
+            android:label="@string/title_activity_create_dinner" />
+        <activity
+            android:name=".activities.ListDinnerActivity"
+            android:label="@string/title_activity_list_dinner" />
+        <activity
+            android:name=".activities.SellerOrdersListingActivity"
+            android:label="@string/title_activity_seller_listings" />
+        <activity
+            android:name=".activities.FindDinnerActivity"
+            android:label="@string/title_activity_find_dinner" />
+        <activity
+            android:name=".activities.DinnerListingActivity"
+            android:label="@string/title_activity_dinner_listing" />
+        <activity
+            android:name=".activities.DinnerListingDetailActivity"
+            android:label="@string/title_activity_dinner_listing_detail" />
+        <!-- [START gcm_receiver] -->
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
+                <category android:name="gcm.play.android.samples.com.gcmquickstart" />
+            </intent-filter>
+        </receiver>
+        <!-- [END gcm_receiver] -->
+
+
+        <!-- [START gcm_listener] -->
+        <service
+            android:name=".services.P2PDinnerListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+        <!-- [END gcm_listener] -->
+        <!-- [START instanceId_listener] -->
+        <service
+            android:name=".services.P2PDinnerInstanceIDListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID" />
+            </intent-filter>
+        </service>
+        <!-- [END instanceId_listener] -->
+        <service
+            android:name=".services.RegistrationIntentService"
+            android:exported="false" />
+
+        <activity
+            android:name=".activities.SellerListingDetailActivity"
+            android:label="@string/title_activity_seller_listing_detail" />
+
+        <service
+            android:name=".services.P2PDinnerOAuthTokenRefreshService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".activities.LegalViewActivity"></activity>
+    </application>
+
+</manifest>

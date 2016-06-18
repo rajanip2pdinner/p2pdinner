@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text = "Special Needs"
+        android:id="@+id/txt_special_needs"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"/>
+
+    <EditText
+        android:id="@+id/splNeeds"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/spl_needs"
+        android:focusable="false"
+        android:layout_marginLeft="16dp"
+        android:layout_below="@+id/txt_special_needs"
+        android:layout_alignParentLeft="true"
+        />
+    <Button android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnFinish"
+        android:text="@string/finish"
+        android:textColor="@color/background_material_light"
+        android:layout_alignParentBottom="true"
+        android:textSize="16sp"
+        android:textStyle="bold"/>
+
+</RelativeLayout>

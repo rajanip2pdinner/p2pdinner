@@ -1,0 +1,52 @@
+extends layout
+
+block content
+	if (status !== undefined && status !== 200)
+		div(class='alert alert-danger')=msg
+	if (status !== undefined && status === 200)
+		div(class='alert alert-success')=msg
+	div(class="panel panel-default")
+		div(class="panel-heading clearfix")
+			h3(class="panel-title pull-left") Login
+		div(class="modal-body")
+			form(role="form",  method="post", action="/profiles/register", id="registration_form")
+				div(class="form-group")
+					label(class="col-xs-3 control-label") Email Address
+					input(type="email",class="form-control",id="email_address", name="email_address", placeholder="Enter email")
+				div(class="form-group")
+					label(class="col-xs-3 control-label") Password
+					input(type="password",class="form-control",id="password",placeholder="Password", name="password")
+				div(class="form-group")
+					label(class="col-xs-3 control-label") Address Line1
+					input(type="text",class="form-control",id="address_line1", name="address_line1", placeholder="Address Line1")
+				div(class="form-group")
+					label(class="col-xs-3 control-label") Address Line2
+					input(type="text",class="form-control",id="address_line2", name="address_line2", placeholder="Address Line2")
+				div(class="form-group")
+					label(class="col-xs-3 control-label") City
+					input(type="text",class="form-control",id="city", name="city", placeholder="City")
+				div(class="form-group")
+					label(class="col-xs-3 control-label") State
+					select(class="form-control",id="states", name="state", placeholder="State")
+						option
+				div(class="form-group")
+					label(class="col-xs-3 control-label") ZipCode
+					input(type="text",class="form-control",id="zip_code", name="zip_code", placeholder="ZipCode")
+				div(class="form-group")
+					label(class="col-xs-3 control-label") Device Type
+					select(class="form-control",id="device_type", name="device_type", placeholder="Device Type")
+						option iOS
+						option Android
+						option Desktop
+				div(class="form-group")
+					label(class="col-xs-3 control-label") Registration Identifier
+					input(type="text",class="form-control",id="registion_uuid", name="registration_uuid", placeholder="Registration Identifier")
+				div(class="checkbox")
+					label
+						input(type="checkbox", id="enable_notifications", name="enable_notifications")
+						p
+							strong Enable Notifications
+				button(class="btn btn-success", id="register_btn", type="submit") Register
+				span &nbsp;&nbsp;
+	script(src="/javascripts/register.js")
+				

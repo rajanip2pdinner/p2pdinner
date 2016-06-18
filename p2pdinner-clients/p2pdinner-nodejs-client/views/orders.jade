@@ -1,0 +1,37 @@
+extends layout
+
+block content
+	if (status !== undefined && status !== 200)
+		div(class='alert alert-danger')=msg
+	div(class="panel panel-primary")
+		div(class="panel-heading clearfix")
+			h3(class="panel-title pull-left") Recieved Orders
+		each cart in data
+			div(class="modal-body")
+				table(class="table table-hover table-bordered")
+					thead
+						tr(class="info")
+							th Title
+							th Description
+							th Passcode
+							th Cost/Item
+							th Order Quantity
+							th Total Price
+					tbody
+						each item in cart
+							tr
+								td=item.title
+								td=item.description
+								td
+									span(class="label label-primary")=item.pass_code
+								td=item.cost_per_item
+								td=item.order_quantity
+								td=item.total_price
+		div(class="panel-footer")
+			a(href="/profiles/signout", class="pull-right" style="margin-left:1em")
+				i(class="fa fa-2x fa-sign-out")
+			a(href="/profiles/validate", class="pull-right")
+				i(class="fa fa-2x fa-home")
+		div(class="clearfix")
+	script(src="javascripts/index.js")
+				

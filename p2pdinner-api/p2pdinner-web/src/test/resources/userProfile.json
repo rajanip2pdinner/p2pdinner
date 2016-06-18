@@ -1,0 +1,16 @@
+{
+	"addressLine1": "5338",
+	"addressLine2": "PIAZZA CT",
+	"city": "PLEASANTON",
+	"emailAddress": "test@eclipse.com",
+	"password": "xyzabc",
+	"state": "CA",
+	"zip": "94588",
+	"devices": [
+		{
+			"deviceType": "iOS",
+			"notificationEnabled": true,
+			"registration_id": "uuid_123456789"
+		}
+	]
+}

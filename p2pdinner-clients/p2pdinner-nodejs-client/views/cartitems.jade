@@ -1,0 +1,30 @@
+extends layout
+
+block content
+	div(class="panel panel-default")
+		div(class="panel-heading")
+			h3(class="panel-title") Cart Items
+		div(class="panel-body")
+			div(class="panel-body")
+			div(class="row")
+				div(class="col-xs-8")
+				div(class="col-xs-2")
+					a(class="btn btn-primary btn-block", href="/cart/placeorder") Place Order&nbsp;&nbsp;&nbsp;
+				div(class="col-xs-2")
+					a(class="btn btn-primary btn-block", href="/listings/current") Continue Shopping
+			div(class="table-responsive")
+				table(class="table table-striped")
+					thead
+						tr(class="active")
+							th Title
+							th Quantity
+							th Price
+						each item in data.results
+							tr
+								td=item.title
+								td=item.quantity
+								td=item.price
+						tr(class="active")
+							th
+							th
+							th=data.total_price

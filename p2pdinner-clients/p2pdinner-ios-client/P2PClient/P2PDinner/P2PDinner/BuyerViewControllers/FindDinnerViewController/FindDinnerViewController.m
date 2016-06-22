@@ -47,7 +47,7 @@
     [geoCoder reverseGeocodeLocation:Location completionHandler:^(NSArray *placemarks, NSError *error) {
         for (CLPlacemark * placemark in placemarks)
         {
-          NSArray *addressArray= [NSArray arrayWithObjects:[placemark subThoroughfare],[placemark locality],[placemark thoroughfare],[placemark administrativeArea], nil];
+          NSArray *addressArray= [NSArray arrayWithObjects:[placemark subThoroughfare],[placemark thoroughfare],[placemark locality],[placemark administrativeArea], nil];
             addressArray=[Utility removeNilArrayOfString:addressArray];
             selectedAddressField.text=[addressArray componentsJoinedByString:@","];
           

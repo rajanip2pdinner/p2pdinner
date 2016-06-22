@@ -9,7 +9,7 @@
 #import "PlaceViewController.h"
 #import "ItemDetailsShared.h"
 #import "Utility.h"
-@interface PlaceViewController()<LocationManagerDelegate>{
+@interface PlaceViewController()<LocationManagerDelegate,UITextViewDelegate>{
     LocationManger *locationMgr;
 }
 @end
@@ -18,15 +18,29 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
     locationMgr=[LocationManger sharedLocationManager];
-    if (![[self getAddressFromItemDetail:itemDetails] length]>0) {
+    if (!([[self getAddressFromItemDetail:itemDetails] length]>0)) {
         [locationMgr updateLocation];
     }
     
     locationMgr.delegate=self;
 }
+-(void)viewDidAppear:(BOOL)animated{
+    [itemDetails setAddressLine1:textVeiw.text];
+    [itemDetails setAddressLine2:@""];
+    [itemDetails setCity:@""];
+    [itemDetails setState:@""];
+    [itemDetails setZipCode:@""];
+    [[ItemDetailsShared sharedItemDetails] setSharedItemDetailsValue:itemDetails];
+}
 - (NSString *)getAddressFromItemDetail:(ItemDetails *)itemDetail{
     NSMutableArray *array=[[NSMutableArray alloc]initWithObjects:[itemDetail addressLine1],[itemDetail addressLine2],[itemDetail city],[itemDetail state],[itemDetail zipCode], nil];
     [array removeObject:@""];
+    [itemDetails setAddressLine1:[[array valueForKey:@"description"] componentsJoinedByString:@","]];
+    [itemDetails setAddressLine2:@""];
+    [itemDetails setCity:@""];
+    [itemDetails setState:@""];
+    [itemDetails setZipCode:@""];
+    //[[ItemDetailsShared sharedItemDetails] setSharedItemDetailsValue:itemDetails];
     return [self getAddressArray:array];
 }
 - (NSString *)getAddressPlacemark:(CLPlacemark *)placemark{
@@ -47,7 +61,7 @@
     [geoCoder reverseGeocodeLocation:Location completionHandler:^(NSArray *placemarks, NSError *error) {
         for (CLPlacemark * placemark in placemarks)
         {
-            NSArray *addressArray= [NSArray arrayWithObjects:[placemark subThoroughfare],[placemark locality],[placemark thoroughfare],[placemark administrativeArea], nil];
+            NSArray *addressArray= [NSArray arrayWithObjects:[placemark subThoroughfare],[placemark thoroughfare],[placemark locality],[placemark administrativeArea], nil];
             addressArray=[Utility removeNilArrayOfString:addressArray];
             [itemDetails setAddressLine1:[addressArray componentsJoinedByString:@","]];
             [itemDetails setAddressLine2:@""];
@@ -91,6 +105,7 @@ indexPath
         cell=(UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
         UILabel *lable=(UILabel *)[cell viewWithTag:111];
         textVeiw=(UITextView *)[cell viewWithTag:998];
+        textVeiw.delegate=self;
         textVeiw.text=[self getAddressFromItemDetail:itemDetails];
         [lable setText:[self getAddressFromItemDetail:itemDetails]];
     }
@@ -165,5 +180,14 @@ indexPath
         [senderBtn setTitle:@"Done" forState:UIControlStateNormal];
     }
     
+}
+- (BOOL)textViewShouldEndEditing:(UITextView *)textView{
+    [itemDetails setAddressLine1:textVeiw.text];
+    [itemDetails setAddressLine2:@""];
+    [itemDetails setCity:@""];
+    [itemDetails setState:@""];
+    [itemDetails setZipCode:@""];
+    [[ItemDetailsShared sharedItemDetails] setSharedItemDetailsValue:itemDetails];
+    return true;
 }
 @end

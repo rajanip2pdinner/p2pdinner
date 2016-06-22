@@ -85,8 +85,8 @@
     LoginRequest *loginRequest=[[LoginRequest alloc]init];
 
     [loginRequest setEmailAddress:[NSString stringWithFormat:@"%@",userInfo.uid]];
-    [loginRequest setPassword:@"password1"];
-    [loginRequest setName:userInfo.first_name];
+    [loginRequest setPassword:[[[FBSession activeSession] accessTokenData] accessToken]];
+    [loginRequest setName:userInfo.name];
     
     [[LoginServiceHandler sharedServiceHandler] loginServiceHandler:loginRequest serviceCallBack:^(NSError *error, LoginResponce *response) {
         if (!error) {

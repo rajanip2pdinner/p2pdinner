@@ -9,10 +9,19 @@
 #import "LoginServiceHandler.h"
 #import  "SharedLogin.h"
 #import "Utility.h"
+static LoginServiceHandler *_sharedInstance=nil;
 @interface LoginServiceHandler()
 - (void)checkUserLogin:(LoginRequest *)loginRequest serviceCallBack:(RegisterResultBlock)service;
 @end
 @implementation LoginServiceHandler
++ (id)sharedServiceHandler
+{
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{
+        _sharedInstance = [[self alloc] init];
+    });
+    return _sharedInstance;
+}
 - (void)loginServiceHandler:(LoginRequest *)loginRequest serviceCallBack:(RegisterResultBlock)service{
     [self checkUserLogin:loginRequest serviceCallBack:service];
 }
@@ -68,6 +77,7 @@
         if (!error&&response!=nil&&[loginResponce.code isEqualToString:@"p2pdinner.user_not_found"]) {
             NSLog(@"Need to register");
             [self registerUserLogin:loginRequest serviceCallBack:service];
+            
         }
         else if (!error)
         {

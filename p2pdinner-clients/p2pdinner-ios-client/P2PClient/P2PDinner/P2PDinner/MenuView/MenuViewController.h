@@ -10,7 +10,7 @@
 #import "ItemDetails.h"
 #import "SellerHistoryHandler.h"
 #import "ItemDetailsShared.h"
-
+typedef void(^updateCallback)();
 
 @interface MenuViewController : UIViewController
 {
@@ -19,6 +19,8 @@
 
 @property(nonatomic, weak)IBOutlet UIView *displayView;
 @property(nonatomic, strong)ItemDetails *itemDetails;
+@property(nonatomic, assign)updateCallback completed;
 -(IBAction)nextButtonAction:(id)sender;
 - (void)updateMenuItem:(ItemDetails *)itemDetails1;
+- (void)updateMenuItem:(ItemDetails *)itemDetails1 withUpdateCallBack:(updateCallback)callBack;
 @end

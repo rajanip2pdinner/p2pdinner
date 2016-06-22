@@ -18,6 +18,7 @@
 #import "MyOrderViewController.h"
 #import "MyOrderItem.h"
 
+
 @interface MenuViewController()<PageSnapViewDelegate>
 {
     NSArray *pageArray;
@@ -95,7 +96,9 @@
     if ([nextButton.titleLabel.text isEqualToString:@"Sell"]) {
         [nextButton setUserInteractionEnabled:NO];
         NSLog(@"need to call add to item listing");
-        [self addToDinnerListing:[[ItemDetailsShared sharedItemDetails] sharedItemDetailsValue]];
+        [self updateMenuItem:[[ItemDetailsShared sharedItemDetails] sharedItemDetailsValue] withUpdateCallBack:^{
+            [self addToDinnerListing:[[ItemDetailsShared sharedItemDetails] sharedItemDetailsValue]];
+        }];
         
     }
     else if([nextButton.titleLabel.text isEqualToString:@"Add to cart"])
@@ -270,12 +273,37 @@
     [_displayView addSubview:splNeedsController.view];
     
 }
+-(NSNumber *)getDinnerId:(ItemDetails *)itemDetail{
+    return itemDetail.dinnerId;
+}
+- (void)updateMenuItem:(ItemDetails *)itemDetails1 withUpdateCallBack:(updateCallback)callBack{
+    [[SellerHistoryHandler sharedSellerHistoryHandler]updateMenuItem:itemDetails1 serviceCallBack:^(NSError *error, ItemDetails *response) {
+        if (!error) {
+            self.itemDetails=response;
+            [[[ItemDetailsShared sharedItemDetails] sharedItemDetailsValue] setDinnerId:[self getDinnerId:response]];
+            [itemDetails setDinnerId:[self getDinnerId:response]];
+        }else{
+            if (error.code==421) {
+                [[[UIAlertView alloc]initWithTitle:@"Title Error" message:@"Please Enter valid dinnertitle" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil]show];
+                
+            }else if (error.code==422) {
+                [[[UIAlertView alloc]initWithTitle:@"Category Error" message:@"Please Enter valid Category" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil]show];
+                
+            }else if (error.code==423) {
+                [[[UIAlertView alloc]initWithTitle:@"Address Error" message:@"Please Enter valid Address" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil]show];
+                
+            }
+        }
+        callBack();
+    }];
+}
 - (void)updateMenuItem:(ItemDetails *)itemDetails1{
     
     [[SellerHistoryHandler sharedSellerHistoryHandler]updateMenuItem:itemDetails1 serviceCallBack:^(NSError *error, ItemDetails *response) {
         if (!error) {
             self.itemDetails=response;
-            [[ItemDetailsShared sharedItemDetails] setSharedItemDetailsValue:response];
+            [[[ItemDetailsShared sharedItemDetails] sharedItemDetailsValue] setDinnerId:[self getDinnerId:response]];
+            [itemDetails setDinnerId:[self getDinnerId:response]];
         }else{
             if (error.code==421) {
                 [[[UIAlertView alloc]initWithTitle:@"Title Error" message:@"Please Enter valid dinnertitle" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil]show];

@@ -15,8 +15,12 @@
 #import "DinnerLoginViewController.h"
 #import "SharedLogin.h"
 
+#import "ActivityView.h"
 
-@interface ItemDetailViewController ()
+
+@interface ItemDetailViewController (){
+    ActivityView *activityView;
+}
 @property(nonatomic,assign)int minValue;
 @property(nonatomic,assign)int selectedValue;
 @property(nonatomic,assign)int maxValue;
@@ -122,7 +126,13 @@
         [self.eatInOption setText:[NSString stringWithFormat:@" %@ ",[arrayDeliveryOption objectAtIndex:1]]];
     }
     else{
-        [self.toGoOption setText:[NSString stringWithFormat:@" %@ ",[arrayDeliveryOption objectAtIndex:0]]];
+        NSString *value=[arrayDeliveryOption objectAtIndex:0];
+        if (value.length>0) {
+             [self.toGoOption setText:[NSString stringWithFormat:@" %@ ",value]];
+        }else{
+            [self.toGoOption setHidden:YES];
+        }
+       
         [self.eatInOption setHidden:YES];
     }
     NSDate *startDate=[Utility stringToDateFormat:@"MM/dd/yyyy HH:mm:ss" dateString:itemDetails.startDate timeZone:UTC];
@@ -142,6 +152,8 @@
     pageImageScrollView.pageControlPos = PageControlPositionRightCorner;
     [_foodImageViewCell addSubview:pageImageScrollView];
     //[self imageRequestOperation:[self makeImageURLfromimageName:itemDetails.imageUri] witImagView:self.foodImage];
+    
+    activityView=[[ActivityView alloc]initWithFrame:self.view.frame];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -154,6 +166,11 @@
         //NSString *currentUseId=[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"]];
         if (!error) {
             [[BuyerHandler sharedBuyerHandler] placeOrder:cartId withUserId:[currentUseId stringValue] withResponse:^(NSError *error, NSString *message) {
+                
+                if (activityView.isAnimating) {
+                    [activityView stopAnimating];
+                    [activityView removeFromSuperview];
+                }
                 NSString *titleStr=(!error)?@"Success":@"Fail";
                 
                 
@@ -165,6 +182,11 @@
                             [self presentViewController:alertController animated:YES completion:nil];
 
             }];
+        }else{
+            if (activityView.isAnimating) {
+                [activityView stopAnimating];
+                [activityView removeFromSuperview];
+            }
         }
     }];
     
@@ -193,6 +215,9 @@
 }
 
 -(IBAction)buyButtonAction:(id)sender{
+    [activityView startAnimating:@"Loading..."];
+    [self.view addSubview:activityView];
+    
     NSNumber *number=(NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"];
     if ([number integerValue]>0) {
         [[SharedLogin sharedLogin] setUserId:number];

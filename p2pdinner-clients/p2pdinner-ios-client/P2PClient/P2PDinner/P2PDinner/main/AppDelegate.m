@@ -73,6 +73,7 @@
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation
 {
+    
     return [FBSession.activeSession handleOpenURL:url];
 }
 @end

@@ -95,7 +95,7 @@
     [passcodeString addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, passcode.length+2)];
     NSMutableAttributedString *returnString=[[NSMutableAttributedString alloc]initWithString:@"Conf# "];
     [returnString appendAttributedString:passcodeString];
-    [returnString appendAttributedString:[[NSAttributedString alloc]initWithString:[NSString stringWithFormat:@" for %ld Plats",[numberWithString integerValue]]]];
+    [returnString appendAttributedString:[[NSAttributedString alloc]initWithString:[NSString stringWithFormat:@" for %ld Plates",[numberWithString integerValue]]]];
     
     return returnString;
 }

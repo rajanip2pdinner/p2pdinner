@@ -19,9 +19,6 @@
 #define kPageViewHeight 48.0
 
 
-
-
-
 #define kBasePageTag        1000
 
 @interface PageSnapView(){

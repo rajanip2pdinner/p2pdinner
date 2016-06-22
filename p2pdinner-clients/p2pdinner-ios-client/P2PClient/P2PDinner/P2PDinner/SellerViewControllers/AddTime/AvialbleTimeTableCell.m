@@ -95,6 +95,11 @@
 
 - (NSDate *)getStopTime:(NSDate *)selectedDate{
     NSLog(@"StopTime==> %@",[Utility stringToDateFormat:@"MM/dd/yyyy h.mm a" dateString:[NSString stringWithFormat:@"%@ %@",[Utility dateToStringFormat:@"MM/dd/yyyy" dateString:selectedDate timeZone:LOCAL],[self amPmRemoveDotFromString:toLable.text]] timeZone:LOCAL]);
+    NSDate *startDate=[Utility stringToDateFormat:@"MM/dd/yyyy h.mm a" dateString:[NSString stringWithFormat:@"%@ %@",[Utility dateToStringFormat:@"MM/dd/yyyy" dateString:selectedDate timeZone:LOCAL],[self amPmRemoveDotFromString:fromLable.text]] timeZone:LOCAL];
+    
+    NSDate *stopDate=[Utility stringToDateFormat:@"MM/dd/yyyy h.mm a" dateString:[NSString stringWithFormat:@"%@ %@",[Utility dateToStringFormat:@"MM/dd/yyyy" dateString:selectedDate timeZone:LOCAL],[self amPmRemoveDotFromString:toLable.text]] timeZone:LOCAL];
+    
+    
     return [Utility stringToDateFormat:@"MM/dd/yyyy h.mm a" dateString:[NSString stringWithFormat:@"%@ %@",[Utility dateToStringFormat:@"MM/dd/yyyy" dateString:selectedDate timeZone:LOCAL],[self amPmRemoveDotFromString:toLable.text]] timeZone:LOCAL];
 }
 @end

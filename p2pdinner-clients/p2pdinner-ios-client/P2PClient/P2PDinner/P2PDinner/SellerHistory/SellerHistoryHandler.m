@@ -145,7 +145,8 @@ static ServiceHandler *_sharedInstance=nil;
 - (void)photoUpload:(UIImage *)dinnerImage imageTag:(NSInteger)imageTag buttonValue:(UIButton *)imageButton itemDetails:(ItemDetails *)itemDetail responceCallBack:(ImageUplaodResultBlock)response{
     [UIApplication sharedApplication].networkActivityIndicatorVisible=YES;
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    NSData *imageData=UIImageJPEGRepresentation(dinnerImage, 1.0);
+    NSData *imageData=UIImageJPEGRepresentation(dinnerImage, 0.0);
+    dinnerImage=nil;
     
     NSDictionary *dictonary=[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld",(long)imageTag],@"userInfo", nil];
     

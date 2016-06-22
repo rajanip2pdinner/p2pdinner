@@ -247,13 +247,13 @@
     }
     // Picking Image from Camera/ Library
     [picker dismissViewControllerAnimated:YES completion:^{}];
-    [info objectForKey:@"UIImagePickerControllerOriginalImage"];
     UIImage *img=[info objectForKey:@"UIImagePickerControllerOriginalImage"];
     [photoButton setBackgroundColor:[UIColor clearColor]];
     [photoButton setTitleShadowColor:[UIColor blackColor] forState:UIControlStateNormal];
     [photoButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [photoButton setTitle:@"Uploading.." forState:UIControlStateNormal];
     [[SellerHistoryHandler sharedSellerHistoryHandler] photoUpload:img imageTag:1 buttonValue:photoButton itemDetails:itemDetails responceCallBack:^(NSError *error, NSString *imageString) {
+        
         if (!error) {
             [imageUrls addObject:imageString];
             [self.itemDetails setImageUri:[imageUrls componentsJoinedByString:@","]];

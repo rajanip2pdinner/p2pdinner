@@ -83,6 +83,7 @@
         imageView.image=image;
         
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+        NSLog(@"%@",error);
         
     }];
     [operation start];

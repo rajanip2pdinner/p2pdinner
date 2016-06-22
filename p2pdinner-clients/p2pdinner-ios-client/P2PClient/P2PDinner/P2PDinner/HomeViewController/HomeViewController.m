@@ -27,16 +27,16 @@
 }
 - (void)settingsAction
 {
-    
-    if (activityView.isAnimating) {
-        [activityView stopAnimating];
-        [activityView removeFromSuperview];
-    }
-    else
-    {
-        [activityView startAnimating:@"Loading..."];
-        [self.view addSubview:activityView];
-    }
+    [self performSegueWithIdentifier:@"SettingsViewController" sender:self];
+//    if (activityView.isAnimating) {
+//        [activityView stopAnimating];
+//        [activityView removeFromSuperview];
+//    }
+//    else
+//    {
+//        [activityView startAnimating:@"Loading..."];
+//        [self.view addSubview:activityView];
+//    }
     
 }
 - (void)setUpSettingBarButton{

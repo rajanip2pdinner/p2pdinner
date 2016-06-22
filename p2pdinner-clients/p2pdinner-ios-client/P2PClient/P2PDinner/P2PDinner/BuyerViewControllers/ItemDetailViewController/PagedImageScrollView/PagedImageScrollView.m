@@ -55,6 +55,9 @@
 }
 - (void)downloadImageWithURL:(NSString *)url WithImagView:(UIImageView *)imageView;
 {
+    if (url.length>3) {
+        
+    
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     AFImageRequestOperation *operation = [AFImageRequestOperation imageRequestOperationWithRequest:request imageProcessingBlock:^UIImage *(UIImage *image) {
         return image;
@@ -64,6 +67,10 @@
         imageView.image=[UIImage imageNamed:@"ImageDownloadFaild"];
     }];
     [operation start];
+    }
+    else{
+        imageView.image=[UIImage imageNamed:@"noImage"];
+    }
 }
 
 

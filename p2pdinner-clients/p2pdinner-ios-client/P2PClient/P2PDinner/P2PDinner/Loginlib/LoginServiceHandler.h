@@ -15,5 +15,6 @@ typedef void(^RegisterResultBlock)(NSError *error, LoginResponce *response);
     NSString *requestType;
     NSString *conType;
 }
++ (id)sharedServiceHandler;
 - (void)loginServiceHandler:(LoginRequest *)loginRequest serviceCallBack:(RegisterResultBlock)service;
 @end

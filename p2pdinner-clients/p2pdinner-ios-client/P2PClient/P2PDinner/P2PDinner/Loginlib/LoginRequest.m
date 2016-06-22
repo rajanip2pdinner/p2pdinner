@@ -11,6 +11,6 @@
 @implementation LoginRequest
 - (NSString *)createLoginRequestContent{
     //Need to implement push notification responce and request
-   return [NSString stringWithFormat:@"{\"emailAddress\":\"%@\",\"password\":\"%@\",\"name\":\"%@\",\"devices\":[{\"deviceType\":\"apple\",\"registrationId\" : \"%@\",\"notifiationsEnabled\":\"true\"}]}",self.emailAddress,self.password,self.name,[[NSUserDefaults standardUserDefaults]objectForKey:@"devToken"]];
+   return [NSString stringWithFormat:@"{\"emailAddress\":\"%@\",\"password\":\"%@\",\"profile_name\":\"%@\",\"devices\":[{\"deviceType\":\"apple\",\"registrationId\" : \"%@\",\"notifiationsEnabled\":\"true\"}]}",self.emailAddress,self.password,self.name,[[NSUserDefaults standardUserDefaults]objectForKey:@"devToken"]];
 }
 @end

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		2C199BEB1CD5D5BD00AA3C90 /* PagedImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C199BEA1CD5D5BD00AA3C90 /* PagedImageScrollView.m */; };
 		2C2E6AC21AA7F3A60045433D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C2E6AC11AA7F3A60045433D /* LaunchScreen.storyboard */; };
+		2C3A56DA1CFD2F5D009330EE /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C3A56D91CFD2F5D009330EE /* SettingsViewController.m */; };
+		2C3A56E31CFD3899009330EE /* AgreementsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C3A56E21CFD3899009330EE /* AgreementsViewController.m */; };
 		2C4121F71B97E5FA0083214D /* DinnerResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C4121F61B97E5FA0083214D /* DinnerResultViewController.m */; };
 		2C4C80121ACC7BD30081E44A /* AddTimeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C4C80111ACC7BD30081E44A /* AddTimeController.m */; };
 		2C4EC8E81AC7ED0500F79454 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C4EC8D61AC7ED0500F79454 /* AFHTTPRequestOperation.m */; };
@@ -114,6 +116,10 @@
 		2C199BE91CD5D5BD00AA3C90 /* PagedImageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PagedImageScrollView.h; sourceTree = "<group>"; };
 		2C199BEA1CD5D5BD00AA3C90 /* PagedImageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PagedImageScrollView.m; sourceTree = "<group>"; };
 		2C2E6AC11AA7F3A60045433D /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		2C3A56D81CFD2F5D009330EE /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		2C3A56D91CFD2F5D009330EE /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		2C3A56E11CFD3899009330EE /* AgreementsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AgreementsViewController.h; sourceTree = "<group>"; };
+		2C3A56E21CFD3899009330EE /* AgreementsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AgreementsViewController.m; sourceTree = "<group>"; };
 		2C4121F51B97E5FA0083214D /* DinnerResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DinnerResultViewController.h; sourceTree = "<group>"; };
 		2C4121F61B97E5FA0083214D /* DinnerResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DinnerResultViewController.m; sourceTree = "<group>"; };
 		2C4C80101ACC7BD30081E44A /* AddTimeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddTimeController.h; sourceTree = "<group>"; };
@@ -316,6 +322,17 @@
 				2C199BEA1CD5D5BD00AA3C90 /* PagedImageScrollView.m */,
 			);
 			path = PagedImageScrollView;
+			sourceTree = "<group>";
+		};
+		2C3A56D71CFD2F3D009330EE /* SettingsViewController */ = {
+			isa = PBXGroup;
+			children = (
+				2C3A56E11CFD3899009330EE /* AgreementsViewController.h */,
+				2C3A56E21CFD3899009330EE /* AgreementsViewController.m */,
+				2C3A56D81CFD2F5D009330EE /* SettingsViewController.h */,
+				2C3A56D91CFD2F5D009330EE /* SettingsViewController.m */,
+			);
+			path = SettingsViewController;
 			sourceTree = "<group>";
 		};
 		2C4121F31B97E5440083214D /* CommonDinnerViews */ = {
@@ -763,6 +780,7 @@
 		5EA316CF1AA2CE22006994B0 /* HomeViewController */ = {
 			isa = PBXGroup;
 			children = (
+				2C3A56D71CFD2F3D009330EE /* SettingsViewController */,
 				5EA316D01AA2CE22006994B0 /* HomeViewController.h */,
 				5EA316D11AA2CE22006994B0 /* HomeViewController.m */,
 			);
@@ -1040,6 +1058,7 @@
 				5EA317201AA2CE65006994B0 /* TimeRequest.m in Sources */,
 				2CC8D7041ACF154B00DFD202 /* AvialbleTimeTableCell.m in Sources */,
 				2CF4A58B1BD5F10700D126CB /* SWCellScrollView.m in Sources */,
+				2C3A56DA1CFD2F5D009330EE /* SettingsViewController.m in Sources */,
 				5EA316801AA2CB7C006994B0 /* main.m in Sources */,
 				5EA317101AA2CE22006994B0 /* CreateDinnerViewController.m in Sources */,
 				2CF4A58C1BD5F10700D126CB /* SWLongPressGestureRecognizer.m in Sources */,
@@ -1053,6 +1072,7 @@
 				5EA317001AA2CE22006994B0 /* FacebookManager.m in Sources */,
 				2CC820201ABBB97C004FC1C8 /* CreateFoodItem.m in Sources */,
 				2CDB4FDA1AE8903000535B3A /* SplNeedsController.m in Sources */,
+				2C3A56E31CFD3899009330EE /* AgreementsViewController.m in Sources */,
 				2CF4A58E1BD5F10700D126CB /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
 				2C4C80121ACC7BD30081E44A /* AddTimeController.m in Sources */,
 				2CE5DBD61B65CDD6004CCFC7 /* MyOrderItem.m in Sources */,
@@ -1206,6 +1226,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.p2pdinner.com;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1225,6 +1246,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.p2pdinner.com;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

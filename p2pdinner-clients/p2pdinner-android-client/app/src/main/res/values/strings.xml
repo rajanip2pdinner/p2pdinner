@@ -84,5 +84,10 @@
         <item>PLACE</item>
         <item>COST</item>
         <item>Spl. Needs</item>
+        <item>Spl. Needs</item>
     </string-array>
+    <string name="lbl_cost_per_item">Cost Per Item</string>
+    <string name="lbl_no_of_plates">No. of Plates</string>
+    <string name="done">Done</string>
+    <string name="cancel">Cancel</string>
 </resources>

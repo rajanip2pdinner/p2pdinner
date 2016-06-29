@@ -84,7 +84,7 @@ public class FacebookLoginActivityFragment extends BaseFragment {
 
                         userProfileManager.validateProfile(email, accessToken.getToken())
                                 .observeOn(AndroidSchedulers.mainThread())
-                                .subscribeOn(Schedulers.newThread())
+                                .subscribeOn(Schedulers.io())
                                 .doOnError(new Action1<Throwable>() {
                                     @Override
                                     public void call(Throwable throwable) {

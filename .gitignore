@@ -1,0 +1,12 @@
+.idea/
+*.iml
+**/target/
+**/*.iml
+.gradle
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/build
+/captures
+p2pdinner-clients/p2pdinner-android-client/app/app.iml

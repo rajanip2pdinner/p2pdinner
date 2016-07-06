@@ -27,7 +27,10 @@
 }
 - (void)settingsAction
 {
-    [self performSegueWithIdentifier:@"SettingsViewController" sender:self];
+    [[ServiceHandler sharedServiceHandler]validateAccessToken:^(NSError *error, id response) {
+        
+    }];
+//    [self performSegueWithIdentifier:@"SettingsViewController" sender:self];
 //    if (activityView.isAnimating) {
 //        [activityView stopAnimating];
 //        [activityView removeFromSuperview];

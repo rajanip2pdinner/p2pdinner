@@ -12,7 +12,9 @@
     ServiceResultBlock resultBlock;
 }
 + (id)sharedServiceHandler;
+- (void)oauthRequestOperation;
 - (void)execute:(NSString *)url requestObject:(NSString *)requestValue contentType:(NSString *)contentType requestMethod:(NSString *)requestMethod serviceCallBack:(ServiceResultBlock)serviceCallBackBlock;
+-(void)validateAccessToken:(ServiceResultBlock)returnBlock;
 - (void)cancelRequest;
 @end
 

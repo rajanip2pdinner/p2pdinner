@@ -31,7 +31,7 @@ static LoginServiceHandler *_sharedInstance=nil;
     
     requestType=RequestTypePost;
     conType=MIMETypeJSON;
-    [self execute:@"https://p2pdinner-services.herokuapp.com/api/v1/profile" requestObject:[loginRequest createLoginRequestContent] contentType:conType requestMethod:requestType serviceCallBack:^(NSError *error, id response) {
+    [self execute:@"https://dev-p2pdinner-services.herokuapp.com/api/v1/profile" requestObject:[loginRequest createLoginRequestContent] contentType:conType requestMethod:requestType serviceCallBack:^(NSError *error, id response) {
         if (!error) {
             NSLog(@"Register success");
             [self checkUserLogin:loginRequest serviceCallBack:service];
@@ -52,7 +52,7 @@ static LoginServiceHandler *_sharedInstance=nil;
     if (![self isRegisteredAlready]) {
         requestType=RequestTypePost;
         conType=MIMETypeJSON;
-        NSString *requestURL=[NSString stringWithFormat:@"https://p2pdinner-services.herokuapp.com/api/v1/profile/%ld/devices",(long)[userId integerValue]];
+        NSString *requestURL=[NSString stringWithFormat:@"https://dev-p2pdinner-services.herokuapp.com/api/v1/profile/%ld/devices",(long)[userId integerValue]];
         NSString *requestJson=[NSString stringWithFormat:@"{\"deviceType\" : \"apple\",\"registrationId\" : \"%@\",\"notificationsEnabled\" : true }",[[NSUserDefaults standardUserDefaults]objectForKey:@"devToken"]];
         [self execute:requestURL requestObject:requestJson contentType:conType requestMethod:requestJson serviceCallBack:^(NSError *error, id response) {
             if (!error) {
@@ -68,7 +68,7 @@ static LoginServiceHandler *_sharedInstance=nil;
 - (void)checkUserLogin:(LoginRequest *)loginRequest serviceCallBack:(RegisterResultBlock)service{
     requestType=RequestTypeGet;
     conType=MIMETypeJSON;
-    NSString *requestURL=[NSString stringWithFormat:@"https://p2pdinner-services.herokuapp.com/api/v1/profile/validate?emailAddress=%@&password=%@",loginRequest.emailAddress,loginRequest.password];
+    NSString *requestURL=[NSString stringWithFormat:@"https://dev-p2pdinner-services.herokuapp.com/api/v1/profile/validate?emailAddress=%@&password=%@",loginRequest.emailAddress,loginRequest.password];
     [self execute:requestURL requestObject:[loginRequest createLoginRequestContent] contentType:conType requestMethod:requestType serviceCallBack:^(NSError *error, id response) {
         LoginResponce * loginResponce=[[LoginResponce alloc]init];
         if (!error) {

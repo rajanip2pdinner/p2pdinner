@@ -32,7 +32,13 @@
     [[FacebookManager sharedFacebookManager] getProfileNameFromId:itemDetails.sellerName];
 }
 -(void)calculatePrice{
-    _totalPrice.text=[NSString stringWithFormat:@"%.2f",(_selectedValue*[itemDetails.costPerItem floatValue])];
+    NSLocale* localPrice = [[NSLocale alloc] initWithLocaleIdentifier:[[NSLocale preferredLanguages] objectAtIndex:0]];
+    NSNumberFormatter *fmtr = [[NSNumberFormatter alloc] init];
+    [fmtr setNumberStyle:NSNumberFormatterCurrencyStyle];
+    [fmtr setLocale:localPrice];
+    [_totalPrice setText:[fmtr stringFromNumber: [NSNumber numberWithFloat:[itemDetails.costPerItem floatValue]]]];
+    
+    //_totalPrice.text=[NSString stringWithFormat:@"%.2f",(_selectedValue*[itemDetails.costPerItem floatValue])];
 
 }
 -(IBAction)segmentAction:(id)sender{
@@ -109,7 +115,13 @@
 }
 - (void)setValueItemDetails{
     [self.foodName setText:itemDetails.title];
-    [self.foodPrice setText:[NSString stringWithFormat:@"%.2f",[itemDetails.costPerItem floatValue]]];
+    NSLocale* localPrice = [[NSLocale alloc] initWithLocaleIdentifier:[[NSLocale preferredLanguages] objectAtIndex:0]];
+    NSNumberFormatter *fmtr = [[NSNumberFormatter alloc] init];
+    [fmtr setNumberStyle:NSNumberFormatterCurrencyStyle];
+    [fmtr setLocale:localPrice];
+    [self.foodPrice setText:[fmtr stringFromNumber: [NSNumber numberWithFloat:[itemDetails.costPerItem floatValue]]]];
+    
+  //  [self.foodPrice setText:[NSString stringWithFormat:@"%.2f",[itemDetails.costPerItem floatValue]]];
     if ([itemDetails.sellerName isEqual:[NSNull null]]) {
      [self.foodSellerName setText:@""];
     }else

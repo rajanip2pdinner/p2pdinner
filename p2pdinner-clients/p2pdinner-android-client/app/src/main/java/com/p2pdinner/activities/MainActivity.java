@@ -305,7 +305,7 @@ public class MainActivity extends BaseAppCompatActivity {
             }
         };
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
-        drawListView.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, getResources().getStringArray(R.array.legal_options)));
+        drawListView.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, getResources().getStringArray(R.array.navigation_bar_options)));
         drawListView.setOnItemClickListener(new LegalItemClickListener());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -340,6 +340,9 @@ public class MainActivity extends BaseAppCompatActivity {
                 case 2:
                     showDocument(Constants.P2PDINNER_WEB_BASE_URI +  getString(R.string.tcUri));
                     break;
+                case 3:
+                    clearCache();
+                    break;
                 default:
             }
         }
@@ -349,6 +352,16 @@ public class MainActivity extends BaseAppCompatActivity {
             intent.putExtra(Constants.LEGAL_LOAD_URI,  legalDocumentUri);
             startActivity(intent);
         }
+    }
+
+    private void clearCache() {
+        SharedPreferences.Editor editor= sharedPreferences.edit();
+        editor.remove(Constants.ACCESS_TOKEN);
+        editor.remove(Constants.USER_ID);
+        editor.remove(Constants.EMAIL_ADDRESS);
+        editor.remove(Constants.PROFILE_NAME);
+        editor.remove(Constants.AUTHENTICATION_PROVIDER);
+        editor.commit();
     }
 
 

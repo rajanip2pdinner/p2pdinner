@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -31,12 +32,12 @@ public class ListDinnerActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
 
     private Integer[] icons = {
-            R.drawable.food_item_icon,
-            R.drawable.photo_icon,
-            R.drawable.time_icon,
-            R.drawable.location_icon,
-            R.drawable.cost_icon,
-            R.drawable.special_needs_icon
+            R.drawable.food_item_icon_1x,
+            R.drawable.photo_icon_1x,
+            R.drawable.time_icon_1x,
+            R.drawable.location_icon_1x,
+            R.drawable.cost_icon_bw_1x,
+            R.drawable.special_needs_1x
     };
 
 
@@ -64,8 +65,13 @@ public class ListDinnerActivity extends AppCompatActivity {
             //imageView.setScaleType(ImageView.ScaleType.FIT_XY);
             //imageView.setImageResource(icons[idx]);
             //tabLayout.getTabAt(idx).setCustomView(imageView);
-            tabLayout.getTabAt(idx).setText(getResources().getStringArray(R.array.tab_labels)[idx]);
-            tabLayout.getTabAt(idx).setIcon(icons[idx]);
+            //tabLayout.getTabAt(idx).setText(getResources().getStringArray(R.array.tab_labels)[idx]);
+            //tabLayout.getTabAt(idx).setIcon(icons[idx]);
+            TextView tab = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
+            tab.setText(getResources().getStringArray(R.array.tab_labels)[idx]);
+            tab.setCompoundDrawablesWithIntrinsicBounds(icons[idx], 0, 0, 0);
+            tabLayout.getTabAt(idx).setCustomView(tab);
+
         }
     }
 

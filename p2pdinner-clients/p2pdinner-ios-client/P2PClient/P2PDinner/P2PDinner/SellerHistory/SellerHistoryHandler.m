@@ -24,7 +24,7 @@ static ServiceHandler *_sharedInstance=nil;
 - (void)getUserHistory:(NSString *)useId serviceCallBack:(SellerHistoryResultBlock)service{
     requestType=RequestTypeGet;
     conType=MIMETypeJSON;
-    NSString *urlString=[NSString stringWithFormat:@"https://p2pdinner-services.herokuapp.com/api/v1/menu/view/%@",useId];
+    NSString *urlString=[NSString stringWithFormat:@"https://dev-p2pdinner-services.herokuapp.com/api/v1/menu/view/%@",useId];
     [self execute:urlString requestObject:useId contentType:conType requestMethod:requestType serviceCallBack:^(NSError *error, id response) {
         NSArray *arrayOfObject=(NSArray *)response;
         if (!error) {
@@ -48,7 +48,7 @@ static ServiceHandler *_sharedInstance=nil;
     conType=MIMETypeJSON;
     NSString *requestObject=[itemDetails getAddDinnerJsonValue];
     NSLog(@"%@",[itemDetails getAddDinnerJsonValue]);
-    NSString *urlString=[NSString stringWithFormat:@"https://p2pdinner-services.herokuapp.com/api/v1/listing/add"];
+    NSString *urlString=[NSString stringWithFormat:@"https://dev-p2pdinner-services.herokuapp.com/api/v1/listing/add"];
     
     // NSLog(@"\nRequest : \n%@\n\n",requestObject);
     [self execute:urlString requestObject:requestObject contentType:conType requestMethod:requestType serviceCallBack:^(NSError *error, id response) {
@@ -96,7 +96,7 @@ static ServiceHandler *_sharedInstance=nil;
     }else{
         requestObject=[itemDetails jsonValue:UpdateOldItem];
     }
-    NSString *urlString=[NSString stringWithFormat:@"https://p2pdinner-services.herokuapp.com/api/v1/menu/add"];
+    NSString *urlString=[NSString stringWithFormat:@"https://dev-p2pdinner-services.herokuapp.com/api/v1/menu/add"];
     
     // NSLog(@"\nRequest : \n%@\n\n",requestObject);
     [self execute:urlString requestObject:requestObject contentType:conType requestMethod:requestType serviceCallBack:^(NSError *error, id response) {
@@ -142,46 +142,55 @@ static ServiceHandler *_sharedInstance=nil;
     }
     
 }
-- (void)photoUpload:(UIImage *)dinnerImage imageTag:(NSInteger)imageTag buttonValue:(UIButton *)imageButton itemDetails:(ItemDetails *)itemDetail responceCallBack:(ImageUplaodResultBlock)response{
+- (void)photoUpload:(UIImage *)dinnerImage imageTag:(NSInteger)imageTag buttonValue:(UIButton *)imageButton itemDetails:(ItemDetails *)itemDetail responceCallBack:(ImageUplaodResultBlock)responseBlock{
     [UIApplication sharedApplication].networkActivityIndicatorVisible=YES;
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSData *imageData=UIImageJPEGRepresentation(dinnerImage, 0.0);
     dinnerImage=nil;
-    
-    NSDictionary *dictonary=[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld",(long)imageTag],@"userInfo", nil];
-    
-    [manager POST:@"https://p2pdinner-services.herokuapp.com/api/v1/menu/upload" parameters:dictonary constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        [formData appendPartWithFileData:imageData
-                                    name:@"imagefile"
-                                fileName:@"dinnerImage.png" mimeType:@"image/jpeg"];
-        // etc.
-    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [UIApplication sharedApplication].networkActivityIndicatorVisible=NO;
-        NSLog(@"Response: %@", responseObject);
-        if ([responseObject isKindOfClass:[NSDictionary class]]) {
-            
-            if ([[responseObject objectForKey:@"message"] isEqualToString:@"Unknown error"]) {
+    [self validateAccessToken:^(NSError *error, id response) {
+        
+        NSDictionary *dictonary=[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld",(long)imageTag],@"userInfo", nil];
+        
+        NSString *accessToken=[NSString stringWithFormat:@"%@ %@",[[NSUserDefaults standardUserDefaults] objectForKey:@"tokenType"],response];
+        manager.requestSerializer = [AFJSONRequestSerializer serializer];
+        [manager.requestSerializer setValue:accessToken forHTTPHeaderField:@"Authorization"];
+        
+        [manager POST:@"https://dev-p2pdinner-services.herokuapp.com/api/v1/menu/upload" parameters:dictonary constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+            [formData appendPartWithFileData:imageData
+                                        name:@"imagefile"
+                                    fileName:@"dinnerImage.png" mimeType:@"image/jpeg"];
+            // etc.
+        } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [UIApplication sharedApplication].networkActivityIndicatorVisible=NO;
+            NSLog(@"Response: %@", responseObject);
+            if ([responseObject isKindOfClass:[NSDictionary class]]) {
                 
-                NSError *error = [NSError errorWithDomain:@"world" code:200 userInfo:responseObject];
-                response(error,nil);
-            }else
-            {
-               // NSString *imageName=[self getImageNameFromUploadedURL:(NSDictionary *)responseObject];
-                response(nil,[NSString stringWithFormat:@"\"%@\"",[responseObject objectForKey:@"url"]]);
+                if ([[responseObject objectForKey:@"message"] isEqualToString:@"Unknown error"]) {
+                    
+                    NSError *error = [NSError errorWithDomain:@"world" code:200 userInfo:responseObject];
+                    responseBlock(error,nil);
+                }else
+                {
+                    // NSString *imageName=[self getImageNameFromUploadedURL:(NSDictionary *)responseObject];
+                    responseBlock(nil,[NSString stringWithFormat:@"\"%@\"",[responseObject objectForKey:@"url"]]);
+                }
             }
-        }
-        [imageButton setTitle:@"" forState:UIControlStateNormal];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [UIApplication sharedApplication].networkActivityIndicatorVisible=NO;
-        [imageButton setTitle:@"Fail!" forState:UIControlStateNormal];
-        response(error,nil);
-        NSLog(@"Error: %@", error);
+            [imageButton setTitle:@"" forState:UIControlStateNormal];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [UIApplication sharedApplication].networkActivityIndicatorVisible=NO;
+            [imageButton setTitle:@"Fail!" forState:UIControlStateNormal];
+            responseBlock(error,nil);
+            NSLog(@"Error: %@", error);
+        }];
+        
     }];
+    
+  
 }
 - (void)getItemListing:(NSString *)request serviceCallBack:(SellerHistoryResultBlock)service{
     conType=MIMETypeJSON
     requestType=RequestTypeGet
-    NSString *urlString=@"https://p2pdinner-services.herokuapp.com/api/v1/listing/view/";
+    NSString *urlString=@"https://dev-p2pdinner-services.herokuapp.com/api/v1/listing/view/";
     // urlString=[NSString stringWithFormat:@"%@2015-05-06/144",urlString];
     urlString=[NSString stringWithFormat:@"%@%@",urlString,request];
     urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -198,7 +207,7 @@ static ServiceHandler *_sharedInstance=nil;
     conType=MIMETypeJSON
     requestType=RequestTypeGet
     request=[request stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSString *urlString=@"https://p2pdinner-services.herokuapp.com/api/v1/cart/placedorders/";
+    NSString *urlString=@"https://dev-p2pdinner-services.herokuapp.com/api/v1/cart/placedorders/";
     urlString=[NSString stringWithFormat:@"%@%@",urlString,request];
     [self execute:urlString requestObject:@"" contentType:conType requestMethod:requestType serviceCallBack:^(NSError *error, id response) {
         [[UIApplication sharedApplication]setNetworkActivityIndicatorVisible:NO];
@@ -216,7 +225,7 @@ static ServiceHandler *_sharedInstance=nil;
     conType=MIMETypeJSON
     requestType=RequestTypeGet
     
-    NSString *urlString=@"https://p2pdinner-services.herokuapp.com/api/v1/cart/orders/";
+    NSString *urlString=@"https://dev-p2pdinner-services.herokuapp.com/api/v1/cart/orders/";
     urlString=[NSString stringWithFormat:@"%@%@",urlString,request];
     [self execute:urlString requestObject:@"" contentType:conType requestMethod:requestType serviceCallBack:^(NSError *error, id response) {
         [[UIApplication sharedApplication]setNetworkActivityIndicatorVisible:NO];
@@ -246,7 +255,7 @@ static ServiceHandler *_sharedInstance=nil;
 - (void)getAllItemListing:(NSString *)request serviceCallBack:(SellerHistoryResultBlock)service{
     conType=MIMETypeJSON
     requestType=RequestTypeGet
-    NSString *urlString=@"https://p2pdinner-services.herokuapp.com/api/v1/listing/view/current";
+    NSString *urlString=@"https://dev-p2pdinner-services.herokuapp.com/api/v1/listing/view/current";
     [self execute:urlString requestObject:request contentType:conType requestMethod:requestType serviceCallBack:^(NSError *error, id response) {
         [[UIApplication sharedApplication]setNetworkActivityIndicatorVisible:NO];
         if (!error) {

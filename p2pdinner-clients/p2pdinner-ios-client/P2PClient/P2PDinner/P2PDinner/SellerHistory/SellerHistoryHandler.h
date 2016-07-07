@@ -19,7 +19,7 @@ typedef void(^ImageUplaodResultBlock)(NSError *error, NSString *imageString);
     NSString *conType;
 }
 +(id)sharedSellerHistoryHandler;
--(void)photoUpload:(UIImage *)dinnerImage imageTag:(NSInteger)imageTag buttonValue:(UIButton *)imageButton itemDetails:(ItemDetails *)itemDetail responceCallBack:(ImageUplaodResultBlock)response;
+-(void)photoUpload:(UIImage *)dinnerImage imageTag:(NSInteger)imageTag buttonValue:(UIButton *)imageButton itemDetails:(ItemDetails *)itemDetail responceCallBack:(ImageUplaodResultBlock)responseBlock;
 -(void)getUserHistory:(NSString *)useId serviceCallBack:(SellerHistoryResultBlock)service;
 //-(void)createMenuItem:(ItemDetails *)itemDetails;
 -(void)updateMenuItem:(ItemDetails *)itemDetails serviceCallBack:(SellerItemResultBlock)service;

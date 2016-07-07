@@ -19,7 +19,7 @@
 #define MIMETypeTextJson  @"text/json";
 #define MIMETypeTextPlain  @"text/plain";
 typedef void(^ServiceResultBlock)(NSError *error, id response);
-
+typedef void(^CompletionBlock)(void);
 #define P2PDinner_ServiceConstants_h
 
 

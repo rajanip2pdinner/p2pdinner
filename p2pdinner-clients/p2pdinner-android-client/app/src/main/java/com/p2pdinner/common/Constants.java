@@ -34,7 +34,7 @@ public class Constants {
 
     public static final String P2PDINNER_API_TOKEN = "P2PDINNER_API_TOKEN";
 
-    //public static final String P2PDINNER_BASE_URI = "http://localhost:9128/services";
+    //public static final String P2PDINNER_BASE_URI = "http://localhost:9128/api/v1";
 
     public static class Message {
 

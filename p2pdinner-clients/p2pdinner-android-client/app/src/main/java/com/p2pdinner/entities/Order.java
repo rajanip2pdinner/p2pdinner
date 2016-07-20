@@ -53,6 +53,12 @@ public class Order implements Serializable {
     private long closeTime;
     @SerializedName("image_uri")
     private String imageUri;
+    @SerializedName("buyer_rating")
+    private Integer buyerRating;
+    @SerializedName("seller_rating")
+    private Integer sellerRating;
+    @SerializedName("cart_id")
+    private Integer cartId;
 
     public String getProfileName() {
         return profileName;
@@ -180,5 +186,29 @@ public class Order implements Serializable {
 
     public void setImageUri(String imageUri) {
         this.imageUri = imageUri;
+    }
+
+    public Integer getBuyerRating() {
+        return buyerRating;
+    }
+
+    public void setBuyerRating(Integer buyerRating) {
+        this.buyerRating = buyerRating;
+    }
+
+    public Integer getSellerRating() {
+        return sellerRating;
+    }
+
+    public void setSellerRating(Integer sellerRating) {
+        this.sellerRating = sellerRating;
+    }
+
+    public Integer getCartId() {
+        return cartId;
+    }
+
+    public void setCartId(Integer cartId) {
+        this.cartId = cartId;
     }
 }

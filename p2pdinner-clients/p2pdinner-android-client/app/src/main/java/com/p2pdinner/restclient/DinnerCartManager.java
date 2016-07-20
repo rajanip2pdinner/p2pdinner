@@ -13,6 +13,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.p2pdinner.common.Constants;
 import com.p2pdinner.common.ErrorResponse;
+import com.p2pdinner.common.RatingParty;
 import com.p2pdinner.entities.DinnerListing;
 import com.p2pdinner.entities.Order;
 
@@ -21,6 +22,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
@@ -168,6 +170,47 @@ public class DinnerCartManager {
                     Gson gson = new GsonBuilder().create();
                     List<Order> orders = gson.fromJson(results, new TypeToken<List<Order>>(){}.getType());
                     subscriber.onNext(orders);
+                    subscriber.onCompleted();
+                } catch (Exception e) {
+                    Log.e(TAG, e.getMessage());
+                    subscriber.onError(e);
+                }
+            }
+        });
+    }
+
+    public Observable<String> updateRating(final RatingParty ratingParty, final Long cartId, final Integer rating) {
+        return Observable.create(new Observable.OnSubscribe<String>(){
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
+                UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromUriString(Constants.P2PDINNER_BASE_URI);
+                Map<String,Object> variables = new HashMap<>();
+                variables.put("cartId", cartId);
+                UriComponents components = uriComponentsBuilder.path("/cart/{cartId}").buildAndExpand(variables);
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_JSON);
+                JsonObject jsonObject = new JsonObject();
+                switch(ratingParty) {
+                    case BUYER:
+                        jsonObject.addProperty("buyer_rating", rating);
+                        break;
+                    case SELLER:
+                        jsonObject.addProperty("seller_rating", rating);
+                        break;
+                    default:
+                }
+                HttpEntity<String> entity = new HttpEntity<>(jsonObject.toString(), headers);
+                try {
+                    String response = restTemplate.exchange(components.toUri(), HttpMethod.POST, entity, String.class).getBody();
+                    JsonElement jsonElement = new JsonParser().parse(response);
+                    JsonObject responseJson = jsonElement.getAsJsonObject();
+                    if (responseJson.has("code")) {
+                        Gson gson = new Gson();
+                        ErrorResponse errorResponse = gson.fromJson(response, ErrorResponse.class);
+                        subscriber.onError(new Exception(errorResponse.getMessage()));
+                    }
+                    String msg = responseJson.get("response").getAsJsonObject().get("message").getAsString();
+                    subscriber.onNext(msg);
                     subscriber.onCompleted();
                 } catch (Exception e) {
                     Log.e(TAG, e.getMessage());

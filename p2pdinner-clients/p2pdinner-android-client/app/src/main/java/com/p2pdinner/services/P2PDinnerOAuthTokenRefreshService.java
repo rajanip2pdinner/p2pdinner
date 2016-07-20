@@ -125,7 +125,7 @@ public class P2PDinnerOAuthTokenRefreshService extends IntentService {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Log.e(TAG, e.getMessage());
                     }
 
                     @Override

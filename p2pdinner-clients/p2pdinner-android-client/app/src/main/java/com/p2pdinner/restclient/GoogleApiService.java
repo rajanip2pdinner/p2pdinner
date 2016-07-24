@@ -12,6 +12,9 @@ import com.google.code.geocoder.model.GeocoderRequest;
 import com.google.code.geocoder.model.LatLng;
 import com.p2pdinner.common.Constants;
 
+import rx.Observable;
+import rx.Subscriber;
+
 /**
  * Created by rajaniy on 10/18/15.
  */
@@ -24,16 +27,22 @@ public class GoogleApiService {
 
     }
 
-    public void getAddress(Handler handler, String clientId, String clientKey, Location location) throws Exception {
-        try {
-            final Geocoder geocoder = new Geocoder();
-            GeocoderRequest geocoderRequest = new GeocoderRequestBuilder().setLocation(new LatLng(String.valueOf(location.getLatitude()), String.valueOf(location.getLongitude()))).getGeocoderRequest();
-            GeocodeResponse geocodeResponse = geocoder.geocode(geocoderRequest);
-            Message message = handler.obtainMessage(Constants.Message.GEOCODE_REVERSE_LOOKUP, geocodeResponse);
-            message.sendToTarget();
-        } catch (Exception e) {
-            Log.e(TAG, "Failed to resolve latitude: " + location.getLatitude() + " and longitude: " + location.getLongitude());
-            Log.e(TAG, e.getMessage());
-        }
+    public Observable<GeocodeResponse> getAddress(String clientId, String clientKey,final Location location) {
+        return Observable.create(new Observable.OnSubscribe<GeocodeResponse>() {
+            @Override
+            public void call(Subscriber<? super GeocodeResponse> subscriber) {
+                try {
+                    final Geocoder geocoder = new Geocoder();
+                    GeocoderRequest geocoderRequest = new GeocoderRequestBuilder().setLocation(new LatLng(String.valueOf(location.getLatitude()), String.valueOf(location.getLongitude()))).getGeocoderRequest();
+                    GeocodeResponse geocodeResponse = geocoder.geocode(geocoderRequest);
+                    subscriber.onNext(geocodeResponse);
+                    subscriber.onCompleted();
+                } catch (Exception e) {
+                    Log.e(TAG, "Failed to resolve latitude: " + location.getLatitude() + " and longitude: " + location.getLongitude());
+                    Log.e(TAG, e.getMessage());
+                    subscriber.onError(e);
+                }
+            }
+        });
     }
 }

@@ -49,6 +49,7 @@ import java.util.Calendar;
 import javax.inject.Inject;
 
 import rx.Observer;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.observers.Subscribers;
 import rx.schedulers.Schedulers;
@@ -81,7 +82,6 @@ public class FindDinnerActivity extends BaseAppCompatActivity implements DateDia
         intializeControls();
         setupEventListeners();
         initializeLocationManager();
-        setupMessageHandler();
     }
 
     private void intializeControls() {
@@ -178,38 +178,6 @@ public class FindDinnerActivity extends BaseAppCompatActivity implements DateDia
         });
     }
 
-    private void setupMessageHandler() {
-        handler = new Handler(Looper.getMainLooper()) {
-            @Override
-            public void handleMessage(Message msg) {
-                switch (msg.what) {
-                    case Constants.Message.GEOCODE_REVERSE_LOOKUP:
-                        GeocodeResponse geocodeResponse = (GeocodeResponse) msg.obj;
-                        if (geocodeResponse.getStatus() == GeocoderStatus.OK && geocodeResponse.getResults() != null && !geocodeResponse.getResults().isEmpty()) {
-                            Log.d(TAG, geocodeResponse.getResults().get(0).getFormattedAddress());
-                            GeocoderResult geocoderResult = geocodeResponse.getResults().get(0);
-                            mAddress.setText(geocoderResult.getFormattedAddress().toString());
-                        }
-                        break;
-                    case Constants.Message.SEARCH_RESULTS:
-                        DinnerSearchResults dinnerSearchResults = (DinnerSearchResults) msg.obj;
-                        if (dinnerSearchResults == null) {
-                            Toast.makeText(getApplicationContext(), "No dinner listings found", Toast.LENGTH_LONG).show();
-                        } else {
-                            Intent intent = new Intent(getApplicationContext(), DinnerListingActivity.class);
-                            intent.putExtra(Constants.CURRENT_DINNER_LISTINGS, dinnerSearchResults);
-                            intent.putExtra(Constants.NO_OF_GUESTS, Integer.parseInt(mGuestNumber.getText().toString()));
-                            startActivity(intent);
-                        }
-                        break;
-                    default:
-                        super.handleMessage(msg);
-                }
-
-            }
-        };
-    }
-
     private void initializeLocationManager() {
         Criteria criteria = new Criteria();
         criteria.setAccuracy(Criteria.ACCURACY_FINE);
@@ -218,38 +186,61 @@ public class FindDinnerActivity extends BaseAppCompatActivity implements DateDia
             Location lastKnownLocation = locationManager.getLastKnownLocation(provider);
             if (lastKnownLocation != null) {
                 final Location finalLocation = lastKnownLocation;
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            googleApiService.getAddress(handler, getString(R.string.google_client_id), getString(R.string.google_client_key), finalLocation);
-                        } catch (Exception e) {
-                            Log.e(TAG, "Error getting address....");
-                            Log.e(TAG, e.getMessage());
-                        }
-                    }
-                }).start();
+                googleApiService.getAddress(getString(R.string.google_client_id), getString(R.string.google_client_key), finalLocation)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe(new Subscriber<GeocodeResponse>() {
+                            private GeocodeResponse geocodeResponse;
+
+                            @Override
+                            public void onCompleted() {
+                                if (geocodeResponse.getStatus() == GeocoderStatus.OK && geocodeResponse.getResults() != null && !geocodeResponse.getResults().isEmpty()) {
+                                    Log.d(TAG, geocodeResponse.getResults().get(0).getFormattedAddress());
+                                    GeocoderResult geocoderResult = geocodeResponse.getResults().get(0);
+                                    mAddress.setText(geocoderResult.getFormattedAddress().toString());
+                                }
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Toast.makeText(getApplicationContext(), "Error getting location. Enable location services", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onNext(GeocodeResponse geocodeResponse) {
+                                this.geocodeResponse = geocodeResponse;
+                            }
+                        });
             }
             locationManager.requestLocationUpdates(provider, 1000 * 5, 50, new LocationListener() {
                 @Override
                 public void onLocationChanged(final Location location) {
                     Log.i(TAG, "Received location change event... finding location with geocodes");
-                    try {
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    googleApiService.getAddress(handler, getString(R.string.google_client_id), getString(R.string.google_client_key), location);
-                                } catch (Exception e) {
-                                    Log.e(TAG, "Error getting address....");
-                                    Log.e(TAG, e.getMessage());
+                    googleApiService.getAddress(getString(R.string.google_client_id), getString(R.string.google_client_key), location)
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribeOn(Schedulers.io())
+                            .subscribe(new Subscriber<GeocodeResponse>() {
+                                private GeocodeResponse geocodeResponse;
+
+                                @Override
+                                public void onCompleted() {
+                                    if (geocodeResponse.getStatus() == GeocoderStatus.OK && geocodeResponse.getResults() != null && !geocodeResponse.getResults().isEmpty()) {
+                                        Log.d(TAG, geocodeResponse.getResults().get(0).getFormattedAddress());
+                                        GeocoderResult geocoderResult = geocodeResponse.getResults().get(0);
+                                        mAddress.setText(geocoderResult.getFormattedAddress().toString());
+                                    }
                                 }
-                            }
-                        }).start();
-                    } catch (Exception e) {
-                        Log.e(TAG, "Error getting address....");
-                        Log.e(TAG, e.getMessage());
-                    }
+
+                                @Override
+                                public void onError(Throwable e) {
+                                    Toast.makeText(getApplicationContext(), "Error getting location. Enable location services", Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onNext(GeocodeResponse geocodeResponse) {
+                                    this.geocodeResponse = geocodeResponse;
+                                }
+                            });
 
                 }
 

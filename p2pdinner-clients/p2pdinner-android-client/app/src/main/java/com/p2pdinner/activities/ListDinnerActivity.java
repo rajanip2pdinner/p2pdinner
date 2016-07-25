@@ -36,7 +36,7 @@ public class ListDinnerActivity extends AppCompatActivity {
             R.drawable.photo_icon_1x,
             R.drawable.time_icon_1x,
             R.drawable.location_icon_1x,
-            R.drawable.cost_icon_bw_1x,
+            R.drawable.cost_icon_2x,
             R.drawable.special_needs_1x
     };
 

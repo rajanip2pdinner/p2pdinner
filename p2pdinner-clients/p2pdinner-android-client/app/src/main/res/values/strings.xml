@@ -84,8 +84,7 @@
         <item>TIME</item>
         <item>PLACE</item>
         <item>COST</item>
-        <item>Spl. Needs</item>
-        <item>Spl. Needs</item>
+        <item>SPL. NEEDS</item>
     </string-array>
     <string name="lbl_cost_per_item">Cost Per Plate</string>
     <string name="lbl_no_of_plates">No. of Plates</string>

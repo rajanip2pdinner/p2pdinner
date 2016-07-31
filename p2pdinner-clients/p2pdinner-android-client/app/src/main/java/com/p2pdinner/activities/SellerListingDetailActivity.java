@@ -7,14 +7,18 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.p2pdinner.R;
 import com.p2pdinner.common.Constants;
+import com.p2pdinner.common.RatingParty;
 import com.p2pdinner.entities.DinnerMenuItem;
 import com.p2pdinner.entities.Order;
 import com.p2pdinner.entities.SellerListing;
@@ -33,7 +37,7 @@ import rx.schedulers.Schedulers;
 
 public class SellerListingDetailActivity extends BaseAppCompatActivity {
 
-    private static final String TAG = "SellerListingDetailActivity";
+    private static final String TAG = "SLDetailActivity";
     private SellerListing mSellerListing = null;
     private ListView mlvSellerItems;
     private TextView mtxtTitle;
@@ -102,6 +106,35 @@ public class SellerListingDetailActivity extends BaseAppCompatActivity {
             txtConfirmationCode.setText("Conf #" + order.getPassCode());
             TextView txtNoofGuests = (TextView) itemView.findViewById(R.id.noOfGuests);
             txtNoofGuests.setText(order.getOrderQuantity() + " Plates");
+            RatingBar ratingBar = (RatingBar) itemView.findViewById(R.id.ratingBar);
+            if (order.getBuyerRating() != null) {
+                ratingBar.setRating(Float.valueOf(order.getBuyerRating()));
+            }
+            ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                @Override
+                public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                    dinnerCartManager.updateRating(RatingParty.BUYER, order.getCartId().longValue(), Float.valueOf(v).intValue())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribeOn(Schedulers.io())
+                            .subscribe(new Observer<String>() {
+                                @Override
+                                public void onCompleted() {
+
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+                                    Log.e(TAG, e.getMessage());
+                                    Toast.makeText(SellerListingDetailActivity.this.getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                                }
+
+                                @Override
+                                public void onNext(String s) {
+                                    Toast.makeText(SellerListingDetailActivity.this.getApplicationContext(), s, Toast.LENGTH_LONG).show();
+                                }
+                            });
+                }
+            });
             return itemView;
         }
     }

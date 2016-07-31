@@ -9,6 +9,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +17,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.p2pdinner.R;
+import com.p2pdinner.activities.SellerListingDetailActivity;
 import com.p2pdinner.common.Constants;
+import com.p2pdinner.common.RatingParty;
 import com.p2pdinner.entities.Order;
 import com.p2pdinner.entities.SellerListing;
 import com.p2pdinner.restclient.DinnerCartManager;
@@ -48,6 +53,7 @@ import java.util.TimeZone;
 
 import javax.inject.Inject;
 
+import rx.Observer;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -56,6 +62,8 @@ import rx.schedulers.Schedulers;
  * Created by rajaniy on 10/24/15.
  */
 public class WantDinnerFragment extends BaseFragment {
+
+    private static final String TAG = "WantDinnerFragment";
 
     private LinearLayout mDateLayout = null;
     private ListView mlvBuyerItems;
@@ -219,6 +227,35 @@ public class WantDinnerFragment extends BaseFragment {
                     .appendLiteral(" ")
                     .appendHalfdayOfDayText().toFormatter();
             timings.setText("Served between " + printFormatter.print(startDtTime) + " and " + printFormatter.print(endDtTime));
+            RatingBar ratingBar = (RatingBar) itemView.findViewById(R.id.ratingBar);
+            if (order.getSellerRating() != null) {
+                ratingBar.setRating(order.getSellerRating().intValue());
+            }
+            ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                @Override
+                public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                    dinnerCartManager.updateRating(RatingParty.SELLER, order.getCartId().longValue(), Float.valueOf(v).intValue())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribeOn(Schedulers.io())
+                            .subscribe(new Observer<String>() {
+                                @Override
+                                public void onCompleted() {
+
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+                                    Log.e(TAG, e.getMessage());
+                                    Toast.makeText(WantDinnerFragment.this.getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                                }
+
+                                @Override
+                                public void onNext(String s) {
+                                    Toast.makeText(WantDinnerFragment.this.getContext(), s, Toast.LENGTH_LONG).show();
+                                }
+                            });
+                }
+            });
             return itemView;
         }
     }

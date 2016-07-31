@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.p2pdinner.R;
@@ -18,6 +19,8 @@ import com.p2pdinner.restclient.MenuServiceManager;
 import org.springframework.util.StringUtils;
 
 import java.text.DecimalFormat;
+import java.util.Currency;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -36,6 +39,7 @@ public class CostFragment extends BaseFragment {
     private Button mBtnNext = null;
     private EditText mCostPerPlate;
     private EditText mAvailableQuantity;
+    private TextView mCostPerPlateLabel;
 
     private DinnerMenuItem dinnerMenuItem;
 
@@ -53,6 +57,11 @@ public class CostFragment extends BaseFragment {
     private void initializeControls(View view) {
         mCostPerPlate = (EditText) view.findViewById(R.id.cost_per_item);
         mAvailableQuantity = (EditText) view.findViewById(R.id.available_quantity);
+        mCostPerPlateLabel = (TextView) view.findViewById(R.id.lbl_cost_per_item);
+        String costLabel = mCostPerPlateLabel.getText().toString();
+        Locale current = getResources().getConfiguration().locale;
+        costLabel = costLabel + " ( " + Currency.getInstance(current).getSymbol() + " )";
+        mCostPerPlateLabel.setText(costLabel);
         dinnerMenuItem = (DinnerMenuItem) getActivity().getIntent().getSerializableExtra(Constants.CURRENT_DINNER_ITEM);
         int availableQuantity = 1;
         if (dinnerMenuItem.getAvailableQuantity() != null && dinnerMenuItem.getAvailableQuantity() > 0) {

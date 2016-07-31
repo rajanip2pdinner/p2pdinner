@@ -11,4 +11,8 @@
                 <item name="android:maxLines">2</item>
                 <item name="android:maxWidth">180dip</item>
         </style>
+        <style name="RatingBarAppTheme" parent="android:Widget.Holo.Light.RatingBar">
+                <item name="android:progressDrawable">@drawable/apptheme_ratingbar_full_holo_light</item>
+                <item name="android:indeterminateDrawable">@drawable/apptheme_ratingbar_full_holo_light</item>
+        </style>
 </resources>

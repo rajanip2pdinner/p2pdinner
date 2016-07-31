@@ -49,6 +49,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import rx.Observer;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
@@ -161,17 +162,31 @@ public class PlaceFragment extends BaseFragment {
             }
             if (lastKnownLocation != null) {
                 final Location finalLocation = lastKnownLocation;
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            googleApiService.getAddress(handler, getString(R.string.google_client_id), getString(R.string.google_client_key), finalLocation);
-                        } catch (Exception e) {
-                            Log.e(TAG, "Error getting address....");
-                            Log.e(TAG, e.getMessage());
-                        }
-                    }
-                }).start();
+                googleApiService.getAddress(getString(R.string.google_client_id), getString(R.string.google_client_key), finalLocation)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe(new Subscriber<GeocodeResponse>() {
+                            private GeocodeResponse geocodeResponse;
+
+                            @Override
+                            public void onCompleted() {
+                                if (geocodeResponse.getStatus() == GeocoderStatus.OK && geocodeResponse.getResults() != null && !geocodeResponse.getResults().isEmpty()) {
+                                    Log.d(TAG, geocodeResponse.getResults().get(0).getFormattedAddress());
+                                    GeocoderResult geocoderResult = geocodeResponse.getResults().get(0);
+                                    mAddress.setText(geocoderResult.getFormattedAddress().toString());
+                                }
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Toast.makeText(getContext(), "Error getting location. Enable location services", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onNext(GeocodeResponse geocodeResponse) {
+                                this.geocodeResponse = geocodeResponse;
+                            }
+                        });
             }
 
         }
@@ -182,17 +197,31 @@ public class PlaceFragment extends BaseFragment {
                     if (StringUtils.hasText(dinnerMenuItem.getAddressLine1()) || StringUtils.hasText(dinnerMenuItem.getAddressLine2())) {
                         return;
                     }
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                googleApiService.getAddress(handler, getString(R.string.google_client_id), getString(R.string.google_client_key), location);
-                            } catch (Exception e) {
-                                Log.e(TAG, "Error getting address....");
-                                Log.e(TAG, e.getMessage());
-                            }
-                        }
-                    }).start();
+                    googleApiService.getAddress(getString(R.string.google_client_id), getString(R.string.google_client_key), location)
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribeOn(Schedulers.io())
+                            .subscribe(new Subscriber<GeocodeResponse>() {
+                                private GeocodeResponse geocodeResponse;
+
+                                @Override
+                                public void onCompleted() {
+                                    if (geocodeResponse.getStatus() == GeocoderStatus.OK && geocodeResponse.getResults() != null && !geocodeResponse.getResults().isEmpty()) {
+                                        Log.d(TAG, geocodeResponse.getResults().get(0).getFormattedAddress());
+                                        GeocoderResult geocoderResult = geocodeResponse.getResults().get(0);
+                                        mAddress.setText(geocoderResult.getFormattedAddress().toString());
+                                    }
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+                                    Toast.makeText(getContext(), "Error getting location. Enable location services", Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onNext(GeocodeResponse geocodeResponse) {
+                                    this.geocodeResponse = geocodeResponse;
+                                }
+                            });
                 } catch (Exception e) {
                     Log.e(TAG, "Error getting address....");
                     Log.e(TAG, e.getMessage());
@@ -268,6 +297,9 @@ public class PlaceFragment extends BaseFragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 dinnerMenuItem.setAddressLine1(s.toString());
+                dinnerMenuItem.setAddressLine2("");
+                dinnerMenuItem.setCity("");
+                dinnerMenuItem.setState("");
             }
 
             @Override

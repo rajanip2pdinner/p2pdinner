@@ -25,7 +25,6 @@ import java.util.Map;
  */
 public class DeviceManager {
 
-    private static final String TAG = "DeviceManager";
     private static DeviceManager deviceManager;
 
     private DeviceManager(){
@@ -62,7 +61,6 @@ public class DeviceManager {
                 return false;
             }
         } catch (Exception e) {
-            Log.e(TAG, e.getMessage());
             return false;
         }
         return true;

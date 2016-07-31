@@ -154,7 +154,7 @@ public class DinnerListingDetailActivity extends BaseAppCompatActivity {
         Locale locale = getResources().getConfiguration().locale;
         final DecimalFormat decimalFormat = new DecimalFormat(Currency.getInstance(locale).getSymbol() + "#0.00");
         try {
-            Integer noOfGuests = Integer.parseInt(mGuests.getText().toString());
+            noOfGuests = noOfGuests == 0 ? Integer.parseInt(mGuests.getText().toString()) : noOfGuests;
             float price = decimalFormat.parse(dinnerListingViewContent.getCost()).floatValue();
             price = price * noOfGuests;
             mTotalAmount.setText(decimalFormat.format(price));

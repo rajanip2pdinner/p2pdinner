@@ -61,27 +61,22 @@ public class P2PDinnerOAuthTokenRefreshService extends IntentService {
         if (StringUtils.hasText(appAccessTokenJson)) {
             AppAccessToken appAccessToken = gson.fromJson(appAccessTokenJson, AppAccessToken.class);
             if (appAccessToken.isExpired()) {
-                Log.i(TAG, "Token expired. refreshing...");
                 refreshAccessToken(gson, appAccessToken);
             }
         } else {
-            Log.i(TAG, "No token found. Requesting a new token...");
             requestAccesToken(gson);
         }
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.d(TAG, "Checking token validity....");
         final String appAccessTokenJson = sharedPreferences.getString(Constants.P2PDINNER_API_TOKEN, "");
         if (StringUtils.hasText(appAccessTokenJson)) {
             AppAccessToken appAccessToken = gson.fromJson(appAccessTokenJson, AppAccessToken.class);
             if (appAccessToken.isExpired()) {
-                Log.i(TAG, "Token expired. refreshing...");
                 refreshAccessToken(gson, appAccessToken);
             }
         } else {
-            Log.i(TAG, "No token found. Requesting a new token...");
             requestAccesToken(gson);
         }
     }
@@ -130,7 +125,7 @@ public class P2PDinnerOAuthTokenRefreshService extends IntentService {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Log.e(TAG, e.getMessage());
                     }
 
                     @Override

@@ -98,6 +98,13 @@
                 android:layout_below="@+id/address"
                 android:text="8:30 PM - 9:45 PM"
                 android:textSize="@dimen/abc_text_size_small_material" />
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:stepSize="1.0"
+                android:layout_below="@id/timings"/>
             <!-- <ImageView
                 android:id="@+id/delivery_types"
                 android:layout_width="wrap_content"

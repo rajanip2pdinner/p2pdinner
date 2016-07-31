@@ -18,15 +18,13 @@ typedef enum{
 }ChangeValue;
 @interface CostCell : UITableViewCell
 {
-    IBOutlet UISegmentedControl *pricePerMealSegment;
-    IBOutlet UISegmentedControl *pricePerMealCentsSegment;
     IBOutlet UILabel *pricePerMealLable;
-    IBOutlet UILabel *pricePerMealCentsLable;
 }
+@property(nonatomic,weak)IBOutlet UITextField *pricePerMealTextField;
 - (void)setPrice:(NSNumber *)price;
 - (NSNumber *)getCostForDinner;
 @property(nonatomic,retain) id<CostCellDelegate> delegate;
-- (IBAction)pricePerMealSegmentAction:(id)sender;
-- (IBAction)priceCentsSegmentAction:(id)sender;
+//- (IBAction)pricePerMealSegmentAction:(id)sender;
+//- (IBAction)priceCentsSegmentAction:(id)sender;
 
 @end

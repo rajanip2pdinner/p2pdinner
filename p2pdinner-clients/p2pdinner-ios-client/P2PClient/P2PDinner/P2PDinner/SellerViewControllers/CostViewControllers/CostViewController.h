@@ -16,6 +16,8 @@
 //    UILabel *dollorsLable;
 //    UILabel *centsLable;
 //    UILabel *maxNumOrderLable;
+    UITextField *textfield1;
+    UITextField *textfield2;
     
     CostCell *costCell;
     MinimumOrdersCell *minOrdCell;

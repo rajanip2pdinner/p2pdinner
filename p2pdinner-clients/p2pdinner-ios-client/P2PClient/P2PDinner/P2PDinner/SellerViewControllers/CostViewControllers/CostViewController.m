@@ -12,9 +12,18 @@
 @implementation CostViewController
 @synthesize itemDetails;
 
-
+-(void) dismissKeyboard:(id)sender
+{
+    [textfield1 resignFirstResponder];
+     [textfield2 resignFirstResponder];
+    [self updatedItems];
+}
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
+    UITapGestureRecognizer* tapBackground = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard:)];
+    [tapBackground setNumberOfTapsRequired:1];
+    [tableView addGestureRecognizer:tapBackground];
+    
     //tableView.sectionHeaderHeight=100;
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 58)];
     /* Create custom view to display section header... */
@@ -47,6 +56,7 @@ indexPath
         costCell.delegate=self;
         [costCell setPrice:itemDetails.costPerItem];
         costCell.selectionStyle =UITableViewCellSelectionStyleNone;
+        textfield1=costCell.pricePerMealTextField;
         
         return costCell;
     }
@@ -54,7 +64,7 @@ indexPath
         minOrdCell=(MinimumOrdersCell *)[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier1];
         minOrdCell.delegate=self;
         [minOrdCell setMaximuOrdersValue:itemDetails.availableQuantity];
-        
+        textfield2=minOrdCell.maximumTextField;
         minOrdCell.selectionStyle =UITableViewCellSelectionStyleNone;
         return minOrdCell;
     }
@@ -66,16 +76,14 @@ indexPath
     
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row==0) {
-        return 169;
-    }
-    return 115;
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    // This will create a "invisible" footer
+    return 0.01f;
 }
-
 -(void)updatedItems{
+    
+    NSLog(@"%@ %@",[[costCell getCostForDinner] stringValue],[[minOrdCell getMaximuOrdersValue] stringValue]);
     itemDetails.costPerItem=[costCell getCostForDinner];
     itemDetails.availableQuantity=[minOrdCell getMaximuOrdersValue];
-    //   NSLog(@"\n\n dollorsLable %@ \n centsLable %@ \n ",[costCell getCostForDinner],[minOrdCell getMaximuOrdersValue]);
 }
 @end

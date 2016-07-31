@@ -9,16 +9,19 @@
 #import <UIKit/UIKit.h>
 #import <FacebookSDK/FacebookSDK.h>
 #import "LaunchScreen.h"
+#import "LocationManger.h"
 typedef void (^FacebookAuthSuccessBlock)(void);
 typedef void (^FacebookAuthFailureBlock)(void);
 
 extern NSString *const FBSessionStateChangedNotification;
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate,CLLocationManagerDelegate,LocationManagerDelegate>{
+}
 
 @property (strong, nonatomic) UIWindow *window;
 @property (nonatomic, copy) FacebookAuthSuccessBlock fbAuthSuccessBlock;
 @property (nonatomic, copy) FacebookAuthFailureBlock fbAuthFailureBlock;
-
+@property (nonatomic,strong) CLLocation *lastLocation;
+@property (nonatomic,strong) NSString *localLocation;
 @end
 

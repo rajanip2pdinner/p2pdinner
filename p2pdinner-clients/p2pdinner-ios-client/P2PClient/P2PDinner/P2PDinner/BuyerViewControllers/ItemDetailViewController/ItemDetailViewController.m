@@ -14,7 +14,7 @@
 #import "BuyerHandler.h"
 #import "DinnerLoginViewController.h"
 #import "SharedLogin.h"
-
+#import "AppDelegate.h"
 #import "ActivityView.h"
 
 
@@ -32,11 +32,16 @@
     [[FacebookManager sharedFacebookManager] getProfileNameFromId:itemDetails.sellerName];
 }
 -(void)calculatePrice{
-    NSLocale* localPrice = [[NSLocale alloc] initWithLocaleIdentifier:[[NSLocale preferredLanguages] objectAtIndex:0]];
+    AppDelegate *appdelegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSString *locationString=appdelegate.localLocation;
+    if (!locationString||!(locationString.length>0)) {
+        locationString=[[NSLocale preferredLanguages] objectAtIndex:0];
+    }
+    NSLocale* localPrice = [[NSLocale alloc] initWithLocaleIdentifier:locationString];
     NSNumberFormatter *fmtr = [[NSNumberFormatter alloc] init];
     [fmtr setNumberStyle:NSNumberFormatterCurrencyStyle];
     [fmtr setLocale:localPrice];
-    [_totalPrice setText:[fmtr stringFromNumber: [NSNumber numberWithFloat:[itemDetails.costPerItem floatValue]]]];
+    [_totalPrice setText:[fmtr stringFromNumber: [NSNumber numberWithFloat:(_selectedValue*[itemDetails.costPerItem floatValue])]]];
     
     //_totalPrice.text=[NSString stringWithFormat:@"%.2f",(_selectedValue*[itemDetails.costPerItem floatValue])];
 
@@ -115,7 +120,12 @@
 }
 - (void)setValueItemDetails{
     [self.foodName setText:itemDetails.title];
-    NSLocale* localPrice = [[NSLocale alloc] initWithLocaleIdentifier:[[NSLocale preferredLanguages] objectAtIndex:0]];
+    AppDelegate *appdelegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSString *locationString=appdelegate.localLocation;
+    if (!locationString||!(locationString.length>0)) {
+        locationString=[[NSLocale preferredLanguages] objectAtIndex:0];
+    }
+    NSLocale* localPrice = [[NSLocale alloc] initWithLocaleIdentifier:locationString];
     NSNumberFormatter *fmtr = [[NSNumberFormatter alloc] init];
     [fmtr setNumberStyle:NSNumberFormatterCurrencyStyle];
     [fmtr setLocale:localPrice];

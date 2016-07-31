@@ -18,6 +18,7 @@
 #import "AddressResponce.h"
 #import "DinnerResultViewController.h"
 #import "MyOrderItemHandler.h"
+#import "AppDelegate.h"
 @import CoreLocation;
 
 @interface FindDinnerViewController () <CLLocationManagerDelegate>{
@@ -42,15 +43,17 @@
     dinnerUISetup.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
 }
 - (void)currentUserLocation:(CLLocation *)Location{
+    AppDelegate *appdelegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
+    appdelegate.lastLocation=Location;
     [[LocationManger sharedLocationManager]stopUpdatingLocation];
     CLGeocoder * geoCoder = [[CLGeocoder alloc] init];
     [geoCoder reverseGeocodeLocation:Location completionHandler:^(NSArray *placemarks, NSError *error) {
         for (CLPlacemark * placemark in placemarks)
         {
+            appdelegate.localLocation=[NSString stringWithFormat:@"en_%@",[placemark ISOcountryCode]];
           NSArray *addressArray= [NSArray arrayWithObjects:[placemark subThoroughfare],[placemark thoroughfare],[placemark locality],[placemark administrativeArea], nil];
             addressArray=[Utility removeNilArrayOfString:addressArray];
             selectedAddressField.text=[addressArray componentsJoinedByString:@","];
-          
             
         }
     }];

@@ -13,34 +13,53 @@
 #import "SharedLogin.h"
 #import "ActivityView.h"
 #import "DinnerLoginViewController.h"
-@interface HomeViewController ()
+#import "LocationManger.h"
+#import "LocationServiceHandler.h"
+#import "AppDelegate.h"
+@interface HomeViewController ()<LocationManagerDelegate>
 {
     FacebookManager *fbmanager;
     ActivityView *activityView;
+    LocationManger *locationMgr;
 }
 @end
 
 @implementation HomeViewController
+- (void)currentUserLocation:(CLLocation *)Location{
+    AppDelegate *appdelegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
+    appdelegate.lastLocation=Location;
+    [[LocationManger sharedLocationManager]stopUpdatingLocation];
+    CLGeocoder * geoCoder = [[CLGeocoder alloc] init];
+    [geoCoder reverseGeocodeLocation:Location completionHandler:^(NSArray *placemarks, NSError *error) {
+        for (CLPlacemark * placemark in placemarks)
+        {
+            appdelegate.localLocation=[NSString stringWithFormat:@"en_%@",[placemark ISOcountryCode]];
+            //NSArray *addressArray= [NSArray arrayWithObjects:[placemark subThoroughfare],[placemark thoroughfare],[placemark locality],[placemark administrativeArea], nil];
+            //Obtains the country code, that is the same whatever language you are working with (US, ES, IT ...)
+            NSString *countryCode = [placemark ISOcountryCode];
+            //Obtains a locale identifier. This will handle every language
+            NSString *identifier = [NSLocale localeIdentifierFromComponents: [NSDictionary dictionaryWithObject: countryCode forKey: NSLocaleCountryCode]];
+            //Obtains the country name from the locale BUT IN ENGLISH (you can set it as "en_UK" also)
+            NSString *country =[ [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"] displayNameForKey:NSLocaleLanguageCode value:identifier];
+            
+            
+            NSLog(@"%@",country);
+            //Continues your code
+         
+            
+        }
+    }];
+    
+    
+}
 - (void)displayLaunchScreen{
     LaunchScreen *launchScreen=[[UIStoryboard storyboardWithName:@"LaunchScreen" bundle:NULL] instantiateViewControllerWithIdentifier:@"LaunchScreenController"];
     [launchScreen showLaunchScreen];
 }
 - (void)settingsAction
 {
-    [[ServiceHandler sharedServiceHandler]validateAccessToken:^(NSError *error, id response) {
-        
-    }];
-//    [self performSegueWithIdentifier:@"SettingsViewController" sender:self];
-//    if (activityView.isAnimating) {
-//        [activityView stopAnimating];
-//        [activityView removeFromSuperview];
-//    }
-//    else
-//    {
-//        [activityView startAnimating:@"Loading..."];
-//        [self.view addSubview:activityView];
-//    }
-    
+
+    [self performSegueWithIdentifier:@"SettingsViewController" sender:self];
 }
 - (void)setUpSettingBarButton{
     UIImage* SettingsIcon = [UIImage imageNamed:@"SettingsIcon"];
@@ -65,6 +84,9 @@
     [self.navigationController.navigationBar setBarTintColor:navBarColor];
 }
 - (void)viewDidLoad {
+    locationMgr=[LocationManger sharedLocationManager];
+    [locationMgr updateLocation];
+     locationMgr.delegate=self;
     activityView=[[ActivityView alloc]initWithFrame:self.view.frame];
     [self setUpSettingBarButton];
     [self navigationBarsetup];
@@ -136,6 +158,10 @@
             *stop=YES;
         }
     }];
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    // This will create a "invisible" footer
+    return 0.01f;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

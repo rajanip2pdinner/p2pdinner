@@ -67,7 +67,7 @@
     [label setTextColor:[UIColor colorWithRed:237.0/255.0 green:134.0/255.0 blue:0.0/255.0 alpha:1]];
     [label setFont:[UIFont fontWithName:@"Plantin" size:18]];
     
-    NSString *string =@"Add time";
+    NSString *string =@"Time";
     
     /* Section header is in 0th index... */
     [label setText:string];

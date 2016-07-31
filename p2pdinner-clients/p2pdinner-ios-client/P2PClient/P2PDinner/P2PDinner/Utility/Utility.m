@@ -10,6 +10,7 @@
 #import <objc/runtime.h>
 #import "AppConstants.h"
 #import "AFImageRequestOperation.h"
+#import "AppDelegate.h"
 
 // helper function: get the string form of any object
 static NSString *toString(id object) {
@@ -242,5 +243,32 @@ static const char *getPropertyMappedVarName(objc_property_t property) {
     double value=[stringValue doubleValue]/1000;
     return [NSDate dateWithTimeIntervalSince1970:value];
 }
-
++ (NSString *)getLocalCurrencyName{
+     AppDelegate *appdelegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSLocale* localPrice = [[NSLocale alloc] initWithLocaleIdentifier:appdelegate.localLocation];
+    NSNumberFormatter *fmtr = [[NSNumberFormatter alloc] init];
+    [fmtr setNumberStyle:NSNumberFormatterCurrencyPluralStyle];
+    [fmtr setLocale:localPrice];
+    NSCharacterSet *numbersSet = [NSCharacterSet characterSetWithCharactersInString:@"0123456789."];
+    NSString *trimmedString = [[fmtr stringFromNumber:[NSNumber numberWithInt:100]] stringByTrimmingCharactersInSet:numbersSet];
+    trimmedString = [trimmedString stringByTrimmingCharactersInSet:
+                     [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    return trimmedString;
+    
+}
++ (NSString *)getLocalCurrencySymbole{
+    AppDelegate *appdelegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSLocale* localPrice = [[NSLocale alloc] initWithLocaleIdentifier:appdelegate.localLocation];
+    NSNumberFormatter *fmtr = [[NSNumberFormatter alloc] init];
+    [fmtr setNumberStyle:NSNumberFormatterCurrencyStyle];
+    [fmtr setLocale:localPrice];
+    NSCharacterSet *numbersSet = [NSCharacterSet characterSetWithCharactersInString:@"0123456789."];
+    NSString *trimmedString = [[fmtr stringFromNumber:[NSNumber numberWithInt:100]] stringByTrimmingCharactersInSet:numbersSet];
+    trimmedString = [trimmedString stringByTrimmingCharactersInSet:
+                     [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    return trimmedString;
+}
++ (NSString *)getLocalAddress{
+    return @"";
+}
 @end

@@ -13,10 +13,10 @@
 @interface MinimumOrdersCell : UITableViewCell
 {
      IBOutlet UILabel *maximumOrdersLable;
-     IBOutlet UISegmentedControl *maximumOrdersSegmet;
 }
+@property(nonatomic,weak)IBOutlet UITextField *maximumTextField;
 - (void)setMaximuOrdersValue:(NSNumber *)value;
 - (NSNumber *)getMaximuOrdersValue;
 @property(nonatomic,retain)id<MinimumOrdersDelegate> delegate;
-- (IBAction)maximumNumberOfOrdersAction:(id)sender;
+//- (IBAction)maximumNumberOfOrdersAction:(id)sender;
 @end

@@ -12,6 +12,7 @@
 #import "Utility.h"
 #import "MyOrderDetail.h"
 #import "SharedLogin.h"
+#import "AppDelegate.h"
 @interface MyOrderViewController()
 {
     NSString *selectedDate;
@@ -66,7 +67,7 @@
         return 93;
     }
     else if([myOrderObject isKindOfClass:[CarRecivedItemDetail class]]) {
-        return 126;
+        return 146;
     }
     
     return 85;
@@ -160,7 +161,7 @@
 //        price=(UILabel *)[cell viewWithTag:102];
 //        sellerName=(UILabel *)[cell viewWithTag:103];
 //        passcode=(UILabel *)[cell viewWithTag:104];
-//        address=(UILabel *)[cell viewWithTag:105];
+//          address=(UILabel *)[cell viewWithTag:105];
 //        countLable=(UILabel *)[cell viewWithTag:106];
 //        deliveryOption=(UILabel *)[cell viewWithTag:107];
 
@@ -180,7 +181,18 @@
         NSString *startServingTime=[Utility dateToStringFormat:@"hh:mm a" dateString:[Utility epochToDate:cartview.startTime]  timeZone:LOCAL];
         NSString *stopServingTime=[Utility dateToStringFormat:@"hh:mm a" dateString:[Utility epochToDate:cartview.endTime]  timeZone:LOCAL];
         title.text=cartview.title;
-        price.text=[NSString stringWithFormat:@"$ %ld",(long)[cartview.totalPrice integerValue]];
+        
+        AppDelegate *appdelegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
+        NSString *locationString=appdelegate.localLocation;
+        if (!locationString||!(locationString.length>0)) {
+            locationString=[[NSLocale preferredLanguages] objectAtIndex:0];
+        }
+        NSLocale* localPrice = [[NSLocale alloc] initWithLocaleIdentifier:locationString];
+        NSNumberFormatter *fmtr = [[NSNumberFormatter alloc] init];
+        [fmtr setNumberStyle:NSNumberFormatterCurrencyStyle];
+        [fmtr setLocale:localPrice];
+        [price setText:[fmtr stringFromNumber: cartview.totalPrice]];
+       // price.text=[NSString stringWithFormat:@"$ %.2f",[cartview.totalPrice floatValue]];
         sellerName.text=cartview.buyerName;
         //passcode.text=[NSString stringWithFormat:@"Conf# %@ for %ld Plats",cartview.passCode,(long)[cartview.orderQuantity integerValue]];
         passcode.attributedText=[self createTextWith:cartview.passCode withPlateCount:cartview.orderQuantity];

@@ -33,4 +33,7 @@ typedef enum {
 + (void)imageRequestOperation:(NSString *)photoUrl witImagView:(UIImageView *)imageView;
 + (UIColor *)averageColor:(UIImage *)image;
 + (NSDate *)epochToDate:(NSNumber *)stringValue;
++ (NSString *)getLocalCurrencyName;
++ (NSString *)getLocalCurrencySymbole;
++ (NSString *)getLocalAddress;
 @end

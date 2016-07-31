@@ -14,6 +14,7 @@
 #import "AFImageRequestOperation.h"
 #import "SWTableViewCell.h"
 #import "ItemDetailViewController.h"
+#import "AppDelegate.h"
 
 @interface DinnerResultViewController ()<SWTableViewCellDelegate>{
     ActivityView *activityView;
@@ -143,8 +144,18 @@ indexPath
     dinnerDistance.text=dinnerObj.distance;
     dinnerCategory.text=dinnerObj.dinnerCategories;
     dinnerDescription.text=dinnerObj.dinnerDescription;
-    dinnerPrice.text=[NSString stringWithFormat:@"$ %.2f",[dinnerObj.costPerItem floatValue]];    
-    dinnerDelivery.text=dinnerObj.dinnerDelivery;
+    AppDelegate *appdelegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSString *locationString=appdelegate.localLocation;
+     if (!locationString||!(locationString.length>0)) {
+         locationString=[[NSLocale preferredLanguages] objectAtIndex:0];
+     }
+    
+    NSLocale* localPrice = [[NSLocale alloc] initWithLocaleIdentifier:locationString];
+    NSNumberFormatter *fmtr = [[NSNumberFormatter alloc] init];
+    [fmtr setNumberStyle:NSNumberFormatterCurrencyStyle];
+    [fmtr setLocale:localPrice];
+    [dinnerPrice setText:[fmtr stringFromNumber: [NSNumber numberWithFloat:[dinnerObj.costPerItem floatValue]]]];
+     dinnerDelivery.text=dinnerObj.dinnerDelivery;
     [self getAttributedFontForLable:dinnerDelivery];
     dinnerServingDuration.text=[NSString stringWithFormat:@"%@-%@",[self getTimeFromDate:dinnerObj.startDate],[self getTimeFromDate:dinnerObj.endDate]];
 

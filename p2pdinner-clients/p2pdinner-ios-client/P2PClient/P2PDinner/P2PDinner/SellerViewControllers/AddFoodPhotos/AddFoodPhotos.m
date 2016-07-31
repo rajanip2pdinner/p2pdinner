@@ -63,7 +63,7 @@
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 10, tableView.frame.size.width, 18)];
     [label setTextColor:[UIColor colorWithRed:237.0/255.0 green:134.0/255.0 blue:0.0/255.0 alpha:1]];
     [label setFont:[UIFont fontWithName:@"Plantin" size:18]];
-    NSString *string=@"Add Food Photos";
+    NSString *string=@"Photos";
     /* Section header is in 0th index... */
     [label setText:string];
     [view addSubview:label];

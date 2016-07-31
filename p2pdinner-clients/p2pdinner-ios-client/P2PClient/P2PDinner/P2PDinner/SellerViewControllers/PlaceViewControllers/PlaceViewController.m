@@ -9,6 +9,7 @@
 #import "PlaceViewController.h"
 #import "ItemDetailsShared.h"
 #import "Utility.h"
+#import "AppDelegate.h"
 @interface PlaceViewController()<LocationManagerDelegate,UITextViewDelegate>{
     LocationManger *locationMgr;
 }
@@ -44,7 +45,7 @@
     return [self getAddressArray:array];
 }
 - (NSString *)getAddressPlacemark:(CLPlacemark *)placemark{
-    
+
     NSMutableArray *array=[[NSMutableArray alloc]initWithObjects:[placemark subThoroughfare],[placemark thoroughfare],[placemark locality],[placemark administrativeArea],[placemark postalCode], nil];
     [array removeObject:@""];
     
@@ -56,11 +57,14 @@
     return [[addressArray valueForKey:@"description"] componentsJoinedByString:@","];
 }
 - (void)currentUserLocation:(CLLocation *)Location{
+    AppDelegate *appdelegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
+    appdelegate.lastLocation=Location;
     [[LocationManger sharedLocationManager]stopUpdatingLocation];
     CLGeocoder * geoCoder = [[CLGeocoder alloc] init];
     [geoCoder reverseGeocodeLocation:Location completionHandler:^(NSArray *placemarks, NSError *error) {
         for (CLPlacemark * placemark in placemarks)
         {
+            appdelegate.localLocation=[NSString stringWithFormat:@"en_%@",[placemark ISOcountryCode]];
             NSArray *addressArray= [NSArray arrayWithObjects:[placemark subThoroughfare],[placemark thoroughfare],[placemark locality],[placemark administrativeArea], nil];
             addressArray=[Utility removeNilArrayOfString:addressArray];
             [itemDetails setAddressLine1:[addressArray componentsJoinedByString:@","]];
@@ -174,7 +178,6 @@ indexPath
         [textVeiw resignFirstResponder];
     }
     else{
-        [locationMgr updateLocation];
         [textVeiw setEditable:YES];
         [textVeiw becomeFirstResponder];
         [senderBtn setTitle:@"Done" forState:UIControlStateNormal];

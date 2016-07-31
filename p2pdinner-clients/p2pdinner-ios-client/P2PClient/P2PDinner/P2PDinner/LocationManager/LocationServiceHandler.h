@@ -12,5 +12,7 @@
 typedef void(^LocationServiceResultBlock)(NSError *error, NSString *response);
 @interface LocationServiceHandler : ServiceHandler
 + (id)sharedLocationHandler;
+- (void)getLocationAddressServiceCallBack:(LocationServiceResultBlock)serviceresponceBlock;
+
 - (void)getLocationAdderess:(NSString *)useId serviceCallBack:(LocationServiceResultBlock)serviceresponceBlock;
 @end

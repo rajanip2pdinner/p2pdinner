@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "ServiceHandler.h"
+#import "LocationServiceHandler.h"
 
 #define FB_APP_ID @"393349550836785"
 @interface AppDelegate ()
@@ -57,6 +58,11 @@
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
+    LocationManger *locationMgr=[LocationManger sharedLocationManager];
+    [locationMgr updateLocation];
+    locationMgr.delegate=self;
+    
+    //Need to get updated address.
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 }
 
@@ -75,5 +81,20 @@
 {
     
     return [FBSession.activeSession handleOpenURL:url];
+}
+- (void)currentUserLocation:(CLLocation *)Location{
+     [[LocationManger sharedLocationManager]stopUpdatingLocation];
+    _lastLocation=Location;
+     CLGeocoder * geoCoder = [[CLGeocoder alloc] init];
+    [geoCoder reverseGeocodeLocation:Location completionHandler:^(NSArray *placemarks, NSError *error) {
+        for (CLPlacemark * placemark in placemarks)
+        {
+            _localLocation=[NSString stringWithFormat:@"en_%@",[placemark ISOcountryCode]];
+
+        }
+        }];
+    [[LocationServiceHandler sharedLocationHandler]getLocationAddressServiceCallBack:^(NSError *error, NSString *response) {
+        
+    }];
 }
 @end

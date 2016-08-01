@@ -11,6 +11,8 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -152,6 +154,96 @@ public class TimeFragment extends BaseFragment implements DateDialogDataTransfer
         mFormTime.setOnClickListener(listener);
         mToTime.setOnClickListener(listener);
         mAcceptOrdersTillTime.setOnClickListener(listener);
+
+        mFormTime.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                DateTimeFormatter timeFormatter = DateTimeFormat.forPattern("HH:mm");
+                DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("MMMM dd, yyyy HH:mm");
+                DateTime fromDateTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " " + s.toString());
+                DateTime toDateTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " " + mToTime.getText().toString());
+                DateTime closeTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " " + mAcceptOrdersTillTime.getText().toString());
+                if (fromDateTime.isAfter(closeTime)) {
+                    closeTime = fromDateTime;
+                    closeTime.plusMinutes(1);
+                    mAcceptOrdersTillTime.setText(timeFormatter.print(closeTime));
+                }
+                if (fromDateTime.isAfter(toDateTime)) {
+                    toDateTime = closeTime.plusMinutes(1);
+                    mToTime.setText(timeFormatter.print(toDateTime));
+                }
+            }
+        });
+
+        mToTime.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                DateTimeFormatter timeFormatter = DateTimeFormat.forPattern("HH:mm");
+                DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("MMMM dd, yyyy HH:mm");
+                DateTime fromDateTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " "+ mFormTime.getText().toString());
+                DateTime toDateTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " "+ s.toString());
+                DateTime closeTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " "+ mAcceptOrdersTillTime.getText().toString());
+                if (toDateTime.isBefore(closeTime)) {
+                    closeTime = toDateTime.minusMinutes(1);
+                    mAcceptOrdersTillTime.setText(timeFormatter.print(closeTime));
+                }
+                if (closeTime.isBefore(fromDateTime)) {
+                    fromDateTime = closeTime.minusMillis(1);
+                    mFormTime.setText(timeFormatter.print(fromDateTime));
+                }
+            }
+        });
+
+        mAcceptOrdersTillTime.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                DateTimeFormatter timeFormatter = DateTimeFormat.forPattern("HH:mm");
+                DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("MMMM dd, yyyy HH:mm");
+                DateTime fromDateTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " "+ mFormTime.getText().toString());
+                DateTime toDateTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " "+ mToTime.getText().toString());
+                DateTime closeTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " "+ s.toString());
+                if (toDateTime.isBefore(closeTime)) {
+                    toDateTime = closeTime.plusMinutes(1);
+                    mToTime.setText(timeFormatter.print(toDateTime));
+                }
+                if (closeTime.isBefore(fromDateTime)) {
+                    fromDateTime = closeTime.minusMillis(1);
+                    mFormTime.setText(timeFormatter.print(fromDateTime));
+                }
+            }
+        });
+
+
         mBtnNext = (Button) view.findViewById(R.id.btnNext);
         mBtnNext.setOnClickListener(  new View.OnClickListener() {
             @Override

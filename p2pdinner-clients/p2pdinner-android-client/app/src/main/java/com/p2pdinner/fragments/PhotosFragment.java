@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 
@@ -34,6 +35,8 @@ import org.springframework.util.StringUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -50,6 +53,7 @@ public class PhotosFragment extends BaseFragment {
     private ImageView[] imageViews = new ImageView[4];
     private Button mBtnNext;
     private ImageView selectedImageView;
+    private ProgressBar mProgressBar;
     private String selectedImagePath;
 
     private static final int SELECT_PICTURE = 1;
@@ -77,14 +81,16 @@ public class PhotosFragment extends BaseFragment {
         imageViews[1] = (ImageView) view.findViewById(R.id.photo2);
         imageViews[2] = (ImageView) view.findViewById(R.id.photo3);
         imageViews[3] = (ImageView) view.findViewById(R.id.photo4);
-        for (ImageView imageView : imageViews) {
-            imageView.setOnClickListener(new ImageViewClickListener());
+        mProgressBar = (ProgressBar) view.findViewById(R.id.uploadProgress);
+        for (int imageIdx = 0; imageIdx < imageViews.length; imageIdx++) {
+            imageViews[imageIdx].setOnClickListener(new ImageViewClickListener());
         }
         if (StringUtils.hasText(dinnerMenuItem.getImageUri())) {
             String[] images = dinnerMenuItem.getImageUri().split(",");
             if (images != null && images.length != 0) {
                 for (int idx = 0; idx < images.length; idx++) {
                     String uri = StringUtils.replace(images[idx], "\"", "");
+                    imageViews[idx].setTag(images[idx]);
                     ImageDownloadTask imageDownloadTask = new ImageDownloadTask(imageViews[idx]);
                     imageDownloadTask.execute(uri);
                 }
@@ -95,6 +101,13 @@ public class PhotosFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 if (StringUtils.hasText(dinnerMenuItem.getTitle())) {
+                    List<String> imageUris = new ArrayList<>();
+                    for(int imageIdx = 0; imageIdx < imageViews.length; imageIdx++) {
+                        if (imageViews[imageIdx].getTag() != null) {
+                            imageUris.add(imageViews[imageIdx].getTag().toString());
+                        }
+                    }
+                    dinnerMenuItem.setImageUri(StringUtils.collectionToCommaDelimitedString(imageUris));
                     menuServiceManager.saveMenuItem(dinnerMenuItem)
                             .subscribeOn(Schedulers.newThread())
                             .observeOn(AndroidSchedulers.mainThread())
@@ -104,14 +117,14 @@ public class PhotosFragment extends BaseFragment {
                                 @Override
                                 public void onCompleted() {
                                     dinnerMenuItem.setId(item.getId());
-                                    Toast.makeText(getActivity().getBaseContext(), "Item saved successfully", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(), "Item saved successfully", Toast.LENGTH_SHORT).show();
                                     ListDinnerActivity listDinnerActivity = (ListDinnerActivity) getActivity();
                                     listDinnerActivity.moveToNextTab();
                                 }
 
                                 @Override
                                 public void onError(Throwable e) {
-                                    Toast.makeText(getActivity().getBaseContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
                                 }
 
                                 @Override
@@ -176,25 +189,28 @@ public class PhotosFragment extends BaseFragment {
                 selectedImageView.setImageURI(selectedImageUri);
                 selectedImagePath = getAbsolutePath(selectedImageUri);
                 Bitmap image = ((BitmapDrawable) selectedImageView.getDrawable()).getBitmap();
+                mProgressBar.setVisibility(ProgressBar.VISIBLE);
                 menuServiceManager.uploadBitMap("upload.JPEG", image).subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Observer<String>() {
                             private String url;
-
                             @Override
                             public void onCompleted() {
-                                StringBuffer imageUri = new StringBuffer();
-                                if (StringUtils.hasText(dinnerMenuItem.getImageUri())) {
-                                    imageUri.append(dinnerMenuItem.getImageUri()).append(",").append(url);
-                                } else {
-                                    imageUri.append(url);
-                                }
-                                dinnerMenuItem.setImageUri(imageUri.toString());
+                                selectedImageView.setTag(url);
+                                mProgressBar.setVisibility(ProgressBar.INVISIBLE);
+//                                StringBuffer imageUri = new StringBuffer();
+//                                if (StringUtils.hasText(dinnerMenuItem.getImageUri())) {
+//                                    imageUri.append(dinnerMenuItem.getImageUri()).append(",").append(url);
+//                                } else {
+//                                    imageUri.append(url);
+//                                }
+//                                dinnerMenuItem.setImageUri(imageUri.toString());
                             }
 
                             @Override
                             public void onError(Throwable e) {
                                 Toast.makeText(getActivity().getBaseContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                                mBtnNext.setEnabled(true);
                             }
 
                             @Override

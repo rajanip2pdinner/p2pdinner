@@ -142,7 +142,7 @@ public class CreateDinnerActivity extends BaseAppCompatActivity {
                 txtView.setText(option.getTitle());
             } else {
                 TextView txtView = (TextView) itemView.findViewById(R.id.item_title);
-                txtView.setPadding(100, 0, 0, 0);
+                txtView.setPadding(50, 0, 0, 0);
                 txtView.setText(option.getTitle());
             }
 
@@ -157,7 +157,7 @@ public class CreateDinnerActivity extends BaseAppCompatActivity {
                 }
             } else {
                 if (option.getSubTitle() != null && option.getSubTitle().length() != 0) {
-                    subTitleTextView.setPadding(100, 0, 0, 0);
+                    subTitleTextView.setPadding(50, 0, 0, 0);
                     subTitleTextView.setText(option.getSubTitle());
                 } else {
                     subTitleTextView.setText("");

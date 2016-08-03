@@ -14,7 +14,6 @@
 {
     UISwitch *eateIn;
     UISwitch *toGo;
-    UISwitch *willDeliver;
 }
 @property(nonatomic,strong) ItemDetails *itemDetails;
 @property(nonatomic,strong) IBOutlet UITableView *placeTableView;

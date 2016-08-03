@@ -119,8 +119,7 @@ indexPath
         [eateIn setOn:[self swichActionForString:itemDetails.dinnerDelivery withAction:@"Eat-In"]];
         toGo=(UISwitch *)[cell viewWithTag:22];
         [toGo setOn:[self swichActionForString:itemDetails.dinnerDelivery withAction:@"To-Go"]];
-        willDeliver=(UISwitch *)[cell viewWithTag:33];
-        [willDeliver setOn:[self swichActionForString:itemDetails.dinnerDelivery withAction:@"Will Deliver"]];
+
         
     }
     
@@ -153,9 +152,9 @@ indexPath
     if (toGo.isOn) {
         [splNeedsStrinArray addObject:@"To-Go"];
     }
-    if (willDeliver.isOn) {
-        [splNeedsStrinArray addObject:@"Will Deliver"];
-    }
+//    if (willDeliver.isOn) {
+//        [splNeedsStrinArray addObject:@"Will Deliver"];
+//    }
     if (eateIn.isOn) {
         [splNeedsStrinArray addObject:@"Eat-In"];
     }

@@ -1898,11 +1898,11 @@ This includes improved brain function, fat loss, a lower risk of cancer and many
                                             </variation>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" restorationIdentifier="DeliveryOptionsCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="DeliveryOptionsCell" rowHeight="250" id="EKe-pA-6BJ">
-                                        <rect key="frame" x="0.0" y="168" width="600" height="250"/>
+                                    <tableViewCell contentMode="scaleToFill" restorationIdentifier="DeliveryOptionsCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="DeliveryOptionsCell" rowHeight="205" id="EKe-pA-6BJ">
+                                        <rect key="frame" x="0.0" y="168" width="600" height="205"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EKe-pA-6BJ" id="7Wo-Kw-iZG">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="249"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="204"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delivery options" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a88-oi-yWH">
@@ -1934,12 +1934,6 @@ This includes improved brain function, fat loss, a lower risk of cancer and many
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="111" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Will Deliver" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ftt-Ep-CXR">
-                                                    <rect key="frame" x="34" y="157" width="96" height="42"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                                 <switch opaque="NO" tag="11" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3OC-Cv-mZw">
                                                     <rect key="frame" x="516" y="62" width="51" height="31"/>
                                                     <connections>
@@ -1952,29 +1946,19 @@ This includes improved brain function, fat loss, a lower risk of cancer and many
                                                         <action selector="updateItem:" destination="vtA-1O-euz" eventType="valueChanged" id="9f7-SO-Jbh"/>
                                                     </connections>
                                                 </switch>
-                                                <switch opaque="NO" tag="33" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UcS-fc-MfF">
-                                                    <rect key="frame" x="516" y="162" width="51" height="31"/>
-                                                    <connections>
-                                                        <action selector="updateItem:" destination="vtA-1O-euz" eventType="valueChanged" id="uun-dG-QcH"/>
-                                                    </connections>
-                                                </switch>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="jpz-hQ-TzW" firstAttribute="leading" secondItem="3OC-Cv-mZw" secondAttribute="leading" id="1b6-5S-ITB"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="ftt-Ep-CXR" secondAttribute="bottom" constant="42" id="2tY-Ev-eH5"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="3OC-Cv-mZw" secondAttribute="trailing" constant="27" id="7eU-ln-sut"/>
-                                                <constraint firstItem="UcS-fc-MfF" firstAttribute="leading" secondItem="jpz-hQ-TzW" secondAttribute="leading" id="EKv-47-bbj"/>
                                                 <constraint firstItem="LqU-IS-YzF" firstAttribute="leading" secondItem="7Wo-Kw-iZG" secondAttribute="leadingMargin" constant="26" id="KYo-cO-hpo"/>
                                                 <constraint firstItem="WCh-fA-hDq" firstAttribute="trailing" secondItem="LqU-IS-YzF" secondAttribute="trailing" id="Nej-pW-A9v"/>
                                                 <constraint firstItem="WCh-fA-hDq" firstAttribute="top" secondItem="LqU-IS-YzF" secondAttribute="bottom" constant="8" symbolic="YES" id="UB9-Tk-oW7"/>
                                                 <constraint firstItem="a88-oi-yWH" firstAttribute="leading" secondItem="7Wo-Kw-iZG" secondAttribute="leadingMargin" constant="9" id="X1a-Tm-9DU"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="WCh-fA-hDq" secondAttribute="bottom" constant="47" id="Yfv-mJ-AQX"/>
                                                 <constraint firstItem="a88-oi-yWH" firstAttribute="top" secondItem="7Wo-Kw-iZG" secondAttribute="topMargin" constant="17" id="bAW-h0-NuR"/>
                                                 <constraint firstItem="LqU-IS-YzF" firstAttribute="top" secondItem="a88-oi-yWH" secondAttribute="bottom" constant="11" id="kgw-VI-dhg"/>
-                                                <constraint firstItem="WCh-fA-hDq" firstAttribute="leading" secondItem="ftt-Ep-CXR" secondAttribute="leading" id="l5Y-xi-8Pa"/>
-                                                <constraint firstItem="WCh-fA-hDq" firstAttribute="trailing" secondItem="ftt-Ep-CXR" secondAttribute="trailing" id="nEp-Sj-zCV"/>
+                                                <constraint firstItem="jpz-hQ-TzW" firstAttribute="centerY" secondItem="WCh-fA-hDq" secondAttribute="centerY" id="n2N-ek-Iyq"/>
                                                 <constraint firstItem="WCh-fA-hDq" firstAttribute="leading" secondItem="LqU-IS-YzF" secondAttribute="leading" id="nlH-xO-Acq"/>
-                                                <constraint firstItem="UcS-fc-MfF" firstAttribute="top" secondItem="jpz-hQ-TzW" secondAttribute="bottom" constant="19" id="qUK-AQ-hdk"/>
-                                                <constraint firstItem="ftt-Ep-CXR" firstAttribute="top" secondItem="WCh-fA-hDq" secondAttribute="bottom" constant="8" symbolic="YES" id="th2-ZH-egk"/>
                                                 <constraint firstItem="3OC-Cv-mZw" firstAttribute="top" secondItem="7Wo-Kw-iZG" secondAttribute="topMargin" constant="54" id="wjJ-xN-out"/>
                                                 <constraint firstItem="jpz-hQ-TzW" firstAttribute="top" secondItem="3OC-Cv-mZw" secondAttribute="bottom" constant="19" id="x4t-Ei-cjf"/>
                                             </constraints>

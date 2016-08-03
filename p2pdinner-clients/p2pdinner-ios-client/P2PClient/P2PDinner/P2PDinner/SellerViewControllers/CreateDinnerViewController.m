@@ -171,7 +171,7 @@
         
         [item setDinnerCategories:@""];
         [item setDinnerSpecialNeeds:@""];
-        [item setDinnerDelivery:@""];
+        [item setDinnerDelivery:@"To-Go"];
         [item setImageUri:@""];
         [item setIsActive:YES];
         [item setEndDate:[self createDefaultDate:endTime]];

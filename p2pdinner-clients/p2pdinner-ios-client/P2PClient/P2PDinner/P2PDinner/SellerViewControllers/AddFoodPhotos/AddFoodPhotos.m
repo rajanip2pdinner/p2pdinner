@@ -76,8 +76,7 @@
     return 3;
 }
 
--
-(void)imageSetForButton:(UIButton *)imgButton withCloseButtonEnable:(UIButton *)closeButton withImageURL:(NSString *)imgURL{
+-(void)imageSetForButton:(UIButton *)imgButton withCloseButtonEnable:(UIButton *)closeButton withImageURL:(NSString *)imgURL{
     [imgButton setTitle:@"Loading.." forState:UIControlStateNormal];
     [self imageRequestOperation:imgURL completionBlock:^(UIImage *img, NSError *err){
         if (!err) {
@@ -256,7 +255,9 @@
         
         if (!error) {
             [imageUrls addObject:imageString];
-            [self.itemDetails setImageUri:[imageUrls componentsJoinedByString:@","]];
+            [imageURLMutableArray addObject:imageString];
+            imageURLArray=[NSArray arrayWithArray:imageURLMutableArray];
+            [self.itemDetails setImageUri:[imageURLArray componentsJoinedByString:@","]];
         }
         else{
             UIImage *img;
@@ -283,9 +284,12 @@
 }
 
 - (void)removePhotoFormIndex:(NSUInteger)row atTag:(NSUInteger)tag{
-    if([imageURLMutableArray count]>1){
-        [imageURLMutableArray removeObjectAtIndex:[self arrayObjectAtIndex:row atTag:tag]];
+    int indexValue=[self arrayObjectAtIndex:row atTag:tag];
+    if([imageURLMutableArray count]>=1){
+        [imageURLMutableArray removeObjectAtIndex:indexValue];
         itemDetails.imageUri=[imageURLMutableArray componentsJoinedByString:@","];
+        imageURLArray=[NSArray arrayWithArray:imageURLMutableArray];
+        
     }
     else if(([imageURLMutableArray count]==1) &&([[imageURLMutableArray objectAtIndex:0] length]>1)){
         itemDetails.imageUri=@"";

@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,8 @@ import rx.schedulers.Schedulers;
  * Created by rajaniy on 10/24/15.
  */
 public class HaveDinnerFragment extends Fragment {
+
+    private static final String TAG = "P2PDinner";
 
     private LinearLayout mDateLayout = null;
     private int startId = 50000;
@@ -119,21 +122,27 @@ public class HaveDinnerFragment extends Fragment {
                     DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("MM/dd/yyyy");
                     DateTime inputDateTime = dateTimeFormatter.parseDateTime(inputDate.toString());
                     final long inputDateInMillis = new DateTime(inputDateTime.toDate(), DateTimeZone.UTC).toLocalDateTime().toDate().getTime();
-
+                    Log.i(TAG, "Input Time in millis <<<<" + inputDateInMillis);
                     updateListingsView(profileId, inputDateInMillis);
 
                 }
             });
         }
-        SimpleDateFormat timeStampFormatter = new SimpleDateFormat("MM/dd/yyyy");
-        timeStampFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
-        updateListingsView(profileId, DateTime.now(DateTimeZone.UTC).toLocalDate().toDate().getTime());
+
+        DateTime currentDateTime = DateTime.now()
+                .withHourOfDay(0)
+                .withMinuteOfHour(0)
+                .withSecondOfMinute(0)
+                .withMillisOfSecond(0);
+        long inputTimeInMillis = currentDateTime.toDateTime(DateTimeZone.UTC).toLocalDateTime().toDate().getTime();
+        Log.i(TAG, "Input Time in millis >>>>" + inputTimeInMillis);
+        updateListingsView(profileId, inputTimeInMillis);
         return view;
     }
 
     private void updateListingsView(Long profileId, long timeInMillis) {
         dinnerListingManager.listingsByProfile(profileId.intValue(), timeInMillis)
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<SellerListing>>() {
                     private List<SellerListing> sellerListings = new ArrayList<SellerListing>();

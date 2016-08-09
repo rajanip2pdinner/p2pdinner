@@ -190,7 +190,8 @@ public class PhotosFragment extends BaseFragment {
                 selectedImagePath = getAbsolutePath(selectedImageUri);
                 Bitmap image = ((BitmapDrawable) selectedImageView.getDrawable()).getBitmap();
                 mProgressBar.setVisibility(ProgressBar.VISIBLE);
-                menuServiceManager.uploadBitMap("upload.JPEG", image).subscribeOn(Schedulers.newThread())
+                menuServiceManager.uploadBitMap("upload.JPEG", image)
+                        .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Observer<String>() {
                             private String url;

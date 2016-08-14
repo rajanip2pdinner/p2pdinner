@@ -53,7 +53,6 @@ public class HaveDinnerFragment extends Fragment {
 
     private LinearLayout mDateLayout = null;
     private int startId = 50000;
-    List<SellerListing> sellerOrdersList = null;
     private MyOrdersListAdapter myOrdersListAdapter = null;
     private ListView mOrdersListView;
 

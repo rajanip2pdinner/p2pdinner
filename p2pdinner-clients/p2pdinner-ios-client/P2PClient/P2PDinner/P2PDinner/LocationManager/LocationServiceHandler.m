@@ -27,7 +27,7 @@ static LocationServiceHandler *_sharedInstance=nil;
 }
 
 - (void)getLocationAdderess:(NSString *)useId serviceCallBack:(LocationServiceResultBlock)serviceresponceBlock{
-    
+      AppDelegate *appDelegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
     
     [self execute:useId requestObject:@"" contentType:@"application/json" requestMethod:@"GET" serviceCallBack:^(NSError *error, id response) {
         NSDictionary *results=(NSDictionary *)response;
@@ -35,6 +35,7 @@ static LocationServiceHandler *_sharedInstance=nil;
             if ([[results objectForKey:@"results"] count]>0) {
                 NSArray *address=[results objectForKey:@"results"];
                 NSString *addressResult=[[address objectAtIndex:0] objectForKey:@"formatted_address"];
+                appDelegate.lastAddress=addressResult;
                 NSLog(@"%@",addressResult);
                 serviceresponceBlock(nil,addressResult);
             }else

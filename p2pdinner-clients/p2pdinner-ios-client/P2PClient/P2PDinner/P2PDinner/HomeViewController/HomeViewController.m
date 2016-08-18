@@ -16,6 +16,7 @@
 #import "LocationManger.h"
 #import "LocationServiceHandler.h"
 #import "AppDelegate.h"
+#import "AgreementsViewController.h"
 @interface HomeViewController ()<LocationManagerDelegate>
 {
     FacebookManager *fbmanager;
@@ -84,9 +85,9 @@
     [self.navigationController.navigationBar setBarTintColor:navBarColor];
 }
 - (void)viewDidLoad {
-    locationMgr=[LocationManger sharedLocationManager];
-    [locationMgr updateLocation];
-     locationMgr.delegate=self;
+//    locationMgr=[LocationManger sharedLocationManager];
+//    [locationMgr updateLocation];
+//     locationMgr.delegate=self;
     activityView=[[ActivityView alloc]initWithFrame:self.view.frame];
     [self setUpSettingBarButton];
     [self navigationBarsetup];
@@ -99,16 +100,23 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+-(IBAction)tearmsAndCondition:(id)sender{
+    [self performSegueWithIdentifier:@"AgreementViewController" sender:nil];
+}
 
-/*
  #pragma mark - Navigation
  
  // In a storyboard-based application, you will often want to do a little preparation before navigation
  - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
+     if ([[segue identifier] isEqualToString:@"AgreementViewController"])
+     {
+         AgreementsViewController *viewController=[segue destinationViewController];
+         NSURL *targetURL = [NSURL URLWithString:@"https://dev-p2pdinner-services.herokuapp.com/legal/Terms.html"];
+         [viewController setPdfURL:targetURL];
+         [viewController setTitle:@"Terms & Conditions"];
+     }
  }
- */
+
 #pragma UISetupDinnerView
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 3;
@@ -189,22 +197,27 @@
     }
     else if(indexPath.row==2)
     {
-        NSNumber *number=(NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"];
-        if ([number integerValue]>0) {
-            [[SharedLogin sharedLogin] setUserId:number];
-            [self performSegueWithIdentifier:@"MyOrderViewController" sender:self];
-        }else
-        {
-            UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main"  bundle: nil];
-            DinnerLoginViewController *dinnerLogin = (DinnerLoginViewController*)[mainStoryboard instantiateViewControllerWithIdentifier: @"DinnerLoginViewController"];
-            [dinnerLogin getLoginResponse:^(NSError *error, NSString *emailId, BOOL successFull) {
-                if (successFull) {
-                    [self performSegueWithIdentifier:@"MyOrderViewController" sender:self];
-                     [self removeLoginViewContrller];
-                }
-            }];
-            [self.navigationController pushViewController:dinnerLogin animated:YES];
-        }
+        [self moveToMyOrderScreen];
+    
     }
 }
+-(void)moveToMyOrderScreen{
+    NSNumber *number=(NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"];
+    if ([number integerValue]>0) {
+        [[SharedLogin sharedLogin] setUserId:number];
+        [self performSegueWithIdentifier:@"MyOrderViewController" sender:self];
+    }else
+    {
+        UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main"  bundle: nil];
+        DinnerLoginViewController *dinnerLogin = (DinnerLoginViewController*)[mainStoryboard instantiateViewControllerWithIdentifier: @"DinnerLoginViewController"];
+        [dinnerLogin getLoginResponse:^(NSError *error, NSString *emailId, BOOL successFull) {
+            if (successFull) {
+                [self performSegueWithIdentifier:@"MyOrderViewController" sender:self];
+                [self removeLoginViewContrller];
+            }
+        }];
+        [self.navigationController pushViewController:dinnerLogin animated:YES];
+    }
+}
+
 @end

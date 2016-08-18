@@ -11,7 +11,7 @@
 #import "LocationServiceHandler.h"
 
 #define FB_APP_ID @"393349550836785"
-@interface AppDelegate ()
+@interface AppDelegate () <CLLocationManagerDelegate>
 
 @end
 
@@ -58,6 +58,8 @@
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
+    
+    NSLog(@"Location Initial Call");
     LocationManger *locationMgr=[LocationManger sharedLocationManager];
     [locationMgr updateLocation];
     locationMgr.delegate=self;
@@ -82,6 +84,7 @@
     
     return [FBSession.activeSession handleOpenURL:url];
 }
+
 - (void)currentUserLocation:(CLLocation *)Location{
      [[LocationManger sharedLocationManager]stopUpdatingLocation];
     _lastLocation=Location;

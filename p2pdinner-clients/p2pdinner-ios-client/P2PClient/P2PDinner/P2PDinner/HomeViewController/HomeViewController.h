@@ -13,5 +13,6 @@
 @interface HomeViewController : UIViewController{
     
 }
-
+-(void)moveToMyOrderScreen;
+-(IBAction)tearmsAndCondition:(id)sender;
 @end

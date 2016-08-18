@@ -17,7 +17,8 @@
 #import "SplNeedsController.h"
 #import "MyOrderViewController.h"
 #import "MyOrderItem.h"
-
+#import "AppDelegate.h"
+#import "HomeViewController.h"
 
 @interface MenuViewController()<PageSnapViewDelegate>
 {
@@ -323,8 +324,18 @@
         if (!error) {
             
             NSLog(@"startTime:%@ endTime%@ closeTime%@",response.startTime,response.endTime,response.closeTime);
-            
-            [self performSegueWithIdentifier:@"MyOrderViewController" sender:self];
+            [self dismissViewControllerAnimated:NO completion:^{
+                AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+                UIWindow *mainWindow = appDelegate.window;
+                UINavigationController *myNavCon = (UINavigationController*)mainWindow.rootViewController;
+                [myNavCon popToRootViewControllerAnimated:NO];
+                HomeViewController *homeViewController=[myNavCon.viewControllers objectAtIndex:0];
+                if ([homeViewController respondsToSelector:@selector(moveToMyOrderScreen)]) {
+                    [homeViewController moveToMyOrderScreen];
+                }
+                
+            }];
+           // [self performSegueWithIdentifier:@"MyOrderViewController" sender:self];
         }
         else{
             if (error.code==420) {

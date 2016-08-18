@@ -8,7 +8,7 @@
 
 #import "AddFoodPhotos.h"
 #import "AFImageRequestOperation.h"
-#import   "SellerHistoryHandler.h"
+#import "SellerHistoryHandler.h"
 #import "ItemDetailsShared.h"
 @interface AddFoodPhotos (){
     NSMutableArray *imageUrls;
@@ -32,10 +32,14 @@
 }
 - (void)viewDidLoad {
     self.title=@"Dinner Listing";
-    
     imageURLArray=[itemDetails.imageUri componentsSeparatedByString:@","];
+    if (imageURLArray.count>=1) {
+        NSMutableArray *removeEmptyObject=[NSMutableArray arrayWithArray:imageURLArray];
+        [removeEmptyObject removeObject:@""];
+        imageURLArray=[NSArray arrayWithArray:removeEmptyObject];
+    }
     imageURLMutableArray=[NSMutableArray arrayWithArray:imageURLArray];
-    if ([[imageURLArray objectAtIndex:0] length]==0) {
+    if ([imageURLMutableArray count]==0) {
         imageURLArray=[[NSArray alloc]init];
     }
     else
@@ -297,16 +301,27 @@
 }
 
 - (int)arrayObjectAtIndex:(NSUInteger)row atTag:(NSUInteger)tag{
+    NSUInteger arrayCount=imageURLMutableArray.count;
+    
     if (row==1&&tag==1) {
         return 0;
     }
     else if (row==1&&tag==2) {
+        if (arrayCount==1) {
+            return 0;
+        }
         return 1;
     }
     else if (row == 2&&tag==1) {
+        if (arrayCount==2) {
+            return 1;
+        }
         return 2;
     }
     else if (row ==2&&tag==2) {
+        if (arrayCount==3) {
+            return 2;
+        }
         return 3;
     }
     return 0;

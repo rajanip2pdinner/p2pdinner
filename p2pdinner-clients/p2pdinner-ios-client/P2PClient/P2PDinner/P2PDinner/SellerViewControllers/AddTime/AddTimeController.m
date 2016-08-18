@@ -29,7 +29,7 @@
     closeDate=[Utility stringToDateFormat:@"MM/dd/yyyy HH:mm:ss" dateString:itemDetails.closeDate  timeZone:LOCAL];
     picSelectedDate=[NSDate date];
     if (!_isBuyerFlow) {
-        [self addSellerFlowTimeDetails];
+        //[self addSellerFlowTimeDetails];
     }
     self.title=@"Dinner Listing";
     

@@ -1,5 +1,6 @@
 package com.p2pdinner.activities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -138,7 +139,7 @@ public class DinnerListingDetailActivity extends BaseAppCompatActivity {
             Arrays.sort(options);
             Integer[] images = new Integer[options.length];
             int imageIdx = 0;
-            for(String option : options) {
+            for (String option : options) {
                 if (option.equalsIgnoreCase("Eat-In")) {
                     images[imageIdx++] = R.drawable.dinein2;
                 } else if (option.equalsIgnoreCase("To-Go")) {
@@ -158,7 +159,7 @@ public class DinnerListingDetailActivity extends BaseAppCompatActivity {
             float price = decimalFormat.parse(dinnerListingViewContent.getCost()).floatValue();
             price = price * noOfGuests;
             mTotalAmount.setText(decimalFormat.format(price));
-        } catch (Exception e){
+        } catch (Exception e) {
             Log.e("P2PDinner", e.getMessage());
         }
         mIncrementPlates.setOnClickListener(new View.OnClickListener() {
@@ -207,6 +208,7 @@ public class DinnerListingDetailActivity extends BaseAppCompatActivity {
                 final String deliveryType = "To-Go";
                 final Long profileId = sharedPreferences.getLong(Constants.PROFILE_ID, -1);
                 if (!sharedPreferences.contains(Constants.ACCESS_TOKEN)) {
+                    mBuy.setEnabled(true);
                     Intent intent = new Intent(getApplicationContext(), FacebookLoginActivity.class);
                     startActivity(intent);
                 } else {
@@ -215,9 +217,10 @@ public class DinnerListingDetailActivity extends BaseAppCompatActivity {
                     if (!isValidProfile) {
                         userProfileManager.validateProfile(emailAddress, accessToken)
                                 .observeOn(AndroidSchedulers.mainThread())
-                                .subscribeOn(Schedulers.newThread())
+                                .subscribeOn(Schedulers.io())
                                 .subscribe(new Observer<UserProfile>() {
                                     private UserProfile userProfile;
+
                                     @Override
                                     public void onCompleted() {
                                         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -236,7 +239,7 @@ public class DinnerListingDetailActivity extends BaseAppCompatActivity {
                                         this.userProfile = userProfile;
                                     }
                                 });
-                    } else  {
+                    } else {
                         placeOrder(profileId, listingId, quantity, deliveryType);
                     }
                 }
@@ -245,24 +248,34 @@ public class DinnerListingDetailActivity extends BaseAppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK && requestCode == Constants.FACEBOOK_REQUEST_CODE) {
+            mBuy.setEnabled(true);
+        }
+    }
+
     private void placeOrder(final long profileId, Integer listingId, Integer quantity, String deliveryType) {
         dinnerCartManager.addToCart(profileId, listingId, quantity, deliveryType)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(Schedulers.io())
                 .doOnNext(new Action1<Integer>() {
                     @Override
                     public void call(Integer cartId) {
                         dinnerCartManager.placeOrder(profileId, cartId)
                                 .observeOn(AndroidSchedulers.mainThread())
-                                .subscribeOn(Schedulers.newThread())
+                                .subscribeOn(Schedulers.io())
                                 .subscribe(new Observer<String>() {
                                     private String message;
+
                                     @Override
                                     public void onCompleted() {
                                         Toast.makeText(getBaseContext(), message, Toast.LENGTH_LONG).show();
                                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                         startActivity(intent);
                                     }
+
                                     @Override
                                     public void onError(Throwable e) {
                                         Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_LONG).show();
@@ -277,6 +290,7 @@ public class DinnerListingDetailActivity extends BaseAppCompatActivity {
                 })
                 .subscribe(new Observer<Integer>() {
                     private Integer cartId;
+
                     @Override
                     public void onCompleted() {
 

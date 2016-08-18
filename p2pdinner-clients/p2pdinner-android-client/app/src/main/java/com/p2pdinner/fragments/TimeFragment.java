@@ -171,8 +171,19 @@ public class TimeFragment extends BaseFragment implements DateDialogDataTransfer
                 DateTimeFormatter timeFormatter = DateTimeFormat.forPattern("HH:mm");
                 DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("MMMM dd, yyyy HH:mm");
                 DateTime fromDateTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " " + s.toString());
-                DateTime toDateTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " " + mToTime.getText().toString());
-                DateTime closeTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " " + mAcceptOrdersTillTime.getText().toString());
+                DateTime toDateTime;
+                if (StringUtils.hasText(mToTime.getText().toString())) {
+                    toDateTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " " + mToTime.getText().toString());
+                } else {
+                    toDateTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " 00:00");
+                }
+                DateTime closeTime;
+                if (StringUtils.hasText(mAcceptOrdersTillTime.getText().toString())) {
+                    closeTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " " + mAcceptOrdersTillTime.getText().toString());
+                } else {
+                    closeTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " 00:00");
+                }
+
                 if (fromDateTime.isAfter(closeTime)) {
                     closeTime = fromDateTime;
                     closeTime.plusMinutes(1);
@@ -201,8 +212,18 @@ public class TimeFragment extends BaseFragment implements DateDialogDataTransfer
                 DateTimeFormatter timeFormatter = DateTimeFormat.forPattern("HH:mm");
                 DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("MMMM dd, yyyy HH:mm");
                 DateTime fromDateTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " "+ mFormTime.getText().toString());
-                DateTime toDateTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " "+ s.toString());
-                DateTime closeTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " "+ mAcceptOrdersTillTime.getText().toString());
+                DateTime toDateTime;
+                if (StringUtils.hasText(mToTime.getText().toString())) {
+                    toDateTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " " + mToTime.getText().toString());
+                } else {
+                    toDateTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " 00:00");
+                }
+                DateTime closeTime;
+                if (StringUtils.hasText(mAcceptOrdersTillTime.getText().toString())) {
+                    closeTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " " + mAcceptOrdersTillTime.getText().toString());
+                } else {
+                    closeTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " 00:00");
+                }
                 if (toDateTime.isBefore(closeTime)) {
                     closeTime = toDateTime.minusMinutes(1);
                     mAcceptOrdersTillTime.setText(timeFormatter.print(closeTime));
@@ -230,8 +251,18 @@ public class TimeFragment extends BaseFragment implements DateDialogDataTransfer
                 DateTimeFormatter timeFormatter = DateTimeFormat.forPattern("HH:mm");
                 DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("MMMM dd, yyyy HH:mm");
                 DateTime fromDateTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " "+ mFormTime.getText().toString());
-                DateTime toDateTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " "+ mToTime.getText().toString());
-                DateTime closeTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " "+ s.toString());
+                DateTime toDateTime;
+                if (StringUtils.hasText(mToTime.getText().toString())) {
+                    toDateTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " " + mToTime.getText().toString());
+                } else {
+                    toDateTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " 00:00");
+                }
+                DateTime closeTime;
+                if (StringUtils.hasText(mAcceptOrdersTillTime.getText().toString())) {
+                    closeTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " " + mAcceptOrdersTillTime.getText().toString());
+                } else {
+                    closeTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " 00:00");
+                }
                 if (toDateTime.isBefore(closeTime)) {
                     toDateTime = closeTime.plusMinutes(1);
                     mToTime.setText(timeFormatter.print(toDateTime));

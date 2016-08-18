@@ -28,9 +28,9 @@ public class Constants {
     public static final String REGISTRATION_COMPLETE = "REGISTRATION_COMPLETE";
     public static final String SENT_TOKEN_TO_SERVER = "SENT_TOKEN_TO_SERVER";
 
-    //public static final String P2PDINNER_BASE_URI = "https://p2pdinner-services.herokuapp.com/api/v1";
-    public static final String P2PDINNER_BASE_URI = "https://dev-p2pdinner-services.herokuapp.com/api/v1";
-    public static final String P2PDINNER_WEB_BASE_URI = "https://dev-p2pdinner-services.herokuapp.com";
+    public static final String P2PDINNER_BASE_URI = "https://p2pdinner-services.herokuapp.com/api/v1";
+    //public static final String P2PDINNER_BASE_URI = "https://dev-p2pdinner-services.herokuapp.com/api/v1";
+    public static final String P2PDINNER_WEB_BASE_URI = "https://p2pdinner-services.herokuapp.com";
 
     public static final String P2PDINNER_API_TOKEN = "P2PDINNER_API_TOKEN";
 

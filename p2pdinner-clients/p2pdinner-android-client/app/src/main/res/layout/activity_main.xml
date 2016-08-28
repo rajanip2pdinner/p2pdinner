@@ -27,6 +27,14 @@
                 android:layout_alignParentTop="true"
                 android:divider="@android:color/holo_orange_dark"
                 android:dividerHeight="2dp" />
+
+            <TextView
+                android:id="@+id/footer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:text="Terms and Conditions"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
         </RelativeLayout>
     </FrameLayout>
 

@@ -114,6 +114,7 @@ public class WantDinnerFragment extends BaseFragment {
         LocalDateTime dateTime = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormat.forPattern("dd(E)");
         List<String> menuLabels = new ArrayList<>();
+        dateTime = dateTime.plus(Period.hours(48));
         for (int i = 0; i < 5; i++) {
             menuLabels.add(formatter.print(dateTime));
             dateTime = dateTime.minus(Period.hours(24));

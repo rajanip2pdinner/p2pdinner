@@ -129,6 +129,9 @@ public class DinnerListingActivity extends AppCompatActivity {
                 content.setTitle(dinnerMenuItem.getTitle());
                 content.setDeliveryOptions(dinnerMenuItem.getDeliveryOptions());
                 content.setAvailableQuantity(dinnerMenuItem.getDinnerListing().getAvailableQuantity());
+                if (StringUtils.hasText(dinnerMenuItem.getSpecialNeeds())) {
+                    content.setSpecialNeeds(dinnerMenuItem.getSpecialNeeds());
+                }
                 if (StringUtils.hasText(dinnerMenuItem.getImageUri())) {
                     content.setImageUri(dinnerMenuItem.getImageUri());
                 }

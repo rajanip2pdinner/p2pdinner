@@ -40,7 +40,7 @@ public class DinnerMenuItem implements Serializable {
     private Long profileId;
     @SerializedName("imageUri")
     private String imageUri;
-    @SerializedName("quantity_available")
+    @SerializedName("availableQuantity")
     private Integer availableQuantity;
     @SerializedName("name")
     private String name;

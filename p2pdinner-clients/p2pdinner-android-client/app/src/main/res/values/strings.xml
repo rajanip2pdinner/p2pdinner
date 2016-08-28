@@ -90,4 +90,5 @@
     <string name="lbl_no_of_plates">No. of Plates</string>
     <string name="done">Done</string>
     <string name="cancel">Cancel</string>
+    <string name="footer">By using this app, I agree to the Terms &amp; Conditions</string>
 </resources>

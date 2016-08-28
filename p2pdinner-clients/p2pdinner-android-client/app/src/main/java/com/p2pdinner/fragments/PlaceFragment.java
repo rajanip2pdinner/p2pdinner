@@ -111,6 +111,8 @@ public class PlaceFragment extends BaseFragment {
         }
         if (StringUtils.hasText(dinnerMenuItem.getDeliveryOptions())) {
             mDeliverOptions.setText(dinnerMenuItem.getDeliveryOptions());
+        } else {
+            mDeliverOptions.setText("To-Go");
         }
         mDeliverOptions.setOnClickListener(new View.OnClickListener() {
             @Override

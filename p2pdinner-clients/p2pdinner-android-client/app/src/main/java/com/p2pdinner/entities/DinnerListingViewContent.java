@@ -16,6 +16,7 @@ public class DinnerListingViewContent implements Serializable{
     private String deliveryOptions;
     private Integer availableQuantity;
     private String imageUri;
+    private String specialNeeds;
 
     public String getTitle() {
         return title;
@@ -95,5 +96,13 @@ public class DinnerListingViewContent implements Serializable{
 
     public void setImageUri(String imageUri) {
         this.imageUri = imageUri;
+    }
+
+    public String getSpecialNeeds() {
+        return specialNeeds;
+    }
+
+    public void setSpecialNeeds(String specialNeeds) {
+        this.specialNeeds = specialNeeds;
     }
 }

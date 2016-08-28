@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.p2pdinner.R;
 import com.p2pdinner.common.Constants;
 import com.p2pdinner.common.ErrorResponse;
@@ -33,7 +34,10 @@ import org.springframework.util.StringUtils;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Currency;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Locale;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -61,12 +65,17 @@ public class DinnerListingDetailActivity extends BaseAppCompatActivity {
     private Boolean isValidProfile = false;
     private SharedPreferences sharedPreferences;
     private TextView mTitle = null;
+    private Handler handler;
+    private TextView mSpecialNeeds = null;
 
     @Inject
     DinnerCartManager dinnerCartManager;
 
     @Inject
     UserProfileManager userProfileManager;
+
+    @Inject
+    ImageLoader imageLoader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,12 +95,35 @@ public class DinnerListingDetailActivity extends BaseAppCompatActivity {
         mBuy = (Button) findViewById(R.id.btnBuy);
         mGuests = (TextView) findViewById(R.id.noOfGuests);
         mTitle = (TextView) findViewById(R.id.title);
+        mSpecialNeeds = (TextView) findViewById(R.id.txt_special_needs);
         maxAvailableQuantity = dinnerListingViewContent.getAvailableQuantity();
         if (sharedPreferences == null) {
             sharedPreferences = getSharedPreferences(Constants.PREFS_PRIVATE, Context.MODE_PRIVATE);
         }
         isValidProfile = sharedPreferences.getBoolean(Constants.IS_VALID_PROFILE, Boolean.FALSE);
         initializeControls();
+        handler = new Handler();
+        final Set<String> imageUris = new HashSet<>(5);
+        if (StringUtils.hasText(dinnerListingViewContent.getImageUri())) {
+            String images = StringUtils.replace(dinnerListingViewContent.getImageUri(), "\"", "");
+            imageUris.addAll(StringUtils.commaDelimitedListToSet(images));
+        }
+        if (imageUris != null && !imageUris.isEmpty()) {
+            Runnable runnable = new Runnable() {
+                Iterator<String> iterator = imageUris.iterator();
+                @Override
+                public void run() {
+                    if (iterator.hasNext()) {
+                        imageLoader.displayImage(iterator.next(), mFoodImages);
+                    } else {
+                        iterator = imageUris.iterator();
+                    }
+                    handler.postDelayed(this, 2000);
+                }
+            };
+            handler.postDelayed(runnable, 2000);
+        }
+
     }
 
     @Override
@@ -108,12 +140,7 @@ public class DinnerListingDetailActivity extends BaseAppCompatActivity {
             return;
         }
         //TODO: set food images
-        if (StringUtils.hasText(dinnerListingViewContent.getImageUri())) {
-            String images = StringUtils.replace(dinnerListingViewContent.getImageUri(), "\"", "");
-            String[] imageUris = StringUtils.commaDelimitedListToStringArray(images);
-            ImageDownloadTask imageDownloadTask = new ImageDownloadTask(mFoodImages);
-            imageDownloadTask.execute(imageUris);
-        }
+
         if (StringUtils.hasText(dinnerListingViewContent.getTitle())) {
             mTitle.setText(dinnerListingViewContent.getTitle());
         }
@@ -132,6 +159,9 @@ public class DinnerListingDetailActivity extends BaseAppCompatActivity {
         }
         if (StringUtils.hasText(dinnerListingViewContent.getTimings())) {
             mTimings.setText(dinnerListingViewContent.getTimings());
+        }
+        if (StringUtils.hasText(dinnerListingViewContent.getSpecialNeeds())) {
+            mSpecialNeeds.setText(dinnerListingViewContent.getSpecialNeeds());
         }
 
         if (StringUtils.hasText(dinnerListingViewContent.getDeliveryOptions())) {
@@ -166,7 +196,7 @@ public class DinnerListingDetailActivity extends BaseAppCompatActivity {
             @Override
             public void onClick(View v) {
                 Integer noOfGuests = Integer.parseInt(mGuests.getText().toString());
-                if (noOfGuests + 1 < maxAvailableQuantity) {
+                if (noOfGuests + 1 <= maxAvailableQuantity) {
                     noOfGuests++;
                 }
                 mGuests.setText(noOfGuests.toString());

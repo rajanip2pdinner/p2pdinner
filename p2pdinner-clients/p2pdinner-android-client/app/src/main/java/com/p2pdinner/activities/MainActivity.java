@@ -14,6 +14,9 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,6 +40,7 @@ import com.p2pdinner.services.P2PDinnerOAuthTokenRefreshService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
@@ -49,6 +53,7 @@ public class MainActivity extends BaseAppCompatActivity {
 
     private static final String TAG = "P2PDinner";
     private ListView userOptionsView = null;
+    private TextView mFooter = null;
     private List<UserOption> userOptions = new ArrayList<UserOption>();
     private SharedPreferences sharedPreferences;
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
@@ -66,14 +71,27 @@ public class MainActivity extends BaseAppCompatActivity {
         sharedPreferences = getSharedPreferences(Constants.PREFS_PRIVATE, Context.MODE_PRIVATE);
         sharedPreferences.edit().putBoolean(Constants.IS_VALID_PROFILE, Boolean.FALSE);
         setContentView(R.layout.activity_main);
+        intializeControls();
         Log.i(TAG, "Populating user options");
         populateUserOptions();
         Log.i(TAG, "Populating list view");
+
         populateListView();
         registerUserOptionClickListener();
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         initializeNavigationDrawer();
         startOAuthService();
+    }
+
+    private void intializeControls() {
+        mFooter = (TextView) findViewById(R.id.footer);
+        StringBuffer footerText  = new StringBuffer("By using this app, I agree to the <a href=")
+                .append(Constants.P2PDINNER_WEB_BASE_URI +  getString(R.string.tcUri))
+                .append(">")
+                .append("Terms & Conditions")
+                .append("</a>");
+        mFooter.setText(Html.fromHtml(footerText.toString()));
+        mFooter.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
 

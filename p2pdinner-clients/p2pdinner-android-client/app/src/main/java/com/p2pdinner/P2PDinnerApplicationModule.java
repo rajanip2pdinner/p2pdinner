@@ -10,6 +10,9 @@ import android.location.LocationManager;
 import android.provider.ContactsContract;
 
 import com.google.gson.GsonBuilder;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.p2pdinner.activities.CreateDinnerActivity;
 import com.p2pdinner.activities.DinnerListingDetailActivity;
 import com.p2pdinner.activities.FindDinnerActivity;
@@ -147,5 +150,15 @@ public class P2PDinnerApplicationModule {
     PlacesServiceManager placesServiceManager(RestTemplate restTemplate) {
         return new PlacesServiceManager(restTemplate);
     }
+
+    @Provides
+    @Singleton
+    ImageLoader imageLoader() {
+        ImageLoaderConfiguration imageLoaderConfiguration = new ImageLoaderConfiguration.Builder(p2PDinnerApplication.getApplicationContext())
+                .build();
+        ImageLoader.getInstance().init(imageLoaderConfiguration);
+        return ImageLoader.getInstance();
+    }
+
 
 }

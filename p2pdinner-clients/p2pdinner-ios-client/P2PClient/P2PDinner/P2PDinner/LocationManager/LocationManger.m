@@ -21,7 +21,7 @@ static LocationManger *_sharedInstance;
 }
 - (void)updateLocation{
     self.locationManager = [[CLLocationManager alloc] init];
-    
+    NSLog(@"UpdateLocation Called");
     // Check for iOS 8. Without this guard the code will crash with "unknown selector" on iOS 7.
     if ([self.locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
         [self.locationManager requestAlwaysAuthorization];

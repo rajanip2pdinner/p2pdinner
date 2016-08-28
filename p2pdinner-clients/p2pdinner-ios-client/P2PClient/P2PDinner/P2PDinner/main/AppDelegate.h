@@ -22,6 +22,7 @@ extern NSString *const FBSessionStateChangedNotification;
 @property (nonatomic, copy) FacebookAuthSuccessBlock fbAuthSuccessBlock;
 @property (nonatomic, copy) FacebookAuthFailureBlock fbAuthFailureBlock;
 @property (nonatomic,strong) CLLocation *lastLocation;
+@property (nonatomic,strong) NSString *lastAddress;
 @property (nonatomic,strong) NSString *localLocation;
 @end
 

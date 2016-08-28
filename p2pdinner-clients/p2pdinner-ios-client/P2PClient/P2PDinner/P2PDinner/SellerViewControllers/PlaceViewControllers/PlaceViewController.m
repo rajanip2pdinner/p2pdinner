@@ -46,10 +46,10 @@
 }
 - (NSString *)getAddressPlacemark:(CLPlacemark *)placemark{
 
-    NSMutableArray *array=[[NSMutableArray alloc]initWithObjects:[placemark subThoroughfare],[placemark thoroughfare],[placemark locality],[placemark administrativeArea],[placemark postalCode], nil];
+    NSMutableArray *array=[[NSMutableArray alloc]initWithObjects:[placemark thoroughfare],[placemark locality],[placemark administrativeArea],[placemark postalCode], nil];
     [array removeObject:@""];
     
-    return [self getAddressArray:array];
+    return [NSString stringWithFormat:@"%@ %@",[placemark subThoroughfare],[self getAddressArray:array]];
     
     
 }
@@ -65,9 +65,13 @@
         for (CLPlacemark * placemark in placemarks)
         {
             appdelegate.localLocation=[NSString stringWithFormat:@"en_%@",[placemark ISOcountryCode]];
-            NSArray *addressArray= [NSArray arrayWithObjects:[placemark subThoroughfare],[placemark thoroughfare],[placemark locality],[placemark administrativeArea], nil];
+            NSArray *addressArray= [NSArray arrayWithObjects:[placemark thoroughfare],[placemark locality],[placemark administrativeArea], nil];
             addressArray=[Utility removeNilArrayOfString:addressArray];
-            [itemDetails setAddressLine1:[addressArray componentsJoinedByString:@","]];
+            NSString *addresStr=[addressArray componentsJoinedByString:@","];
+            if ([placemark subThoroughfare]) {
+                addresStr=[NSString stringWithFormat:@"%@ %@",[placemark subThoroughfare],addresStr];
+            }
+            [itemDetails setAddressLine1:addresStr];
             [itemDetails setAddressLine2:@""];
             [itemDetails setCity:@""];
             [itemDetails setState:@""];

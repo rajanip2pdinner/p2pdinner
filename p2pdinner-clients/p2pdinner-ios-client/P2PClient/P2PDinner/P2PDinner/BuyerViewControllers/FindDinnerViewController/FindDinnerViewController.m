@@ -35,9 +35,14 @@
     [super viewDidLoad];
     dinnerDate=[NSDate date];
     guestValue=2;
+    AppDelegate *appdelegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
     LocationManger *locationMgr=[LocationManger sharedLocationManager];
-    [locationMgr updateLocation];
     locationMgr.delegate=self;
+    
+    if (!appdelegate.lastAddress) {
+        [locationMgr updateLocation];
+    }
+    
     findDinnerButton.layer.cornerRadius = 5;
     // This will remove extra separators from tableview
     dinnerUISetup.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -51,9 +56,13 @@
         for (CLPlacemark * placemark in placemarks)
         {
             appdelegate.localLocation=[NSString stringWithFormat:@"en_%@",[placemark ISOcountryCode]];
-          NSArray *addressArray= [NSArray arrayWithObjects:[placemark subThoroughfare],[placemark thoroughfare],[placemark locality],[placemark administrativeArea], nil];
+          NSArray *addressArray= [NSArray arrayWithObjects:[placemark thoroughfare],[placemark locality],[placemark administrativeArea], nil];
             addressArray=[Utility removeNilArrayOfString:addressArray];
-            selectedAddressField.text=[addressArray componentsJoinedByString:@","];
+            NSString *addresStr=[addressArray componentsJoinedByString:@","];
+            if ([placemark subThoroughfare]) {
+                addresStr=[NSString stringWithFormat:@"%@ %@",[placemark subThoroughfare],addresStr];
+            }
+            selectedAddressField.text=addresStr;
             
         }
     }];
@@ -72,6 +81,10 @@
     if(indexPath.row==firstCell){
         cell= [tableView dequeueReusableCellWithIdentifier:PlaceCustomCellIdentifier];
         selectedAddressField=(UITextField *)[cell viewWithTag:111];
+        AppDelegate *appdelegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
+        if (appdelegate.lastAddress) {
+            selectedAddressField.text=appdelegate.lastAddress;
+        }
         [selectedAddressField.layer setBorderColor:[[[UIColor colorWithRed:0.97 green:0.62 blue:0.20 alpha:1.0] colorWithAlphaComponent:0.5] CGColor]];
         [selectedAddressField.layer setBorderWidth:0.5];
         

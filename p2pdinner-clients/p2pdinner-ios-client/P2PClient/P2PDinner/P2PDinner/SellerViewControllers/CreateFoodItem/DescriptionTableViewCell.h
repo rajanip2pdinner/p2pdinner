@@ -13,5 +13,7 @@
 {
     IBOutlet UITextView *DescrTextView;
 }
+@property (weak, nonatomic) IBOutlet UIButton *editButton;
+- (IBAction)editButtonAction:(id)sender;
 -(void)initialSetUpCell;
 @end

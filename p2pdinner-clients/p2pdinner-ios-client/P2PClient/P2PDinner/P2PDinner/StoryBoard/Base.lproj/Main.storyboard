@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="dID-ay-iiB">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="dID-ay-iiB">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -75,13 +75,60 @@
                                     <outlet property="delegate" destination="qdt-Jf-UVa" id="Mzx-1k-ggA"/>
                                 </connections>
                             </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ivI-CS-1C7">
+                                <rect key="frame" x="0.0" y="541" width="600" height="59"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xg1-yJ-Nxg">
+                                        <rect key="frame" x="8" y="8" width="584" height="20"/>
+                                        <attributedString key="attributedText">
+                                            <fragment content="By using this app, I agree to the ">
+                                                <attributes>
+                                                    <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <font key="NSFont" size="17" name="HelveticaNeue"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                </attributes>
+                                            </fragment>
+                                            <fragment content="Terms &amp; Conditions">
+                                                <attributes>
+                                                    <color key="NSColor" red="0.2428026909751223" green="0.52394448355606116" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <font key="NSFont" size="17" name="HelveticaNeue"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                </attributes>
+                                            </fragment>
+                                        </attributedString>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="xg1-yJ-Nxg" secondAttribute="trailing" constant="8" id="C7m-f0-QKd"/>
+                                    <constraint firstItem="xg1-yJ-Nxg" firstAttribute="top" secondItem="ivI-CS-1C7" secondAttribute="top" constant="8" id="ZCR-st-USR"/>
+                                    <constraint firstItem="xg1-yJ-Nxg" firstAttribute="leading" secondItem="ivI-CS-1C7" secondAttribute="leading" constant="8" id="jZp-k9-NTQ"/>
+                                    <constraint firstAttribute="height" constant="59" id="raN-xN-tsV"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f9V-1g-MBQ">
+                                <rect key="frame" x="0.0" y="541" width="600" height="59"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="59" id="Wqe-UP-l6F"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="tearmsAndCondition:" destination="qdt-Jf-UVa" eventType="touchUpInside" id="kpe-sJ-mey"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="nQa-cS-7tq" firstAttribute="top" secondItem="lkA-16-xUb" secondAttribute="top" id="AAD-DV-hJG"/>
+                            <constraint firstItem="ivI-CS-1C7" firstAttribute="leading" secondItem="lkA-16-xUb" secondAttribute="leading" id="BDH-6W-UaA"/>
+                            <constraint firstItem="ygM-08-fFT" firstAttribute="top" secondItem="f9V-1g-MBQ" secondAttribute="bottom" id="M2S-Tu-rtE"/>
+                            <constraint firstAttribute="trailing" secondItem="f9V-1g-MBQ" secondAttribute="trailing" id="QhV-3I-FQj"/>
+                            <constraint firstAttribute="trailing" secondItem="ivI-CS-1C7" secondAttribute="trailing" id="dFv-Bw-DsT"/>
                             <constraint firstAttribute="trailing" secondItem="nQa-cS-7tq" secondAttribute="trailing" id="df4-7p-5eT"/>
                             <constraint firstItem="ygM-08-fFT" firstAttribute="top" secondItem="nQa-cS-7tq" secondAttribute="bottom" id="jEf-VN-VZb"/>
                             <constraint firstItem="nQa-cS-7tq" firstAttribute="leading" secondItem="lkA-16-xUb" secondAttribute="leading" id="kl2-Xq-SO3"/>
+                            <constraint firstItem="f9V-1g-MBQ" firstAttribute="leading" secondItem="lkA-16-xUb" secondAttribute="leading" id="rng-QA-O1t"/>
+                            <constraint firstItem="ygM-08-fFT" firstAttribute="top" secondItem="ivI-CS-1C7" secondAttribute="bottom" id="zb4-UN-aYs"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="P2P DINNER" id="g9G-6f-z4J"/>
@@ -90,11 +137,12 @@
                         <segue destination="Cfw-zl-X0G" kind="show" identifier="SuccessLoginOperation" id="r88-ly-rJQ"/>
                         <segue destination="P8q-4U-Nm0" kind="show" identifier="MyOrderViewController" id="DMM-Ob-DAT"/>
                         <segue destination="xDj-h5-62i" kind="show" identifier="SettingsViewController" id="KMv-0y-veI"/>
+                        <segue destination="yeB-Y4-LQl" kind="show" identifier="AgreementViewController" id="Rxg-2A-HS0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ERh-Zg-hl3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-406" y="-3925"/>
+            <point key="canvasLocation" x="-622" y="-4043"/>
         </scene>
         <!--Settings View Controller-->
         <scene sceneID="2I3-z4-EHW">
@@ -1627,7 +1675,7 @@ This includes improved brain function, fat loss, a lower risk of cancer and many
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="237"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T73-Pj-7JG">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Ingredients" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T73-Pj-7JG">
                                                     <rect key="frame" x="21" y="9" width="88" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="nz9-MD-DMF"/>
@@ -1637,7 +1685,7 @@ This includes improved brain function, fat loss, a lower risk of cancer and many
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" tag="111" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="OCm-MD-VCd">
-                                                    <rect key="frame" x="27" y="38" width="565" height="191"/>
+                                                    <rect key="frame" x="27" y="38" width="511" height="191"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no" spellCheckingType="no"/>
@@ -1645,18 +1693,28 @@ This includes improved brain function, fat loss, a lower risk of cancer and many
                                                         <outlet property="delegate" destination="LFg-Fb-8uV" id="KUs-b1-7Fv"/>
                                                     </connections>
                                                 </textView>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fho-Cy-uPZ">
+                                                    <rect key="frame" x="554" y="38" width="30" height="30"/>
+                                                    <state key="normal" title="Edit"/>
+                                                    <connections>
+                                                        <action selector="editButtonAction:" destination="LFg-Fb-8uV" eventType="touchUpInside" id="rMm-mg-pPT"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="OCm-MD-VCd" firstAttribute="leading" secondItem="edp-gi-0Jl" secondAttribute="leading" constant="27" id="AGF-wn-1Iq"/>
                                                 <constraint firstAttribute="bottom" secondItem="OCm-MD-VCd" secondAttribute="bottom" constant="8" id="Kot-m4-ZJe"/>
                                                 <constraint firstItem="OCm-MD-VCd" firstAttribute="top" secondItem="T73-Pj-7JG" secondAttribute="bottom" constant="8" id="MWe-eX-c7I"/>
-                                                <constraint firstAttribute="trailing" secondItem="OCm-MD-VCd" secondAttribute="trailing" constant="8" id="NRE-5X-HgQ"/>
+                                                <constraint firstAttribute="trailing" secondItem="OCm-MD-VCd" secondAttribute="trailing" constant="62" id="NRE-5X-HgQ"/>
+                                                <constraint firstAttribute="trailing" secondItem="fho-Cy-uPZ" secondAttribute="trailing" constant="16" id="NaS-X6-dY4"/>
                                                 <constraint firstItem="T73-Pj-7JG" firstAttribute="leading" secondItem="edp-gi-0Jl" secondAttribute="leadingMargin" constant="13" id="TRi-06-qqs"/>
                                                 <constraint firstItem="T73-Pj-7JG" firstAttribute="top" secondItem="edp-gi-0Jl" secondAttribute="topMargin" constant="1" id="aNE-Zm-5SN"/>
+                                                <constraint firstItem="fho-Cy-uPZ" firstAttribute="top" secondItem="edp-gi-0Jl" secondAttribute="top" constant="38" id="cCd-IP-lsp"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="DescrTextView" destination="OCm-MD-VCd" id="Xp3-ZM-8vy"/>
+                                            <outlet property="editButton" destination="fho-Cy-uPZ" id="8xX-E1-JaZ"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -3069,7 +3127,7 @@ This includes improved brain function, fat loss, a lower risk of cancer and many
                     </cells>
                 </tableViewSection>
             </objects>
-            <point key="canvasLocation" x="662" y="122"/>
+            <point key="canvasLocation" x="610" y="-322"/>
         </scene>
     </scenes>
     <resources>
@@ -3084,5 +3142,6 @@ This includes improved brain function, fat loss, a lower risk of cancer and many
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="DMM-Ob-DAT"/>
+        <segue reference="Rxg-2A-HS0"/>
     </inferredMetricsTieBreakers>
 </document>

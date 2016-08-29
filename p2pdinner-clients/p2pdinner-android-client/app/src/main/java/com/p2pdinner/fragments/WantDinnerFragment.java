@@ -87,7 +87,9 @@ public class WantDinnerFragment extends BaseFragment {
             @Override
             public void onCompleted() {
                 if (orders != null) {
-                    mlvBuyerItems.setAdapter(new OrderListAdapter(getActivity().getApplicationContext(), R.layout.items_buyer_items_detail, orders));
+                    if (getActivity() != null && getActivity().getApplicationContext() != null) {
+                        mlvBuyerItems.setAdapter(new OrderListAdapter(getActivity().getApplicationContext(), R.layout.items_buyer_items_detail, orders));
+                    }
                 } else {
                     mlvBuyerItems.setAdapter(null);
                 }

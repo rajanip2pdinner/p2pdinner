@@ -134,7 +134,10 @@ static NSString *urlEncode(id object) {
         NSString *key = [NSString stringWithUTF8String:property_getName(properties[i])];
         //NSLog(@"Selvam %s",getPropertyMappedVarName(properties[i]));
         NSString *attributeName=[NSString stringWithFormat:@"%s",getPropertyMappedVarName(properties[i])];
-        [dict setObject:[obj valueForKey:key] forKey:attributeName];
+        if ([obj valueForKey:key]) {
+            [dict setObject:[obj valueForKey:key] forKey:attributeName];
+        }
+        
         
     }
     free(properties);
@@ -271,4 +274,17 @@ static const char *getPropertyMappedVarName(objc_property_t property) {
 + (NSString *)getLocalAddress{
     return @"";
 }
++(NSDate *)getLocalTimeValue:(NSDate *)sourceDate{
+    
+    NSTimeZone* sourceTimeZone = [NSTimeZone timeZoneWithAbbreviation:@"UTC"];
+    NSTimeZone* destinationTimeZone = [NSTimeZone systemTimeZone];
+    
+    NSInteger sourceGMTOffset = [sourceTimeZone secondsFromGMTForDate:sourceDate];
+    NSInteger destinationGMTOffset = [destinationTimeZone secondsFromGMTForDate:sourceDate];
+    NSTimeInterval interval = destinationGMTOffset - sourceGMTOffset;
+    
+    NSDate* destinationDate = [[NSDate alloc] initWithTimeInterval:interval sinceDate:sourceDate];
+    return destinationDate;
+}
+
 @end

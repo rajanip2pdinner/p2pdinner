@@ -24,20 +24,19 @@
 
 - (void)removeSelectedIndex:(UISegmentedControl *)segmentBtn{
     [segmentBtn setSelectedSegmentIndex:-1];
-    [self.delegate updatedItems];
 }
 
-- (IBAction)fromSegmentAction:(id)sender{
-#warning Need to add validation
-    [self timeChangeOperation:sender lable:fromLable];
-    [self performSelector:@selector(removeSelectedIndex:) withObject:sender afterDelay:0.5];
-}
-
-- (IBAction)toSegmentAction:(id)sender{
-    
-    [self timeChangeOperation:sender lable:toLable];
-    [self performSelector:@selector(removeSelectedIndex:) withObject:sender afterDelay:0.5];
-}
+//- (IBAction)fromSegmentAction:(id)sender{
+//#warning Need to add validation
+//    [self timeChangeOperation:sender lable:fromLable];
+//    [self performSelector:@selector(removeSelectedIndex:) withObject:sender afterDelay:0.5];
+//}
+//
+//- (IBAction)toSegmentAction:(id)sender{
+//    
+//    [self timeChangeOperation:sender lable:toLable];
+//    [self performSelector:@selector(removeSelectedIndex:) withObject:sender afterDelay:0.5];
+//}
 
 - (void)timeChangeOperation:(UISegmentedControl *)segment lable:(UILabel *)lable{
     lable.text=[self calculateTimeOperation:lable.text operation:segment.selectedSegmentIndex];
@@ -80,26 +79,46 @@
     return [NSString stringWithFormat:@"%@%@",[Utility dateToStringFormat:@"h.mm" dateString:currentDate timeZone:LOCAL],[self amPmConvertFromDate:currentDate]];
     
 }
+-(NSDate *)getLocalTimeValue:(NSDate *)sourceDate{
 
-- (void)setTimeFrom:(NSDate *)startTime toTime:(NSDate *)endTime{
-    fromLable.text=[NSString stringWithFormat:@"%@%@",[Utility dateToStringFormat:@"h.mm" dateString:startTime timeZone:LOCAL],[self amPmConvertFromDate:startTime]];
-    toLable.text=[NSString stringWithFormat:@"%@%@",[Utility dateToStringFormat:@"h.mm" dateString:endTime timeZone:LOCAL],[self amPmConvertFromDate:endTime]];
+NSTimeZone* sourceTimeZone = [NSTimeZone timeZoneWithAbbreviation:@"UTC"];
+NSTimeZone* destinationTimeZone = [NSTimeZone systemTimeZone];
+
+NSInteger sourceGMTOffset = [sourceTimeZone secondsFromGMTForDate:sourceDate];
+NSInteger destinationGMTOffset = [destinationTimeZone secondsFromGMTForDate:sourceDate];
+NSTimeInterval interval = destinationGMTOffset - sourceGMTOffset;
+
+NSDate* destinationDate = [[NSDate alloc] initWithTimeInterval:interval sinceDate:sourceDate];
+    return destinationDate;
 }
-
+//- (void)setTimeFrom:(NSDate *)startTime toTime:(NSDate *)endTime{
+//    startTime=[self getLocalTimeValue:startTime];
+//    endTime=[self getLocalTimeValue:endTime];
+//    fromLable.text=[NSString stringWithFormat:@"%@%@",[Utility dateToStringFormat:@"h.mm" dateString:startTime timeZone:LOCAL],[self amPmConvertFromDate:startTime]];
+//    toLable.text=[NSString stringWithFormat:@"%@%@",[Utility dateToStringFormat:@"h.mm" dateString:endTime timeZone:LOCAL],[self amPmConvertFromDate:endTime]];
+//}
+-(void)setStartTime:(NSDate *)startTime{
+    startTime=[Utility getLocalTimeValue:startTime];
+    _fromLable.text=[NSString stringWithFormat:@"%@%@",[Utility dateToStringFormat:@"h.mm" dateString:startTime timeZone:LOCAL],[self amPmConvertFromDate:startTime]];
+}
+-(void)setEndTime:(NSDate *)endTime{
+     endTime=[self getLocalTimeValue:endTime];
+     _toLable.text=[NSString stringWithFormat:@"%@%@",[Utility dateToStringFormat:@"h.mm" dateString:endTime timeZone:LOCAL],[self amPmConvertFromDate:endTime]];
+}
 - (NSDate *)getStartTime:(NSDate *)selectedDate{
-    NSLog(@"StartTime==> %@",[Utility stringToDateFormat:@"MM/dd/yyyy h.mm a" dateString:[NSString stringWithFormat:@"%@ %@",[Utility dateToStringFormat:@"MM/dd/yyyy" dateString:selectedDate timeZone:LOCAL],[self amPmRemoveDotFromString:fromLable.text]] timeZone:LOCAL]);
+    NSLog(@"StartTime==> %@",[Utility stringToDateFormat:@"MM/dd/yyyy h.mm a" dateString:[NSString stringWithFormat:@"%@ %@",[Utility dateToStringFormat:@"MM/dd/yyyy" dateString:selectedDate timeZone:LOCAL],[self amPmRemoveDotFromString:_fromLable.text]] timeZone:LOCAL]);
     
     
-    return [Utility stringToDateFormat:@"MM/dd/yyyy h.mm a" dateString:[NSString stringWithFormat:@"%@ %@",[Utility dateToStringFormat:@"MM/dd/yyyy" dateString:selectedDate timeZone:LOCAL],[self amPmRemoveDotFromString:fromLable.text]] timeZone:LOCAL];
+    return [Utility stringToDateFormat:@"MM/dd/yyyy h.mm a" dateString:[NSString stringWithFormat:@"%@ %@",[Utility dateToStringFormat:@"MM/dd/yyyy" dateString:selectedDate timeZone:LOCAL],[self amPmRemoveDotFromString:_fromLable.text]] timeZone:LOCAL];
 }
 
 - (NSDate *)getStopTime:(NSDate *)selectedDate{
-    NSLog(@"StopTime==> %@",[Utility stringToDateFormat:@"MM/dd/yyyy h.mm a" dateString:[NSString stringWithFormat:@"%@ %@",[Utility dateToStringFormat:@"MM/dd/yyyy" dateString:selectedDate timeZone:LOCAL],[self amPmRemoveDotFromString:toLable.text]] timeZone:LOCAL]);
-    NSDate *startDate=[Utility stringToDateFormat:@"MM/dd/yyyy h.mm a" dateString:[NSString stringWithFormat:@"%@ %@",[Utility dateToStringFormat:@"MM/dd/yyyy" dateString:selectedDate timeZone:LOCAL],[self amPmRemoveDotFromString:fromLable.text]] timeZone:LOCAL];
+    NSLog(@"StopTime==> %@",[Utility stringToDateFormat:@"MM/dd/yyyy h.mm a" dateString:[NSString stringWithFormat:@"%@ %@",[Utility dateToStringFormat:@"MM/dd/yyyy" dateString:selectedDate timeZone:LOCAL],[self amPmRemoveDotFromString:_toLable.text]] timeZone:LOCAL]);
+    NSDate *startDate=[Utility stringToDateFormat:@"MM/dd/yyyy h.mm a" dateString:[NSString stringWithFormat:@"%@ %@",[Utility dateToStringFormat:@"MM/dd/yyyy" dateString:selectedDate timeZone:LOCAL],[self amPmRemoveDotFromString:_fromLable.text]] timeZone:LOCAL];
     
-    NSDate *stopDate=[Utility stringToDateFormat:@"MM/dd/yyyy h.mm a" dateString:[NSString stringWithFormat:@"%@ %@",[Utility dateToStringFormat:@"MM/dd/yyyy" dateString:selectedDate timeZone:LOCAL],[self amPmRemoveDotFromString:toLable.text]] timeZone:LOCAL];
+    NSDate *stopDate=[Utility stringToDateFormat:@"MM/dd/yyyy h.mm a" dateString:[NSString stringWithFormat:@"%@ %@",[Utility dateToStringFormat:@"MM/dd/yyyy" dateString:selectedDate timeZone:LOCAL],[self amPmRemoveDotFromString:_toLable.text]] timeZone:LOCAL];
     
     
-    return [Utility stringToDateFormat:@"MM/dd/yyyy h.mm a" dateString:[NSString stringWithFormat:@"%@ %@",[Utility dateToStringFormat:@"MM/dd/yyyy" dateString:selectedDate timeZone:LOCAL],[self amPmRemoveDotFromString:toLable.text]] timeZone:LOCAL];
+    return [Utility stringToDateFormat:@"MM/dd/yyyy h.mm a" dateString:[NSString stringWithFormat:@"%@ %@",[Utility dateToStringFormat:@"MM/dd/yyyy" dateString:selectedDate timeZone:LOCAL],[self amPmRemoveDotFromString:_toLable.text]] timeZone:LOCAL];
 }
 @end

@@ -8,24 +8,18 @@
 
 #import <UIKit/UIKit.h>
 #import "ItemDetailsShared.h"
-@protocol AvialbleTimeDelegate<NSObject>
--(void)updatedItems;
-@end
+
 
 @interface AvialbleTimeTableCell : UITableViewCell
-{
-    IBOutlet UISegmentedControl *fromSegmentButton;
-    IBOutlet UISegmentedControl *toSegmentButton;
-    
-    IBOutlet UILabel *fromLable;
-    IBOutlet UILabel *toLable;
-}
-@property(nonatomic,retain)id<AvialbleTimeDelegate> delegate;
-- (void)setTimeFrom:(NSDate *)startTime toTime:(NSDate *)endTime;
-- (NSDate *)getStartTime:(NSDate *)selectedDate;
-- (NSDate *)getStopTime:(NSDate *)selectedDate;
-- (IBAction)fromSegmentAction:(id)sender;
-- (IBAction)toSegmentAction:(id)sender;
+@property(nonatomic,weak)IBOutlet UILabel *fromLable;
+@property(nonatomic,weak)IBOutlet UILabel *toLable;
+//- (void)setTimeFrom:(NSDate *)startTime toTime:(NSDate *)endTime;
+-(void)setStartTime:(NSDate *)startTime;
+-(void)setEndTime:(NSDate *)endTime;
+//- (NSDate *)getStartTime:(NSDate *)selectedDate;
+//- (NSDate *)getStopTime:(NSDate *)selectedDate;
+//- (IBAction)fromSegmentAction:(id)sender;
+//- (IBAction)toSegmentAction:(id)sender;
 //Reuse for next Cell
 - (NSString *)calculateTimeOperation:(NSString *)curentTime operation:(NSInteger)integer;
 - (NSString *)amPmConvertFromDate:(NSDate *)date;

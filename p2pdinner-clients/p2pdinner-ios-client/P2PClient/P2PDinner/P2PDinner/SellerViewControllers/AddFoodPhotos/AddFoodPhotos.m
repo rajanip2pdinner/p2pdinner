@@ -64,7 +64,7 @@
     //tableView.sectionHeaderHeight=100;
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 58)];
     /* Create custom view to display section header... */
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 10, tableView.frame.size.width, 18)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 30, tableView.frame.size.width, 18)];
     [label setTextColor:[UIColor colorWithRed:237.0/255.0 green:134.0/255.0 blue:0.0/255.0 alpha:1]];
     [label setFont:[UIFont fontWithName:@"Plantin" size:18]];
     NSString *string=@"Photos";
@@ -73,8 +73,15 @@
     [view addSubview:label];
     [view setBackgroundColor:[UIColor clearColor]]; //your background color...
     return view;
-}
 
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    // This will create a "invisible" footer
+    return 0.01f;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 58.0f;
+}
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
     return 3;
@@ -96,8 +103,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    
     if (indexPath.row==0) {
         UITableViewCell *cell=(UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"NoteCell"];
         cell.selectionStyle =UITableViewCellSelectionStyleNone;

@@ -36,4 +36,5 @@ typedef enum {
 + (NSString *)getLocalCurrencyName;
 + (NSString *)getLocalCurrencySymbole;
 + (NSString *)getLocalAddress;
++(NSDate *)getLocalTimeValue:(NSDate *)sourceDate;
 @end

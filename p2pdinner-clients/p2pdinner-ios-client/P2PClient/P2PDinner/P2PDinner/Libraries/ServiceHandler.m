@@ -9,6 +9,7 @@
 #import "ServiceHandler.h"
 #import "Utility.h"
 #import "AFNetworking.h"
+#import "AppConstants.h"
 static ServiceHandler *_sharedInstance=nil;
 @interface ServiceHandler(){
     AFHTTPRequestOperationManager *manager;
@@ -19,7 +20,7 @@ static ServiceHandler *_sharedInstance=nil;
 @synthesize operation;
 
 - (void)newOauthRequestOperation:(NSString *)refreshToken withCompletion:(ServiceResultBlock)returnBlock{
-    manager = [[AFHTTPRequestOperationManager manager] initWithBaseURL:[NSURL URLWithString:@"https://dev-p2pdinner-services.herokuapp.com/"]];
+    manager = [[AFHTTPRequestOperationManager manager] initWithBaseURL:[NSURL URLWithString:BASE_URL]];
     manager.requestSerializer = [AFHTTPRequestSerializer serializer];
     [manager.requestSerializer setAuthorizationHeaderFieldWithUsername:@"7568CL2AX2Z5HJXJ6VUAWDUD7" password:@"kfpZC6leleyLezvC3xxaSJhm6SSaAl65wwG2/xJ/278"];
     [manager.requestSerializer setValue:@"NzU2OENMMkFYMlo1SEpYSjZWVUFXRFVENzprZnBaQzZsZWxleUxlenZDM3h4YVNKaG02U1NhQWw2NXd3RzIveEovMjc4" forHTTPHeaderField:@"Authorization"];

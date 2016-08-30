@@ -84,7 +84,7 @@
     }
     [self setUpMenu];
     nextButton.layer.cornerRadius = 5;
-    [self createDinnerViewControllerAction];
+    [self createDinnerViewControllerActionFirstTime];
     
 }
 - (void)viewWillAppear:(BOOL)animated{
@@ -207,6 +207,17 @@
 }
 - (UIStoryboard *)getStoryBoard{
     return [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+}
+- (void)createDinnerViewControllerActionFirstTime{
+      CreateFoodItem  *createFoodItem1 = (CreateFoodItem *)[[self getStoryBoard] instantiateViewControllerWithIdentifier:@"FoodItemViewController"];
+        [createFoodItem1 setItemDetails:[[ItemDetailsShared sharedItemDetails] sharedItemDetailsValue]];
+        createFoodItem1.view.tag=1000;
+    CGRect viewControllerFrame=createFoodItem1.view.frame;
+        _displayView.frame = viewControllerFrame;
+    [createFoodItem1.createFoodTable setContentInset:UIEdgeInsetsMake(-64,0, 0, 0)];
+       // [createFoodItem1.createFoodTable reloadData];
+     [self addChildViewController:createFoodItem1];
+    [_displayView addSubview:createFoodItem1.view];
 }
 - (void)createDinnerViewControllerAction{
     if (!createFoodItem) {

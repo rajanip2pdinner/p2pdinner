@@ -5,6 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -415,38 +416,42 @@
                                 <rect key="frame" x="0.0" y="54" width="600" height="600"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fWb-0h-vqy">
-                                <rect key="frame" x="0.0" y="497" width="600" height="105"/>
+                                <rect key="frame" x="0.0" y="448" width="600" height="105"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RjX-45-bIh">
+                                        <rect key="frame" x="145" y="33" width="310" height="39"/>
+                                        <color key="backgroundColor" red="0.97647058823529409" green="0.8666666666666667" blue="0.50588235294117645" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="39" id="AUm-Fh-Rp8"/>
+                                            <constraint firstAttribute="width" constant="310" id="OWP-hk-BxD"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                        <color key="tintColor" red="1" green="0.76449467770000001" blue="0.13194997829999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Next">
+                                            <color key="titleColor" red="0.96862745100000003" green="0.59215686270000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="nextButtonAction:" destination="pWS-b2-D5k" eventType="touchUpInside" id="6rt-Cm-eeK"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RjX-45-bIh">
-                                <rect key="frame" x="145" y="497" width="310" height="39"/>
-                                <color key="backgroundColor" red="0.97647058823529409" green="0.8666666666666667" blue="0.50588235294117645" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="39" id="7fB-EQ-NUA"/>
-                                    <constraint firstAttribute="width" constant="310" id="KnN-7c-HTq"/>
+                                    <constraint firstItem="RjX-45-bIh" firstAttribute="centerY" secondItem="fWb-0h-vqy" secondAttribute="centerY" id="W9b-Fq-fUa"/>
+                                    <constraint firstAttribute="width" secondItem="fWb-0h-vqy" secondAttribute="height" multiplier="40:7" id="cvB-ma-jXX"/>
+                                    <constraint firstItem="RjX-45-bIh" firstAttribute="centerX" secondItem="fWb-0h-vqy" secondAttribute="centerX" id="pyT-Rz-0YC"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
-                                <color key="tintColor" red="1" green="0.76449467770000001" blue="0.13194997829999999" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Next">
-                                    <color key="titleColor" red="0.96862745100000003" green="0.59215686270000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="nextButtonAction:" destination="pWS-b2-D5k" eventType="touchUpInside" id="6rt-Cm-eeK"/>
-                                </connections>
-                            </button>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="2Ld-2b-D4K" firstAttribute="bottom" secondItem="pU6-Jp-qQ0" secondAttribute="top" constant="54" id="3Y6-Sl-Mx7"/>
-                            <constraint firstItem="fWb-0h-vqy" firstAttribute="top" secondItem="RjX-45-bIh" secondAttribute="top" id="8JL-sQ-3ea"/>
-                            <constraint firstItem="fWb-0h-vqy" firstAttribute="leading" secondItem="2Ld-2b-D4K" secondAttribute="leading" id="PJX-la-P6s"/>
-                            <constraint firstItem="pU6-Jp-qQ0" firstAttribute="top" secondItem="RjX-45-bIh" secondAttribute="bottom" constant="64" id="TFK-ui-bEM"/>
-                            <constraint firstItem="fWb-0h-vqy" firstAttribute="trailing" secondItem="2Ld-2b-D4K" secondAttribute="trailing" id="U5Y-2F-XhG"/>
-                            <constraint firstAttribute="bottomMargin" secondItem="fWb-0h-vqy" secondAttribute="bottom" constant="-2" id="ckw-Jv-onA"/>
+                            <constraint firstItem="pU6-Jp-qQ0" firstAttribute="top" secondItem="fWb-0h-vqy" secondAttribute="bottom" constant="47" id="Iz5-Z9-3jB"/>
+                            <constraint firstAttribute="trailing" secondItem="fWb-0h-vqy" secondAttribute="trailing" id="Kcs-7Q-VLZ"/>
+                            <constraint firstItem="fWb-0h-vqy" firstAttribute="leading" secondItem="Z6i-nU-17k" secondAttribute="leading" id="Z1O-aT-hOr"/>
                             <constraint firstAttribute="trailing" secondItem="2Ld-2b-D4K" secondAttribute="trailing" id="fSZ-Wr-Ykp"/>
                             <constraint firstItem="2Ld-2b-D4K" firstAttribute="top" secondItem="Z6i-nU-17k" secondAttribute="top" constant="54" id="oNc-DJ-AVL"/>
-                            <constraint firstItem="2Ld-2b-D4K" firstAttribute="centerX" secondItem="RjX-45-bIh" secondAttribute="centerX" id="tIo-yC-O7n"/>
                             <constraint firstItem="2Ld-2b-D4K" firstAttribute="leading" secondItem="Z6i-nU-17k" secondAttribute="leading" id="xcb-Cx-BHu"/>
                         </constraints>
                     </view>
@@ -1583,7 +1588,7 @@ This includes improved brain function, fat loss, a lower risk of cancer and many
         <!--Dinner Listing-->
         <scene sceneID="Pdd-vO-LHN">
             <objects>
-                <viewController storyboardIdentifier="FoodItemViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="yfn-S4-4p0" customClass="CreateFoodItem" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FoodItemViewController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="yfn-S4-4p0" customClass="CreateFoodItem" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="44b-H0-Oww"/>
                         <viewControllerLayoutGuide type="bottom" id="t9X-dm-ulJ"/>
@@ -1592,12 +1597,12 @@ This includes improved brain function, fat loss, a lower risk of cancer and many
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="79" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="yat-rW-LJy">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="79" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="yat-rW-LJy">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="480"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="titleCell" rowHeight="79" id="dbv-Dp-hQe" customClass="TitleTableViewCell">
-                                        <rect key="frame" x="0.0" y="22" width="600" height="79"/>
+                                        <rect key="frame" x="0.0" y="50" width="600" height="79"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="titleCell" tableViewCell="dbv-Dp-hQe" id="N0I-Eu-T1b">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="78"/>
@@ -1640,7 +1645,7 @@ This includes improved brain function, fat loss, a lower risk of cancer and many
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="categoryCell" rowHeight="79" id="E5v-ZN-le5">
-                                        <rect key="frame" x="0.0" y="101" width="600" height="79"/>
+                                        <rect key="frame" x="0.0" y="129" width="600" height="79"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="E5v-ZN-le5" id="WBg-uF-4i5">
                                             <rect key="frame" x="0.0" y="0.0" width="567" height="78"/>
@@ -1669,7 +1674,7 @@ This includes improved brain function, fat loss, a lower risk of cancer and many
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="descriptionCell" rowHeight="238" id="LFg-Fb-8uV" customClass="DescriptionTableViewCell">
-                                        <rect key="frame" x="0.0" y="180" width="600" height="238"/>
+                                        <rect key="frame" x="0.0" y="208" width="600" height="238"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" contentMode="center" tableViewCell="LFg-Fb-8uV" id="edp-gi-0Jl">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="237"/>
@@ -1739,7 +1744,7 @@ This includes improved brain function, fat loss, a lower risk of cancer and many
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EYH-mf-aup" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-367" y="55"/>
+            <point key="canvasLocation" x="69" y="482"/>
         </scene>
         <!--Add Food Photos-->
         <scene sceneID="j0i-3H-dNN">
@@ -1753,12 +1758,12 @@ This includes improved brain function, fat loss, a lower risk of cancer and many
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="170" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="bDp-VW-Iq9">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="170" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="bDp-VW-Iq9">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="480"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" restorationIdentifier="NoteCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="NoteCell" rowHeight="33" id="SUG-Sf-KWu">
-                                        <rect key="frame" x="0.0" y="22" width="600" height="33"/>
+                                        <rect key="frame" x="0.0" y="50" width="600" height="33"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SUG-Sf-KWu" id="bAY-38-9og">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="32"/>
@@ -1780,7 +1785,7 @@ This includes improved brain function, fat loss, a lower risk of cancer and many
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AddPhotoCell" rowHeight="170" id="jgw-yy-HJO" customClass="SelectPhotoCell">
-                                        <rect key="frame" x="0.0" y="55" width="600" height="170"/>
+                                        <rect key="frame" x="0.0" y="83" width="600" height="170"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jgw-yy-HJO" id="gOe-05-uKG">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="169"/>
@@ -1882,12 +1887,12 @@ This includes improved brain function, fat loss, a lower risk of cancer and many
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="146" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="pBp-03-8gr">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="146" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="pBp-03-8gr">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="480"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" restorationIdentifier="AddressCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="AddressCell" rowHeight="146" id="Ray-WZ-Ppg">
-                                        <rect key="frame" x="0.0" y="22" width="600" height="146"/>
+                                        <rect key="frame" x="0.0" y="50" width="600" height="146"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ray-WZ-Ppg" id="W9g-lK-WVu">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="145"/>
@@ -1957,7 +1962,7 @@ This includes improved brain function, fat loss, a lower risk of cancer and many
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" restorationIdentifier="DeliveryOptionsCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="DeliveryOptionsCell" rowHeight="205" id="EKe-pA-6BJ">
-                                        <rect key="frame" x="0.0" y="168" width="600" height="205"/>
+                                        <rect key="frame" x="0.0" y="196" width="600" height="205"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EKe-pA-6BJ" id="7Wo-Kw-iZG">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="204"/>
@@ -2057,12 +2062,12 @@ This includes improved brain function, fat loss, a lower risk of cancer and many
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="489" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="i2u-d9-wdD">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="489" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="i2u-d9-wdD">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="480"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" restorationIdentifier="SplNeedsCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="SplNeedsCell" rowHeight="489" id="0wv-Du-XBh" customClass="specialNeedsCell">
-                                        <rect key="frame" x="0.0" y="22" width="600" height="489"/>
+                                        <rect key="frame" x="0.0" y="50" width="600" height="489"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0wv-Du-XBh" id="pri-G4-tzd">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="488"/>
@@ -2274,12 +2279,12 @@ This includes improved brain function, fat loss, a lower risk of cancer and many
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="169" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="kJo-yx-eBM">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="169" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="kJo-yx-eBM">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="520"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" restorationIdentifier="CostCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="CostCell" rowHeight="103" id="9us-Nx-IZg" customClass="CostCell">
-                                        <rect key="frame" x="0.0" y="22" width="600" height="103"/>
+                                        <rect key="frame" x="0.0" y="50" width="600" height="103"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9us-Nx-IZg" id="OZM-z2-C7h">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="102"/>
@@ -2327,7 +2332,7 @@ This includes improved brain function, fat loss, a lower risk of cancer and many
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" restorationIdentifier="MaximumCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="MaximumCell" rowHeight="115" id="DnS-P9-Idk" customClass="MinimumOrdersCell">
-                                        <rect key="frame" x="0.0" y="125" width="600" height="115"/>
+                                        <rect key="frame" x="0.0" y="153" width="600" height="115"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="10" contentMode="center" tableViewCell="DnS-P9-Idk" id="F9Q-Ud-5hv">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="114"/>
@@ -2403,145 +2408,128 @@ This includes improved brain function, fat loss, a lower risk of cancer and many
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="oxa-yV-8rc">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="oxa-yV-8rc">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="480"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" restorationIdentifier="DateSelectCell" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="DateSelectCell" rowHeight="103" id="XoW-6w-uCH">
-                                        <rect key="frame" x="0.0" y="22" width="600" height="103"/>
+                                    <tableViewCell contentMode="scaleToFill" restorationIdentifier="DateSelectCell" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="DateSelectCell" rowHeight="78" id="XoW-6w-uCH">
+                                        <rect key="frame" x="0.0" y="50" width="600" height="78"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="XoW-6w-uCH" id="par-4F-Xxm">
-                                            <rect key="frame" x="0.0" y="0.0" width="567" height="102"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="567" height="77"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Available" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uPB-a2-IRe">
-                                                    <rect key="frame" x="24" y="21" width="128" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Available" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uPB-a2-IRe">
+                                                    <rect key="frame" x="24" y="9" width="68" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="111" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Today (Mar. 9th 2015)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ids-0R-Dd8">
-                                                    <rect key="frame" x="49" y="60" width="284" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="111" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Today (Mar. 9th 2015)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ids-0R-Dd8">
+                                                    <rect key="frame" x="49" y="28" width="168" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" restorationIdentifier="TimeSelectCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="TimeSelectCell" rowHeight="163" id="LAS-WE-64c" customClass="AvialbleTimeTableCell">
-                                        <rect key="frame" x="0.0" y="125" width="600" height="163"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LAS-WE-64c" id="ahV-4J-ykJ">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="162"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="From" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QEM-c9-LMg">
-                                                    <rect key="frame" x="24" y="17" width="68" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="111" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="7.00 p.m." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YCe-LU-obZ">
-                                                    <rect key="frame" x="49" y="49" width="101" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="to" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7OK-Qh-cI8">
-                                                    <rect key="frame" x="24" y="83" width="16" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="112" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="9.00 p.m." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gfi-08-4H4">
-                                                    <rect key="frame" x="49" y="122" width="101" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="kFA-5T-u9s">
-                                                    <rect key="frame" x="485" y="43" width="89" height="29"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="89" id="MvM-HU-eLT"/>
-                                                    </constraints>
-                                                    <segments>
-                                                        <segment title="-"/>
-                                                        <segment title="+"/>
-                                                    </segments>
-                                                    <color key="tintColor" red="0.96862745100000003" green="0.59215686270000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <connections>
-                                                        <action selector="fromSegmentAction:" destination="LAS-WE-64c" eventType="valueChanged" id="i8j-bY-Fgg"/>
-                                                    </connections>
-                                                </segmentedControl>
-                                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="opn-Zi-2p1">
-                                                    <rect key="frame" x="485" y="114" width="89" height="29"/>
-                                                    <segments>
-                                                        <segment title="-"/>
-                                                        <segment title="+"/>
-                                                    </segments>
-                                                    <color key="tintColor" red="0.96862745100000003" green="0.62352941179999999" blue="0.20392156859999999" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <connections>
-                                                        <action selector="toSegmentAction:" destination="LAS-WE-64c" eventType="valueChanged" id="LVa-MW-Msz"/>
-                                                    </connections>
-                                                </segmentedControl>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="kFA-5T-u9s" firstAttribute="top" secondItem="ahV-4J-ykJ" secondAttribute="topMargin" constant="35" id="gM9-i5-Abs"/>
-                                                <constraint firstItem="opn-Zi-2p1" firstAttribute="top" secondItem="kFA-5T-u9s" secondAttribute="bottom" constant="43" id="hOK-Uk-PlU"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="kFA-5T-u9s" secondAttribute="trailing" constant="18" id="kHS-Jc-BIp"/>
-                                                <constraint firstItem="kFA-5T-u9s" firstAttribute="trailing" secondItem="opn-Zi-2p1" secondAttribute="trailing" id="o7A-iF-soI"/>
-                                                <constraint firstItem="kFA-5T-u9s" firstAttribute="leading" secondItem="opn-Zi-2p1" secondAttribute="leading" id="xGJ-6J-0Wr"/>
+                                                <constraint firstItem="Ids-0R-Dd8" firstAttribute="leading" secondItem="par-4F-Xxm" secondAttribute="leading" constant="49" id="660-sa-ZRG"/>
+                                                <constraint firstItem="Ids-0R-Dd8" firstAttribute="centerY" secondItem="par-4F-Xxm" secondAttribute="centerY" id="67Z-4n-KhY"/>
+                                                <constraint firstItem="uPB-a2-IRe" firstAttribute="top" secondItem="par-4F-Xxm" secondAttribute="top" constant="9" id="iHD-HM-0oW"/>
+                                                <constraint firstItem="uPB-a2-IRe" firstAttribute="leading" secondItem="par-4F-Xxm" secondAttribute="leading" constant="24" id="kHm-vL-jwD"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" restorationIdentifier="TimeSelectCell" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="TimeSelectCell" rowHeight="78" id="LAS-WE-64c" customClass="AvialbleTimeTableCell">
+                                        <rect key="frame" x="0.0" y="128" width="600" height="78"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LAS-WE-64c" id="ahV-4J-ykJ">
+                                            <rect key="frame" x="0.0" y="0.0" width="567" height="77"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="From" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QEM-c9-LMg">
+                                                    <rect key="frame" x="24" y="9" width="40" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="111" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="7.00 p.m." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YCe-LU-obZ">
+                                                    <rect key="frame" x="49" y="28" width="70" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="YCe-LU-obZ" firstAttribute="leading" secondItem="ahV-4J-ykJ" secondAttribute="leading" constant="49" id="8lW-IC-xKg"/>
+                                                <constraint firstItem="YCe-LU-obZ" firstAttribute="centerY" secondItem="ahV-4J-ykJ" secondAttribute="centerY" id="GHE-D3-sbS"/>
+                                                <constraint firstItem="QEM-c9-LMg" firstAttribute="leading" secondItem="ahV-4J-ykJ" secondAttribute="leading" constant="24" id="Xi4-Qw-i83"/>
+                                                <constraint firstItem="QEM-c9-LMg" firstAttribute="top" secondItem="ahV-4J-ykJ" secondAttribute="top" constant="9" id="s3i-YC-lTW"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="fromLable" destination="YCe-LU-obZ" id="tya-AN-wKv"/>
-                                            <outlet property="fromSegmentButton" destination="kFA-5T-u9s" id="j70-1H-ULt"/>
-                                            <outlet property="toLable" destination="Gfi-08-4H4" id="Ze1-iz-Ocl"/>
-                                            <outlet property="toSegmentButton" destination="opn-Zi-2p1" id="hKL-uB-PDb"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" restorationIdentifier="AcceptOrdersCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="AcceptOrdersCell" rowHeight="118" id="omu-bf-MeK" customClass="AcceptOrdersTableCell">
-                                        <rect key="frame" x="0.0" y="288" width="600" height="118"/>
+                                    <tableViewCell contentMode="scaleToFill" restorationIdentifier="TimeSelectCell1" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="TimeSelectCell1" rowHeight="78" id="cbu-Nc-JYx" customClass="AvialbleTimeTableCell">
+                                        <rect key="frame" x="0.0" y="206" width="600" height="78"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="omu-bf-MeK" id="TrX-8j-IXW">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="117"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cbu-Nc-JYx" id="Bdl-oC-Z9m">
+                                            <rect key="frame" x="0.0" y="0.0" width="567" height="77"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Accept orders till" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ofm-JF-nAV">
-                                                    <rect key="frame" x="24" y="18" width="130" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="to" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LxS-2J-1ju">
+                                                    <rect key="frame" x="24" y="9" width="16" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="111" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="5.00 p.m." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MO1-rM-ISo">
-                                                    <rect key="frame" x="49" y="48" width="122" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="112" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="9.00 p.m." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XPp-E5-2Ot">
+                                                    <rect key="frame" x="49" y="28" width="73" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="qjf-HW-Lly">
-                                                    <rect key="frame" x="476" y="41" width="89" height="29"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="89" id="H30-y7-clx"/>
-                                                    </constraints>
-                                                    <segments>
-                                                        <segment title="-"/>
-                                                        <segment title="+"/>
-                                                    </segments>
-                                                    <color key="tintColor" red="0.96862745100000003" green="0.59215686270000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <connections>
-                                                        <action selector="acceptOrdersAction:" destination="omu-bf-MeK" eventType="valueChanged" id="RWk-Xx-ImN"/>
-                                                    </connections>
-                                                </segmentedControl>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="qjf-HW-Lly" firstAttribute="top" secondItem="TrX-8j-IXW" secondAttribute="top" constant="41" id="Q7e-2U-yn8"/>
-                                                <constraint firstAttribute="trailing" secondItem="qjf-HW-Lly" secondAttribute="trailing" constant="35" id="bOl-Gb-5R6"/>
+                                                <constraint firstItem="LxS-2J-1ju" firstAttribute="top" secondItem="Bdl-oC-Z9m" secondAttribute="top" constant="9" id="1qb-gY-wkf"/>
+                                                <constraint firstItem="XPp-E5-2Ot" firstAttribute="centerY" secondItem="Bdl-oC-Z9m" secondAttribute="centerY" id="CqG-by-4nS"/>
+                                                <constraint firstItem="XPp-E5-2Ot" firstAttribute="leading" secondItem="Bdl-oC-Z9m" secondAttribute="leadingMargin" constant="41" id="W1r-Vd-6ao"/>
+                                                <constraint firstItem="LxS-2J-1ju" firstAttribute="leading" secondItem="Bdl-oC-Z9m" secondAttribute="leading" constant="24" id="ZwS-oJ-hwZ"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="acceptOrdersSegmentButton" destination="qjf-HW-Lly" id="be0-qQ-Uql"/>
+                                            <outlet property="toLable" destination="XPp-E5-2Ot" id="ywG-7g-dLZ"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" restorationIdentifier="AcceptOrdersCell" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="AcceptOrdersCell" rowHeight="78" id="omu-bf-MeK" customClass="AcceptOrdersTableCell">
+                                        <rect key="frame" x="0.0" y="284" width="600" height="78"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="omu-bf-MeK" id="TrX-8j-IXW">
+                                            <rect key="frame" x="0.0" y="0.0" width="567" height="77"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Accept orders till" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ofm-JF-nAV">
+                                                    <rect key="frame" x="24" y="9" width="130" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="111" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5.00 p.m." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MO1-rM-ISo">
+                                                    <rect key="frame" x="49" y="28" width="73" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="MO1-rM-ISo" firstAttribute="leading" secondItem="TrX-8j-IXW" secondAttribute="leading" constant="49" id="9WU-mX-I1E"/>
+                                                <constraint firstItem="MO1-rM-ISo" firstAttribute="centerY" secondItem="TrX-8j-IXW" secondAttribute="centerY" id="JpP-bi-1pq"/>
+                                                <constraint firstItem="Ofm-JF-nAV" firstAttribute="top" secondItem="TrX-8j-IXW" secondAttribute="top" constant="9" id="Xnc-M1-HWb"/>
+                                                <constraint firstItem="Ofm-JF-nAV" firstAttribute="leading" secondItem="TrX-8j-IXW" secondAttribute="leading" constant="24" id="gu8-Y7-P1B"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
                                             <outlet property="availableFrom" destination="MO1-rM-ISo" id="yEU-OH-xye"/>
                                         </connections>
                                     </tableViewCell>
@@ -3141,7 +3129,7 @@ This includes improved brain function, fat loss, a lower risk of cancer and many
         <image name="noImage" width="85" height="85"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="DMM-Ob-DAT"/>
         <segue reference="Rxg-2A-HS0"/>
+        <segue reference="B0h-cg-AKY"/>
     </inferredMetricsTieBreakers>
 </document>

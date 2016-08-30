@@ -12,7 +12,7 @@
 #import "DatePicker.h"
 #import "ItemDetails.h"
 
-@interface AddTimeController : UIViewController<DatePickerDelegate,AcceptOrdersDelegate,AvialbleTimeDelegate>
+@interface AddTimeController : UIViewController
 {
     IBOutlet UITableView *addTimeTableview;
     NSDate *startDate;

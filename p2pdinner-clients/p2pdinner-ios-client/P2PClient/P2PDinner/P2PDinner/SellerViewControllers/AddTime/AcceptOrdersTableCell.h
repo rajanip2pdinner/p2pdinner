@@ -7,18 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-@protocol AcceptOrdersDelegate<NSObject>
--(void)updatedItems;
-@end
-
-
 @interface AcceptOrdersTableCell : UITableViewCell
-{
-    IBOutlet UISegmentedControl *acceptOrdersSegmentButton;
-    IBOutlet UILabel *availableFrom;
-}
-@property(nonatomic,retain)id<AcceptOrdersDelegate> delegate;
+@property(nonatomic,weak)IBOutlet UILabel *availableFrom;
 - (void)setAcceptOrdersTime:(NSDate *)acceptDate;
-- (NSDate *)getAcceptOrdersTime:(NSDate *)selectedDate;
-- (IBAction)acceptOrdersAction:(id)sender;
+//- (NSDate *)getAcceptOrdersTime:(NSDate *)selectedDate;
 @end

@@ -30,6 +30,7 @@ import com.p2pdinner.fragments.PlaceFragment;
 import com.p2pdinner.fragments.SplNeedsFragment;
 import com.p2pdinner.fragments.TimeFragment;
 import com.p2pdinner.fragments.WantDinnerFragment;
+import com.p2pdinner.restclient.DeviceManager;
 import com.p2pdinner.restclient.DinnerCartManager;
 import com.p2pdinner.restclient.DinnerListingManager;
 import com.p2pdinner.restclient.GoogleApiService;
@@ -38,6 +39,7 @@ import com.p2pdinner.restclient.P2PDinnerAuthenticationInterceptor;
 import com.p2pdinner.restclient.PlacesServiceManager;
 import com.p2pdinner.restclient.UserProfileManager;
 import com.p2pdinner.services.P2PDinnerOAuthTokenRefreshService;
+import com.p2pdinner.services.RegistrationIntentService;
 
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -73,7 +75,8 @@ import dagger.Provides;
                 FacebookLoginActivityFragment.class,
                 DinnerListingDetailActivity.class,
                 SellerListingDetailActivity.class,
-                P2PDinnerOAuthTokenRefreshService.class
+                P2PDinnerOAuthTokenRefreshService.class,
+                RegistrationIntentService.class
         },
         complete = false,
         library = true
@@ -149,6 +152,12 @@ public class P2PDinnerApplicationModule {
     @Singleton
     PlacesServiceManager placesServiceManager(RestTemplate restTemplate) {
         return new PlacesServiceManager(restTemplate);
+    }
+
+    @Provides
+    @Singleton
+    DeviceManager deviceManager(RestTemplate restTemplate) {
+        return new DeviceManager(restTemplate);
     }
 
     @Provides

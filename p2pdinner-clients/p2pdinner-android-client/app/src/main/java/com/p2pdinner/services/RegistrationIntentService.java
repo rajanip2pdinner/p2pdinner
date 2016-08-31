@@ -11,11 +11,14 @@ import android.util.Log;
 import com.google.android.gms.gcm.GcmPubSub;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
+import com.p2pdinner.P2PDinnerApplication;
 import com.p2pdinner.R;
 import com.p2pdinner.common.Constants;
 import com.p2pdinner.restclient.DeviceManager;
 
 import java.io.IOException;
+
+import javax.inject.Inject;
 
 /**
  * Created by rajaniy on 1/4/16.
@@ -26,6 +29,15 @@ public class RegistrationIntentService extends IntentService {
 
     public RegistrationIntentService() {
         super(TAG);
+    }
+
+    @Inject
+    DeviceManager deviceManager;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        ((P2PDinnerApplication)getApplication()).inject(this);
     }
 
     @Override
@@ -77,7 +89,7 @@ public class RegistrationIntentService extends IntentService {
      */
     private void sendRegistrationToServer(String token) {
         Long profileId = getSharedPreferences(Constants.PREFS_PRIVATE, Context.MODE_PRIVATE).getLong(Constants.PROFILE_ID, -1L);
-        boolean registrationSuccess = DeviceManager.getInstance().addDevice(profileId, token);
+        boolean registrationSuccess = deviceManager.addDevice(profileId, token);
         getSharedPreferences(Constants.PREFS_PRIVATE, Context.MODE_PRIVATE).edit().putBoolean(Constants.SENT_TOKEN_TO_SERVER, registrationSuccess);
     }
 

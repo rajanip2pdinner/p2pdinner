@@ -37,6 +37,7 @@ import com.p2pdinner.entities.UserProfile;
 import com.p2pdinner.entities.UserOption;
 import com.p2pdinner.restclient.UserProfileManager;
 import com.p2pdinner.services.P2PDinnerOAuthTokenRefreshService;
+import com.p2pdinner.services.RegistrationIntentService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -174,6 +175,13 @@ public class MainActivity extends BaseAppCompatActivity {
                         editor.putLong(Constants.PROFILE_ID, userProfile.getId());
                         editor.putBoolean(Constants.IS_VALID_PROFILE, Boolean.TRUE);
                         editor.commit();
+                        boolean sentToken = sharedPreferences.getBoolean(Constants.SENT_TOKEN_TO_SERVER, false);
+                        if (!sentToken) {
+                            Intent registrationIntent = new Intent(MainActivity.this, RegistrationIntentService.class);
+                            startService(registrationIntent);
+                        }
+                        editor.putBoolean(Constants.SENT_TOKEN_TO_SERVER, sentToken);
+                        editor.commit();
                         startActivity(intent);
                     }
 
@@ -207,6 +215,13 @@ public class MainActivity extends BaseAppCompatActivity {
                         if (userProfile != null && userProfile.getId() != null) {
                             editor.putLong(Constants.PROFILE_ID, userProfile.getId());
                         }
+                        editor.commit();
+                        boolean sentToken = sharedPreferences.getBoolean(Constants.SENT_TOKEN_TO_SERVER, false);
+                        if (!sentToken) {
+                            Intent registrationIntent = new Intent(MainActivity.this, RegistrationIntentService.class);
+                            startService(registrationIntent);
+                        }
+                        editor.putBoolean(Constants.SENT_TOKEN_TO_SERVER, sentToken);
                         editor.commit();
                         startActivity(intent);
                     }

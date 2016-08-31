@@ -22,5 +22,12 @@ public class P2PDinnerInstanceIDListenerService extends InstanceIDListenerServic
         Intent intent = new Intent(this, RegistrationIntentService.class);
         startService(intent);
     }
+
+    @Override
+    public int onStartCommand(Intent intent,int flags,int startId) {
+        Intent registrationIntent = new Intent(this, RegistrationIntentService.class);
+        startService(registrationIntent);
+        return startId;
+    }
     // [END refresh_token]
 }

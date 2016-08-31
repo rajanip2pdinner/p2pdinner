@@ -27,19 +27,12 @@ public class DeviceManager {
 
     private static DeviceManager deviceManager;
 
-    private DeviceManager(){
+    private RestTemplate restTemplate;
 
+    public DeviceManager(RestTemplate restTemplate){
+        this.restTemplate = restTemplate;
     }
-
-    public static DeviceManager getInstance() {
-        if (deviceManager == null) {
-            deviceManager = new DeviceManager();
-        }
-        return deviceManager;
-    }
-
     public boolean addDevice(Long profileId, String deviceToken) {
-        RestTemplate restTemplate = new RestTemplate();
         UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromUriString(Constants.P2PDINNER_BASE_URI);
         Map<String,Object> variables = new HashMap<>();
         variables.put("id", profileId);

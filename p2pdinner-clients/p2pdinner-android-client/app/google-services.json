@@ -1,0 +1,35 @@
+{
+  "project_info": {
+    "project_number": "156893780818",
+    "project_id": "firebase-p2pdinner"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:156893780818:android:ad47c34459810022",
+        "android_client_info": {
+          "package_name": "com.p2pdinner"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDu0Oep-ggL1ikQaiKu2H17sLAjx02fAcQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

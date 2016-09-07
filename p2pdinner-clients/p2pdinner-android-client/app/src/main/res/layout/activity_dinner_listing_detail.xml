@@ -171,7 +171,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:padding="20dp"
+        android:padding="5dp"
         android:text="@string/buy_now"
         android:textSize="20dp"
         android:textColor="@color/background_material_light" />

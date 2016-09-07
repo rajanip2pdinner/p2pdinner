@@ -263,7 +263,7 @@ public class FindDinnerActivity extends BaseAppCompatActivity implements DateDia
     }
 
     @Override
-    public void setSelectedDate(int resourceId, Calendar calendar) {
+    public void setSelectedDate(int resourceId, DateTime dateTime) {
 
     }
 

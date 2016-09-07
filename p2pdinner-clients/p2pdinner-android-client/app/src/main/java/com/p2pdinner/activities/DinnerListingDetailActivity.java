@@ -28,6 +28,7 @@ import com.p2pdinner.entities.UserProfile;
 import com.p2pdinner.restclient.UserProfileManager;
 import com.p2pdinner.restclient.DinnerCartManager;
 import com.p2pdinner.restclient.ImageDownloadTask;
+import com.p2pdinner.services.RegistrationIntentService;
 
 import org.springframework.util.StringUtils;
 
@@ -256,6 +257,11 @@ public class DinnerListingDetailActivity extends BaseAppCompatActivity {
                                         SharedPreferences.Editor editor = sharedPreferences.edit();
                                         editor.putLong(Constants.PROFILE_ID, userProfile.getId());
                                         editor.commit();
+                                        boolean sentToken = sharedPreferences.getBoolean(Constants.SENT_TOKEN_TO_SERVER, false);
+                                        if (!sentToken) {
+                                            Intent registrationIntent = new Intent(DinnerListingDetailActivity.this, RegistrationIntentService.class);
+                                            startService(registrationIntent);
+                                        }
                                         placeOrder(Long.valueOf(userProfile.getId()), listingId, quantity, deliveryType);
                                     }
 

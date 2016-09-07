@@ -104,7 +104,7 @@ public class UserProfileManager {
         return jsonObject.has(jsonField) && jsonObject.getString(jsonField) != null && !jsonObject.getString(jsonField).equalsIgnoreCase("null");
     }
 
-    public Observable<Void> createProfile(final UserProfile userProfile){
+    public Observable<Void> createProfile(final UserProfile userProfile) {
         return Observable.create(new Observable.OnSubscribe<Void>() {
             @Override
             public void call(Subscriber<? super Void> subscriber) {
@@ -130,56 +130,5 @@ public class UserProfileManager {
         });
     }
 
-    public Observable<AppAccessToken> requestAccessToken() {
-        return Observable.create(new Observable.OnSubscribe<AppAccessToken>() {
-            @Override
-            public void call(Subscriber<? super AppAccessToken> subscriber) {
-                UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromUriString(Constants.P2PDINNER_BASE_URI);
-                UriComponents components = uriComponentsBuilder.path("/oauth/token").build();
-                MultiValueMap<String, String> formParams = new LinkedMultiValueMap<String, String>();
-                formParams.add("grant_type", "Password");
-                formParams.add("username", context.getString(R.string.p2pdinner_user_name));
-                formParams.add("password", context.getString(R.string.p2pdinner_password));
-                HttpHeaders httpHeaders = createHeaders(context.getString(R.string.p2pdinner_client_id), context.getString(R.string.p2pdinner_client_secret));
-                httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-                HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(formParams, httpHeaders);
-                ResponseEntity<AppAccessToken> appAccessTokenEntity = restTemplate.exchange(components.toUri(), HttpMethod.POST, requestEntity, AppAccessToken.class);
-                subscriber.onNext(appAccessTokenEntity.getBody());
-                subscriber.onCompleted();
-            }
-        });
-    }
 
-    public Observable<AppAccessToken> refreshAccessToken(final String refreshToken) {
-        return Observable.create(new Observable.OnSubscribe<AppAccessToken>() {
-            @Override
-            public void call(Subscriber<? super AppAccessToken> subscriber) {
-                UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromUriString(Constants.P2PDINNER_BASE_URI);
-                UriComponents components = uriComponentsBuilder.path("/oauth/token").build();
-                MultiValueMap<String, String> formParams = new LinkedMultiValueMap<String, String>();
-                formParams.add("grant_type", "refresh_token");
-                formParams.add("refresh_token", refreshToken);
-                HttpHeaders httpHeaders = createHeaders(context.getString(R.string.p2pdinner_client_id), context.getString(R.string.p2pdinner_client_secret));
-                httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-                HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(formParams, httpHeaders);
-                ResponseEntity<AppAccessToken> appAccessTokenEntity = restTemplate.exchange(components.toUri(), HttpMethod.POST, requestEntity, AppAccessToken.class);
-                subscriber.onNext(appAccessTokenEntity.getBody());
-                subscriber.onCompleted();
-            }
-        });
-    }
-
-
-
-    private HttpHeaders createHeaders(final String username,final String password ){
-        return new HttpHeaders(){
-            {
-                String auth = username + ":" + password;
-                byte[] encodedAuth = Base64.encodeBase64(
-                        auth.getBytes(Charset.forName("US-ASCII")) );
-                String authHeader = "Basic " + new String( encodedAuth );
-                set( "Authorization", authHeader );
-            }
-        };
-    }
 }

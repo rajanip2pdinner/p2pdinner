@@ -81,7 +81,7 @@ public class MainActivity extends BaseAppCompatActivity {
         registerUserOptionClickListener();
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         initializeNavigationDrawer();
-        startOAuthService();
+        //startOAuthService();
     }
 
     private void intializeControls() {
@@ -238,12 +238,12 @@ public class MainActivity extends BaseAppCompatActivity {
                 });
     }
 
-    private void startOAuthService() {
-        Intent startServiceIntent = new Intent(this, P2PDinnerOAuthTokenRefreshService.class);
-        PendingIntent pi = PendingIntent.getService(this, 0, startServiceIntent, 0);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime(), POLL_INTERVAL, pi);
-    }
+//    private void startOAuthService() {
+//        Intent startServiceIntent = new Intent(this, P2PDinnerOAuthTokenRefreshService.class);
+//        PendingIntent pi = PendingIntent.getService(this, 0, startServiceIntent, 0);
+//        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+//        alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime(), POLL_INTERVAL, pi);
+//    }
 
     private class UserOptionsAdapter extends ArrayAdapter<UserOption> {
         public UserOptionsAdapter() {

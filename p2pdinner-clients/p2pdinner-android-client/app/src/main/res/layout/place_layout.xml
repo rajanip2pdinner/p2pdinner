@@ -6,6 +6,10 @@
 
     <TextView android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:textStyle="normal|bold"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textSize="18sp"
         android:text="@string/address" />
 
     <EditText
@@ -19,6 +23,10 @@
 
     <TextView android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:textStyle="normal|bold"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textSize="18sp"
         android:text="@string/delivery_options" />
 
     <EditText

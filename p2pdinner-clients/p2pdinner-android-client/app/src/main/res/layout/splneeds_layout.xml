@@ -8,6 +8,10 @@
         android:layout_height="wrap_content"
         android:text = "Special Needs"
         android:id="@+id/txt_special_needs"
+        android:textStyle="normal|bold"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textSize="18sp"
+        android:paddingLeft="5dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"/>
 

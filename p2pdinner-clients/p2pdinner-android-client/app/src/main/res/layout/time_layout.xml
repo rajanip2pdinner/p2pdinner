@@ -6,6 +6,10 @@
 
     <TextView android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:textStyle="normal|bold"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textSize="18sp"
         android:text="@string/available_label" />
 
     <EditText
@@ -17,6 +21,10 @@
 
     <TextView android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:textStyle="normal|bold"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textSize="18sp"
         android:text="@string/from_label" />
 
     <EditText
@@ -28,6 +36,10 @@
 
     <TextView android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:textStyle="normal|bold"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textSize="18sp"
         android:text="@string/to_label" />
 
     <EditText
@@ -39,6 +51,10 @@
 
     <TextView android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textStyle="normal|bold"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textSize="18sp"
+        android:paddingLeft="5dp"
         android:text="@string/accept_orders_till_label" />
 
     <EditText

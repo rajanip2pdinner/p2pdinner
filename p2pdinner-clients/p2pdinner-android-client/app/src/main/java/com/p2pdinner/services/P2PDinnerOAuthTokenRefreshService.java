@@ -1,138 +1,93 @@
 package com.p2pdinner.services;
 
-import android.app.AlarmManager;
-import android.app.IntentService;
-import android.app.job.JobInfo;
-import android.app.job.JobParameters;
-import android.app.job.JobScheduler;
-import android.app.job.JobService;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.SystemClock;
 import android.util.Log;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.p2pdinner.P2PDinnerApplication;
+import com.p2pdinner.R;
 import com.p2pdinner.common.Constants;
 import com.p2pdinner.entities.AppAccessToken;
 import com.p2pdinner.restclient.UserProfileManager;
 
-import org.springframework.util.StringUtils;
+import org.apache.commons.codec.binary.Base64;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.nio.charset.Charset;
 
 import javax.inject.Inject;
 
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
-
-public class P2PDinnerOAuthTokenRefreshService extends IntentService {
+public class P2PDinnerOAuthTokenRefreshService {
 
     private static final String TAG = "P2PDinnerOAuth";
 
-    private SharedPreferences sharedPreferences = null;
-    private static final int POLL_INTERVAL = 60 * 1000;
+    private AppAccessToken appAccessToken;
+    private Context context;
+    private RestTemplate oauthRequestTemplate;
 
-    @Inject
-    UserProfileManager userProfileManager;
-
-    private static Integer jobId = 0;
-
-    private ComponentName serviceComponent;
-
-    private Gson gson = new GsonBuilder().create();
-
-    public P2PDinnerOAuthTokenRefreshService() {
-        super(TAG);
-    }
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        ((P2PDinnerApplication) getApplication()).inject(this);
-        sharedPreferences = getSharedPreferences(Constants.PREFS_PRIVATE, Context.MODE_PRIVATE);
+    public P2PDinnerOAuthTokenRefreshService(Context context, RestTemplate oauthRequestTemplate) {
+        this.context = context;
+        this.oauthRequestTemplate = oauthRequestTemplate;
     }
 
-    @Override
-    public void onStart(Intent intent, int startId) {
-        super.onStart(intent, startId);
-        final String appAccessTokenJson = sharedPreferences.getString(Constants.P2PDINNER_API_TOKEN, "");
-        if (StringUtils.hasText(appAccessTokenJson)) {
-            AppAccessToken appAccessToken = gson.fromJson(appAccessTokenJson, AppAccessToken.class);
+
+    public AppAccessToken getAccessToken() {
+        if (appAccessToken == null) {
+            Log.d(TAG, "Request new token");
+            appAccessToken = requestAccessToken();
+        } else  {
             if (appAccessToken.isExpired()) {
-                refreshAccessToken(gson, appAccessToken);
+                appAccessToken = refreshAccessToken(appAccessToken.getRefreshToken());
             }
-        } else {
-            requestAccesToken(gson);
         }
+        return appAccessToken;
     }
 
-    @Override
-    protected void onHandleIntent(Intent intent) {
-        final String appAccessTokenJson = sharedPreferences.getString(Constants.P2PDINNER_API_TOKEN, "");
-        if (StringUtils.hasText(appAccessTokenJson)) {
-            AppAccessToken appAccessToken = gson.fromJson(appAccessTokenJson, AppAccessToken.class);
-            if (appAccessToken.isExpired()) {
-                refreshAccessToken(gson, appAccessToken);
+    public AppAccessToken requestAccessToken() {
+        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromUriString(Constants.P2PDINNER_BASE_URI);
+        UriComponents components = uriComponentsBuilder.path("/oauth/token").build();
+        MultiValueMap<String, String> formParams = new LinkedMultiValueMap<String, String>();
+        formParams.add("grant_type", "Password");
+        formParams.add("username", context.getString(R.string.p2pdinner_user_name));
+        formParams.add("password", context.getString(R.string.p2pdinner_password));
+        HttpHeaders httpHeaders = createHeaders(context.getString(R.string.p2pdinner_client_id), context.getString(R.string.p2pdinner_client_secret));
+        httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(formParams, httpHeaders);
+        ResponseEntity<AppAccessToken> appAccessTokenEntity = oauthRequestTemplate.exchange(components.toUri(), HttpMethod.POST, requestEntity, AppAccessToken.class);
+        return appAccessTokenEntity.getBody();
+    }
+
+    public AppAccessToken refreshAccessToken(final String refreshToken) {
+        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromUriString(Constants.P2PDINNER_BASE_URI);
+        UriComponents components = uriComponentsBuilder.path("/oauth/token").build();
+        MultiValueMap<String, String> formParams = new LinkedMultiValueMap<String, String>();
+        formParams.add("grant_type", "refresh_token");
+        formParams.add("refresh_token", refreshToken);
+        HttpHeaders httpHeaders = createHeaders(context.getString(R.string.p2pdinner_client_id), context.getString(R.string.p2pdinner_client_secret));
+        httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(formParams, httpHeaders);
+        ResponseEntity<AppAccessToken> appAccessTokenEntity = oauthRequestTemplate.exchange(components.toUri(), HttpMethod.POST, requestEntity, AppAccessToken.class);
+        return appAccessTokenEntity.getBody();
+    }
+
+
+    private HttpHeaders createHeaders(final String username, final String password) {
+        return new HttpHeaders() {
+            {
+                String auth = username + ":" + password;
+                byte[] encodedAuth = Base64.encodeBase64(
+                        auth.getBytes(Charset.forName("US-ASCII")));
+                String authHeader = "Basic " + new String(encodedAuth);
+                set("Authorization", authHeader);
             }
-        } else {
-            requestAccesToken(gson);
-        }
-    }
-
-    private void refreshAccessToken(final Gson gson, AppAccessToken appAccessToken) {
-        userProfileManager.refreshAccessToken(appAccessToken.getRefreshToken())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Observer<AppAccessToken>() {
-                    private AppAccessToken appAccessToken;
-
-                    @Override
-                    public void onCompleted() {
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString(Constants.P2PDINNER_API_TOKEN, gson.toJson(appAccessToken));
-                        editor.apply();
-                        editor.commit();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(AppAccessToken appAccessToken) {
-                        this.appAccessToken = appAccessToken;
-                    }
-                });
-    }
-
-    private void requestAccesToken(final Gson gson) {
-        userProfileManager.requestAccessToken()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Observer<AppAccessToken>() {
-                    private AppAccessToken appAccessToken;
-
-                    @Override
-                    public void onCompleted() {
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString(Constants.P2PDINNER_API_TOKEN, gson.toJson(appAccessToken));
-                        editor.apply();
-                        editor.commit();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, e.getMessage());
-                    }
-
-                    @Override
-                    public void onNext(AppAccessToken appAccessToken) {
-                        this.appAccessToken = appAccessToken;
-                    }
-                });
+        };
     }
 
 }

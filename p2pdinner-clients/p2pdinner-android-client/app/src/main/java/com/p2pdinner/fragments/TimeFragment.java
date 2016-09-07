@@ -75,10 +75,10 @@ public class TimeFragment extends BaseFragment implements DateDialogDataTransfer
     }
 
     @Override
-    public void setSelectedDate(int resourceId, Calendar calendar) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+    public void setSelectedDate(int resourceId, DateTime dateTime) {
+        //SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
         EditText editText = (EditText) getActivity().findViewById(resourceId);
-        editText.setText(simpleDateFormat.format(calendar.getTime()));
+        editText.setText(P2PDinnerUtils.convert(dateTime).toDateString());
         dinnerMenuItem.setAvailableDate(editText.getText().toString());
     }
 
@@ -168,6 +168,9 @@ public class TimeFragment extends BaseFragment implements DateDialogDataTransfer
 
             @Override
             public void afterTextChanged(Editable s) {
+                if (!StringUtils.hasText(s.toString())) {
+                    return;
+                }
                 DateTimeFormatter timeFormatter = DateTimeFormat.forPattern("HH:mm");
                 DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("MMMM dd, yyyy HH:mm");
                 DateTime fromDateTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " " + s.toString());
@@ -209,6 +212,9 @@ public class TimeFragment extends BaseFragment implements DateDialogDataTransfer
 
             @Override
             public void afterTextChanged(Editable s) {
+                if (!StringUtils.hasText(s.toString())) {
+                    return;
+                }
                 DateTimeFormatter timeFormatter = DateTimeFormat.forPattern("HH:mm");
                 DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("MMMM dd, yyyy HH:mm");
                 DateTime fromDateTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " "+ mFormTime.getText().toString());
@@ -248,6 +254,9 @@ public class TimeFragment extends BaseFragment implements DateDialogDataTransfer
 
             @Override
             public void afterTextChanged(Editable s) {
+                if (!StringUtils.hasText(s.toString())) {
+                    return;
+                }
                 DateTimeFormatter timeFormatter = DateTimeFormat.forPattern("HH:mm");
                 DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("MMMM dd, yyyy HH:mm");
                 DateTime fromDateTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " "+ mFormTime.getText().toString());
@@ -351,7 +360,7 @@ public class TimeFragment extends BaseFragment implements DateDialogDataTransfer
 
     public static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
-        private Calendar selectedDate;
+        private DateTime selectedDate;
 
 
         @Override
@@ -365,8 +374,8 @@ public class TimeFragment extends BaseFragment implements DateDialogDataTransfer
 
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            selectedDate = Calendar.getInstance();
-            selectedDate.set(year, monthOfYear, dayOfMonth);
+            selectedDate = DateTime.now();
+            selectedDate = selectedDate.withDate(year, monthOfYear + 1, dayOfMonth);
             DateDialogDataTransferInterface dateDialogDataTransferInterface = (DateDialogDataTransferInterface) this.getTargetFragment();
             Bundle bundle = getArguments();
             int resourceId = bundle.getInt("resourceId");

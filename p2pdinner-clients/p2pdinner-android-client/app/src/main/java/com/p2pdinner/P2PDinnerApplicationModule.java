@@ -8,6 +8,7 @@ import android.content.Context;
 import android.location.Criteria;
 import android.location.LocationManager;
 import android.provider.ContactsContract;
+import android.view.ViewDebug;
 
 import com.google.gson.GsonBuilder;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -75,7 +76,6 @@ import dagger.Provides;
                 FacebookLoginActivityFragment.class,
                 DinnerListingDetailActivity.class,
                 SellerListingDetailActivity.class,
-                P2PDinnerOAuthTokenRefreshService.class,
                 RegistrationIntentService.class
         },
         complete = false,
@@ -97,10 +97,10 @@ public class P2PDinnerApplicationModule {
 
     @Provides
     @Singleton
-    RestTemplate restTemplate(Context context) {
+    RestTemplate restTemplate(Context context,P2PDinnerOAuthTokenRefreshService pDinnerOAuthTokenRefreshService) {
         RestTemplate restTemplate = new RestTemplate();
         List<ClientHttpRequestInterceptor> interceptorList = new ArrayList<>();
-        interceptorList.add(new P2PDinnerAuthenticationInterceptor(context.getSharedPreferences(Constants.PREFS_PRIVATE, Context.MODE_PRIVATE)));
+        interceptorList.add(new P2PDinnerAuthenticationInterceptor(pDinnerOAuthTokenRefreshService));
         restTemplate.setInterceptors(interceptorList);
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(DinnerMenuItem.class, new DinnerMenuItemDeserializer());
@@ -111,6 +111,7 @@ public class P2PDinnerApplicationModule {
         restTemplate.setMessageConverters(listHttpMessageConverters);
         return restTemplate;
     }
+
 
     @Provides
     @Singleton
@@ -158,6 +159,13 @@ public class P2PDinnerApplicationModule {
     @Singleton
     DeviceManager deviceManager(RestTemplate restTemplate) {
         return new DeviceManager(restTemplate);
+    }
+
+    @Provides
+    @Singleton
+    P2PDinnerOAuthTokenRefreshService p2PDinnerOAuthTokenRefreshService(Context context) {
+        RestTemplate oauthRequestTemplate = new RestTemplate();
+        return new P2PDinnerOAuthTokenRefreshService(context, oauthRequestTemplate);
     }
 
     @Provides

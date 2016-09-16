@@ -21,6 +21,7 @@ import org.json.JSONObject;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.FormHttpMessageConverter;
@@ -68,12 +69,42 @@ public class MenuServiceManager {
                 MultiValueMap<String, Object> parts = new LinkedMultiValueMap<>();
                 parts.add("filename", filename);
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 10, byteArrayOutputStream);
                 parts.add("image", Base64Utils.encodeToString(byteArrayOutputStream.toByteArray()));
                 try {
                     String response = restTemplate.postForObject(components.toUri(), parts, String.class);
                     Log.d(TAG, response);
                     JsonElement jsonElement = new JsonParser().parse(response);
+                    JsonObject jsonObject = jsonElement.getAsJsonObject();
+                    String url = jsonObject.get("url").toString();
+                    subscriber.onNext(url);
+                    subscriber.onCompleted();
+                } catch (Throwable t) {
+                    subscriber.onError(t);
+                }
+            }
+        });
+    }
+
+    public Observable<String> uploadFile(final String filename, final String path) {
+        return Observable.create(new Observable.OnSubscribe<String>() {
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
+                Log.i(TAG, "Uploading image -" + filename);
+                List<HttpMessageConverter<?>> messageConverters = restTemplate.getMessageConverters();
+                messageConverters.add(new FormHttpMessageConverter());
+                UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromUriString(Constants.P2PDINNER_BASE_URI);
+                UriComponents components = uriComponentsBuilder.path("/menu/uploadImage").build();
+                MultiValueMap<String, Object> parts = new LinkedMultiValueMap<>();
+                parts.add("filename", filename);
+                parts.add("image", new FileSystemResource(path));
+                HttpHeaders httpHeaders = new HttpHeaders();
+                httpHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
+                HttpEntity httpEntity = new HttpEntity(parts, httpHeaders);
+                try {
+                    ResponseEntity<String> response = restTemplate.exchange(components.toUri(), HttpMethod.POST, httpEntity, String.class);
+                    Log.d(TAG, response.getBody());
+                    JsonElement jsonElement = new JsonParser().parse(response.getBody());
                     JsonObject jsonObject = jsonElement.getAsJsonObject();
                     String url = jsonObject.get("url").toString();
                     subscriber.onNext(url);

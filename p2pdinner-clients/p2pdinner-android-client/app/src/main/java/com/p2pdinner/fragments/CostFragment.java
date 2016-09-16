@@ -2,6 +2,7 @@ package com.p2pdinner.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 import com.p2pdinner.R;
 import com.p2pdinner.activities.ListDinnerActivity;
 import com.p2pdinner.common.Constants;
+import com.p2pdinner.common.DecimalDigitsInputFilter;
 import com.p2pdinner.entities.DinnerMenuItem;
 import com.p2pdinner.restclient.MenuServiceManager;
 
@@ -77,6 +79,7 @@ public class CostFragment extends BaseFragment {
         } else {
             mCostPerPlate.setText(decimalFormat.format(0d));
         }
+        mCostPerPlate.setFilters(new InputFilter[] {new DecimalDigitsInputFilter()});
     }
 
     @Nullable

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">P2PDinner</string>
+    <string name="app_name">p2pdinner</string>
     <!-- API Keys -->
     <string name="google_client_id">p2pdinner-android-client</string>
     <string name="google_client_key">AIzaSyCz556iChPAfIT6npZRbNYkbGqGzVh1F-U</string>

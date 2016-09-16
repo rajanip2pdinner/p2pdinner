@@ -104,10 +104,6 @@
             android:name=".activities.SellerListingDetailActivity"
             android:label="@string/title_activity_seller_listing_detail" />
 
-        <service
-            android:name=".services.P2PDinnerOAuthTokenRefreshService"
-            android:enabled="true"
-            android:exported="true" />
 
         <activity android:name=".activities.LegalViewActivity"></activity>
     </application>

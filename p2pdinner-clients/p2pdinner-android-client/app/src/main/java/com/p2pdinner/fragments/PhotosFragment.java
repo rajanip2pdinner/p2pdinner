@@ -44,6 +44,8 @@ import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static android.content.Intent.CATEGORY_OPENABLE;
+
 /**
  * Created by rajaniy on 9/24/15.
  */
@@ -173,9 +175,9 @@ public class PhotosFragment extends BaseFragment {
 
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent();
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.setType("image/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
+            intent.addCategory(CATEGORY_OPENABLE);
             startActivityForResult(Intent.createChooser(intent, "Select Image"), SELECT_PICTURE);
             selectedImageView = (ImageView) v;
         }

@@ -151,7 +151,7 @@
     if ([segue.identifier isEqualToString:@"DinnerResult"]) {
         DinnerResultViewController *dinnerResult=(DinnerResultViewController *) segue.destinationViewController;
         NSArray *dinnerListArray=[[MyOrderItemHandler sharedSellerHistoryHandler]getResultsArryForAllCurrentListRessponce:[sender objectForKey:@"results"] forSeachResultType:kOrderSearchResult];
-        
+        [dinnerResult setNoDinnerList:(dinnerListArray.count>0)?NO:YES];
         [dinnerResult setDinnerListArray:[self shortByDistance:dinnerListArray]];
     }
     

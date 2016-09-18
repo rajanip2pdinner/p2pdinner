@@ -111,7 +111,7 @@
      if ([[segue identifier] isEqualToString:@"AgreementViewController"])
      {
          AgreementsViewController *viewController=[segue destinationViewController];
-         NSURL *targetURL = [NSURL URLWithString:@"https://dev-p2pdinner-services.herokuapp.com/legal/Terms.html"];
+         NSURL *targetURL = [NSURL URLWithString:@"legal/Terms.html"];
          [viewController setPdfURL:targetURL];
          [viewController setTitle:@"Terms & Conditions"];
      }

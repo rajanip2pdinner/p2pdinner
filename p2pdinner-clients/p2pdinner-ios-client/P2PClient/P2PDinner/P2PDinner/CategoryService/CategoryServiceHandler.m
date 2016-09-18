@@ -13,7 +13,7 @@
 - (void)getCategoryListItem:(CategoryResponceBlock)categoryResponceBlock{
     
     
-    [self execute:@"https://dev-p2pdinner-services.herokuapp.com/api/v1/dinnercategory/view" requestObject:@"" contentType:@"application/json" requestMethod:@"GET" serviceCallBack:^(NSError *error, id response) {
+    [self execute:@"api/v1/dinnercategory/view" requestObject:@"" contentType:@"application/json" requestMethod:@"GET" serviceCallBack:^(NSError *error, id response) {
         
         if (!error) {
             CategoryRespone *categoryRespnce=[[CategoryRespone alloc]init];

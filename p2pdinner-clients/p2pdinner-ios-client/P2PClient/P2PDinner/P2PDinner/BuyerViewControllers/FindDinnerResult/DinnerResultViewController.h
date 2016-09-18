@@ -13,5 +13,7 @@
     
 }
 @property(nonatomic,weak) IBOutlet UITableView *dinnerResultTable;
+@property(nonatomic,weak) IBOutlet UILabel *noDinnerListLable;
 @property(nonatomic,strong)NSArray *dinnerListArray;
+@property(nonatomic, assign)BOOL noDinnerList;
 @end

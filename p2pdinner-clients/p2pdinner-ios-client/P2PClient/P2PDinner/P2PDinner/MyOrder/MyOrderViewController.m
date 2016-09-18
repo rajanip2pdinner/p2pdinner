@@ -177,6 +177,7 @@
         dinnerImage.layer.shadowColor = [UIColor orangeColor].CGColor;
         dinnerImage.layer.shadowOpacity = 0.4;
         dinnerImage.layer.shadowRadius = 48.0f;
+        [dinnerImage setContentMode:UIViewContentModeScaleAspectFill];
         
         NSString *startServingTime=[Utility dateToStringFormat:@"hh:mm a" dateString:[Utility epochToDate:cartview.startTime]  timeZone:LOCAL];
         NSString *stopServingTime=[Utility dateToStringFormat:@"hh:mm a" dateString:[Utility epochToDate:cartview.endTime]  timeZone:LOCAL];

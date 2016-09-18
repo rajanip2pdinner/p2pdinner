@@ -28,6 +28,7 @@
     activityView=[[ActivityView alloc]initWithFrame:self.view.frame];
     [super viewDidLoad];
     self.title=@"I Want Dinner";
+    [_noDinnerListLable setHidden:_noDinnerList?NO:YES];
     [self getDinnerCurrentListing];
     
     self.dinnerResultTable.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -121,6 +122,7 @@ indexPath
     dinnerImage.layer.masksToBounds = YES;
     //dinnerImage.layer.borderWidth = .5f;
     dinnerImage.layer.shadowColor = [UIColor orangeColor].CGColor;
+    [dinnerImage setContentMode:UIViewContentModeScaleAspectFill];
     //dinnerImage.layer.shadowOpacity = 0.4;
     //dinnerImage.layer.shadowRadius = 48.0f;
     

@@ -24,7 +24,7 @@ static ServiceHandler *_sharedInstance=nil;
     NSString *conType=MIMETypeJSON
     NSString *requestType=RequestTypeGet
     locationReq = [locationReq stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSString *urlString=@"https://dev-p2pdinner-services.herokuapp.com/api/v1/places/nearbysearch?address=%@";
+    NSString *urlString=@"api/v1/places/nearbysearch?address=%@";
     urlString =[NSString stringWithFormat:urlString,locationReq];
     [self execute:urlString requestObject:locationReq contentType:conType requestMethod:requestType serviceCallBack:^(NSError *error, id response) {
         if (!error) {
@@ -42,7 +42,7 @@ static ServiceHandler *_sharedInstance=nil;
     NSString *conType=MIMETypeJSON
     NSString *requestType=RequestTypePost
     //cartRequest = [cartRequest stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSString *urlString=@"https://dev-p2pdinner-services.herokuapp.com/api/v1/cart";
+    NSString *urlString=@"api/v1/cart";
     [self execute:urlString requestObject:cartRequest contentType:conType requestMethod:requestType serviceCallBack:^(NSError *error, id response) {
         if (!error) {
             NSDictionary* responseDic=[(NSDictionary *)response objectForKey:@"response"];
@@ -65,7 +65,7 @@ static ServiceHandler *_sharedInstance=nil;
 -(void)placeOrder:(NSString *)cartId withUserId:(NSString *)userId withResponse:(CheckoutRestultBlock)placeOrderResultCallBack{
     NSString *conType=MIMETypeJSON
     NSString *requestType=RequestTypePost
-    NSString *urlString=@"https://dev-p2pdinner-services.herokuapp.com/api/v1/cart/placeorder/%@/%@";
+    NSString *urlString=@"api/v1/cart/placeorder/%@/%@";
     urlString =[NSString stringWithFormat:urlString,userId,cartId];
     [self execute:urlString requestObject:nil contentType:conType requestMethod:requestType serviceCallBack:^(NSError *error, id response) {
         if (!error) {

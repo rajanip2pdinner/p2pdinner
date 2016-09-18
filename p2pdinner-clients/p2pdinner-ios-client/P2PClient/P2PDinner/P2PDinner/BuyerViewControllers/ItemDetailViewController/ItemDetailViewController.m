@@ -195,8 +195,7 @@
                 }
                 NSString *titleStr=(!error)?@"Success":@"Fail";
                 
-                
-                            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:titleStr message:message preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:titleStr message:message preferredStyle:UIAlertControllerStyleAlert];
                 UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
                     [self.navigationController popToRootViewControllerAnimated:YES];
                      }];
@@ -250,7 +249,8 @@
         DinnerLoginViewController *dinnerLogin = (DinnerLoginViewController*)[mainStoryboard instantiateViewControllerWithIdentifier: @"DinnerLoginViewController"];
         [dinnerLogin getLoginResponse:^(NSError *error, NSString *emailId, BOOL successFull) {
             if (successFull) {
-                [[SharedLogin sharedLogin] setUserId:number];
+                  NSNumber *userId=(NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"];
+                [[SharedLogin sharedLogin] setUserId:userId];
                 [self buyAction];
                 [self removeLoginViewContrller];
             }

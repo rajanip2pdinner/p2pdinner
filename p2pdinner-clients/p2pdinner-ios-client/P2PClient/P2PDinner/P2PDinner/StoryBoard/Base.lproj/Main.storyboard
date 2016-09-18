@@ -1218,19 +1218,30 @@ This includes improved brain function, fat loss, a lower risk of cancer and many
                                     <outlet property="delegate" destination="HJM-Fj-H1M" id="6A6-dz-5Hc"/>
                                 </connections>
                             </tableView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bme-fu-4Yp">
+                                <rect key="frame" x="201" y="280" width="198" height="41"/>
+                                <string key="text">No Dinner Listings Found,
+Please Try Later</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="qxc-vQ-39z" secondAttribute="trailing" id="EaQ-j8-Ggl"/>
+                            <constraint firstItem="Bme-fu-4Yp" firstAttribute="centerY" secondItem="3BU-sy-iQx" secondAttribute="centerY" id="K1g-Ht-jSi"/>
                             <constraint firstItem="qxc-vQ-39z" firstAttribute="top" secondItem="3BU-sy-iQx" secondAttribute="top" id="Rzg-QV-ToZ"/>
                             <constraint firstItem="qxc-vQ-39z" firstAttribute="leading" secondItem="3BU-sy-iQx" secondAttribute="leading" id="X15-Fn-GtZ"/>
                             <constraint firstItem="ua3-Zi-pl2" firstAttribute="top" secondItem="qxc-vQ-39z" secondAttribute="bottom" id="nZz-3D-obZ"/>
+                            <constraint firstItem="Bme-fu-4Yp" firstAttribute="centerX" secondItem="3BU-sy-iQx" secondAttribute="centerX" id="sSZ-Ym-yHz"/>
                         </constraints>
                     </view>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="600" height="600"/>
                     <connections>
                         <outlet property="dinnerResultTable" destination="qxc-vQ-39z" id="gJc-wb-hiq"/>
+                        <outlet property="noDinnerListLable" destination="Bme-fu-4Yp" id="g3O-XK-Upm"/>
                         <segue destination="W0x-tI-Ysb" kind="show" identifier="ItemDetailViewController" id="kQd-RC-NzH"/>
                     </connections>
                 </viewController>

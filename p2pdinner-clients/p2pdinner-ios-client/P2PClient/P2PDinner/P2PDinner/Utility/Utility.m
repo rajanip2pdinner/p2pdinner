@@ -190,6 +190,18 @@ static const char *getPropertyMappedVarName(objc_property_t property) {
     return [cal dateFromComponents:components];
     
 }
++ (NSDate *)beginingOfDay:(NSDate *)date
+{
+    NSCalendar *cal = [NSCalendar currentCalendar];
+    NSDateComponents *components = [cal components:(  NSCalendarUnitMonth | NSCalendarUnitYear | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond ) fromDate:date];
+    
+    [components setHour:0];
+    [components setMinute:0];
+    [components setSecond:0];
+    
+    return [cal dateFromComponents:components];
+    
+}
 + (BOOL)isIOS9{
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9.0")&&SYSTEM_VERSION_LESS_THAN(@"10.0")) {
         return TRUE;

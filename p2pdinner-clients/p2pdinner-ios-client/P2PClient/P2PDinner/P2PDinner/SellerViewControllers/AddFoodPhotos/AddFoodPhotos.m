@@ -129,6 +129,8 @@
         else{
             [self checkEnableButton:imgButton2 closeBtn:closeButton2];
         }
+        [[imgButton2 imageView] setContentMode: UIViewContentModeScaleAspectFill];
+        [[imgButton1 imageView] setContentMode: UIViewContentModeScaleAspectFill];
     }
     if (indexPath.row==2) {
         UIButton *imgButton1=(UIButton *)[cell viewWithTag:11];
@@ -148,7 +150,8 @@
         {
             [self checkEnableButton:imgButton2 closeBtn:closeButton2];
         }
-        
+        [[imgButton2 imageView] setContentMode: UIViewContentModeScaleAspectFill];
+        [[imgButton1 imageView] setContentMode: UIViewContentModeScaleAspectFill];
     }
     
     
@@ -203,7 +206,7 @@
 
 - (void)selectPhotoAction:(id)sender{
     photoButton=(UIButton*)sender;
-    [[photoButton imageView] setContentMode: UIViewContentModeCenter];
+    [[photoButton imageView] setContentMode: UIViewContentModeScaleAspectFill];
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Add Dinner photo from?"
                                                              delegate:self
                                                     cancelButtonTitle:@"Cancel"
@@ -263,8 +266,8 @@
     [[SellerHistoryHandler sharedSellerHistoryHandler] photoUpload:img imageTag:1 buttonValue:photoButton itemDetails:itemDetails responceCallBack:^(NSError *error, NSString *imageString) {
         
         if (!error) {
-            [imageUrls addObject:imageString];
-            [imageURLMutableArray addObject:imageString];
+            [imageUrls insertObject:imageString atIndex:0];
+            [imageURLMutableArray insertObject:imageString atIndex:0];
             imageURLArray=[NSArray arrayWithArray:imageURLMutableArray];
             [self.itemDetails setImageUri:[imageURLArray componentsJoinedByString:@","]];
         }

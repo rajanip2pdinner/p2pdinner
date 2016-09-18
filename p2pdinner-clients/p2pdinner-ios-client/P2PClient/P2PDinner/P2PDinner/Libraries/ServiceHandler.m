@@ -84,7 +84,7 @@ static ServiceHandler *_sharedInstance=nil;
         if(error){
             serviceCallBackBlock(error,nil);
         }else{
-            manager = [AFHTTPRequestOperationManager manager];
+            manager = [[AFHTTPRequestOperationManager manager] initWithBaseURL:[NSURL URLWithString:BASE_URL]];
             NSString *accessToken=[NSString stringWithFormat:@"%@ %@",[[NSUserDefaults standardUserDefaults] objectForKey:@"tokenType"],response];
             
             
@@ -126,22 +126,18 @@ static ServiceHandler *_sharedInstance=nil;
         if(error){
             serviceCallBackBlock(error,nil);
         }else{
-    manager = [AFHTTPRequestOperationManager manager];
-    NSData* requestData = [requestValue dataUsingEncoding:NSUTF8StringEncoding];
-    NSError *error=nil;
-    NSDictionary *requestDict;
-    if (!requestValue) {
-        requestDict=@{};
-    }else{
-    requestDict=[NSJSONSerialization JSONObjectWithData:requestData options:kNilOptions error:&error];
-    }
-    
-    manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    NSString *accessToken=[NSString stringWithFormat:@"%@ %@",[[NSUserDefaults standardUserDefaults] objectForKey:@"tokenType"],response];
-            
-            
-            
-    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+            manager = [[AFHTTPRequestOperationManager manager] initWithBaseURL:[NSURL URLWithString:BASE_URL]];
+            NSData* requestData = [requestValue dataUsingEncoding:NSUTF8StringEncoding];
+            NSError *error=nil;
+            NSDictionary *requestDict;
+            if (!requestValue) {
+                requestDict=@{};
+            }else{
+                requestDict=[NSJSONSerialization JSONObjectWithData:requestData options:kNilOptions error:&error];
+            }
+            manager.requestSerializer = [AFJSONRequestSerializer serializer];
+            NSString *accessToken=[NSString stringWithFormat:@"%@ %@",[[NSUserDefaults standardUserDefaults] objectForKey:@"tokenType"],response];
+            manager.requestSerializer = [AFJSONRequestSerializer serializer];
     [manager.requestSerializer setValue:accessToken forHTTPHeaderField:@"Authorization"];
 
     operation=[manager POST:url parameters:requestDict success:^(AFHTTPRequestOperation *operation, id responseObject){

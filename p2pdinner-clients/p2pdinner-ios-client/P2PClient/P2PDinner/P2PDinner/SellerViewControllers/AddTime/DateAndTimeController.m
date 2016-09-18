@@ -13,7 +13,10 @@
     [self selectDateAction:pickerType withPresentViewController:viewController completionAction:completed withMinimumDate:[NSDate date]];
  }
 +(void)selectDateAction:(PickerType)pickerType withPresentViewController:(UIViewController *)viewController completionAction:(void (^)(NSDate *))completed withMinimumDate:(NSDate *)minimumDate{
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:@"\n\n\n\n\n\n\n\n\n" preferredStyle:UIAlertControllerStyleActionSheet];
+    [self selectDateAction:pickerType withPresentViewController:viewController completionAction:completed withMinimumDate:minimumDate currentDate:[NSDate date]];
+}
++(void)selectDateAction:(PickerType)pickerType withPresentViewController:(UIViewController *)viewController completionAction:(void (^)(NSDate *))completed withMinimumDate:(NSDate *)minimumDate currentDate:(NSDate *)currentDate{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:@"\n\n\n\n\n\n\n\n\n\n\n\n" preferredStyle:UIAlertControllerStyleActionSheet];
     UIDatePicker *picker = [[UIDatePicker alloc] init];
     picker.center=CGPointMake(alertController.view.center.x, picker.center.y);
     if (pickerType==PickerSelectDate) {
@@ -24,6 +27,7 @@
     }
     picker.minuteInterval=kMinuteDatePickerInterval;
     [picker setMinimumDate: minimumDate];
+    [picker setDate:currentDate];
     [alertController.view addSubview:picker];
     [alertController addAction:({
         UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {

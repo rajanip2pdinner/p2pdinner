@@ -10,6 +10,7 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +49,8 @@ import static android.content.DialogInterface.*;
  * Created by rajaniy on 9/24/15.
  */
 public class FoodItemFragment extends BaseFragment {
+
+    private static final String TAG = "FoodItemFragment";
 
     private DinnerMenuItem dinnerMenuItem;
     private EditText mTitle;
@@ -153,7 +156,8 @@ public class FoodItemFragment extends BaseFragment {
                                 @Override
                                 public void onCompleted() {
                                     dinnerMenuItem.setId(item.getId());
-                                    Toast.makeText(getActivity().getBaseContext(), "Item saved successfully", Toast.LENGTH_SHORT).show();
+                                    Log.i(TAG, "Item saved successfully");
+                                    //Toast.makeText(getActivity().getBaseContext(), "Item saved successfully", Toast.LENGTH_SHORT).show();
                                     ListDinnerActivity listDinnerActivity = (ListDinnerActivity) getActivity();
                                     listDinnerActivity.moveToNextTab();
                                 }

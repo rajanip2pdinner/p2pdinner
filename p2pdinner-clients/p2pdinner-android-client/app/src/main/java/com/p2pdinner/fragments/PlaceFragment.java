@@ -325,7 +325,8 @@ public class PlaceFragment extends BaseFragment {
                             @Override
                             public void onCompleted() {
                                 dinnerMenuItem.setId(item.getId());
-                                Toast.makeText(getActivity().getBaseContext(), "Item saved successfully", Toast.LENGTH_SHORT).show();
+                                Log.i(TAG, "Item saved successfully");
+                                //Toast.makeText(getActivity().getBaseContext(), "Item saved successfully", Toast.LENGTH_SHORT).show();
                                 ListDinnerActivity listDinnerActivity = (ListDinnerActivity) getActivity();
                                 listDinnerActivity.moveToNextTab();
                             }

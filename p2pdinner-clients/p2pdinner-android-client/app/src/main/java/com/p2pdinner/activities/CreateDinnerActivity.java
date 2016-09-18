@@ -43,17 +43,16 @@ public class CreateDinnerActivity extends BaseAppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+        listView = (ListView) findViewById(R.id.createDinnerListView);
+        favourtiesProgress = (ProgressBar) findViewById(R.id.favouritesProgress);
+        populateOptions();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_dinner);
-        listView = (ListView) findViewById(R.id.createDinnerListView);
-        favourtiesProgress = (ProgressBar) findViewById(R.id.favouritesProgress);
-        populateOptions();
     }
-
     private void populateOptions() {
         final List<CreateDinnerOption> createDinnerOptionList = new ArrayList<>();
         createDinnerOptionList.add(new CreateDinnerOption(getString(R.string.create_new), true, "", null));

@@ -119,7 +119,8 @@ public class PhotosFragment extends BaseFragment {
                                 @Override
                                 public void onCompleted() {
                                     dinnerMenuItem.setId(item.getId());
-                                    Toast.makeText(getActivity(), "Item saved successfully", Toast.LENGTH_SHORT).show();
+                                    Log.i(TAG, "Item saved successfully");
+                                    //Toast.makeText(getActivity(), "Item saved successfully", Toast.LENGTH_SHORT).show();
                                     ListDinnerActivity listDinnerActivity = (ListDinnerActivity) getActivity();
                                     listDinnerActivity.moveToNextTab();
                                 }
@@ -201,13 +202,6 @@ public class PhotosFragment extends BaseFragment {
                             public void onCompleted() {
                                 selectedImageView.setTag(url);
                                 mProgressBar.setVisibility(ProgressBar.INVISIBLE);
-//                                StringBuffer imageUri = new StringBuffer();
-//                                if (StringUtils.hasText(dinnerMenuItem.getImageUri())) {
-//                                    imageUri.append(dinnerMenuItem.getImageUri()).append(",").append(url);
-//                                } else {
-//                                    imageUri.append(url);
-//                                }
-//                                dinnerMenuItem.setImageUri(imageUri.toString());
                             }
 
                             @Override

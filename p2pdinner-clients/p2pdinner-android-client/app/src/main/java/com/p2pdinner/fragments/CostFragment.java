@@ -3,6 +3,7 @@ package com.p2pdinner.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.InputFilter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -104,7 +105,8 @@ public class CostFragment extends BaseFragment {
                             @Override
                             public void onCompleted() {
                                 dinnerMenuItem.setId(item.getId());
-                                Toast.makeText(getActivity().getBaseContext(), "Item saved successfully", Toast.LENGTH_SHORT).show();
+                                Log.i(TAG, "Item saved successfully");
+                                //Toast.makeText(getActivity().getBaseContext(), "Item saved successfully", Toast.LENGTH_SHORT).show();
                                 ListDinnerActivity listDinnerActivity = (ListDinnerActivity) getActivity();
                                 listDinnerActivity.moveToNextTab();
                             }

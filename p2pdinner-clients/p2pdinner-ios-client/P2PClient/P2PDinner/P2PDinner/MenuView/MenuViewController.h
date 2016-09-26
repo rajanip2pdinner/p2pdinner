@@ -18,6 +18,7 @@ typedef void(^updateCallback)();
 }
 
 @property(nonatomic, weak)IBOutlet UIView *displayView;
+@property(nonatomic, weak)IBOutlet UINavigationBar *navigationBar;
 @property(nonatomic, strong)ItemDetails *itemDetails;
 @property(nonatomic, assign)updateCallback completed;
 -(IBAction)nextButtonAction:(id)sender;

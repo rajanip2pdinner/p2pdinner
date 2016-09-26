@@ -13,10 +13,10 @@
 @end
 
 @implementation CategorySelectController
-- (void)doneButtonAction:(id)sender{
+- (IBAction)doneButtonAction:(id)sender{
     NSSortDescriptor* sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(localizedStandardCompare:)];
     [self.delegate selectedCategors:[selectedCategory sortedArrayUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]]];
-    [self.navigationController popViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)naviagtionBarUISetup{
@@ -35,13 +35,7 @@
 
 - (void)setupNavigationBar{
     [self naviagtionBarUISetup];
-    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]
-                                       initWithTitle:@"Done"
-                                       style:UIBarButtonItemStylePlain
-                                       target:self
-                                       action:@selector(doneButtonAction:)];
-    [rightBarButton setTintColor:[UIColor whiteColor]];
-    self.navigationItem.rightBarButtonItem = rightBarButton;
+    
 }
 -(NSArray *)shortOrderCategoryResponse:(NSArray *)resoseCategoryArray{
     NSMutableArray *categoryArray=[NSMutableArray arrayWithArray:resoseCategoryArray];

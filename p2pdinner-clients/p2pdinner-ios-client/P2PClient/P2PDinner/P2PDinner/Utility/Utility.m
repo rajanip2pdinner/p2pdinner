@@ -298,5 +298,25 @@ static const char *getPropertyMappedVarName(objc_property_t property) {
     NSDate* destinationDate = [[NSDate alloc] initWithTimeInterval:interval sinceDate:sourceDate];
     return destinationDate;
 }
-
++ (NSDate *)getNearestTimeValue{
+    NSDate *mydate=[NSDate date];
+    NSDateComponents *time = [[NSCalendar currentCalendar]components: NSCalendarUnitHour |NSCalendarUnitMinute fromDate: mydate];
+    NSUInteger remainder = ([time minute] % 15);
+    mydate = [mydate dateByAddingTimeInterval: 60 * (15 - remainder)];
+    return mydate;
+}
++ (NSDate *)getNearestTimeValueWithTime:(NSDate *)dateValue{
+    NSDate *mydate=dateValue;
+    NSDateComponents *time = [[NSCalendar currentCalendar]components: NSCalendarUnitHour |NSCalendarUnitMinute fromDate: mydate];
+    NSUInteger remainder = ([time minute] % 15);
+    mydate = [mydate dateByAddingTimeInterval: 60 * (15 - remainder)];
+    
+    return mydate;
+}
++ (NSDate *)mergeDateValue:(NSDate *)dateValue timeValue:(NSDate *)timeValue{
+    NSString *dateValueString=[Utility dateToStringFormat:@"MM/dd/yyyy" dateString:dateValue timeZone:UTC];
+    NSString *timevalueString=[Utility dateToStringFormat:@"HH:mm:ss" dateString:timeValue timeZone:UTC];
+    NSString *mergedTime=[NSString stringWithFormat:@"%@ %@",dateValueString,timevalueString];
+    return [Utility stringToDateFormat:@"MM/dd/yyyy HH:mm:ss" dateString:mergedTime  timeZone:UTC];
+}
 @end

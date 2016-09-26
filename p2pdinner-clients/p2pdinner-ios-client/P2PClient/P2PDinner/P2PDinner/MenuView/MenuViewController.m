@@ -19,6 +19,7 @@
 #import "MyOrderItem.h"
 #import "AppDelegate.h"
 #import "HomeViewController.h"
+#import "AppConstants.h"
 
 @interface MenuViewController()<PageSnapViewDelegate>
 {
@@ -43,32 +44,24 @@
 @synthesize itemDetails;
 -(void)setUpMenu{
     pageArray=@[@"food",@"photo",@"time",@"place",@"cost",@"splNeeds"];
-    pageView = [[PageSnapView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.view.frame)-48,  CGRectGetWidth(self.view.frame), 56) andData:pageArray];
+    CGRect alignMent=CGRectMake(0, CGRectGetHeight(self.view.frame)-49,  CGRectGetWidth(self.view.frame), 56);
+    NSLog(@"[[UIDevice currentDevice] systemVersion] %@",[[UIDevice currentDevice] systemVersion]);
+    pageView = [[PageSnapView alloc] initWithFrame:alignMent andData:pageArray];
     [pageView setBackgroundColor:[UIColor colorWithRed:224.0/255.0 green:224.0/255.0 blue:224.0/255.0 alpha:1]];
     pageView.isAccessibilityElement=YES;
     pageView.pageDelegate = self;
     [self.view addSubview:pageView];
 }
-- (void)cancelAction{
-        [self updateMenuItem:[[ItemDetailsShared sharedItemDetails] sharedItemDetailsValue]];
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
 - (void)naviagtionBarUISetup{
+    
     UIColor *navBarColor=[UIColor colorWithRed:237.0/255.0 green:134.0/255.0 blue:0.0/255.0 alpha:1];
     NSDictionary *navbarTitleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
                                                [UIColor whiteColor],UITextAttributeTextColor,
                                                [UIFont fontWithName:@"Plantin" size:24], NSFontAttributeName,[NSValue valueWithUIOffset:UIOffsetMake(-1, 0)],UITextAttributeTextShadowOffset, nil];
-    [self.navigationController.navigationBar  setTitleTextAttributes:navbarTitleTextAttributes];
-    [self.navigationController.navigationBar setBarTintColor:navBarColor];
-    [self.navigationItem.leftBarButtonItem setTintColor:[UIColor whiteColor]];
+    [_navigationBar  setTitleTextAttributes:navbarTitleTextAttributes];
 }
 - (void)setUpNavigationBar{
     [self naviagtionBarUISetup];
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button setTitle:@"Cancel" forState:UIControlStateNormal];
-    button.frame=CGRectMake(0.0, 100.0, 60.0, 30.0);
-    [button addTarget:self action:@selector(cancelAction)  forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
     
 }
 - (void)viewDidLoad {
@@ -92,6 +85,12 @@
     [nextButton setUserInteractionEnabled:YES];
     
 }
+
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+}
+
 - (IBAction)nextButtonAction:(id)sender{
     
     if ([nextButton.titleLabel.text isEqualToString:@"Sell"]) {
@@ -214,7 +213,7 @@
         createFoodItem1.view.tag=1000;
     CGRect viewControllerFrame=createFoodItem1.view.frame;
         _displayView.frame = viewControllerFrame;
-    [createFoodItem1.createFoodTable setContentInset:UIEdgeInsetsMake(-64,0, 0, 0)];
+    [createFoodItem1.createFoodTable setContentInset:UIEdgeInsetsMake(0,0, 0, 0)];
        // [createFoodItem1.createFoodTable reloadData];
      [self addChildViewController:createFoodItem1];
     [_displayView addSubview:createFoodItem1.view];
@@ -369,6 +368,12 @@
         }
     }];
 }
+
+- (IBAction)cancelButtonAction:(id)sender {
+    [self updateMenuItem:[[ItemDetailsShared sharedItemDetails] sharedItemDetailsValue]];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 - (void)backAction{
     
 }

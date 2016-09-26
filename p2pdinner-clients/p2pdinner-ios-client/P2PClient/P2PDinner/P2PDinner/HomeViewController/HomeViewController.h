@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "LaunchScreen.h"
 #import "FacebookManager.h"
+#import "LocationManger.h"
 
-@interface HomeViewController : UIViewController{
+@interface HomeViewController : UIViewController<LocationManagerDelegate>{
     
 }
 -(void)moveToMyOrderScreen;

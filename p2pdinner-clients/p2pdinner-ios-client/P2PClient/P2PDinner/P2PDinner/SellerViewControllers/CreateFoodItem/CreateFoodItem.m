@@ -80,7 +80,7 @@
     /* Section header is in 0th index... */
     [label setText:string];
     [view addSubview:label];
-    [view setBackgroundColor:[UIColor whiteColor]]; //your background color...
+    [view setBackgroundColor:[UIColor clearColor]]; //your background color...
     return view;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -147,10 +147,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 #warning need to set selected item
     if (indexPath.row==1) {
-        [self tapGesture];
+       // [self tapGesture];
         CategorySelectController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"CategorySelectController"];
         vc.delegate=self;
-        [self.navigationController pushViewController:vc animated:YES];
+        [self presentViewController:vc animated:YES completion:nil];
         
     }
 }

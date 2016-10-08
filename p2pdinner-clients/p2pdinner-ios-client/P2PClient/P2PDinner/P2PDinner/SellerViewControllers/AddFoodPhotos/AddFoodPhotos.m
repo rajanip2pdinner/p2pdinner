@@ -129,8 +129,11 @@
         else{
             [self checkEnableButton:imgButton2 closeBtn:closeButton2];
         }
-        [[imgButton2 imageView] setContentMode: UIViewContentModeScaleAspectFill];
-        [[imgButton1 imageView] setContentMode: UIViewContentModeScaleAspectFill];
+        [[imgButton2 imageView] setContentMode: UIViewContentModeScaleAspectFit];
+        [[imgButton1 imageView] setContentMode: UIViewContentModeScaleAspectFit];
+        [imgButton1 setContentMode:UIViewContentModeScaleAspectFit];
+        [imgButton2 setContentMode:UIViewContentModeScaleAspectFit];
+
     }
     if (indexPath.row==2) {
         UIButton *imgButton1=(UIButton *)[cell viewWithTag:11];
@@ -150,8 +153,11 @@
         {
             [self checkEnableButton:imgButton2 closeBtn:closeButton2];
         }
-        [[imgButton2 imageView] setContentMode: UIViewContentModeScaleAspectFill];
-        [[imgButton1 imageView] setContentMode: UIViewContentModeScaleAspectFill];
+        [[imgButton2 imageView] setContentMode: UIViewContentModeScaleAspectFit];
+        [[imgButton1 imageView] setContentMode: UIViewContentModeScaleAspectFit];
+        [imgButton1 setContentMode:UIViewContentModeScaleAspectFit];
+        [imgButton2 setContentMode:UIViewContentModeScaleAspectFit];
+
     }
     
     
@@ -206,7 +212,8 @@
 
 - (void)selectPhotoAction:(id)sender{
     photoButton=(UIButton*)sender;
-    [[photoButton imageView] setContentMode: UIViewContentModeScaleAspectFill];
+    [[photoButton imageView] setContentMode:UIViewContentModeScaleAspectFit];
+    [photoButton setContentMode:UIViewContentModeScaleAspectFit];
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Add Dinner photo from?"
                                                              delegate:self
                                                     cancelButtonTitle:@"Cancel"
@@ -221,6 +228,15 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     UIImagePickerController * picker = [[UIImagePickerController alloc] init] ;
+    picker.navigationBar.translucent = false;
+    UIColor *navBarColor=[UIColor colorWithRed:237.0/255.0 green:134.0/255.0 blue:0.0/255.0 alpha:1];
+    NSDictionary *navbarTitleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                                               [UIColor whiteColor],UITextAttributeTextColor,
+                                               [UIFont fontWithName:@"Plantin" size:24], NSFontAttributeName,[NSValue valueWithUIOffset:UIOffsetMake(-1, 0)],UITextAttributeTextShadowOffset, nil];
+    [picker.navigationBar  setTitleTextAttributes:navbarTitleTextAttributes];
+    [picker.navigationBar setBarTintColor:navBarColor];
+    [picker.navigationBar setTintColor:[UIColor whiteColor]];
+    
     int i = (int)buttonIndex;
     switch(i)
     {

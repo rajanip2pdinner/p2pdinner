@@ -38,4 +38,7 @@ typedef enum {
 + (NSString *)getLocalAddress;
 +(NSDate *)getLocalTimeValue:(NSDate *)sourceDate;
 + (NSDate *)beginingOfDay:(NSDate *)date;
++ (NSDate *)getNearestTimeValue;
++ (NSDate *)getNearestTimeValueWithTime:(NSDate *)dateValue;
++ (NSDate *)mergeDateValue:(NSDate *)dateValue timeValue:(NSDate *)timeValue;
 @end

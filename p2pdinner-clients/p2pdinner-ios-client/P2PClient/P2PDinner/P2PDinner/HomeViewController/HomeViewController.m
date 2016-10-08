@@ -34,24 +34,18 @@
     [geoCoder reverseGeocodeLocation:Location completionHandler:^(NSArray *placemarks, NSError *error) {
         for (CLPlacemark * placemark in placemarks)
         {
+            
             appdelegate.localLocation=[NSString stringWithFormat:@"en_%@",[placemark ISOcountryCode]];
-            //NSArray *addressArray= [NSArray arrayWithObjects:[placemark subThoroughfare],[placemark thoroughfare],[placemark locality],[placemark administrativeArea], nil];
-            //Obtains the country code, that is the same whatever language you are working with (US, ES, IT ...)
-            NSString *countryCode = [placemark ISOcountryCode];
-            //Obtains a locale identifier. This will handle every language
-            NSString *identifier = [NSLocale localeIdentifierFromComponents: [NSDictionary dictionaryWithObject: countryCode forKey: NSLocaleCountryCode]];
-            //Obtains the country name from the locale BUT IN ENGLISH (you can set it as "en_UK" also)
-            NSString *country =[ [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"] displayNameForKey:NSLocaleLanguageCode value:identifier];
-            
-            
-            NSLog(@"%@",country);
+            NSLog(@"%@",appdelegate.localLocation);
             //Continues your code
          
             
         }
     }];
     
+    [[LocationServiceHandler sharedLocationHandler]getLocationAddressServiceCallBack:^(NSError *error, NSString *response) {
     
+    }];
 }
 - (void)displayLaunchScreen{
     LaunchScreen *launchScreen=[[UIStoryboard storyboardWithName:@"LaunchScreen" bundle:NULL] instantiateViewControllerWithIdentifier:@"LaunchScreenController"];
@@ -85,16 +79,15 @@
     [self.navigationController.navigationBar setBarTintColor:navBarColor];
 }
 - (void)viewDidLoad {
-//    locationMgr=[LocationManger sharedLocationManager];
-//    [locationMgr updateLocation];
-//     locationMgr.delegate=self;
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    [self updateCurrentLocation];
     activityView=[[ActivityView alloc]initWithFrame:self.view.frame];
     [self setUpSettingBarButton];
     [self navigationBarsetup];
     [self displayLaunchScreen];
     
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -102,6 +95,14 @@
 }
 -(IBAction)tearmsAndCondition:(id)sender{
     [self performSegueWithIdentifier:@"AgreementViewController" sender:nil];
+}
+
+- (void)updateCurrentLocation {
+    
+        locationMgr=[LocationManger sharedLocationManager];
+        locationMgr.delegate=self;
+        [locationMgr updateLocation];
+    
 }
 
  #pragma mark - Navigation

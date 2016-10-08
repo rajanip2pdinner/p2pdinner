@@ -12,18 +12,25 @@
 #import "AppDelegate.h"
 @interface PlaceViewController()<LocationManagerDelegate,UITextViewDelegate>{
     LocationManger *locationMgr;
+    NSString *sharedAddress;
 }
 @end
 @implementation PlaceViewController
 @synthesize itemDetails,textVeiw;
 - (void)viewDidLoad{
     [super viewDidLoad];
+    AppDelegate *appdelegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
+    if (appdelegate.lastAddress) {
+        sharedAddress=appdelegate.lastAddress;
+    }
+    else{
     locationMgr=[LocationManger sharedLocationManager];
     if (!([[self getAddressFromItemDetail:itemDetails] length]>0)) {
         [locationMgr updateLocation];
     }
     
     locationMgr.delegate=self;
+    }
 }
 -(void)viewDidAppear:(BOOL)animated{
     [itemDetails setAddressLine1:textVeiw.text];
@@ -34,6 +41,9 @@
     [[ItemDetailsShared sharedItemDetails] setSharedItemDetailsValue:itemDetails];
 }
 - (NSString *)getAddressFromItemDetail:(ItemDetails *)itemDetail{
+    if (sharedAddress.length>0) {
+        return sharedAddress;
+    }else{
     NSMutableArray *array=[[NSMutableArray alloc]initWithObjects:[itemDetail addressLine1],[itemDetail addressLine2],[itemDetail city],[itemDetail state],[itemDetail zipCode], nil];
     [array removeObject:@""];
     [itemDetails setAddressLine1:[[array valueForKey:@"description"] componentsJoinedByString:@","]];
@@ -43,6 +53,7 @@
     [itemDetails setZipCode:@""];
     //[[ItemDetailsShared sharedItemDetails] setSharedItemDetailsValue:itemDetails];
     return [self getAddressArray:array];
+    }
 }
 - (NSString *)getAddressPlacemark:(CLPlacemark *)placemark{
 

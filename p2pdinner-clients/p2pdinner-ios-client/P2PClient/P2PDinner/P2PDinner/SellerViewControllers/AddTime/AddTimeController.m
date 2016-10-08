@@ -29,11 +29,6 @@
     endDate=[Utility stringToDateFormat:@"MM/dd/yyyy HH:mm:ss" dateString:itemDetails.endDate  timeZone:LOCAL];
     closeDate=[Utility stringToDateFormat:@"MM/dd/yyyy HH:mm:ss" dateString:itemDetails.closeDate  timeZone:LOCAL];
     picSelectedDate=[NSDate date];
-    [self updateTime];
-    [self timeValidationCheck];
-    if (!_isBuyerFlow) {
-        //[self addSellerFlowTimeDetails];
-    }
     self.title=@"Dinner Listing";
     
     
@@ -70,7 +65,7 @@
 }
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidAppear:animated];
-    picSelectedDate=[NSDate date];
+    //picSelectedDate=[NSDate date];
     [self updateTime];
         [[SellerHistoryHandler sharedSellerHistoryHandler]updateMenuItem:[[ItemDetailsShared sharedItemDetails] sharedItemDetailsValue] serviceCallBack:^(NSError *error, ItemDetails *response) {
             if (!error) {
@@ -169,7 +164,7 @@ indexPath
 //        return 163;
 //    }else
 //        return 118;
-    return 78;
+    return 98;
 }
 - (NSString *)amPmConvertFromDate:(NSDate *)date{
     if (date==nil) {
@@ -186,10 +181,16 @@ indexPath
     return [Utility stringToDateFormat:@"MM/dd/yyyy HH:mm:ss" dateString:mergedTime  timeZone:UTC];
 }
 -(void)updateTime{
-    startDate=[self mergeDateValue:picSelectedDate timeValue:[Utility getLocalTimeValue:startDate]];
-    endDate=[self mergeDateValue:picSelectedDate timeValue:[Utility getLocalTimeValue:endDate]];
-    closeDate=[self mergeDateValue:picSelectedDate timeValue:[Utility getLocalTimeValue:closeDate]];
+    startDate=[self mergeDateValue:picSelectedDate timeValue:startDate];
+    endDate=[self mergeDateValue:picSelectedDate timeValue:endDate];
+    closeDate=[self mergeDateValue:picSelectedDate timeValue:closeDate];
     [self updatedItems];
+}
+-(NSDate *)calculatePickerMinimumDate{
+    if ([Utility validateToday:picSelectedDate]) {
+        return [self getNearestTimeValue];
+    }
+    return nil;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row==0) {
@@ -204,40 +205,40 @@ indexPath
        [tableView deselectRowAtIndexPath:indexPath animated:YES];
         AvialbleTimeTableCell *availableCell=[tableView cellForRowAtIndexPath:indexPath];
         [DateAndTimeController selectDateAction:PickerSelectTime withPresentViewController:self completionAction:^(NSDate *selectedDate) {
-            NSDate *mergedDate=[self mergeDateValue:picSelectedDate timeValue:selectedDate];
-             if (![self validateNextDate:mergedDate]) {
+           // NSDate *mergedDate=[self mergeDateValue:picSelectedDate timeValue:selectedDate];
+           //  if (![self validateNextDate:mergedDate]) {
                 startDate=[self mergeDateValue:picSelectedDate timeValue:selectedDate];
                 selectedDate=[Utility getLocalTimeValue:selectedDate];
                 availableCell.fromLable.text=[NSString stringWithFormat:@"%@%@",[Utility dateToStringFormat:@"h.mm" dateString:selectedDate timeZone:UTC],[self amPmConvertFromDate:selectedDate]];
                 [self updatedItems];
-             }
-        }withMinimumDate:[self getNearestTimeValue] currentDate:[self getNearestTimeValueWithTime:picSelectedDate]];
+            // }
+        }withMinimumDate:[self calculatePickerMinimumDate] currentDate:[self getNearestTimeValueWithTime:picSelectedDate]];
     }
     else if(indexPath.row==2){
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         AvialbleTimeTableCell *availableCell=[tableView cellForRowAtIndexPath:indexPath];
         [DateAndTimeController selectDateAction:PickerSelectTime withPresentViewController:self completionAction:^(NSDate *selectedDate) {
-            NSDate *mergedDate=[self mergeDateValue:picSelectedDate timeValue:selectedDate];
-            if (![self validateNextDate:mergedDate]) {
+          //  NSDate *mergedDate=[self mergeDateValue:picSelectedDate timeValue:selectedDate];
+          //  if (![self validateNextDate:mergedDate]) {
             endDate=[self mergeDateValue:picSelectedDate timeValue:selectedDate];
             selectedDate=[Utility getLocalTimeValue:selectedDate];
             availableCell.toLable.text=[NSString stringWithFormat:@"%@%@",[Utility dateToStringFormat:@"h.mm" dateString:selectedDate timeZone:UTC],[self amPmConvertFromDate:selectedDate]];
             [self updatedItems];
-             }
-        }withMinimumDate:[self getNearestTimeValue]currentDate:[self getNearestTimeValueWithTime:picSelectedDate]];
+          //   }
+        }withMinimumDate:startDate currentDate:[self getNearestTimeValueWithTime:picSelectedDate]];
     }
     else if(indexPath.row==3){
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         AcceptOrdersTableCell *availableCell=[tableView cellForRowAtIndexPath:indexPath];
         [DateAndTimeController selectDateAction:PickerSelectTime withPresentViewController:self completionAction:^(NSDate *selectedDate) {
-            NSDate *mergedDate=[self mergeDateValue:picSelectedDate timeValue:selectedDate];
-            if (![self validateNextDate:mergedDate]) {
+           // NSDate *mergedDate=[self mergeDateValue:picSelectedDate timeValue:selectedDate];
+           // if (![self validateNextDate:mergedDate]) {
             closeDate=[self mergeDateValue:picSelectedDate timeValue:selectedDate];
             selectedDate=[Utility getLocalTimeValue:selectedDate];
             availableCell.availableFrom.text=[NSString stringWithFormat:@"%@%@",[Utility dateToStringFormat:@"h.mm" dateString:selectedDate timeZone:UTC],[self amPmConvertFromDate:selectedDate]];
             [self updatedItems];
-            }
-        }withMinimumDate:[self getNearestTimeValue]currentDate:[self getNearestTimeValueWithTime:picSelectedDate]];
+           // }
+        }withMinimumDate:startDate withMaximumDate:endDate currentDate:[self getNearestTimeValueWithTime:picSelectedDate]];
     }
     
     
@@ -263,7 +264,6 @@ indexPath
     NSDateComponents *time = [[NSCalendar currentCalendar]components: NSCalendarUnitHour |NSCalendarUnitMinute fromDate: mydate];
     NSUInteger remainder = ([time minute] % 15);
     mydate = [mydate dateByAddingTimeInterval: 60 * (15 - remainder)];
-    
     return mydate;
 }
 - (NSDate *)getNearestTimeValueWithTime:(NSDate *)dateValue{
@@ -275,14 +275,14 @@ indexPath
     return mydate;
 }
 
-- (void)addSellerFlowTimeDetails{
-    startDate=[[self getNearestTimeValue] dateByAddingTimeInterval:60*60];
-    endDate=[startDate dateByAddingTimeInterval:BetweenStartTimeAndEndTime * 60*60];
-    closeDate=startDate;
-    
-    [[[ItemDetailsShared sharedItemDetails] sharedItemDetailsValue] setStartDate:[Utility dateToStringFormat:@"MM/dd/yyyy HH:mm:ss" dateString:startDate  timeZone:LOCAL]];
-    [[[ItemDetailsShared sharedItemDetails] sharedItemDetailsValue] setEndDate:[Utility dateToStringFormat:@"MM/dd/yyyy HH:mm:ss" dateString:endDate  timeZone:LOCAL]];
-    [[[ItemDetailsShared sharedItemDetails] sharedItemDetailsValue] setCloseDate:[Utility dateToStringFormat:@"MM/dd/yyyy HH:mm:ss" dateString:closeDate  timeZone:LOCAL]];
-    
-}
+//- (void)addSellerFlowTimeDetails{
+//    startDate=[[self getNearestTimeValue] dateByAddingTimeInterval:60*60];
+//    endDate=[startDate dateByAddingTimeInterval:BetweenStartTimeAndEndTime * 60*60];
+//    closeDate=startDate;
+//    
+//    [[[ItemDetailsShared sharedItemDetails] sharedItemDetailsValue] setStartDate:[Utility dateToStringFormat:@"MM/dd/yyyy HH:mm:ss" dateString:startDate  timeZone:LOCAL]];
+//    [[[ItemDetailsShared sharedItemDetails] sharedItemDetailsValue] setEndDate:[Utility dateToStringFormat:@"MM/dd/yyyy HH:mm:ss" dateString:endDate  timeZone:LOCAL]];
+//    [[[ItemDetailsShared sharedItemDetails] sharedItemDetailsValue] setCloseDate:[Utility dateToStringFormat:@"MM/dd/yyyy HH:mm:ss" dateString:closeDate  timeZone:LOCAL]];
+//    
+//}
 @end

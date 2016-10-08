@@ -14,6 +14,7 @@
 @interface CreateDinnerViewController ()
 {
     __block NSArray *oldAddedArray;
+    UINavigationController *navController;
 }
 
 @end
@@ -127,8 +128,46 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row!=1) {
-        [self performSegueWithIdentifier:@"CreateNew" sender:nil];
+        UIStoryboard *mystoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        MenuViewController *menuViewController = [mystoryboard instantiateViewControllerWithIdentifier:@"MenuViewController"];
+        [self navigateMenuView:menuViewController indexPath:indexPath];
     }
+}
+//method used to add date first time
+-(NSDate *)validateEndAndCloseTime:(NSDate *)inputDate{
+        NSDate *calculatedDate;
+        NSDate *mydate = [NSDate date];
+        NSTimeInterval nextHourInterveral = 3 * 60 * 60;
+    calculatedDate=[Utility getNearestTimeValueWithTime:[mydate dateByAddingTimeInterval:nextHourInterveral]];
+
+    NSString *currentDate=[Utility dateToStringFormat:[NSDate date] timeZone:UTC];
+    NSString *endDateString=[Utility dateToStringFormat:calculatedDate timeZone:LOCAL];
+    
+    if (![currentDate isEqualToString:endDateString]) {
+        NSString *calculatedDateString=[Utility dateToStringFormat:@"MM/dd/yyyy HH:mm:ss" dateString:[Utility endOfDay:[NSDate date]] timeZone:UTC];
+        return [Utility stringToDateFormat:@"MM/dd/yyyy HH:mm:ss" dateString:calculatedDateString  timeZone:UTC];
+    }
+    
+    return calculatedDate;
+ }
+-(NSDate *)calculateEndAndCloseTimeOfExistingItem:(NSDate *)inputDate{
+    
+    NSDate *calculatedDate=[Utility getLocalTimeValue:inputDate];
+    
+    if ([calculatedDate timeIntervalSinceNow] < 0.0){
+    NSDate *mydate = [NSDate date];
+    NSTimeInterval nextHourInterveral = 3 * 60 * 60;
+    calculatedDate=[Utility getNearestTimeValueWithTime:[mydate dateByAddingTimeInterval:nextHourInterveral]];
+    }
+    NSString *currentDate=[Utility dateToStringFormat:[NSDate date] timeZone:UTC];
+    NSString *endDateString=[Utility dateToStringFormat:calculatedDate timeZone:LOCAL];
+    
+    if (![currentDate isEqualToString:endDateString]) {
+        NSString *calculatedDateString=[Utility dateToStringFormat:@"MM/dd/yyyy HH:mm:ss" dateString:[Utility endOfDay:[NSDate date]] timeZone:UTC];
+        return [Utility stringToDateFormat:@"MM/dd/yyyy HH:mm:ss" dateString:calculatedDateString  timeZone:LOCAL];
+    }
+    
+    return inputDate;
 }
 
 - (NSString *)createDefaultDate:(DinnerTime)dinnertime{
@@ -137,20 +176,17 @@
     switch (dinnertime) {
         case startTime:
         {
-            returnString=[Utility dateToStringFormat:@"MM/dd/yyyy" dateString:[NSDate date] timeZone:LOCAL];
-            returnString= [NSString stringWithFormat:@"%@ 19:00:00",returnString];
+            returnString=[Utility dateToStringFormat:@"MM/dd/yyyy HH:mm:ss" dateString:[self getNearestTimeValueWithTime:[NSDate date]] timeZone:LOCAL];
         }
             break;
         case endTime:
         {
-            returnString=[Utility dateToStringFormat:@"MM/dd/yyyy" dateString:[NSDate date]  timeZone:LOCAL];
-            returnString= [NSString stringWithFormat:@"%@ 22:00:00",returnString];
+            returnString=[Utility dateToStringFormat:@"MM/dd/yyyy HH:mm:ss" dateString:[self validateEndAndCloseTime:[self getNearestTimeValueWithTime:[NSDate date]]] timeZone:LOCAL];
         }
             break;
         case acceptOrderTime:
         {
-            returnString=[Utility dateToStringFormat:@"MM/dd/yyyy" dateString:[NSDate date]  timeZone:LOCAL];
-            returnString= [NSString stringWithFormat:@"%@ 16:00:00",returnString];
+             returnString=[Utility dateToStringFormat:@"MM/dd/yyyy HH:mm:ss" dateString:[self validateEndAndCloseTime:[self getNearestTimeValueWithTime:[NSDate date]]] timeZone:LOCAL];
         }
             break;
     }
@@ -158,53 +194,98 @@
     
     return returnString;
 }
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    NSIndexPath *path = [tableView indexPathForSelectedRow];
-    ItemDetails *item;
+- (NSDate *)getNearestTimeValueWithTime:(NSDate *)dateValue{
+    NSDate *mydate=dateValue;
+    NSDateComponents *time = [[NSCalendar currentCalendar]components: NSCalendarUnitHour |NSCalendarUnitMinute fromDate: mydate];
+    NSUInteger remainder = ([time minute] % 15);
+    mydate = [mydate dateByAddingTimeInterval: 60 * (15 - remainder)];
+    
+    return mydate;
+}
+-(ItemDetails *)createNewItem{
+     ItemDetails *item;
+    item=[[ItemDetails alloc]init];
+    [item setTitle:@""];
+    [item setDinnerDescription:@""];
+    NSString *userId=[[NSUserDefaults standardUserDefaults]objectForKey:@"userId"];
+    [item setUserId:[NSNumber numberWithDouble:[userId doubleValue]]];
+    
+    [item setDinnerCategories:@""];
+    [item setDinnerSpecialNeeds:@""];
+    [item setDinnerDelivery:@"To-Go"];
+    [item setImageUri:@""];
+    [item setIsActive:YES];
+    [item setEndDate:[self createDefaultDate:endTime]];
+    [item setStartDate:[self createDefaultDate:startTime]];
+    [item setCloseDate:[self createDefaultDate:acceptOrderTime]];
+    [item setAddressLine1:@""];
+    [item setAddressLine2:@""];
+    [item setCity:@""];
+    [item setState:@""];
+    [item setZipCode:@""];
+    [item setAvailableQuantity:[NSNumber numberWithInt:5]];
+    [item setCostPerItem:[NSNumber numberWithInt:1]];
+    [item setDinnerId:[NSNumber numberWithInt:0]];
+    return item;
+}
+-(ItemDetails *)getUpdatedCurrentDate:(ItemDetails *)itemDetails{
+    NSDate *startDate=[Utility stringToDateFormat:@"MM/dd/yyyy HH:mm:ss" dateString:itemDetails.startDate  timeZone:UTC];
+    NSDate *endDate=[Utility stringToDateFormat:@"MM/dd/yyyy HH:mm:ss" dateString:itemDetails.endDate  timeZone:UTC];
+    NSDate *closeDate=[Utility stringToDateFormat:@"MM/dd/yyyy HH:mm:ss" dateString:itemDetails.closeDate  timeZone:UTC];
+    startDate=[Utility mergeDateValue:[NSDate date] timeValue:[Utility getLocalTimeValue:startDate]];
+    endDate=[Utility mergeDateValue:[NSDate date] timeValue:[Utility getLocalTimeValue:endDate]];
+    closeDate=[Utility mergeDateValue:[NSDate date] timeValue:[Utility getLocalTimeValue:closeDate]];
+    //endDate=[self calculateEndAndCloseTimeOfExistingItem:endDate];
+    //closeDate=[self calculateEndAndCloseTimeOfExistingItem:closeDate];
+    [itemDetails setStartDate:[Utility dateToStringFormat:@"MM/dd/yyyy HH:mm:ss" dateString:startDate  timeZone:UTC]];
+    [itemDetails setEndDate:[Utility dateToStringFormat:@"MM/dd/yyyy HH:mm:ss" dateString:endDate  timeZone:UTC]];
+    [itemDetails setCloseDate:[Utility dateToStringFormat:@"MM/dd/yyyy HH:mm:ss" dateString:closeDate  timeZone:UTC]];
+    
+    return itemDetails;
+}
+- (void)navigateMenuView:(MenuViewController *)viewController indexPath:(NSIndexPath *)path{
+ //UINavigationController *navigationController =[[UINavigationController alloc] initWithRootViewController:viewController];
     if (path.row==0) {
-        item=[[ItemDetails alloc]init];
-        [item setTitle:@""];
-        [item setDinnerDescription:@""];
-        NSString *userId=[[NSUserDefaults standardUserDefaults]objectForKey:@"userId"];
-        [item setUserId:[NSNumber numberWithDouble:[userId doubleValue]]];
-        
-        [item setDinnerCategories:@""];
-        [item setDinnerSpecialNeeds:@""];
-        [item setDinnerDelivery:@"To-Go"];
-        [item setImageUri:@""];
-        [item setIsActive:YES];
-        [item setEndDate:[self createDefaultDate:endTime]];
-        [item setStartDate:[self createDefaultDate:startTime]];
-        [item setCloseDate:[self createDefaultDate:acceptOrderTime]];
-        [item setAddressLine1:@""];
-        [item setAddressLine2:@""];
-        [item setCity:@""];
-        [item setState:@""];
-        [item setZipCode:@""];
-        [item setAvailableQuantity:[NSNumber numberWithInt:5]];
-        [item setCostPerItem:[NSNumber numberWithInt:1]];
-        
-        
-        [item setDinnerId:[NSNumber numberWithInt:0]];
+        ItemDetails *item=[self createNewItem];
         NSMutableArray *oldArray=[NSMutableArray arrayWithArray:oldAddedArray];
         [oldArray addObject:item];
         oldAddedArray=[NSArray arrayWithArray:oldArray];
-        UINavigationController *navController=[segue destinationViewController];
-        MenuViewController *viewController=(MenuViewController *)[navController topViewController];
         [[ItemDetailsShared sharedItemDetails] setSharedItemDetailsValue:item];
         [viewController setItemDetails:item];
         
     }
     else
     {
-        //item=[oldAddedArray objectAtIndex:(path.row-2)];
-        
-        UINavigationController *navController=[segue destinationViewController];
-        MenuViewController *viewController=(MenuViewController *)[navController topViewController];
-        [[ItemDetailsShared sharedItemDetails] setSharedItemDetailsValue:[oldAddedArray objectAtIndex:(path.row-2)]];
+        ItemDetails *selectedItem=[oldAddedArray objectAtIndex:(path.row-2)];
+        [[ItemDetailsShared sharedItemDetails] setSharedItemDetailsValue:[self getUpdatedCurrentDate:selectedItem]];
         [viewController setItemDetails:[oldAddedArray objectAtIndex:(path.row-2)]];
     }
+    //[self naviagtionBarUISetup];
+    [self presentViewController:viewController animated:YES completion:^{
+        
+    }];
+}
+- (void)cancelAction{
+    //[self updateMenuItem:[[ItemDetailsShared sharedItemDetails] sharedItemDetailsValue]];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+- (void)naviagtionBarUISetup{
+    navController.navigationBar.translucent = false;
+    UIColor *navBarColor=[UIColor colorWithRed:237.0/255.0 green:134.0/255.0 blue:0.0/255.0 alpha:1];
+    NSDictionary *navbarTitleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                                               [UIColor whiteColor],UITextAttributeTextColor,
+                                               [UIFont fontWithName:@"Plantin" size:24], NSFontAttributeName,[NSValue valueWithUIOffset:UIOffsetMake(-1, 0)],UITextAttributeTextShadowOffset, nil];
+    [navController.navigationBar  setTitleTextAttributes:navbarTitleTextAttributes];
+    [navController.navigationBar setBarTintColor:navBarColor];
+    [navController.navigationItem.leftBarButtonItem setTintColor:[UIColor whiteColor]];
+}
+- (void)setUpNavigationBar{
+    [self naviagtionBarUISetup];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setTitle:@"Cancel" forState:UIControlStateNormal];
+    button.frame=CGRectMake(0.0, 100.0, 60.0, 30.0);
+    [button addTarget:self action:@selector(cancelAction)  forControlEvents:UIControlEventTouchUpInside];
+    navController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
     
 }
 

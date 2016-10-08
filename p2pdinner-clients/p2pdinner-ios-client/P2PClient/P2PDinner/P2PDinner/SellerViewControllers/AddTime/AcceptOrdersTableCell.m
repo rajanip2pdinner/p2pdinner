@@ -54,7 +54,7 @@
 }
 - (void)setAcceptOrdersTime:(NSDate *)acceptDate
 {
-    acceptDate=[self getLocalTimeValue:acceptDate];
+    //acceptDate=[self getLocalTimeValue:acceptDate];
     [self validateAvailableTimeObject];
     _availableFrom.text=[NSString stringWithFormat:@"%@%@",[Utility dateToStringFormat:@"h.mm" dateString:acceptDate  timeZone:LOCAL],[availableTime amPmConvertFromDate:acceptDate]];
 }

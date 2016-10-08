@@ -91,4 +91,10 @@
     <string name="done">Done</string>
     <string name="cancel">Cancel</string>
     <string name="footer">By using this app, I agree to the Terms &amp; Conditions</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string-array name="choose_photo">
+        <item>Camera</item>
+        <item>Gallery</item>
+    </string-array>
 </resources>

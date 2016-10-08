@@ -1,6 +1,9 @@
 package com.p2pdinner.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -12,10 +15,15 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -34,6 +42,7 @@ import com.p2pdinner.restclient.MenuServiceManager;
 import org.springframework.util.StringUtils;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +68,7 @@ public class PhotosFragment extends BaseFragment {
     private String selectedImagePath;
 
     private static final int SELECT_PICTURE = 1;
+    private static final int REQUEST_IMAGE = 100;
     private static final String TAG = MenuServiceManager.class.getName();
 
     private Handler handler;
@@ -73,6 +83,7 @@ public class PhotosFragment extends BaseFragment {
         }
         super.setUserVisibleHint(isVisibleToUser);
     }
+
 
     @Nullable
     @Override
@@ -104,7 +115,7 @@ public class PhotosFragment extends BaseFragment {
             public void onClick(View v) {
                 if (StringUtils.hasText(dinnerMenuItem.getTitle())) {
                     List<String> imageUris = new ArrayList<>();
-                    for(int imageIdx = 0; imageIdx < imageViews.length; imageIdx++) {
+                    for (int imageIdx = 0; imageIdx < imageViews.length; imageIdx++) {
                         if (imageViews[imageIdx].getTag() != null) {
                             imageUris.add(imageViews[imageIdx].getTag().toString());
                         }
@@ -175,47 +186,78 @@ public class PhotosFragment extends BaseFragment {
     public class ImageViewClickListener implements ImageView.OnClickListener {
 
         @Override
-        public void onClick(View v) {
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.setType("image/*");
-            intent.addCategory(CATEGORY_OPENABLE);
-            startActivityForResult(Intent.createChooser(intent, "Select Image"), SELECT_PICTURE);
-            selectedImageView = (ImageView) v;
+        public void onClick(final View v) {
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(new ContextThemeWrapper(getContext(), R.style.AppTheme))
+                    .setItems(R.array.choose_photo, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which) {
+                                case 0:
+                                    Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                    startActivityForResult(cameraIntent, REQUEST_IMAGE);
+                                    selectedImageView = (ImageView) v;
+                                    break;
+                                case 1:
+                                    Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                                    galleryIntent.setType("image/*");
+                                    galleryIntent.addCategory(CATEGORY_OPENABLE);
+                                    startActivityForResult(Intent.createChooser(galleryIntent, "Select Image"), SELECT_PICTURE);
+                                    selectedImageView = (ImageView) v;
+                            }
+                        }
+                    });
+
+            alertDialog.show();
         }
     }
 
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Bitmap image = null;
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == SELECT_PICTURE) {
-                final Uri selectedImageUri = data.getData();
-                selectedImageView.setImageURI(selectedImageUri);
-                selectedImagePath = getAbsolutePath(selectedImageUri);
-                Bitmap image = ((BitmapDrawable) selectedImageView.getDrawable()).getBitmap();
-                mProgressBar.setVisibility(ProgressBar.VISIBLE);
-                menuServiceManager.uploadBitMap("upload.JPEG", image)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Observer<String>() {
-                            private String url;
-                            @Override
-                            public void onCompleted() {
-                                selectedImageView.setTag(url);
-                                mProgressBar.setVisibility(ProgressBar.INVISIBLE);
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                Toast.makeText(getActivity().getBaseContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-                                mBtnNext.setEnabled(true);
-                            }
-
-                            @Override
-                            public void onNext(String url) {
-                                this.url = url;
-                            }
-                        });
+            switch (requestCode) {
+                case SELECT_PICTURE:
+                    final Uri selectedImageUri = data.getData();
+                    selectedImagePath = getAbsolutePath(selectedImageUri);
+                    File selectedImage = new File(selectedImagePath);
+                    if (selectedImage != null && selectedImage.length() > 2048) {
+                        Toast.makeText(getContext(), "Image too large to upload. Max size cannot be more than 2 MB", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    selectedImageView.setImageURI(selectedImageUri);
+                    image = ((BitmapDrawable) selectedImageView.getDrawable()).getBitmap();
+                    break;
+                case REQUEST_IMAGE:
+                    image = (Bitmap) data.getExtras().get("data");
+                    selectedImageView.setImageBitmap(image);
+                    break;
             }
+            if (image == null) return;
+            mProgressBar.setVisibility(ProgressBar.VISIBLE);
+            menuServiceManager.uploadBitMap("upload.JPEG", image)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<String>() {
+                        private String url;
+
+                        @Override
+                        public void onCompleted() {
+                            selectedImageView.setTag(url);
+                            mProgressBar.setVisibility(ProgressBar.INVISIBLE);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Toast.makeText(getActivity().getBaseContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                            mBtnNext.setEnabled(true);
+                        }
+
+                        @Override
+                        public void onNext(String url) {
+                            this.url = url;
+                        }
+                    });
         }
     }
 

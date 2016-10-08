@@ -16,6 +16,8 @@ import com.p2pdinner.entities.DinnerMenuItem;
 import com.p2pdinner.entities.DinnerSearchResults;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeFieldType;
+import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONObject;
@@ -58,7 +60,15 @@ public class PlacesServiceManager {
             public void call(Subscriber<? super DinnerSearchResults> subscriber) {
                 Log.d(TAG, "Requesting dinner for address ==> " + address);
                 StringBuffer searchQry = new StringBuffer("");
-                searchQry.append("close_time::").append(DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss").withZoneUTC().print(startTime));
+                DateTime actualStartTime = DateTime.now();
+                DateTime actualEndTime = DateTime.now();
+                actualEndTime = actualStartTime.withTime(23, 59, 59, 0);
+                if (startTime.isAfter(actualStartTime)) {
+                    actualStartTime = startTime;
+                    actualEndTime = actualStartTime.withTime(23, 59, 59, 0);
+                }
+                searchQry.append("after_close_time::").append(DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss").withZoneUTC().print(actualStartTime));
+                searchQry.append("|before_close_time::").append(DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss").withZoneUTC().print(actualEndTime));
                 searchQry.append("|guests::").append(guests);
                 UriComponents uriComponents = UriComponentsBuilder.fromUriString(Constants.P2PDINNER_BASE_URI)
                         .path("/places/nearbysearch")

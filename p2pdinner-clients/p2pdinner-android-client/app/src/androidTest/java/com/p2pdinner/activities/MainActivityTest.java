@@ -1,6 +1,7 @@
 package com.p2pdinner.activities;
 
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 import android.widget.ListView;
 
 
@@ -25,9 +26,25 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         assert(listView.get(0).getAdapter().getCount() > 0);
     }
 
-    public void testIHaveDinner() throws Exception {
-        solo.clickInList(0);
+    public void testIWantDinner() throws Exception {
+        solo.clickInList(1);
+        solo.assertCurrentActivity("Assert on current activity", FindDinnerActivity.class);
+        solo.getCurrentActivity().finish();
     }
+
+    public void testMyOrders() throws Exception {
+        solo.clickInList(3);
+        solo.assertCurrentActivity("Assert on current activity", SellerOrdersListingActivity.class);
+        solo.getCurrentActivity().finish();
+    }
+
+    public void testIHaveDinner() throws Exception {
+        solo.clickInList(2);
+        solo.assertCurrentActivity("Assert on current activity", CreateDinnerActivity.class);
+        solo.getCurrentActivity().finish();
+    }
+
+
 
     @Override
     public void setUp() throws Exception {

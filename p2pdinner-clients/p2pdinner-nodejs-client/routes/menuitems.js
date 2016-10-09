@@ -13,7 +13,10 @@ router.get('/', function(req, res, next) {
 router.get('/menu', function(req, res, next) {
 	var profile = req.session.profile;
 	try {
-		unirest.get(res.locals.rest_endpoint + '/menu/view/' + profile.id).send().end(function(response){
+		unirest.get(res.locals.rest_endpoint + '/menu/view/' + profile.id)
+		.headers({'Content-Type': 'application/json', 'Authorization' : 'Bearer ' + req.app.locals.authenticationInfo['access_token']})
+		.send()
+		.end(function(response){
 			if (response.code !== 200) {
 			    var e = {};
 			    e.message = response.body;
@@ -21,9 +24,9 @@ router.get('/menu', function(req, res, next) {
 			    throw e;
 			}
 			res.render('menuitems', { 'data' : response.body });
-		})	
+		})
 	} catch(e) {
-		res.render('menuitems', e);	
+		res.render('menuitems', e);
 	}
 });
 
@@ -51,12 +54,12 @@ router.get("/add", function(req, res, next){
 			});
 		});
 	   });
-		   
-	   
+
+
 	} catch(e) {
-	   res.render('addToMenu', { "status" : response.body.status, "message" : response.body.message });	
+	   res.render('addToMenu', { "status" : response.body.status, "message" : response.body.message });
 	}
-	
+
 });
 
 router.post("/add", function(req, res, next){

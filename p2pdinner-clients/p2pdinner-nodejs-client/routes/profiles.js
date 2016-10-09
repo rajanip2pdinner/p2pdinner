@@ -36,21 +36,25 @@ router.post('/register', function(req, res, next) {
 	});
 	console.log(requestBody);
 	var Request = unirest.post(res.locals.rest_endpoint + "/profile")
-		.headers('Content-Type', 'application/json')
+		.headers({
+			"Authorization" : "Bearer " + req.app.locals.authenticationInfo["access_token"],
+			"Content-Type" : "application/json"
+		})
 		.send(requestBody)
 		.end(function(response){
 				console.dir(response.body);
-				res.render("register", { 'status' : response.code, 'msg' : response.body.status + ' : ' + response.body.message });		
+				res.render("register", { 'status' : response.code, 'msg' : response.body.status + ' : ' + response.body.message });
 		});
 });
 
 router.post('/validate', function(req, res, next) {
 	if (req.session.profile !== undefined) {
-		res.render('mainmenu');	
+		res.render('mainmenu');
 	}
 	var emailAddress = req.body.emailAddress;
 	var password = req.body.password;
 	var Request = unirest.get(res.locals.rest_endpoint + "/profile/validate")
+		.headers({"Authorization" : "Bearer " + req.app.locals.authenticationInfo["access_token"]})
 		.query({ 'emailAddress' : emailAddress, 'password': password})
 		.end(function(response) {
 			if (response.body === undefined) {
@@ -58,7 +62,7 @@ router.post('/validate', function(req, res, next) {
 				err.status = response.code;
 				err.msg = 'Application server may be down. Please try again';
 				err.stack = '';
-				res.render('error', { 'error' : err });	
+				res.render('error', { 'error' : err });
 			} else {
 				console.dir(response.body)
 				if (response.body.code !== undefined) {
@@ -66,9 +70,9 @@ router.post('/validate', function(req, res, next) {
 				} else {
 					req.session.profile = response.body;
 					res.render('mainmenu');
-				}	
+				}
 			}
-			
+
 		});
 });
 

@@ -35,27 +35,40 @@ router.get("/add", function(req, res, next){
 	var special_needs;
 	var delivery_type;
 	try {
-	   unirest.get(res.locals.rest_endpoint + '/dinnercategory/view').send().end(function(response){
-		if (response.code !== 200) {
-			throw new Error(response.body);
-		}
-		categories = response.body;
-		unirest.get(res.locals.rest_endpoint + '/specialneed/view').send().end(function(response){
-			if (response.code !== 200) {
-				throw new Error(response.body);
-			}
-			special_needs = response.body;
-			unirest.get(res.locals.rest_endpoint + '/delivery/view').send().end(function(response){
-			if (response.code !== 200) {
-				throw new Error(response.body);
-			}
-			delivery_types = response.body;
-			res.render('addToMenu', { "categories" : categories, "special_needs" : special_needs, "delivery_types" : delivery_types} );
-			});
-		});
+	   unirest.get(res.locals.rest_endpoint + '/dinnercategory/view')
+		 .headers({
+			 "Authorization" : "Bearer " + req.app.locals.authenticationInfo["access_token"]
+		 })
+		 .send()
+		 .end(function(response){
+				if (response.code !== 200) {
+					throw new Error(response.body);
+				}
+				categories = response.body;
+				unirest.get(res.locals.rest_endpoint + '/specialneed/view')
+				.headers({
+	 			 "Authorization" : "Bearer " + req.app.locals.authenticationInfo["access_token"]
+	 		 })
+				.send()
+				.end(function(response){
+					if (response.code !== 200) {
+						throw new Error(response.body);
+					}
+					special_needs = response.body;
+					unirest.get(res.locals.rest_endpoint + '/delivery/view')
+					.headers({
+		 			 "Authorization" : "Bearer " + req.app.locals.authenticationInfo["access_token"]
+		 		 })
+					.send()
+					.end(function(response){
+					if (response.code !== 200) {
+						throw new Error(response.body);
+					}
+					delivery_types = response.body;
+					res.render('addToMenu', { "categories" : categories, "special_needs" : special_needs, "delivery_types" : delivery_types} );
+					});
+				});
 	   });
-
-
 	} catch(e) {
 	   res.render('addToMenu', { "status" : response.body.status, "message" : response.body.message });
 	}

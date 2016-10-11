@@ -134,7 +134,7 @@ $(document).ready(function(){
 					+ '    </div>'
 					+ '  </div><!-- /.modal-content -->'
 					+ '</div><!-- /.modal -->');
-	
+
 	var mapCanvas = document.getElementById('map-canvas');
 	var mapOptions = {
           center: new google.maps.LatLng(44.5403, -78.5463),
@@ -158,22 +158,40 @@ $(document).ready(function(){
 		url : '/listings/search/markers',
 		type : 'GET',
 		success : function(data){
+			var items = new Map();
 			console.dir(data.markers);
-			$.each(data.markers.results, function(idx, result) {
-				console.dir(result);
+			_.each(data.markers.results, function(result, index, list){
+				var profileId = result.profile_id;
+				_.each(result.menu_items, function(mi, idx, mis){
+					var key = [profileId, mi.location.lat, mi.location.lng].join("_");
+					if (items.has(key)) {
+							var item = items.get(key);
+							item.menu_items.push(mi);
+					} else {
+						var item = {};
+						item.location = mi.location;
+						item.menu_items = [];
+						item.menu_items.push(mi);
+						items.set(key,item);
+					}
+				});
+			});
+			console.log("Writing items ....");
+			console.dir(items);
+			items.forEach(function(value, key) {
 				var marker = new google.maps.Marker({
-					position : new google.maps.LatLng(result.location.lat,result.location.lng),
+					position : new google.maps.LatLng(value.location.lat,value.location.lng),
 					map : map,
 					animation: google.maps.Animation.DROP
 				});
 				markers.push(markers);
 				var contents = [];
-				$.each(result.menu_items, function(idx, mi){
+				$.each(value.menu_items, function(idx, mi){
 					contents.push(mi.title);
 				});
 				var infowindow = new google.maps.InfoWindow({
 					//content: '<b>' + contents.join() + '</b>',
-					content : markerContentTemplate({"menu_items" : result.menu_items}),
+					content : markerContentTemplate({"menu_items" : value.menu_items}),
 					size: new google.maps.Size(50,50)
 				});
 				google.maps.event.addListener(marker, 'click', function(){
@@ -185,5 +203,5 @@ $(document).ready(function(){
 			console.log(error);
 		}
 	});
-        
+
 });

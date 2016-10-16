@@ -89,7 +89,7 @@ router.get("/orders", function(req, res, next) {
     .end(function(response) {
         console.log(response.body.response.results);
         res.render('orders', { "data" : response.body.response.results });
-    })
+      });
 });
 
 module.exports = router;

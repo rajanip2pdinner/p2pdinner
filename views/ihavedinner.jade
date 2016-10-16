@@ -1,0 +1,26 @@
+extends layout
+
+block content
+	div(class="container")
+		div(class="row")
+			div(class='col-sm-5 bootcards-list')
+				div(class="panel panel-primary")
+					div(class="panel-heading")
+						h3(class="panel-title") I Have Dinner
+					each day in dates
+						div(class="list-group")
+							a(class="list-group-item" href="#")
+								h4(class="list-group-item-heading")=day
+					div(class="panel-footer")
+						a(href="/profiles/signout", class="pull-right" style="margin-left:1em")
+							i(class="fa fa-2x fa-sign-out")
+						a(href="/cart/view", class="pull-right" style="margin-left:1em")
+							i(class="fa fa-2x fa-cart-arrow-down")
+						a(href="/profiles/validate", class="pull-right")
+							i(class="fa fa-2x fa-home")
+					div(class="clearfix")
+			div(class='col-sm-5 bootcards-list')
+				div(class="panel panel-primary")
+					div(class="panel-heading")
+						h3(class="panel-title")=currentdate
+					

@@ -1,0 +1,21 @@
+extends layout
+
+block content
+	div(class="panel panel-primary")
+		div(class="panel-heading")
+			h3(class="panel-title") My Orders
+		div(class="list-group")
+			a(class="list-group-item", href="/myorders/iwantdinner")
+				i(class="fa fa-3x fa-beer pull-left")
+				h4(class="list-group-heading") I Want Dinner
+			a(class="list-group-item", href="/myorders/ihavedinner")
+				i(class="fa fa-3x fa-tag pull-left")
+				h4(class="list-group-heading") I Have Dinner
+		div(class="panel-footer")
+			a(href="/profiles/signout", class="pull-right" style="margin-left:1em")
+				i(class="fa fa-2x fa-sign-out")
+			a(href="/cart/view", class="pull-right" style="margin-left:1em")
+				i(class="fa fa-2x fa-cart-arrow-down")
+			a(href="/profiles/validate", class="pull-right")
+				i(class="fa fa-2x fa-home")
+		div(class="clearfix")

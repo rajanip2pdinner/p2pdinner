@@ -18,6 +18,7 @@ var menuitems = require('./routes/menuitems');
 var listings = require('./routes/listings');
 var cart = require('./routes/cart');
 var options = require('./routes/options');
+var myorders = require('./routes/myorders');
 
 app.locals.rest_endpoint = process.env.P2PDINNER_ENDPOINT_URL || "http://localhost:9128/services";
 
@@ -76,6 +77,7 @@ app.use('/menuitems', menuitems);
 app.use('/listings', listings);
 app.use('/cart', cart);
 app.use('/options', options);
+app.use('/myorders', myorders);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -99,7 +99,13 @@ router.post("/add", function(req, res, next){
 	}
 	console.log(request);
 	console.log(req.files);
-	unirest.post(res.locals.rest_endpoint + '/menu/add').headers('Content-Type', 'multipart/form-data').attach('filename', req.files.image.path).field('menuItem', request).send().end(function(response){
+	var serviceRequest;
+	serviceRequest = unirest.post(res.locals.rest_endpoint + '/menu/add').headers({
+			'Content-Type': 'application/json',
+			"Authorization" : "Bearer " + req.app.locals.authenticationInfo["access_token"]
+		});
+	
+	serviceRequest.send(request).end(function(response){
 		if (response.code !== 200) {
 			res.render('addToMenu', { "status" : response.body.status, "message" : response.body.message });
 		}

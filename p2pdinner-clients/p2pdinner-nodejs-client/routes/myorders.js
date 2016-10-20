@@ -12,15 +12,15 @@ router.get('/ihavedinner', function(req, res, next){
   var profile = req.session.profile;
   var startDate;
   var endDate;
-  if (req.params.start_date !== undefined) {
-    startDate = moment(start_date,'MM/DD/YYYY HH:mm:ss');
+  if (req.query.start_date !== undefined) {
+    startDate = moment(req.query.start_date,'DD, MMM YYYY');
   } else {
     startDate = moment();
   }
-  if (req.params.end_date !== undefined) {
-    endDate = moment(start_date,'MM/DD/YYYY HH:mm:ss');
+  if (req.query.end_date !== undefined) {
+    endDate = moment(req.query.end_date,'DD, MMM YYYY');
   } else {
-    endDate = moment().add(1, 'd');
+    endDate = moment(startDate).add(1, "d");
   }
   var dates = [];
   var now = moment();
@@ -44,9 +44,9 @@ router.get('/ihavedinner', function(req, res, next){
       if (response.code !== undefined && response.code === 200) {
         res.render('ihavedinner', {
           "title": 'I Want Dinner',
-          "data" : response.body.results,
+          "data" : response.body,
           "dates" : dates,
-          "currentdate" : moment().format("DD, MMM YYYY")
+          "currentdate" : startDate.format("DD, MMM YYYY")
         });
       }
     }); 

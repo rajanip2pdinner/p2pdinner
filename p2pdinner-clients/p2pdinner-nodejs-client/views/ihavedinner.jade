@@ -1,6 +1,7 @@
 extends layout
 
 block content
+	link(rel="stylesheet", href="/bower_components/jquery-bar-rating/dist/themes/fontawesome-stars.css")
 	div(class="container")
 		div(class="row")
 			div(class='col-sm-5 bootcards-list')
@@ -9,7 +10,7 @@ block content
 						h3(class="panel-title") I Have Dinner
 					each day in dates
 						div(class="list-group")
-							a(class="list-group-item" href="/myorders/ihavedinner?start_date=#{day}")
+							a(class="list-group-item" href="/myorders/ihavedinner?input_date=#{day}")
 								h4(class="list-group-item-heading")=day
 					div(class="panel-footer")
 						a(href="/profiles/signout", class="pull-right" style="margin-left:1em")
@@ -19,24 +20,16 @@ block content
 						a(href="/profiles/validate", class="pull-right")
 							i(class="fa fa-2x fa-home")
 					div(class="clearfix")
-			div(class='col-sm-5 bootcards-list')
+		div(class="row")                    
+			div(class='bootcards-list')
 				div(class="panel panel-primary")
 					div(class="panel-heading")
 						h3(class="panel-title")=currentdate
-					div(class="table-responsive")
-						table(class="table table-hover")
-							thead
-								tr(class="active")
-									th Title
-									th Conf.Code
-									th Quantity
-									th Price
-								if (data && data.results)
-									each result in data.results
-										tr
-											td=result.title
-											td=result.pass_code
-											td=result.order_quantity
-											td=result.total_price
-
-					
+					div(class="list-group")
+						if data.code === undefined
+							each item in data
+								a(class="list-group-item", href="#")
+									div(class="row")
+										div(class="col-sm-6")
+											h4(class="list-group-item-heading")=item.title
+											p(class="list-group-item-text")=item.description

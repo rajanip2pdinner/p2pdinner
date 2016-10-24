@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
   res.render('myorders', { title: 'My Orders' });
 });
 
-router.get('/ihavedinner', function(req, res, next){
+router.get('/iwantdinner', function(req, res, next){
   var profile = req.session.profile;
   var startDate;
   var endDate;
@@ -42,7 +42,7 @@ router.get('/ihavedinner', function(req, res, next){
       //console.log(JSON.parse(response.body));
       console.log(response.body);
       if (response.code !== undefined && response.code === 200) {
-        res.render('ihavedinner', {
+        res.render('iwantdinner', {
           "title": 'I Want Dinner',
           "data" : response.body,
           "dates" : dates,
@@ -52,8 +52,41 @@ router.get('/ihavedinner', function(req, res, next){
     }); 
 });
 
-router.get('/iwantdinner',function(req, res, next){
-  res.render('iwantdinner', {title : 'I Want Dinner'});
+router.get('/ihavedinner',function(req, res, next){
+  var profile = req.session.profile;
+  var inputDate;
+  if (req.query.input_date !== undefined) {
+    inputDate = moment(req.query.input_date,'DD, MMM YYYY');
+  } else {
+    inputDate = moment();
+  }
+  var dates = [];
+  var now = moment();
+  dates.push(moment().subtract(2, "d").format("DD, MMM YYYY"));
+  dates.push(moment().subtract(1, "d").format("DD, MMM YYYY"));
+  dates.push(moment().format("DD, MMM YYYY"));
+  dates.push(moment().add(1, "d").format("DD, MMM YYYY"));
+  dates.push(moment().add(2, "d").format("DD, MMM YYYY"));
+  unirest.get(res.locals.rest_endpoint + '/listing/view/' + profile.id)
+    .headers({
+      "Content-Type" : "application/json",
+      "Authorization" : "Bearer " + req.app.locals.authenticationInfo["access_token"]
+    })
+    .query({
+      "inputDate" : inputDate.utc().valueOf(),
+    })
+    .end(function(response){
+      //console.log(JSON.parse(response.body));
+      console.log(response.body);
+      if (response.code !== undefined && response.code === 200) {
+        res.render('ihavedinner', {
+          "title": 'I Have Dinner',
+          "data" : response.body,
+          "dates" : dates,
+          "currentdate" : inputDate.format("DD, MMM YYYY")
+        });
+      }
+    }); 
 });
 
 module.exports = router;

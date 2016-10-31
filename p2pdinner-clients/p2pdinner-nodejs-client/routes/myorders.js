@@ -89,4 +89,20 @@ router.get('/ihavedinner',function(req, res, next){
     }); 
 });
 
+router.get('/ihavedinner/:listingId/received/detail', function(req, res, next) {
+  unirest.get(res.locals.rest_endpoint + "/cart/orders/" + req.params.listingId + "/received/detail")
+    .headers({
+        "Content-Type" : "application/json",
+        "Authorization" : "Bearer " + req.app.locals.authenticationInfo["access_token"]
+    }).end(function(response){
+      if (response.code !== undefined && response.code === 200) {
+        console.log(response.body);
+        res.render('receivedOrdersDetail', {
+          "title" : "Received Order Details",
+          "data" : response.body
+        })
+      }
+    });
+});
+
 module.exports = router;

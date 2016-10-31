@@ -1,36 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="2dp"
-    android:layout_weight="100">
+    android:layout_weight="100"
+    android:orientation="vertical"
+    android:paddingBottom="2dp">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="25">
+
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/darker_gray"
-                android:textStyle="bold"
-                android:padding="2dp"
                 android:id="@+id/title"
-                android:text="Steak Dinner - American"
-                android:textSize="@dimen/abc_text_size_large_material" />
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/holo_orange_dark"
-                android:textStyle="bold"
+                android:padding="2dp"
+                android:text="Steak Dinner - American"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="@dimen/abc_text_size_large_material"
+                android:textStyle="bold" />
+
+            <TextView
                 android:id="@+id/total_amount"
-                android:text="$4.99"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_alignRight="@+id/title"
                 android:padding="2dp"
-                android:textSize="@dimen/abc_text_size_large_material" />
+                android:text="$4.99"
+                android:textColor="@android:color/holo_orange_dark"
+                android:textSize="@dimen/abc_text_size_large_material"
+                android:textStyle="bold" />
 
         </RelativeLayout>
     </LinearLayout>
@@ -40,9 +45,11 @@
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:paddingTop="2dp">
+
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
+
             <ImageView
                 android:id="@+id/food_images"
                 android:layout_width="wrap_content"
@@ -52,59 +59,80 @@
                 android:maxWidth="100dp"
                 android:src="@drawable/add_photo" />
         </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/darker_gray"
-                android:textStyle="bold"
-                android:padding="5dp"
-                android:id="@+id/profilename"
-                android:text="Molly's Home"
-                android:textSize="@dimen/abc_text_size_subtitle_material_toolbar" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/darker_gray"
-                android:textStyle="bold"
-                android:id="@+id/address"
-                android:layout_below="@+id/confirmation_code"
-                android:layout_alignParentLeft="true"
-                android:text="680 2nd Street, San Francisco"
-                android:paddingLeft="10dp"
-                android:textSize="@dimen/abc_text_size_small_material" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/darker_gray"
-                android:textStyle="bold"
-                android:padding="10dp"
-                android:id="@+id/confirmation_code"
-                android:layout_below="@+id/profilename"
-                android:layout_alignParentLeft="true"
-                android:text="1.3 mi"
-                android:textSize="@dimen/abc_text_size_small_material"
-                />
 
             <TextView
+                android:id="@+id/profilename"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="Molly's Home"
                 android:textColor="@android:color/darker_gray"
-                android:textStyle="bold"
-                android:id="@+id/timings"
+                android:textSize="@dimen/abc_text_size_subtitle_material_toolbar"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/confirmation_code"
                 android:paddingLeft="10dp"
+                android:text="680 2nd Street, San Francisco"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="@dimen/abc_text_size_small_material"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/confirmation_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/profilename"
+                android:padding="10dp"
+                android:text="1.3 mi"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="@dimen/abc_text_size_small_material"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/timings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/address"
+                android:paddingLeft="10dp"
                 android:text="8:30 PM - 9:45 PM"
-                android:textSize="@dimen/abc_text_size_small_material" />
+                android:textColor="@android:color/darker_gray"
+                android:textSize="@dimen/abc_text_size_small_material"
+                android:textStyle="bold" />
+
             <RatingBar
                 android:id="@+id/ratingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/timings"
                 android:numStars="5"
-                android:stepSize="1.0"
-                android:layout_below="@id/timings"/>
+                android:stepSize="1.0" />
+
+            <ImageView
+                android:id="@+id/calendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ratingBar"
+                android:src="@drawable/ic_event_black_48dp"/>
+
+            <ImageView
+                android:id="@+id/directions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ratingBar"
+                android:layout_toRightOf="@+id/calendar"
+                android:paddingLeft="5dp"
+                android:src="@drawable/ic_directions_black_48dp"/>
+
             <!-- <ImageView
                 android:id="@+id/delivery_types"
                 android:layout_width="wrap_content"

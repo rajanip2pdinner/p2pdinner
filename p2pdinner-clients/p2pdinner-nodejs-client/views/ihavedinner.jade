@@ -28,8 +28,18 @@ block content
 					div(class="list-group")
 						if data.code === undefined
 							each item in data
-								a(class="list-group-item", href="#")
+								a(class="list-group-item", href="/myorders/ihavedinner/" + item.listing.listing_id +"/received/detail")
 									div(class="row")
 										div(class="col-sm-6")
 											h4(class="list-group-item-heading")=item.title
-											p(class="list-group-item-text")=item.description
+											p(class="list-group-item-text")="Description: " + item.description
+											if item.categories !== undefined && item.categories.length !== 0
+												p(class="list-group-item-text")="Categories: " + item.categories.join()
+											if item.special_needs !== undefined && item.special_needs.length !== 0
+												p(class="list-group-item-text")="Special Needs: " + item.special_needs.join()
+											if item.delivery !== undefined && item.delivery.length !== 0
+												p(class="list-group-item-text")="Delivery: " + item.delivery.join()
+										div(class="col-sm-6")
+											h4(class="list-group-item-heading")=item.listing.cost_per_item
+											p(class="list-group-item-text")="Available: " + item.listing.quantity_available
+											p(class="list-group-item-text")="Ordered: " + item.listing.ordered_quantity                                                                                                                                  											    

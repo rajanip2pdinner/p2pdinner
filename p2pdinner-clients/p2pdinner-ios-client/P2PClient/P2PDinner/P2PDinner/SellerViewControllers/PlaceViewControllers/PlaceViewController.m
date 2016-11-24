@@ -20,6 +20,8 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
     AppDelegate *appdelegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
+    if(![self vaidateAddressExist:itemDetails])
+    {
     if (appdelegate.lastAddress) {
         sharedAddress=appdelegate.lastAddress;
     }
@@ -31,6 +33,23 @@
     
     locationMgr.delegate=self;
     }
+    }else{
+      sharedAddress=[self getHistoryAddress:itemDetails];
+    }
+}
+-(BOOL)vaidateAddressExist:(ItemDetails *)itemDetail{
+    NSMutableArray *array=[[NSMutableArray alloc]initWithObjects:[itemDetail addressLine1],[itemDetail addressLine2],[itemDetail city],[itemDetail state],[itemDetail zipCode], nil];
+    [array removeObject:@""];
+    NSString *addressString=[[array valueForKey:@"description"] componentsJoinedByString:@","];
+    if (addressString.length>0) {
+        return TRUE;
+    }
+    return FALSE;
+}
+-(NSString *)getHistoryAddress:(ItemDetails *)itemDetail{
+    NSMutableArray *array=[[NSMutableArray alloc]initWithObjects:[itemDetail addressLine1],[itemDetail addressLine2],[itemDetail city],[itemDetail state],[itemDetail zipCode], nil];
+    [array removeObject:@""];
+    return [[array valueForKey:@"description"] componentsJoinedByString:@","];
 }
 -(void)viewDidAppear:(BOOL)animated{
     [itemDetails setAddressLine1:textVeiw.text];

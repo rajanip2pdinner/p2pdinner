@@ -43,7 +43,9 @@
 @property(nonatomic,strong)NSNumber *startTime;
 @property(nonatomic,strong)NSNumber *closeTime;
 @property(nonatomic,strong)NSNumber *endTime;
-
+@property(nonatomic,strong)NSNumber *buyer_rating;
+@property(nonatomic,strong)NSNumber *seller_rating;
+@property(nonatomic,strong)NSNumber *cart_id;
 @end
 
 

@@ -14,4 +14,5 @@ typedef void(^CheckoutRestultBlock)(NSError *error,NSString *cartId);
 - (void)getSearchResultBasedOnLoactionAndFilterRequest:(NSString *)locationReq resultHandler:(SearchResultBlock)responseCallBack;
 -(void)addCart:(NSString *)cartRequest withResponse:(CheckoutRestultBlock)cartResponceCallBack;
 -(void)placeOrder:(NSString *)cartId withUserId:(NSString *)userId withResponse:(CheckoutRestultBlock)placeOrderResultCallBack;
+-(void)addRating:(NSString *)cartRequest withCartId:(NSString *)cartId withResponse:(CheckoutRestultBlock)cartResponceCallBack;
 @end

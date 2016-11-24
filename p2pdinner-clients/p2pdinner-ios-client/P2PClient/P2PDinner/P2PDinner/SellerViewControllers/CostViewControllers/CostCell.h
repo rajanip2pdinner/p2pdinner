@@ -8,23 +8,26 @@
 
 #import <UIKit/UIKit.h>
 #import "ItemDetailsShared.h"
+
 @protocol CostCellDelegate<NSObject>
 -(void)updatedItems;
 @end
+
 typedef enum{
     DecrementValue,
     IncrementValue
     
 }ChangeValue;
+
 @interface CostCell : UITableViewCell
 {
     IBOutlet UILabel *pricePerMealLable;
 }
-@property(nonatomic,weak)IBOutlet UITextField *pricePerMealTextField;
+
+@property(nonatomic,weak)IBOutlet UITextField    *pricePerMealTextField;
+@property(nonatomic,retain) id<CostCellDelegate>  delegate;
+
 - (void)setPrice:(NSNumber *)price;
 - (NSNumber *)getCostForDinner;
-@property(nonatomic,retain) id<CostCellDelegate> delegate;
-//- (IBAction)pricePerMealSegmentAction:(id)sender;
-//- (IBAction)priceCentsSegmentAction:(id)sender;
 
 @end

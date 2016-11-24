@@ -82,4 +82,28 @@ static ServiceHandler *_sharedInstance=nil;
     }];
     
 }
+-(void)addRating:(NSString *)cartRequest withCartId:(NSString *)cartId withResponse:(CheckoutRestultBlock)cartResponceCallBack{
+    NSString *conType=MIMETypeJSON
+    NSString *requestType=RequestTypePost
+    NSString *urlString=[NSString stringWithFormat:@"api/v1/cart/%@",cartId];
+    [self execute:urlString requestObject:cartRequest contentType:conType requestMethod:requestType serviceCallBack:^(NSError *error, id response) {
+        if (!error) {
+            NSDictionary* responseDic=[(NSDictionary *)response objectForKey:@"response"];
+            if ([[responseDic objectForKey:@"status"] isEqualToString:@"OK"]) {
+                if ([[responseDic objectForKey:@"cartId"] isKindOfClass:[NSNumber class]]) {
+                    cartResponceCallBack(nil,[[responseDic objectForKey:@"cartId"] stringValue]);
+                } else  if ([[responseDic objectForKey:@"cartId"] isKindOfClass:[NSString class]]) {
+                    cartResponceCallBack(nil,[responseDic objectForKey:@"cartId"]);
+                }
+            }else{
+                cartResponceCallBack(nil,[responseDic objectForKey:@"status"]);
+            }
+            
+        }else{
+            cartResponceCallBack(error,nil);
+        }
+    }];
+    
+}
+
 @end

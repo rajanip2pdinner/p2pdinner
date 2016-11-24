@@ -21,6 +21,9 @@
     UISwitch *lowCarb;
     UISwitch *lowFatDiet;
 }
+
 @property(nonatomic,strong) ItemDetails *itemDetails;
+
 -(IBAction)updateItem:(id)sender;
+
 @end

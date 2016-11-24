@@ -13,14 +13,13 @@
 #import "ItemDetailsShared.h"
 @interface CostViewController : UIViewController
 {
-//    UILabel *dollorsLable;
-//    UILabel *centsLable;
-//    UILabel *maxNumOrderLable;
     UITextField *textfield1;
     UITextField *textfield2;
     
-    CostCell *costCell;
+    CostCell          *costCell;
     MinimumOrdersCell *minOrdCell;
 }
+
 @property(nonatomic,strong) ItemDetails *itemDetails;
+
 @end

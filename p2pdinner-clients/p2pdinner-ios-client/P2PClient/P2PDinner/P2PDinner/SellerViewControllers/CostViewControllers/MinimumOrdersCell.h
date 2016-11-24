@@ -10,13 +10,16 @@
 @protocol MinimumOrdersDelegate<NSObject>
 - (void)updatedItems;
 @end
+
 @interface MinimumOrdersCell : UITableViewCell
 {
      IBOutlet UILabel *maximumOrdersLable;
 }
+
 @property(nonatomic,weak)IBOutlet UITextField *maximumTextField;
+@property(nonatomic,retain)id<MinimumOrdersDelegate> delegate;
+
 - (void)setMaximuOrdersValue:(NSNumber *)value;
 - (NSNumber *)getMaximuOrdersValue;
-@property(nonatomic,retain)id<MinimumOrdersDelegate> delegate;
-//- (IBAction)maximumNumberOfOrdersAction:(id)sender;
+
 @end

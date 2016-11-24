@@ -13,7 +13,9 @@
 #import "MyOrderDetail.h"
 #import "SharedLogin.h"
 #import "AppDelegate.h"
-@interface MyOrderViewController()
+#import "BuyerHandler.h"
+#import "StarRatingView.h"
+@interface MyOrderViewController()<RatingDelegate>
 {
     NSString *selectedDate;
     NSString *startDate;
@@ -61,13 +63,16 @@
     
 }
 #pragma MyOrderTableViewDelegate
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
+    return UITableViewAutomaticDimension;
+}
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     id myOrderObject=[_tableViewArray objectAtIndex:indexPath.row];
     if ([myOrderObject isKindOfClass:[MyOrderItem class]]) {
         return 93;
     }
     else if([myOrderObject isKindOfClass:[CarRecivedItemDetail class]]) {
-        return 146;
+        return UITableViewAutomaticDimension;
     }
     
     return 85;
@@ -114,6 +119,7 @@
     UILabel *sellerName;
     UIImageView *dinnerImage;
     UILabel *deliveryOption;
+    StarRatingView *sareView;
     id myOrderObject=[_tableViewArray objectAtIndex:indexPath.row];
     if ([myOrderObject isKindOfClass:[MyOrderItem class]]) {
         item=[_tableViewArray objectAtIndex:indexPath.row];
@@ -136,6 +142,8 @@
             address=(UILabel *)[cell viewWithTag:105];
             //countLable=(UILabel *)[cell viewWithTag:106];
             deliveryOption=(UILabel *)[cell viewWithTag:107];
+            sareView=(StarRatingView *)[cell viewWithTag:108];
+            sareView.delegate=self;
             
             
         }
@@ -156,15 +164,6 @@
         cell.detailTextLabel.text=[NSString stringWithFormat:@"Serving %@ to %@",startServingTime,stopServingTime];
     }
     else if ([myOrderObject isKindOfClass:[CarRecivedItemDetail class]]){
-//        dinnerImage=(UIImageView *)[cell viewWithTag:100];
-//        title=(UILabel *)[cell viewWithTag:101];
-//        price=(UILabel *)[cell viewWithTag:102];
-//        sellerName=(UILabel *)[cell viewWithTag:103];
-//        passcode=(UILabel *)[cell viewWithTag:104];
-//          address=(UILabel *)[cell viewWithTag:105];
-//        countLable=(UILabel *)[cell viewWithTag:106];
-//        deliveryOption=(UILabel *)[cell viewWithTag:107];
-
         if ((NSString *)[NSNull null] != cartview.imageUri) {
             [Utility imageRequestOperation:[self makeImageURLfromimageName:cartview.imageUri] witImagView:dinnerImage];
         }
@@ -202,7 +201,8 @@
         //passcode.text=cartview.passCode;
         countLable.text=[NSString stringWithFormat:@"%ld Plats",(long)[cartview.orderQuantity integerValue]];
         deliveryOption.text=[NSString stringWithFormat:@"Served between %@ and %@",startServingTime,stopServingTime];
-        
+        [sareView setMaxrating:[cartview.buyer_rating intValue]*20];
+        [sareView setCartId:[cartview.cart_id stringValue]];
         
     }
     else if([myOrderObject isKindOfClass:[NSDictionary class]]){
@@ -240,7 +240,10 @@
 - (void)selectedDateOption:(NSDate *)dateValue{
     startDate=[Utility dateToStringFormat:@"MM/dd/YYYY HH:mm:ss" dateString:dateValue timeZone:UTC];
     endDate=[Utility dateToStringFormat:@"MM/dd/YYYY HH:mm:ss" dateString:[dateValue dateByAddingTimeInterval:24*60*60] timeZone:UTC];
-    selectedDate=[NSString stringWithFormat:@"%.0f",[dateValue timeIntervalSince1970]*1000];
+    NSDate *sourceDate = [NSDate dateWithTimeIntervalSinceNow:3600 * 24 * 60];
+    NSTimeZone* destinationTimeZone = [NSTimeZone systemTimeZone];
+    float timeZoneOffset = [destinationTimeZone secondsFromGMTForDate:sourceDate] / 3600.0;
+    selectedDate=[NSString stringWithFormat:@"%.0f",[[dateValue dateByAddingTimeInterval:-(timeZoneOffset*60*60)] timeIntervalSince1970]*1000];
     [self myOrderDinnerOptions:segmentedControl];
 
 }
@@ -248,6 +251,7 @@
     UISegmentedControl *segmentControll=(UISegmentedControl *)sender;
     _tableViewArray=[NSArray arrayWithObject:@"Loading"];
     [tableView reloadData];
+    
     
     if (segmentControll.selectedSegmentIndex==0) {
         //need to call dinner received options
@@ -286,5 +290,12 @@
             
         }];
     }
+}
+-(void)updatedRatingValue:(int)ratingValue withCartId:(NSString *)cartId{
+    [self buyerRatingUpdate:[NSString stringWithFormat:@"%d",(ratingValue/20)] withCartId:cartId];
+}
+-(void)buyerRatingUpdate:(NSString *)sellerRating withCartId:(NSString *)cartId{
+    NSString *requstObject=[NSString stringWithFormat:@"{\"buyer_rating\": %@}",sellerRating];
+    [[BuyerHandler sharedBuyerHandler] addRating:requstObject withCartId:cartId withResponse:nil];
 }
 @end

@@ -17,7 +17,6 @@
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 30, tableView.frame.size.width, 18)];
     [label setTextColor:[UIColor colorWithRed:237.0/255.0 green:134.0/255.0 blue:0.0/255.0 alpha:1]];
     [label setFont:[UIFont fontWithName:@"Plantin" size:18]];
-    
     NSString *string =@"Special Needs";
     /* Section header is in 0th index... */
     [label setText:string];
@@ -67,39 +66,50 @@ indexPath
 - (BOOL)swichActionForString:(NSString *)stringValue withAction:(NSString *)value{
     stringValue=[stringValue uppercaseString];
     value=[value uppercaseString];
+    
     if ([stringValue rangeOfString:value].location == NSNotFound) {
-        return NO;
-    } else {
-        return YES;
+            return NO;
+    }else{
+            return YES;
     }
+    
     return NO;
 }
 - (NSString *)getSplNeedsString{
     NSMutableArray *splNeedsStrinArray=[[NSMutableArray alloc]init];
+    
     if (veganSwitch.isOn) {
         [splNeedsStrinArray addObject:@"Vegan"];
     }
+    
     if (kosherSwitch.isOn) {
         [splNeedsStrinArray addObject:@"Kosher"];
     }
+    
     if (vegetarianSwitch.isOn) {
         [splNeedsStrinArray addObject:@"Vegetarian"];
     }
+    
     if (glutenFreeSwitch.isOn) {
         [splNeedsStrinArray addObject:@"Gluten Free"];
     }
+    
     if (halalSwitch.isOn) {
         [splNeedsStrinArray addObject:@"Halal"];
     }
+    
     if (diabetic.isOn) {
         [splNeedsStrinArray addObject:@"Diabetic"];
     }
+    
     if (lowCarb.isOn) {
         [splNeedsStrinArray addObject:@"Low Carb"];
     }
+    
     if (lowFatDiet.isOn) {
         [splNeedsStrinArray addObject:@"Low Fat Diet"];
     }
+    
     return [splNeedsStrinArray componentsJoinedByString:@","];
 }
 -(IBAction)updateItem:(id)sender{

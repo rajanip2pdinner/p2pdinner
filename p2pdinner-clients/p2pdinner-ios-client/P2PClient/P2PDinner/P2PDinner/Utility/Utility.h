@@ -41,4 +41,5 @@ typedef enum {
 + (NSDate *)getNearestTimeValue;
 + (NSDate *)getNearestTimeValueWithTime:(NSDate *)dateValue;
 + (NSDate *)mergeDateValue:(NSDate *)dateValue timeValue:(NSDate *)timeValue;
++ (BOOL)validateNilObject:(id)objectValue;
 @end

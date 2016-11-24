@@ -32,6 +32,8 @@
 		2C8591951C94A59100011227 /* CartRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C8591941C94A59100011227 /* CartRequest.m */; };
 		2C8BC2641B5F4D700021E144 /* MyOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C8BC2631B5F4D700021E144 /* MyOrderViewController.m */; };
 		2C8DEB9D1BE298DD0063B087 /* ItemDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C8DEB9C1BE298DD0063B087 /* ItemDetailViewController.m */; };
+		2CB7A3D61DADEEBA002986CA /* 5starsgray.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CB7A3D31DADEEBA002986CA /* 5starsgray.png */; };
+		2CB7A3D71DADEEBA002986CA /* StarRatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CB7A3D51DADEEBA002986CA /* StarRatingView.m */; };
 		2CC820201ABBB97C004FC1C8 /* CreateFoodItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CC8201F1ABBB97C004FC1C8 /* CreateFoodItem.m */; };
 		2CC820231ABBC564004FC1C8 /* TitleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CC820221ABBC564004FC1C8 /* TitleTableViewCell.m */; };
 		2CC8D7041ACF154B00DFD202 /* AvialbleTimeTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CC8D7031ACF154B00DFD202 /* AvialbleTimeTableCell.m */; };
@@ -164,6 +166,9 @@
 		2C8BC2631B5F4D700021E144 /* MyOrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyOrderViewController.m; sourceTree = "<group>"; };
 		2C8DEB9B1BE298DD0063B087 /* ItemDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemDetailViewController.h; sourceTree = "<group>"; };
 		2C8DEB9C1BE298DD0063B087 /* ItemDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemDetailViewController.m; sourceTree = "<group>"; };
+		2CB7A3D31DADEEBA002986CA /* 5starsgray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 5starsgray.png; sourceTree = "<group>"; };
+		2CB7A3D41DADEEBA002986CA /* StarRatingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StarRatingView.h; sourceTree = "<group>"; };
+		2CB7A3D51DADEEBA002986CA /* StarRatingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StarRatingView.m; sourceTree = "<group>"; };
 		2CC8201E1ABBB97C004FC1C8 /* CreateFoodItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateFoodItem.h; sourceTree = "<group>"; };
 		2CC8201F1ABBB97C004FC1C8 /* CreateFoodItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateFoodItem.m; sourceTree = "<group>"; };
 		2CC820211ABBC564004FC1C8 /* TitleTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitleTableViewCell.h; sourceTree = "<group>"; };
@@ -447,6 +452,16 @@
 			path = P2PDinner/BuyerViewControllers/ItemDetailViewController;
 			sourceTree = SOURCE_ROOT;
 		};
+		2CB7A3D21DADEEBA002986CA /* StarRatingView */ = {
+			isa = PBXGroup;
+			children = (
+				2CB7A3D31DADEEBA002986CA /* 5starsgray.png */,
+				2CB7A3D41DADEEBA002986CA /* StarRatingView.h */,
+				2CB7A3D51DADEEBA002986CA /* StarRatingView.m */,
+			);
+			path = StarRatingView;
+			sourceTree = "<group>";
+		};
 		2CC8201D1ABBB94F004FC1C8 /* CreateFoodItem */ = {
 			isa = PBXGroup;
 			children = (
@@ -634,6 +649,7 @@
 		5EA3167C1AA2CB7C006994B0 /* P2PDinner */ = {
 			isa = PBXGroup;
 			children = (
+				2CB7A3D21DADEEBA002986CA /* StarRatingView */,
 				2C4121F31B97E5440083214D /* CommonDinnerViews */,
 				2CFEF8E51AC5091A00395737 /* CategoryService */,
 				2CDC314C1AB670B30019CE77 /* ViewControllerCategory */,
@@ -976,6 +992,7 @@
 				5EA317121AA2CE22006994B0 /* LaunchScreen.xib in Resources */,
 				2CD753931AB289A100146D3A /* news-plantin-bold.otf in Resources */,
 				2CDC31521AB670F50019CE77 /* Back@2x.png in Resources */,
+				2CB7A3D61DADEEBA002986CA /* 5starsgray.png in Resources */,
 				2CD753911AB288DD00146D3A /* news-plantin-bold.ttf in Resources */,
 				2CE598001B7055630054E1AE /* File.txt in Resources */,
 				2CE4C42C1ADF55E200852F9D /* Menu.xcassets in Resources */,
@@ -1059,6 +1076,7 @@
 				2CC820231ABBC564004FC1C8 /* TitleTableViewCell.m in Sources */,
 				2CCCE9F91AAD42C600FF806C /* ItemDetails.m in Sources */,
 				2C4EC8ED1AC7ED0500F79454 /* AFURLConnectionOperation.m in Sources */,
+				2CB7A3D71DADEEBA002986CA /* StarRatingView.m in Sources */,
 				2CC8D7071ACF158400DFD202 /* AcceptOrdersTableCell.m in Sources */,
 				5EA317091AA2CE22006994B0 /* LocationManger.m in Sources */,
 				5EA317201AA2CE65006994B0 /* TimeRequest.m in Sources */,

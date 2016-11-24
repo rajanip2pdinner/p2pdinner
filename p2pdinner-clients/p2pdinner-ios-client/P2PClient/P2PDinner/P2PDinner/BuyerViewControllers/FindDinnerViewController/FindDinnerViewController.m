@@ -164,11 +164,23 @@
     selectedDate.text=[Utility dateToStringFormat:selectedDateValue timeZone:LOCAL];
 }
 - (IBAction)findDinner:(id)sender{
+    AppDelegate *appdelegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
+    
     guestValue=guestTableViewCell.guestCount;
     [activityView startAnimating:@"Loading..."];
     [self.view addSubview:activityView];
-    NSString *requestFormat=[NSString stringWithFormat:@"%@&q=close_time::%@|guests::%d",selectedAddressField.text,[Utility dateToStringFormat:@"MM/dd/yyyy HH:mm:s" dateString:dinnerDate timeZone:UTC],guestValue];
-    
+    if ([Utility validateToday:dinnerDate]) {
+        dinnerDate=[NSDate date];
+    }else{
+        dinnerDate=[Utility beginingOfDay:dinnerDate];
+    }
+    NSString *after_close_time=[Utility dateToStringFormat:@"MM/dd/yyyy HH:mm:ss" dateString:dinnerDate timeZone:UTC];
+    NSString *before_close_time=[Utility dateToStringFormat:@"MM/dd/yyyy HH:mm:ss" dateString:[[Utility endOfDay:dinnerDate]dateByAddingTimeInterval:(60*60*24*1)] timeZone:UTC];
+    NSMutableString *requestFormat=[NSMutableString stringWithFormat:@"%@&q=after_close_time::%@|before_close_time::%@|guests::%d",selectedAddressField.text,after_close_time,before_close_time,guestValue];
+    if (appdelegate.localLocation.length>0) {
+        NSString *locationPara=[NSString stringWithFormat:@"&locale=%@",appdelegate.localLocation];
+        [requestFormat appendString:locationPara];
+        }
     
     [[BuyerHandler sharedBuyerHandler] getSearchResultBasedOnLoactionAndFilterRequest:requestFormat resultHandler:^(NSError *error, NSArray *response) {
         [activityView stopAnimating];

@@ -181,7 +181,7 @@ static const char *getPropertyMappedVarName(objc_property_t property) {
 + (NSDate *)endOfDay:(NSDate *)date
 {
     NSCalendar *cal = [NSCalendar currentCalendar];
-    NSDateComponents *components = [cal components:(  NSCalendarUnitMonth | NSCalendarUnitYear | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond ) fromDate:date];
+    NSDateComponents *components = [cal components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay) fromDate:date];
     
     [components setHour:23];
     [components setMinute:59];
@@ -192,14 +192,13 @@ static const char *getPropertyMappedVarName(objc_property_t property) {
 }
 + (NSDate *)beginingOfDay:(NSDate *)date
 {
-    NSCalendar *cal = [NSCalendar currentCalendar];
-    NSDateComponents *components = [cal components:(  NSCalendarUnitMonth | NSCalendarUnitYear | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond ) fromDate:date];
     
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *components = [calendar components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay) fromDate:date];
     [components setHour:0];
     [components setMinute:0];
     [components setSecond:0];
-    
-    return [cal dateFromComponents:components];
+    return [calendar dateFromComponents:components];
     
 }
 + (BOOL)isIOS9{
@@ -318,5 +317,11 @@ static const char *getPropertyMappedVarName(objc_property_t property) {
     NSString *timevalueString=[Utility dateToStringFormat:@"HH:mm:ss" dateString:timeValue timeZone:UTC];
     NSString *mergedTime=[NSString stringWithFormat:@"%@ %@",dateValueString,timevalueString];
     return [Utility stringToDateFormat:@"MM/dd/yyyy HH:mm:ss" dateString:mergedTime  timeZone:UTC];
+}
++ (BOOL)validateNilObject:(id)objectValue{
+    if ([objectValue isEqual:[NSNull null]]) {
+        return TRUE;
+    }
+    return FALSE;
 }
 @end

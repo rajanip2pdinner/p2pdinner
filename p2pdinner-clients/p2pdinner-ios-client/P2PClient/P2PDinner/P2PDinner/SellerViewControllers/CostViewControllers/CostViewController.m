@@ -15,12 +15,13 @@
 -(void) dismissKeyboard:(id)sender
 {
     [textfield1 resignFirstResponder];
-     [textfield2 resignFirstResponder];
+    [textfield2 resignFirstResponder];
     [self updatedItems];
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    UITapGestureRecognizer* tapBackground = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard:)];
+    UITapGestureRecognizer* tapBackground = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                    action:@selector(dismissKeyboard:)];
     [tapBackground setNumberOfTapsRequired:1];
     [tableView addGestureRecognizer:tapBackground];
     
@@ -84,8 +85,7 @@ indexPath
     return 0.01f;
 }
 -(void)updatedItems{
-    
-    NSLog(@"%@ %@",[[costCell getCostForDinner] stringValue],[[minOrdCell getMaximuOrdersValue] stringValue]);
+
     itemDetails.costPerItem=[costCell getCostForDinner];
     itemDetails.availableQuantity=[minOrdCell getMaximuOrdersValue];
 }

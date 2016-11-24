@@ -9,6 +9,7 @@
 #import "MyOrderItemHandler.h"
 #import "MyOrderItem.h"
 #import "ItemDetails.h"
+#import "Utility.h"
 
 #define itemTitle @"title"
 #define itemDescription @"description"
@@ -106,6 +107,15 @@ static MyOrderItemHandler *_sharedInstance=nil;
     [cartRecivedItem setStartTime:[cartRecivedDictionary objectForKey:@"start_time"]];
     [cartRecivedItem setEndTime:[cartRecivedDictionary objectForKey:@"end_time"]];
     [cartRecivedItem setCloseTime:[cartRecivedDictionary objectForKey:@"close_time"]];
+    if ([Utility validateNilObject:[cartRecivedDictionary objectForKey:@"buyer_rating"]])
+            [cartRecivedItem setBuyer_rating:[NSNumber numberWithInt:0]];
+        else
+            [cartRecivedItem setBuyer_rating:[cartRecivedDictionary objectForKey:@"buyer_rating"]];
+    if ([Utility validateNilObject:[cartRecivedDictionary objectForKey:@"seller_rating"]])
+            [cartRecivedItem setSeller_rating:[NSNumber numberWithInt:0]];
+        else
+             [cartRecivedItem setSeller_rating:[cartRecivedDictionary objectForKey:@"seller_rating"]];
+    [cartRecivedItem setCart_id:[cartRecivedDictionary objectForKey:@"cart_id"]];
     return cartRecivedItem;
     
 }

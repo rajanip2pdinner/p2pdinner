@@ -14,9 +14,6 @@ typedef enum{
     
 }ChangeValue;
 @implementation MinimumOrdersCell
-- (void)awakeFromNib {
-    // Initialization code
-}
 
 - (int)stringToInteger:(NSString *)stringValue{
     return [stringValue intValue];

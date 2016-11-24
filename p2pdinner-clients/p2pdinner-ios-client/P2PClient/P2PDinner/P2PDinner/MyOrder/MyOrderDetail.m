@@ -9,7 +9,10 @@
 #import "MyOrderDetail.h"
 #import "SellerHistoryHandler.h"
 #import "MyOrderItem.h"
-
+#import "StarRatingView.h"
+#import "BuyerHandler.h"
+@interface MyOrderDetail()<RatingDelegate>
+@end
 @implementation MyOrderDetail
 - (void)viewDidLoad{
     [super viewDidLoad];
@@ -33,6 +36,12 @@
     [view addSubview:label];
     [view setBackgroundColor:[UIColor whiteColor]]; //your background color...
     return view;
+}
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
+    return 103;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
+    return UITableViewAutomaticDimension;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 38.0;
@@ -64,6 +73,10 @@
         [password setText:[NSString stringWithFormat:@" %@ ",cartRec.passCode]];
         UILabel *plats=(UILabel *)[cell viewWithTag:2];
         [plats setText:[NSString stringWithFormat:@"%@ Plates",[cartRec.orderQuantity stringValue]]];
+        StarRatingView *stareRatingView=(StarRatingView *)[cell viewWithTag:4];
+        [stareRatingView setUserRating:[cartRec.seller_rating intValue]*20];
+        stareRatingView.delegate=self;
+        [stareRatingView setCartId:[cartRec.cart_id stringValue]];
     }
     
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
@@ -78,6 +91,14 @@
         [self.myOrderDetailTable reloadData];
         
     }];
+}
+-(void)updatedRatingValue:(int)ratingValue withCartId:(NSString *)cartId{
+     [self sellerRatingUpdate:[NSString stringWithFormat:@"%d",(ratingValue/20)] withCartId:cartId];
+}
+-(void)sellerRatingUpdate:(NSString *)sellerRating withCartId:(NSString *)cartId{
+    NSString *requstObject=[NSString stringWithFormat:@"{\"seller_rating\": %@}",sellerRating];
+    [[BuyerHandler sharedBuyerHandler] addRating:requstObject withCartId:cartId withResponse:nil];
+    
 }
 
 @end

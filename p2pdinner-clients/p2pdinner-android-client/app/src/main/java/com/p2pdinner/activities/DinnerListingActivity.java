@@ -118,12 +118,14 @@ public class DinnerListingActivity extends AppCompatActivity {
                 DateTimeFormatter formatter = DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss");
                 DateTime startTime = formatter.withZone(DateTimeZone.forID("UTC")).parseDateTime(dinnerMenuItem.getDinnerListing().getStartTime());
                 DateTime endTime = formatter.withZone(DateTimeZone.forID("UTC")).parseDateTime(dinnerMenuItem.getDinnerListing().getEndTime());
-                DateTimeFormatter printFormatter = new DateTimeFormatterBuilder()
-                        .appendHourOfHalfday(2)
-                        .appendLiteral(":")
-                        .appendMinuteOfHour(2)
-                        .appendLiteral(" ")
-                        .appendHalfdayOfDayText().toFormatter();
+//                DateTimeFormatter printFormatter = new DateTimeFormatterBuilder()
+//                        .appendHourOfHalfday(2)
+//                        .appendLiteral(":")
+//                        .appendMinuteOfHour(2)
+//                        .appendLiteral(" ")
+//                        .appendHalfdayOfDayText().toFormatter();
+
+                DateTimeFormatter printFormatter  = DateTimeFormat.forPattern("hh:mm aa");
 
                 content.setTimings(printFormatter.print(startTime.toDateTime(DateTimeZone.getDefault())) + " - " + printFormatter.print(endTime.toDateTime(DateTimeZone.getDefault())));
                 content.setTitle(dinnerMenuItem.getTitle());

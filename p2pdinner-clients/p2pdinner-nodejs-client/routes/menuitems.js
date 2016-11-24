@@ -13,7 +13,10 @@ router.get('/', function(req, res, next) {
 router.get('/menu', function(req, res, next) {
 	var profile = req.session.profile;
 	try {
-		unirest.get(res.locals.rest_endpoint + '/menu/view/' + profile.id).send().end(function(response){
+		unirest.get(res.locals.rest_endpoint + '/menu/view/' + profile.id)
+		.headers({'Content-Type': 'application/json', 'Authorization' : 'Bearer ' + req.app.locals.authenticationInfo['access_token']})
+		.send()
+		.end(function(response){
 			if (response.code !== 200) {
 			    var e = {};
 			    e.message = response.body;
@@ -21,9 +24,9 @@ router.get('/menu', function(req, res, next) {
 			    throw e;
 			}
 			res.render('menuitems', { 'data' : response.body });
-		})	
+		})
 	} catch(e) {
-		res.render('menuitems', e);	
+		res.render('menuitems', e);
 	}
 });
 
@@ -32,31 +35,44 @@ router.get("/add", function(req, res, next){
 	var special_needs;
 	var delivery_type;
 	try {
-	   unirest.get(res.locals.rest_endpoint + '/dinnercategory/view').send().end(function(response){
-		if (response.code !== 200) {
-			throw new Error(response.body);
-		}
-		categories = response.body;
-		unirest.get(res.locals.rest_endpoint + '/specialneed/view').send().end(function(response){
-			if (response.code !== 200) {
-				throw new Error(response.body);
-			}
-			special_needs = response.body;
-			unirest.get(res.locals.rest_endpoint + '/delivery/view').send().end(function(response){
-			if (response.code !== 200) {
-				throw new Error(response.body);
-			}
-			delivery_types = response.body;
-			res.render('addToMenu', { "categories" : categories, "special_needs" : special_needs, "delivery_types" : delivery_types} );
-			});
-		});
+	   unirest.get(res.locals.rest_endpoint + '/dinnercategory/view')
+		 .headers({
+			 "Authorization" : "Bearer " + req.app.locals.authenticationInfo["access_token"]
+		 })
+		 .send()
+		 .end(function(response){
+				if (response.code !== 200) {
+					throw new Error(response.body);
+				}
+				categories = response.body;
+				unirest.get(res.locals.rest_endpoint + '/specialneed/view')
+				.headers({
+	 			 "Authorization" : "Bearer " + req.app.locals.authenticationInfo["access_token"]
+	 		 })
+				.send()
+				.end(function(response){
+					if (response.code !== 200) {
+						throw new Error(response.body);
+					}
+					special_needs = response.body;
+					unirest.get(res.locals.rest_endpoint + '/delivery/view')
+					.headers({
+		 			 "Authorization" : "Bearer " + req.app.locals.authenticationInfo["access_token"]
+		 		 })
+					.send()
+					.end(function(response){
+					if (response.code !== 200) {
+						throw new Error(response.body);
+					}
+					delivery_types = response.body;
+					res.render('addToMenu', { "categories" : categories, "special_needs" : special_needs, "delivery_types" : delivery_types} );
+					});
+				});
 	   });
-		   
-	   
 	} catch(e) {
-	   res.render('addToMenu', { "status" : response.body.status, "message" : response.body.message });	
+	   res.render('addToMenu', { "status" : response.body.status, "message" : response.body.message });
 	}
-	
+
 });
 
 router.post("/add", function(req, res, next){
@@ -83,7 +99,13 @@ router.post("/add", function(req, res, next){
 	}
 	console.log(request);
 	console.log(req.files);
-	unirest.post(res.locals.rest_endpoint + '/menu/add').headers('Content-Type', 'multipart/form-data').attach('filename', req.files.image.path).field('menuItem', request).send().end(function(response){
+	var serviceRequest;
+	serviceRequest = unirest.post(res.locals.rest_endpoint + '/menu/add').headers({
+			'Content-Type': 'application/json',
+			"Authorization" : "Bearer " + req.app.locals.authenticationInfo["access_token"]
+		});
+	
+	serviceRequest.send(request).end(function(response){
 		if (response.code !== 200) {
 			res.render('addToMenu', { "status" : response.body.status, "message" : response.body.message });
 		}

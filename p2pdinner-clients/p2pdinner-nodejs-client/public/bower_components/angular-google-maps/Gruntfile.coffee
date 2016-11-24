@@ -3,6 +3,7 @@ _ = require 'lodash'
 
 module.exports = (grunt) ->
   # Load the required plugins
+  require('./grunt/bower')(grunt)
   [
     "grunt-contrib-uglify"
     "grunt-contrib-jshint"
@@ -23,6 +24,7 @@ module.exports = (grunt) ->
     'grunt-curl'
     'grunt-verbosity'
     'grunt-webpack'
+    'grunt-angular-architecture-graph'
     ].forEach (gruntLib) ->
       grunt.loadNpmTasks gruntLib
 
@@ -39,6 +41,8 @@ module.exports = (grunt) ->
     allExamplesOpen[root] =
       path: pathValue
 
+#  console.log allExamplesOpen, true
+
   showOpenType = (toIterate = allExamplesOpen) ->
     _(toIterate).each (v, k) ->
       log "#{k} -> #{v.path}"
@@ -46,19 +50,21 @@ module.exports = (grunt) ->
   options.open = _.extend options.open, allExamplesOpen
   grunt.initConfig options
 
-
   # Default task: build a release in dist/
   grunt.registerTask "default", [
-    'verbosity', "clean:dist", "jshint", "mkdir", "coffee", "concat:libs", "replace", "webpack", "concat:dist",
-    "copy", "uglify::dist", "jasmine:consoleSpec"]
-
+    'bower', 'curl',
+    'verbosity', 'clean:dist', 'jshint', 'mkdir', 'coffee',
+    'concat:libs', 'replace', 'webpack', 'concat:dist',
+    'copy', 'uglify::dist', 'jasmine:consoleSpec']
 
   # run default "grunt" prior to generate _SpecRunner.html
   grunt.registerTask "spec", [
+    'bower', 'curl',
     'verbosity', "clean:dist", "jshint", "mkdir", "coffee", "concat:libs", "replace", "webpack", "concat",
     "copy", "connect:jasmineServer", "jasmine:spec", "open:jasmine", "watch:spec"]
 
   grunt.registerTask "coverage", [
+    'bower', 'curl',
     "clean:dist", "jshint", "mkdir", "coffee", "concat:libs", "replace", "concat:dist",
     "copy", "uglify:dist", "jasmine:coverage"]
 
@@ -75,21 +81,29 @@ module.exports = (grunt) ->
   grunt.registerTask "fast", dev.concat ["jasmine:spec"]
 
   grunt.registerTask "mappAll", [
+    'bower', 'curl',
     "clean:dist", "jshint", "mkdir", "coffee", "concat:libs", "replace", "webpack", "concat", "uglify"
     "copy", "jasmine:spec"]
+
+  grunt.registerTask "buildAll", "mappAll"
 
   # Run the example page by creating a local copy of angular-google-maps.js
   # and running a webserver on port 3100 with livereload. Web page is opened
   # automatically in the default browser.
+  grunt.registerTask 'graph', ['angular_architecture_graph']
 
-  grunt.registerTask 'bump-@', ['bump-only', 'mappAll', 'bump-commit']
-  grunt.registerTask 'bump-@-minor', ['bump-only:minor', 'mappAll', 'bump-commit']
-  grunt.registerTask 'bump-@-major', ['bump-only:major', 'mappAll', 'bump-commit']
+  grunt.registerTask 'bump-@-preminor', ['changelog', 'bump-only:preminor', 'mappAll', 'graph', 'bump-commit']
+  grunt.registerTask 'bump-@-prerelease', ['changelog','bump-only:prerelease', 'mappAll', 'graph', 'bump-commit']
+  grunt.registerTask 'bump-@', ['changelog','bump-only', 'mappAll', 'graph', 'bump-commit']
+  grunt.registerTask 'bump-@-minor', ['changelog','bump-only:minor', 'mappAll', 'graph', 'bump-commit']
+  grunt.registerTask 'bump-@-major', ['changelog','bump-only:major', 'mappAll', 'graph', 'bump-commit']
 
   exampleOpenTasks = []
-  _(allExamplesOpen).each (v, key) ->
+
+  _.each allExamplesOpen, (v, key) ->
     basicTask = "open:" + key
     #register individual task (runs by itself)
+
     grunt.registerTask key, ["fast", "clean:example", "connect:server", basicTask, "watch:all"]
     exampleOpenTasks.push basicTask
 
@@ -114,5 +128,6 @@ module.exports = (grunt) ->
     listWithQuotes exampleOpenTasks
 
   grunt.registerTask 'allExamples', allExamplesTaskToRun
+
 
 #to see all tasks available don't forget "grunt --help" !!!

@@ -1,14 +1,15 @@
 package com.p2pdinner.fragments;
 
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
+import android.provider.CalendarContract;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.LoaderManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,14 +22,12 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.common.base.Charsets;
 import com.p2pdinner.R;
-import com.p2pdinner.activities.SellerListingDetailActivity;
 import com.p2pdinner.common.Constants;
 import com.p2pdinner.common.RatingParty;
 import com.p2pdinner.entities.Order;
-import com.p2pdinner.entities.SellerListing;
 import com.p2pdinner.restclient.DinnerCartManager;
-import com.p2pdinner.restclient.DinnerListingManager;
 import com.p2pdinner.restclient.ImageDownloadTask;
 
 import org.joda.time.DateTime;
@@ -40,16 +39,16 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.DateTimeFormatterBuilder;
 import org.springframework.util.StringUtils;
+import org.springframework.web.util.UriUtils;
 
+import java.net.URLEncoder;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
-import java.util.TimeZone;
 
 import javax.inject.Inject;
 
@@ -63,13 +62,19 @@ import rx.schedulers.Schedulers;
  */
 public class WantDinnerFragment extends BaseFragment {
 
+
     private static final String TAG = "WantDinnerFragment";
 
     private LinearLayout mDateLayout = null;
     private ListView mlvBuyerItems;
+    private Integer defaultCalendarUid;
+    private String defaultCalendarTitle;
+
+    private static final int LOADER_LIST = 100;
 
     @Inject
     DinnerCartManager dinnerCartManager;
+
 
     @Override
     public void onResume() {
@@ -214,15 +219,15 @@ public class WantDinnerFragment extends BaseFragment {
             mTxtTotalPrice.setText(decimalFormat.format(order.getTotalPrice()));
             TextView mTxtProfileName = (TextView) itemView.findViewById(R.id.profilename);
             mTxtProfileName.setText(order.getProfileName());
-            String address = StringUtils.arrayToDelimitedString(new Object[]{order.getAddressLine1(), order.getAddressLine2(), order.getCity(), order.getState()}, " ");
+            final String address = StringUtils.arrayToDelimitedString(new Object[]{order.getAddressLine1(), order.getAddressLine2(), order.getCity(), order.getState()}, " ");
             TextView mTxtAddress = (TextView) itemView.findViewById(R.id.address);
             mTxtAddress.setText(address);
             TextView mTxtCC = (TextView) itemView.findViewById(R.id.confirmation_code);
             mTxtCC.setText("Conf# " + order.getPassCode() + " for " + order.getOrderQuantity() + " plates");
             TextView timings = (TextView) itemView.findViewById(R.id.timings);
             DateTimeFormatter formatter = DateTimeFormat.forPattern("MM/dd/yyyy hh:mm:ss");
-            DateTime startDtTime = new DateTime(order.getStartTime());
-            DateTime endDtTime = new DateTime(order.getEndTime());
+            final DateTime startDtTime = new DateTime(order.getStartTime());
+            final DateTime endDtTime = new DateTime(order.getEndTime());
             DateTimeFormatter printFormatter = new DateTimeFormatterBuilder()
                     .appendHourOfHalfday(2)
                     .appendLiteral(":")
@@ -257,6 +262,44 @@ public class WantDinnerFragment extends BaseFragment {
                                     Toast.makeText(WantDinnerFragment.this.getContext(), s, Toast.LENGTH_LONG).show();
                                 }
                             });
+                }
+            });
+
+            ImageView calendarImageView = (ImageView) itemView.findViewById(R.id.calendar);
+            ImageView mapsView = (ImageView) itemView.findViewById(R.id.directions);
+
+            if (startDtTime.isBeforeNow() && endDtTime.isBeforeNow()) {
+                calendarImageView.setVisibility(View.INVISIBLE);
+                mapsView.setVisibility(View.INVISIBLE);
+            }
+
+            calendarImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Calendar calendar = Calendar.getInstance();
+                    Intent intent = new Intent(Intent.ACTION_EDIT)
+                            .setData(CalendarContract.Events.CONTENT_URI)
+                            .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startDtTime.toDate().getTime())
+                            .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endDtTime.toDate().getTime())
+                            .putExtra(CalendarContract.Events.TITLE, "Dinner Pickup " + order.getTitle() + " -- conf# " + order.getPassCode())
+                            .putExtra(CalendarContract.Events.DESCRIPTION, "Dinner pickup")
+                            .putExtra(CalendarContract.Events.EVENT_LOCATION, address);
+                    startActivity(intent);
+                }
+            });
+
+            mapsView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    try {
+                        Uri geoLocation = Uri.parse("geo:0,0?q=" + UriUtils.encodePath(address, Charsets.UTF_8.displayName()));
+                        intent.setData(geoLocation);
+                        startActivity(intent);
+                    } catch (Throwable t) {
+                        Log.e(TAG, t.getMessage(), t);
+                    }
+
                 }
             });
             return itemView;

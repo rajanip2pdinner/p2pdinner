@@ -1,0 +1,51 @@
+extends layout
+
+block content
+	link(rel="stylesheet", href="/bower_components/jquery-bar-rating/dist/themes/fontawesome-stars.css")
+	div(class="container")
+		div(class="row")
+			div(class='col-sm-5 bootcards-list')
+				div(class="panel panel-primary")
+					div(class="panel-heading")
+						h3(class="panel-title") I Have Dinner
+					each day in dates
+						div(class="list-group")
+							a(class="list-group-item" href="/myorders/iwantdinner?start_date=#{day}")
+								h4(class="list-group-item-heading")=day
+					div(class="panel-footer")
+						a(href="/profiles/signout", class="pull-right" style="margin-left:1em")
+							i(class="fa fa-2x fa-sign-out")
+						a(href="/cart/view", class="pull-right" style="margin-left:1em")
+							i(class="fa fa-2x fa-cart-arrow-down")
+						a(href="/profiles/validate", class="pull-right")
+							i(class="fa fa-2x fa-home")
+					div(class="clearfix")
+			div(class='col-sm-5 bootcards-list')
+				div(class="panel panel-primary")
+					div(class="panel-heading")
+						h3(class="panel-title")=currentdate
+					div(class="table-responsive")
+						table(class="table table-hover")
+							thead
+								tr(class="active")
+									th Title
+									th Conf.Code
+									th Quantity
+									th Price
+									th Seller Rating
+								if (data && data.results)
+									each result in data.results
+										tr
+											td=result.title
+											td=result.pass_code
+											td=result.order_quantity
+											td=result.total_price
+											td
+												select(class='seller-rating')
+													option(value="1") 1
+													option(value="2") 2
+													option(value="3") 3													
+													option(value="4") 4
+													option(value="5") 5
+	script(src="/bower_components/jquery-bar-rating/dist/jquery.barrating.min.js")																															
+	script(src="/javascripts/ihavedinner.js")													

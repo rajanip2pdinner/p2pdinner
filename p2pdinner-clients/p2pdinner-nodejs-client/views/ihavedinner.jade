@@ -1,0 +1,45 @@
+extends layout
+
+block content
+	link(rel="stylesheet", href="/bower_components/jquery-bar-rating/dist/themes/fontawesome-stars.css")
+	div(class="container")
+		div(class="row")
+			div(class='col-sm-5 bootcards-list')
+				div(class="panel panel-primary")
+					div(class="panel-heading")
+						h3(class="panel-title") I Have Dinner
+					each day in dates
+						div(class="list-group")
+							a(class="list-group-item" href="/myorders/ihavedinner?input_date=#{day}")
+								h4(class="list-group-item-heading")=day
+					div(class="panel-footer")
+						a(href="/profiles/signout", class="pull-right" style="margin-left:1em")
+							i(class="fa fa-2x fa-sign-out")
+						a(href="/cart/view", class="pull-right" style="margin-left:1em")
+							i(class="fa fa-2x fa-cart-arrow-down")
+						a(href="/profiles/validate", class="pull-right")
+							i(class="fa fa-2x fa-home")
+					div(class="clearfix")
+		div(class="row")                    
+			div(class='bootcards-list')
+				div(class="panel panel-primary")
+					div(class="panel-heading")
+						h3(class="panel-title")=currentdate
+					div(class="list-group")
+						if data.code === undefined
+							each item in data
+								a(class="list-group-item", href="/myorders/ihavedinner/" + item.listing.listing_id +"/received/detail")
+									div(class="row")
+										div(class="col-sm-6")
+											h4(class="list-group-item-heading")=item.title
+											p(class="list-group-item-text")="Description: " + item.description
+											if item.categories !== undefined && item.categories.length !== 0
+												p(class="list-group-item-text")="Categories: " + item.categories.join()
+											if item.special_needs !== undefined && item.special_needs.length !== 0
+												p(class="list-group-item-text")="Special Needs: " + item.special_needs.join()
+											if item.delivery !== undefined && item.delivery.length !== 0
+												p(class="list-group-item-text")="Delivery: " + item.delivery.join()
+										div(class="col-sm-6")
+											h4(class="list-group-item-heading")=item.listing.cost_per_item
+											p(class="list-group-item-text")="Available: " + item.listing.quantity_available
+											p(class="list-group-item-text")="Ordered: " + item.listing.ordered_quantity                                                                                                                                  											    

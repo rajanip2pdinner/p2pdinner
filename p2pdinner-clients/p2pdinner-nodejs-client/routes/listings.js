@@ -4,6 +4,7 @@ var unirest = require('unirest');
 var http = require('http');
 var https = require('https');
 var qs = require('querystring');
+var moment = require('moment');
 
 /* GET profiles listing. */
 router.get('/', function(req, res, next) {
@@ -12,7 +13,8 @@ router.get('/', function(req, res, next) {
 
 router.get('/current', function(req, res, next) {
 	var request = unirest.get(res.locals.rest_endpoint + '/listing/view/current');
-	request.header('Accept', 'application/json').end(function(response) {
+	request.headers({'Accept': 'application/json', "Authorization" : "Bearer " + req.app.locals.authenticationInfo["access_token"]})
+	.end(function(response) {
 		res.render('listings', {'data' : response.body });
 	});
 });
@@ -26,14 +28,16 @@ router.get('/add/:id', function(req, res, next) {
 
 router.post('/add', function(req, res, next) {
 	var jsonReq = {};
-	jsonReq.startTime = Date.parse(req.body.start_time);
-	jsonReq.endTime = Date.parse(req.body.end_time);
-	jsonReq.closeTime = Date.parse(req.body.close_time);
+	jsonReq.startTime = moment.utc(Date.parse(req.body.start_time)).format('MM/DD/YYYY HH:mm:ss');
+	jsonReq.endTime = moment.utc(Date.parse(req.body.end_time)).format('MM/DD/YYYY HH:mm:ss');
+	jsonReq.closeTime = moment.utc(Date.parse(req.body.close_time)).format('MM/DD/YYYY HH:mm:ss');
 	jsonReq.availableQuantity = parseInt(req.body.available_quantity);
 	jsonReq.costPerItem = parseFloat(req.body.cost_per_item);
 	jsonReq.menuItemId = req.body.menu_item_id;
 	console.dir(jsonReq);
-	var Request = unirest.post(res.locals.rest_endpoint + '/listing/add').headers('Content-Type', 'application/json').send(jsonReq).end(function(response) {
+	var Request = unirest.post(res.locals.rest_endpoint + '/listing')
+	.headers({'Content-Type': 'application/json', 'Authorization' : 'Bearer ' + req.app.locals.authenticationInfo["access_token"]})
+	.send(jsonReq).end(function(response) {
 		if (response.code !== undefined && response.code !== 200) {
 			res.render('listings', {'status' : response.code, 'msg' : response.body });
 		}
@@ -44,7 +48,10 @@ router.post('/add', function(req, res, next) {
 
 router.get('/current/profile', function(req, res, next){
 	var profile = req.session.profile;
-	var Request = unirest.get(res.locals.rest_endpoint + '/listing/view/current/' + profile.id).send().end(function(response){
+	var Request = unirest.get(res.locals.rest_endpoint + '/listing/view/current/' + profile.id)
+	.headers({'Content-Type': 'application/json', 'Authorization' : 'Bearer ' + req.app.locals.authenticationInfo["access_token"]})
+	.send()
+	.end(function(response){
 		console.log(response.body);
 		res.render('listings', { 'data' : response.body });
 	});
@@ -74,6 +81,7 @@ router.get('/search/markers', function(req, res, next) {
 	}
 	console.log(q);
 	var Request = unirest.get(res.locals.rest_endpoint + '/places/nearbysearch')
+		.headers({'Content-Type': 'application/json', 'Authorization' : 'Bearer ' + req.app.locals.authenticationInfo["access_token"]})
 		.query(q)
 		.send()
 		.end(function(response) {

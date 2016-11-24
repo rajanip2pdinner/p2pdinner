@@ -6,6 +6,10 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var multer = require('multer');
+var fs = require('fs');
+var unirest = require('unirest');
+var app = express();
+var router = express.Router();
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -14,11 +18,16 @@ var menuitems = require('./routes/menuitems');
 var listings = require('./routes/listings');
 var cart = require('./routes/cart');
 var options = require('./routes/options');
+var myorders = require('./routes/myorders');
 
-var app = express();
+app.locals.rest_endpoint = process.env.P2PDINNER_ENDPOINT_URL || "http://localhost:9128/services";
 
-app.locals.rest_endpoint = "http://localhost:9128/services";
+var config = fs.readFileSync("./config.json");
+var authenticationConfiguration = JSON.parse(config);
 
+app.locals.configuration = authenticationConfiguration['development'];
+
+console.log(app.locals.configuration);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -43,6 +52,24 @@ app.use(multer({ dest : './uploads/',
                 return filename.replace(/\W+/g, '-').toLowerCase() + Date.now()
             }
 }));
+app.all("*", function(req, res, next) {
+  if (app.locals.authenticationInfo === undefined) {
+      unirest.post(app.locals.rest_endpoint + "/oauth/token")
+      .headers({
+        "Authorization" : "Basic " + app.locals.configuration.base64Encode
+      })
+      .send({
+        "grant_type" : "password",
+        "username" : app.locals.configuration.username,
+        "password" : app.locals.configuration.password
+      })
+      .end(function(response) {
+        authenticationInfo = response.body;
+        app.locals.authenticationInfo = response.body;
+      })
+  }
+  next();
+});
 app.use('/', routes);
 app.use('/users', users);
 app.use('/profiles', profiles);
@@ -50,7 +77,7 @@ app.use('/menuitems', menuitems);
 app.use('/listings', listings);
 app.use('/cart', cart);
 app.use('/options', options);
-
+app.use('/myorders', myorders);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

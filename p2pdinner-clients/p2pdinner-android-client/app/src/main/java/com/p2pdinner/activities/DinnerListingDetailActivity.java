@@ -163,6 +163,8 @@ public class DinnerListingDetailActivity extends BaseAppCompatActivity {
         }
         if (StringUtils.hasText(dinnerListingViewContent.getSpecialNeeds())) {
             mSpecialNeeds.setText(dinnerListingViewContent.getSpecialNeeds());
+        } else {
+            mSpecialNeeds.setText("");
         }
 
         if (StringUtils.hasText(dinnerListingViewContent.getDeliveryOptions())) {

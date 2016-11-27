@@ -45,6 +45,8 @@
 	<string>P2P try to access your location.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>P2P try to access your location.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>P2P try to access your calender.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>news-plantin-bold.ttf</string>

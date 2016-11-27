@@ -776,7 +776,7 @@
                                             </variation>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MyOrderDetailCell" rowHeight="164" id="AbC-pL-Fai" customClass="SWTableViewCell">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MyOrderDetailCell" rowHeight="164" id="AbC-pL-Fai" customClass="MyOrderDetailCell">
                                         <rect key="frame" x="0.0" y="293" width="375" height="164"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="AbC-pL-Fai" id="gi2-oV-2OF">
@@ -845,6 +845,17 @@
                                                         <constraint firstAttribute="height" constant="16" id="za3-IP-RJl"/>
                                                     </constraints>
                                                 </view>
+                                                <button opaque="NO" tag="109" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KHw-Nx-ZEd">
+                                                    <rect key="frame" x="337" y="125" width="30" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="30" id="5v3-GE-U2T"/>
+                                                        <constraint firstAttribute="height" constant="30" id="hgo-vF-24h"/>
+                                                    </constraints>
+                                                    <state key="normal" image="AddCalender"/>
+                                                    <connections>
+                                                        <action selector="addToCalenderEvent:" destination="AbC-pL-Fai" eventType="touchUpInside" id="WFp-QV-eX1"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="4PE-AR-Rvz" firstAttribute="top" secondItem="gi2-oV-2OF" secondAttribute="top" constant="23" id="0Wv-nS-qF5"/>
@@ -853,6 +864,8 @@
                                                 <constraint firstItem="Q7G-Gu-Lke" firstAttribute="top" secondItem="cbI-HI-Rdj" secondAttribute="bottom" constant="2" id="3bL-xB-fvf"/>
                                                 <constraint firstItem="4PE-AR-Rvz" firstAttribute="leading" secondItem="gi2-oV-2OF" secondAttribute="leading" constant="4" id="8GK-YC-RcG"/>
                                                 <constraint firstItem="lAS-Yk-bpO" firstAttribute="top" secondItem="jp1-Bb-nmW" secondAttribute="top" id="BhO-J3-Phc"/>
+                                                <constraint firstAttribute="trailing" secondItem="KHw-Nx-ZEd" secondAttribute="trailing" constant="8" id="E1I-5j-lDk"/>
+                                                <constraint firstAttribute="bottom" secondItem="KHw-Nx-ZEd" secondAttribute="bottom" constant="8" id="LJS-ru-wNx"/>
                                                 <constraint firstItem="lAS-Yk-bpO" firstAttribute="leading" secondItem="jp1-Bb-nmW" secondAttribute="trailing" id="PF3-tX-tTj"/>
                                                 <constraint firstItem="lAS-Yk-bpO" firstAttribute="leading" secondItem="jp1-Bb-nmW" secondAttribute="trailing" id="Qav-UF-6u0"/>
                                                 <constraint firstItem="jp1-Bb-nmW" firstAttribute="top" secondItem="gi2-oV-2OF" secondAttribute="top" constant="12" id="SO2-66-RVp"/>
@@ -3194,6 +3207,7 @@ Please Try Later</string>
         </scene>
     </scenes>
     <resources>
+        <image name="AddCalender" width="30" height="30"/>
         <image name="IhaveDinner" width="67" height="67"/>
         <image name="LoginFB" width="304" height="65"/>
         <image name="addPhoto" width="100" height="100"/>

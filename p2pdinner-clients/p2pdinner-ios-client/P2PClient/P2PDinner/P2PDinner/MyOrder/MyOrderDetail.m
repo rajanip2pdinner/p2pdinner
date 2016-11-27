@@ -74,7 +74,7 @@
         UILabel *plats=(UILabel *)[cell viewWithTag:2];
         [plats setText:[NSString stringWithFormat:@"%@ Plates",[cartRec.orderQuantity stringValue]]];
         StarRatingView *stareRatingView=(StarRatingView *)[cell viewWithTag:4];
-        [stareRatingView setUserRating:[cartRec.seller_rating intValue]*20];
+        [stareRatingView setMaxrating:[cartRec.seller_rating intValue]*20];
         stareRatingView.delegate=self;
         [stareRatingView setCartId:[cartRec.cart_id stringValue]];
     }

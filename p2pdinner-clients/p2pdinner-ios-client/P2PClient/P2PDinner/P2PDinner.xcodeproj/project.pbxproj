@@ -72,6 +72,7 @@
 		2CF4A58E1BD5F10700D126CB /* SWUtilityButtonTapGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF4A5871BD5F10700D126CB /* SWUtilityButtonTapGestureRecognizer.m */; };
 		2CF4A58F1BD5F10700D126CB /* SWUtilityButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF4A5891BD5F10700D126CB /* SWUtilityButtonView.m */; };
 		2CF64C671B5243DC009B90F0 /* ItemDetailsShared.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF64C661B5243DC009B90F0 /* ItemDetailsShared.m */; };
+		2CF6FDF11DE75DD300BB92FC /* MyOrderDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF6FDF01DE75DD300BB92FC /* MyOrderDetailCell.m */; };
 		2CFEF8E41AC4F57000395737 /* CategorySelectController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CFEF8E31AC4F57000395737 /* CategorySelectController.m */; };
 		2CFEF8E81AC5094700395737 /* CategoryServiceHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CFEF8E71AC5094700395737 /* CategoryServiceHandler.m */; };
 		2CFEF8EB1AC50ED900395737 /* CategoryItems.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CFEF8EA1AC50ED900395737 /* CategoryItems.m */; };
@@ -237,6 +238,8 @@
 		2CF4A5891BD5F10700D126CB /* SWUtilityButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWUtilityButtonView.m; sourceTree = "<group>"; };
 		2CF64C651B5243DC009B90F0 /* ItemDetailsShared.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemDetailsShared.h; sourceTree = "<group>"; };
 		2CF64C661B5243DC009B90F0 /* ItemDetailsShared.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemDetailsShared.m; sourceTree = "<group>"; };
+		2CF6FDEF1DE75DD300BB92FC /* MyOrderDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyOrderDetailCell.h; sourceTree = "<group>"; };
+		2CF6FDF01DE75DD300BB92FC /* MyOrderDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyOrderDetailCell.m; sourceTree = "<group>"; };
 		2CFEF8E21AC4F57000395737 /* CategorySelectController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategorySelectController.h; sourceTree = "<group>"; };
 		2CFEF8E31AC4F57000395737 /* CategorySelectController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategorySelectController.m; sourceTree = "<group>"; };
 		2CFEF8E61AC5094700395737 /* CategoryServiceHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryServiceHandler.h; sourceTree = "<group>"; };
@@ -427,6 +430,8 @@
 			children = (
 				2C8BC2621B5F4D700021E144 /* MyOrderViewController.h */,
 				2C8BC2631B5F4D700021E144 /* MyOrderViewController.m */,
+				2CF6FDEF1DE75DD300BB92FC /* MyOrderDetailCell.h */,
+				2CF6FDF01DE75DD300BB92FC /* MyOrderDetailCell.m */,
 				2CF1E8721B671E5100207961 /* MyOrderItemHandler.h */,
 				2CF1E8731B671E5100207961 /* MyOrderItemHandler.m */,
 				2CE5DBD41B65CDD6004CCFC7 /* MyOrderItem.h */,
@@ -952,6 +957,7 @@
 				TargetAttributes = {
 					5EA316791AA2CB7C006994B0 = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = L8SP6C8VRV;
 					};
 					5EA316921AA2CB7C006994B0 = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -1054,6 +1060,7 @@
 				5EA317211AA2CE65006994B0 /* TimeResponce.m in Sources */,
 				5EA316FE1AA2CE22006994B0 /* FindDinnerViewController.m in Sources */,
 				2CD0105D1AD0EC2C0033EE41 /* LocationServiceHandler.m in Sources */,
+				2CF6FDF11DE75DD300BB92FC /* MyOrderDetailCell.m in Sources */,
 				5EA316FF1AA2CE22006994B0 /* DatePicker.m in Sources */,
 				2CE4C4301ADF561D00852F9D /* PageSnapView.m in Sources */,
 				5EA317011AA2CE22006994B0 /* FBUserInfo.m in Sources */,
@@ -1241,15 +1248,19 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				AppName = "${APPLICATION_NAME}";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Annamalai Pasupathy (Q3UA9QKP6M)";
+				DEVELOPMENT_TEAM = L8SP6C8VRV;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/OtherFramework",
 				);
 				INFOPLIST_FILE = P2PDinner/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.p2pdinner.com;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "07ea30da-9060-4fb9-af57-0c05a40c2631";
+				PROVISIONING_PROFILE_SPECIFIER = "P2P Dinner Development";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -1261,15 +1272,19 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				AppName = "${APPLICATION_NAME}";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Annamalai Pasupathy (Q3UA9QKP6M)";
+				DEVELOPMENT_TEAM = L8SP6C8VRV;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/OtherFramework",
 				);
 				INFOPLIST_FILE = P2PDinner/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.p2pdinner.com;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "07ea30da-9060-4fb9-af57-0c05a40c2631";
+				PROVISIONING_PROFILE_SPECIFIER = "P2P Dinner Development";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

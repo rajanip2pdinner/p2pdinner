@@ -15,6 +15,7 @@
 #import "AppDelegate.h"
 #import "BuyerHandler.h"
 #import "StarRatingView.h"
+#import "MyOrderDetailCell.h"
 @interface MyOrderViewController()<RatingDelegate>
 {
     NSString *selectedDate;
@@ -133,19 +134,18 @@
             countLable=(UILabel *)[cell viewWithTag:111];
         }
         else if([myOrderObject isKindOfClass:[CarRecivedItemDetail class]]){
-            cell= [myOrdertableView dequeueReusableCellWithIdentifier:@"MyOrderDetailCell"];
-            dinnerImage=(UIImageView *)[cell viewWithTag:100];
-            title=(UILabel *)[cell viewWithTag:101];
-            price=(UILabel *)[cell viewWithTag:102];
-            sellerName=(UILabel *)[cell viewWithTag:103];
-            passcode=(UILabel *)[cell viewWithTag:104];
-            address=(UILabel *)[cell viewWithTag:105];
-            //countLable=(UILabel *)[cell viewWithTag:106];
-            deliveryOption=(UILabel *)[cell viewWithTag:107];
-            sareView=(StarRatingView *)[cell viewWithTag:108];
+            MyOrderDetailCell *myOrderDetailcell= [myOrdertableView dequeueReusableCellWithIdentifier:@"MyOrderDetailCell"];
+            [myOrderDetailcell setCartDetail:myOrderObject];
+            dinnerImage=(UIImageView *)[myOrderDetailcell viewWithTag:100];
+            title=(UILabel *)[myOrderDetailcell viewWithTag:101];
+            price=(UILabel *)[myOrderDetailcell viewWithTag:102];
+            sellerName=(UILabel *)[myOrderDetailcell viewWithTag:103];
+            passcode=(UILabel *)[myOrderDetailcell viewWithTag:104];
+            address=(UILabel *)[myOrderDetailcell viewWithTag:105];
+            deliveryOption=(UILabel *)[myOrderDetailcell viewWithTag:107];
+            sareView=(StarRatingView *)[myOrderDetailcell viewWithTag:108];
             sareView.delegate=self;
-            
-            
+            cell=myOrderDetailcell;
         }
         else{
             cell= [myOrdertableView dequeueReusableCellWithIdentifier:@"MyOrdersCellLoading"];
@@ -192,13 +192,13 @@
         [fmtr setNumberStyle:NSNumberFormatterCurrencyStyle];
         [fmtr setLocale:localPrice];
         [price setText:[fmtr stringFromNumber: cartview.totalPrice]];
-       // price.text=[NSString stringWithFormat:@"$ %.2f",[cartview.totalPrice floatValue]];
         sellerName.text=cartview.buyerName;
-        //passcode.text=[NSString stringWithFormat:@"Conf# %@ for %ld Plats",cartview.passCode,(long)[cartview.orderQuantity integerValue]];
         passcode.attributedText=[self createTextWith:cartview.passCode withPlateCount:cartview.orderQuantity];
+        if (!cartview.address_line1) {
+            cartview.address_line1=@"";
+        }
         NSArray *addressArray=[NSArray arrayWithObjects:cartview.address_line1,cartview.address_line2,cartview.city,cartview.state,nil];
         address.text=[addressArray componentsJoinedByString: @","];
-        //passcode.text=cartview.passCode;
         countLable.text=[NSString stringWithFormat:@"%ld Plats",(long)[cartview.orderQuantity integerValue]];
         deliveryOption.text=[NSString stringWithFormat:@"Served between %@ and %@",startServingTime,stopServingTime];
         [sareView setMaxrating:[cartview.buyer_rating intValue]*20];

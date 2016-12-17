@@ -235,4 +235,33 @@ public class DinnerMenuItem implements Serializable {
     public void setProfileName(String profileName) {
         this.profileName = profileName;
     }
+
+    @Override
+    public String toString() {
+        return "DinnerMenuItem{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", categories='" + categories + '\'' +
+                ", description='" + description + '\'' +
+                ", photoTags='" + photoTags + '\'' +
+                ", availableDate='" + availableDate + '\'' +
+                ", fromTime='" + fromTime + '\'' +
+                ", toTime='" + toTime + '\'' +
+                ", closeTime='" + closeTime + '\'' +
+                ", addressLine1='" + addressLine1 + '\'' +
+                ", addressLine2='" + addressLine2 + '\'' +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
+                ", deliveryOptions='" + deliveryOptions + '\'' +
+                ", cost=" + cost +
+                ", specialNeeds='" + specialNeeds + '\'' +
+                ", profileId=" + profileId +
+                ", imageUri='" + imageUri + '\'' +
+                ", availableQuantity=" + availableQuantity +
+                ", name='" + name + '\'' +
+                ", profileName='" + profileName + '\'' +
+                ", dinnerListing=" + dinnerListing +
+                ", location=" + location +
+                '}';
+    }
 }

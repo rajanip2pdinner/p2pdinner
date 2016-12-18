@@ -202,12 +202,18 @@ public class TimeFragment extends BaseFragment implements DateDialogDataTransfer
         DateTime closeDateTime = null;
         if (StringUtils.hasText(dinnerMenuItem.getToTime())) {
             toDateTime = formatter.withZoneUTC().parseDateTime(dinnerMenuItem.getToTime());
+        } else {
+            toDateTime = DateTime.now().plusHours(2);
         }
         if (StringUtils.hasText(dinnerMenuItem.getFromTime())) {
             fromDateTime = formatter.withZoneUTC().parseDateTime(dinnerMenuItem.getFromTime());
+        } else {
+            fromDateTime = DateTime.now().plusHours(1);
         }
         if (StringUtils.hasText(dinnerMenuItem.getCloseTime())) {
             closeDateTime = formatter.withZoneUTC().parseDateTime(dinnerMenuItem.getCloseTime());
+        } else {
+            closeDateTime = DateTime.now().plusHours(2).minusMinutes(1);
         }
         if (toDateTime != null) {
             try {

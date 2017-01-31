@@ -32,6 +32,7 @@
     [[LocationManger sharedLocationManager]stopUpdatingLocation];
     CLGeocoder * geoCoder = [[CLGeocoder alloc] init];
     [geoCoder reverseGeocodeLocation:Location completionHandler:^(NSArray *placemarks, NSError *error) {
+        
         for (CLPlacemark * placemark in placemarks)
         {
             
@@ -47,15 +48,18 @@
     
     }];
 }
+
 - (void)displayLaunchScreen{
     LaunchScreen *launchScreen=[[UIStoryboard storyboardWithName:@"LaunchScreen" bundle:NULL] instantiateViewControllerWithIdentifier:@"LaunchScreenController"];
     [launchScreen showLaunchScreen];
 }
+
 - (void)settingsAction
 {
 
     [self performSegueWithIdentifier:@"SettingsViewController" sender:self];
 }
+
 - (void)setUpSettingBarButton{
     UIImage* SettingsIcon = [UIImage imageNamed:@"SettingsIcon"];
     CGRect frameimg = CGRectMake(0, 0, SettingsIcon.size.width, SettingsIcon.size.height);
@@ -67,8 +71,12 @@
     UIBarButtonItem *mailbutton =[[UIBarButtonItem alloc] initWithCustomView:settingsButton];
     self.navigationItem.rightBarButtonItem=mailbutton;
 }
+
 -(void)navigationBarsetup{
-    UIColor *navBarColor=[UIColor colorWithRed:237.0/255.0 green:134.0/255.0 blue:0.0/255.0 alpha:1];
+    UIColor *navBarColor=[UIColor colorWithRed:237.0/255.0
+                                         green:134.0/255.0
+                                          blue:0.0/255.0
+                                         alpha:1];
     NSDictionary *navbarTitleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
                                                [UIColor whiteColor],UITextAttributeTextColor,
                                                [UIFont fontWithName:@"Plantin" size:24], NSFontAttributeName,[NSValue valueWithUIOffset:UIOffsetMake(-1, 0)],UITextAttributeTextShadowOffset, nil];
@@ -78,6 +86,7 @@
     [self.navigationController.navigationBar  setTitleTextAttributes:navbarTitleTextAttributes];
     [self.navigationController.navigationBar setBarTintColor:navBarColor];
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -109,6 +118,7 @@
  
  // In a storyboard-based application, you will often want to do a little preparation before navigation
  - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+     
      if ([[segue identifier] isEqualToString:@"AgreementViewController"])
      {
          AgreementsViewController *viewController=[segue destinationViewController];
@@ -157,9 +167,11 @@
     
     return cell;
 }
+
 -(void)removeLoginViewContrller{
     NSMutableArray* tempVCA = [NSMutableArray arrayWithArray:[self.navigationController viewControllers]];
     [tempVCA enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        
         if([obj isKindOfClass:[DinnerLoginViewController class]])
         {
             [tempVCA removeObject:obj];
@@ -174,19 +186,23 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
     if (indexPath.row==0) {
                 [self performSegueWithIdentifier:@"wantDinner" sender:self];
                   }
     else if(indexPath.row==1){
         NSNumber *number=(NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"];
+        
         if ([number integerValue]>0) {
             [[SharedLogin sharedLogin] setUserId:number];
             [self performSegueWithIdentifier:@"SuccessLoginOperation" sender:self];
-        }else
+        }
+        else
         {
             UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main"  bundle: nil];
             DinnerLoginViewController *dinnerLogin = (DinnerLoginViewController*)[mainStoryboard instantiateViewControllerWithIdentifier: @"DinnerLoginViewController"];
             [dinnerLogin getLoginResponse:^(NSError *error, NSString *emailId, BOOL successFull) {
+                
                 if (successFull) {
                      [self performSegueWithIdentifier:@"SuccessLoginOperation" sender:self];
                      [self removeLoginViewContrller];
@@ -196,22 +212,27 @@
          }
             //[self performSegueWithIdentifier:@"haveDinner" sender:self];
     }
+    
     else if(indexPath.row==2)
     {
         [self moveToMyOrderScreen];
     
     }
 }
+
 -(void)moveToMyOrderScreen{
     NSNumber *number=(NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"];
+    
     if ([number integerValue]>0) {
         [[SharedLogin sharedLogin] setUserId:number];
         [self performSegueWithIdentifier:@"MyOrderViewController" sender:self];
-    }else
+    }
+    else
     {
         UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main"  bundle: nil];
         DinnerLoginViewController *dinnerLogin = (DinnerLoginViewController*)[mainStoryboard instantiateViewControllerWithIdentifier: @"DinnerLoginViewController"];
         [dinnerLogin getLoginResponse:^(NSError *error, NSString *emailId, BOOL successFull) {
+            
             if (successFull) {
                 [self performSegueWithIdentifier:@"MyOrderViewController" sender:self];
                 [self removeLoginViewContrller];

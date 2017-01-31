@@ -17,12 +17,16 @@
 //},
 
 @interface CategoryItems : NSObject
+
 @property (nonatomic,strong)NSDate *startDate;
 @property (nonatomic,strong)NSDate *endDate;
 @property (nonatomic,strong)NSDate *modifiedDate;
-@property (nonatomic,assign)BOOL isActive;
+
 @property (nonatomic,strong)NSString *categoryId;
 @property (nonatomic,strong)NSString *name;
+
+@property (nonatomic,assign)BOOL isActive;
+
 @end
 @interface CategoryRespone : NSObject
 - (NSArray *)getCategoryObjcet:(NSArray *)responce;

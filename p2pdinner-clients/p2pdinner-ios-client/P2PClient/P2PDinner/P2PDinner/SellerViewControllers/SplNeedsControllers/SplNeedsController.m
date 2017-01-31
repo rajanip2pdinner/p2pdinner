@@ -7,6 +7,7 @@
 //
 
 #import "SplNeedsController.h"
+#import "StringConstants.h"
 
 @implementation SplNeedsController
 @synthesize itemDetails;
@@ -16,8 +17,8 @@
     /* Create custom view to display section header... */
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 30, tableView.frame.size.width, 18)];
     [label setTextColor:[UIColor colorWithRed:237.0/255.0 green:134.0/255.0 blue:0.0/255.0 alpha:1]];
-    [label setFont:[UIFont fontWithName:@"Plantin" size:18]];
-    NSString *string =@"Special Needs";
+    [label setFont:[UIFont fontWithName:kFont_Name size:18]];
+    NSString *string =kSpecial_Needs;
     /* Section header is in 0th index... */
     [label setText:string];
     [view addSubview:label];
@@ -34,7 +35,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)
 indexPath
 {
-    static NSString *simpleTableIdentifier= @"SplNeedsCell";
+    static NSString *simpleTableIdentifier= kSplNeedsCell;
     specialNeedsCell *splNeedsCell;
     splNeedsCell=(specialNeedsCell *)[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
     veganSwitch=(UISwitch *)[splNeedsCell viewWithTag:11];
@@ -45,14 +46,14 @@ indexPath
     diabetic=(UISwitch *)[splNeedsCell viewWithTag:66];
     lowCarb=(UISwitch *)[splNeedsCell viewWithTag:77];
     lowFatDiet=(UISwitch *)[splNeedsCell viewWithTag:88];
-    [veganSwitch setOn:[self swichActionForString:itemDetails.dinnerSpecialNeeds withAction:@"Vegan"]];
-    [kosherSwitch setOn:[self swichActionForString:itemDetails.dinnerSpecialNeeds withAction:@"Kosher"]];
-    [vegetarianSwitch setOn:[self swichActionForString:itemDetails.dinnerSpecialNeeds withAction:@"Vegetarian"]];
-    [glutenFreeSwitch setOn:[self swichActionForString:itemDetails.dinnerSpecialNeeds withAction:@"Gluten Free"]];
-    [halalSwitch setOn:[self swichActionForString:itemDetails.dinnerSpecialNeeds withAction:@"Halal"]];
-    [diabetic setOn:[self swichActionForString:itemDetails.dinnerSpecialNeeds withAction:@"Diabetic"]];
-    [lowCarb setOn:[self swichActionForString:itemDetails.dinnerSpecialNeeds withAction:@"Low Carb"]];
-    [lowFatDiet setOn:[self swichActionForString:itemDetails.dinnerSpecialNeeds withAction:@"Low Fat Diet"]];
+    [veganSwitch setOn:[self swichActionForString:itemDetails.dinnerSpecialNeeds withAction:kVegan]];
+    [kosherSwitch setOn:[self swichActionForString:itemDetails.dinnerSpecialNeeds withAction:kKosher]];
+    [vegetarianSwitch setOn:[self swichActionForString:itemDetails.dinnerSpecialNeeds withAction:kVegetarian]];
+    [glutenFreeSwitch setOn:[self swichActionForString:itemDetails.dinnerSpecialNeeds withAction:kGluten_Free]];
+    [halalSwitch setOn:[self swichActionForString:itemDetails.dinnerSpecialNeeds withAction:kHalal]];
+    [diabetic setOn:[self swichActionForString:itemDetails.dinnerSpecialNeeds withAction:kDiabetic]];
+    [lowCarb setOn:[self swichActionForString:itemDetails.dinnerSpecialNeeds withAction:kLow_Carb]];
+    [lowFatDiet setOn:[self swichActionForString:itemDetails.dinnerSpecialNeeds withAction:kLow_Fat_Diet]];
     
     
     splNeedsCell.selectionStyle =UITableViewCellSelectionStyleNone;
@@ -79,35 +80,35 @@ indexPath
     NSMutableArray *splNeedsStrinArray=[[NSMutableArray alloc]init];
     
     if (veganSwitch.isOn) {
-        [splNeedsStrinArray addObject:@"Vegan"];
+        [splNeedsStrinArray addObject:kVegan];
     }
     
     if (kosherSwitch.isOn) {
-        [splNeedsStrinArray addObject:@"Kosher"];
+        [splNeedsStrinArray addObject:kKosher];
     }
     
     if (vegetarianSwitch.isOn) {
-        [splNeedsStrinArray addObject:@"Vegetarian"];
+        [splNeedsStrinArray addObject:kVegetarian];
     }
     
     if (glutenFreeSwitch.isOn) {
-        [splNeedsStrinArray addObject:@"Gluten Free"];
+        [splNeedsStrinArray addObject:kGluten_Free];
     }
     
     if (halalSwitch.isOn) {
-        [splNeedsStrinArray addObject:@"Halal"];
+        [splNeedsStrinArray addObject:kHalal];
     }
     
     if (diabetic.isOn) {
-        [splNeedsStrinArray addObject:@"Diabetic"];
+        [splNeedsStrinArray addObject:kDiabetic];
     }
     
     if (lowCarb.isOn) {
-        [splNeedsStrinArray addObject:@"Low Carb"];
+        [splNeedsStrinArray addObject:kLow_Carb];
     }
     
     if (lowFatDiet.isOn) {
-        [splNeedsStrinArray addObject:@"Low Fat Diet"];
+        [splNeedsStrinArray addObject:kLow_Fat_Diet];
     }
     
     return [splNeedsStrinArray componentsJoinedByString:@","];

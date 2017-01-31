@@ -9,6 +9,8 @@
 #import "CreateFoodItem.h"
 #import "CategoryItems.h"
 #import "CategorySelectController.h"
+#import "StringConstants.h"
+
 @interface CreateFoodItem()<CategorySelectDelegate>{
     UITextField *itemTitle;
     UITextView *textViewDescription;
@@ -24,7 +26,7 @@
     itemDetails.dinnerDescription=textViewDescription.text;
     itemDetails.dinnerCategories =itemCategoryLable.text;
 
-    [self performSegueWithIdentifier:@"AddTime" sender:self];
+    [self performSegueWithIdentifier:kAddTime sender:self];
     
 }
 
@@ -55,7 +57,7 @@
     [super viewDidLoad];
     [self tapGesture];
     
-    categoryArray=[itemDetails.dinnerCategories componentsSeparatedByString:@","];
+    categoryArray=[itemDetails.dinnerCategories componentsSeparatedByString:kComa_String];
         
 //    _createFoodTable.sectionHeaderHeight=38;
     
@@ -74,8 +76,8 @@
     /* Create custom view to display section header... */
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 30, tableView.frame.size.width, 18)];
     [label setTextColor:[UIColor colorWithRed:237.0/255.0 green:134.0/255.0 blue:0.0/255.0 alpha:1]];
-    [label setFont:[UIFont fontWithName:@"Plantin" size:18]];
-    NSString *string =@"Create Food Item";
+    [label setFont:[UIFont fontWithName:kFont_Name size:18]];
+    NSString *string =kCreatFoodItem;
     
     /* Section header is in 0th index... */
     [label setText:string];
@@ -99,7 +101,7 @@
 {
     UITableViewCell *cell;
     if (indexPath.row==0) {
-        cell= (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"titleCell"];
+        cell= (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:kTitleCell];
         itemTitle=(UITextField *)[cell viewWithTag:111];
         if ([itemDetails.title length]>0) {
             itemTitle.text=itemDetails.title;
@@ -110,13 +112,13 @@
         
     }
     if (indexPath.row==1) {
-        cell= [tableView dequeueReusableCellWithIdentifier:@"categoryCell"];
+        cell= [tableView dequeueReusableCellWithIdentifier:kcategoryCell];
         itemCategoryLable=(UILabel *)[cell viewWithTag:111];
         if ([itemDetails.dinnerCategories length]<=0) {
             if ([itemDetails.dinnerCategories length]>0) {
                 itemCategoryLable.text=itemDetails.dinnerCategories;
             }else
-                itemCategoryLable.text=@"Select Category..";
+                itemCategoryLable.text=kSelect_Category;
         }
         else{
             itemCategoryLable.text=[self createCategoryStringFormArray];
@@ -124,7 +126,7 @@
         
     }
     else if (indexPath.row==2) {
-        cell= [tableView dequeueReusableCellWithIdentifier:@"descriptionCell"];
+        cell= [tableView dequeueReusableCellWithIdentifier:kDescriptionCell];
        textViewDescription=(UITextView *)[cell viewWithTag:111];
         [(DescriptionTableViewCell *)cell initialSetUpCell];
         [cell.contentView addGestureRecognizer:tapGuester];
@@ -148,7 +150,7 @@
 #warning need to set selected item
     if (indexPath.row==1) {
        // [self tapGesture];
-        CategorySelectController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"CategorySelectController"];
+        CategorySelectController *vc = [self.storyboard instantiateViewControllerWithIdentifier:kCategorySelectController];
         vc.delegate=self;
         [self presentViewController:vc animated:YES completion:nil];
         
@@ -156,7 +158,7 @@
 }
 //SelectedCategory
 - (NSString *)getSelectedCategory:(NSArray *)selectedArray{
-    NSMutableString *selectedCategory=[NSMutableString stringWithString:@"Select Category.."];
+    NSMutableString *selectedCategory=[NSMutableString stringWithString:kSelect_Category];
     if (0<[selectedArray count]) {
         selectedCategory=[[NSMutableString alloc]init];
     }
@@ -166,10 +168,10 @@
         
         CategoryItems *categoryitem=(CategoryItems *)[selectedArray objectAtIndex:i];
         if ([categoryitem isEqual:[selectedArray lastObject]]) {
-            [selectedCategory appendFormat:@"%@",categoryitem.name];
+            [selectedCategory appendFormat:kSrtingPatten,categoryitem.name];
         }
         else
-            [selectedCategory appendFormat:@"%@,",categoryitem.name];
+            [selectedCategory appendFormat:kAppendWithComaString,categoryitem.name];
     }
     
     
@@ -185,10 +187,10 @@
 }
 
 - (NSString *)createCategoryStringFormArray{
-    NSString *returnString=@"";
+    NSString *returnString=kEmpty_String;
     for (CategoryItems *items in categoryArray) {
         if ([returnString length]>1) {
-            returnString=[NSString stringWithFormat:@"%@,%@",returnString,([items isKindOfClass:[CategoryItems class]])?items.name:items];
+            returnString=[NSString stringWithFormat:k2StringAppendFormartWithComa,returnString,([items isKindOfClass:[CategoryItems class]])?items.name:items];
         }
         else{
             returnString = ([items isKindOfClass:[CategoryItems class]])?items.name:(NSString *)items;
@@ -215,7 +217,7 @@
  replacementText:(NSString *)text
 {
     
-    if ([text isEqualToString:@"\n"]) {
+    if ([text isEqualToString:kNextLaine]) {
         CGPoint point=_createFoodTable.contentOffset;
         if (point.y<190) {
             [_createFoodTable setContentOffset:CGPointMake(point.x, point.y+10) animated:YES];

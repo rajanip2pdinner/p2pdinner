@@ -27,7 +27,10 @@
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 38)];
     /* Create custom view to display section header... */
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 10, tableView.frame.size.width, 18)];
-    [label setTextColor:[UIColor colorWithRed:237.0/255.0 green:134.0/255.0 blue:0.0/255.0 alpha:1]];
+    [label setTextColor:[UIColor colorWithRed:237.0/255.0
+                                        green:134.0/255.0
+                                         blue:0.0/255.0
+                                        alpha:1]];
     [label setFont:[UIFont fontWithName:@"Plantin" size:18]];
     
     NSString *string =_selectedMenu;
@@ -64,6 +67,7 @@
     }
     
     //CarRecivedItemDetail
+    
     if ([[_myOrderArray objectAtIndex:indexPath.row] isKindOfClass:[CarRecivedItemDetail class]]) {
         CarRecivedItemDetail *cartRec=[_myOrderArray objectAtIndex:indexPath.row];
         UILabel *BuyerName=(UILabel *)[cell viewWithTag:3];
@@ -93,8 +97,9 @@
     }];
 }
 -(void)updatedRatingValue:(int)ratingValue withCartId:(NSString *)cartId{
-     [self sellerRatingUpdate:[NSString stringWithFormat:@"%d",(ratingValue/20)] withCartId:cartId];
+    [self sellerRatingUpdate:[NSString stringWithFormat:@"%d",(ratingValue/20)] withCartId:cartId];
 }
+
 -(void)sellerRatingUpdate:(NSString *)sellerRating withCartId:(NSString *)cartId{
     NSString *requstObject=[NSString stringWithFormat:@"{\"seller_rating\": %@}",sellerRating];
     [[BuyerHandler sharedBuyerHandler] addRating:requstObject withCartId:cartId withResponse:nil];

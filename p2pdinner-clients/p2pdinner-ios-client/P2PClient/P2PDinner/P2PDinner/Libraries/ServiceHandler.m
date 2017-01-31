@@ -25,9 +25,12 @@ static ServiceHandler *_sharedInstance=nil;
     [manager.requestSerializer setAuthorizationHeaderFieldWithUsername:@"7568CL2AX2Z5HJXJ6VUAWDUD7" password:@"kfpZC6leleyLezvC3xxaSJhm6SSaAl65wwG2/xJ/278"];
     [manager.requestSerializer setValue:@"NzU2OENMMkFYMlo1SEpYSjZWVUFXRFVENzprZnBaQzZsZWxleUxlenZDM3h4YVNKaG02U1NhQWw2NXd3RzIveEovMjc4" forHTTPHeaderField:@"Authorization"];
     NSDictionary *request;
+    
     if ([refreshToken length]>5) {
         request=@{@"grant_type":@"refresh_token" , @"username":@"selvam@p2pdinner.com" , @"password":@"Welcome123",@"refresh_token":refreshToken};
-    }else{
+    }
+    else
+    {
     request=@{@"grant_type":@"password" , @"username":@"selvam@p2pdinner.com" , @"password":@"Welcome123"};
     }
     [manager.requestSerializer  setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
@@ -57,10 +60,12 @@ static ServiceHandler *_sharedInstance=nil;
 }
 -(void)validateAccessToken:(ServiceResultBlock)returnBlock{
     NSDate *expiryDate=[[NSUserDefaults standardUserDefaults] objectForKey:@"oAuthExpiry"];
+    
     if (!expiryDate) {
         //Need to call NewOAuthRequest
         [self newOauthRequestOperation:[[NSUserDefaults standardUserDefaults] objectForKey:@"oAuthrefreshToken"] withCompletion:returnBlock];
-    }else if ([expiryDate timeIntervalSinceNow] < 0.0) {
+    }
+    else if ([expiryDate timeIntervalSinceNow] < 0.0) {
         // Date has passed
         //Need to call refreshOAuthRequest
         [self newOauthRequestOperation:nil withCompletion:returnBlock];
@@ -83,7 +88,9 @@ static ServiceHandler *_sharedInstance=nil;
     [self validateAccessToken:^(NSError *error, id response) {
         if(error){
             serviceCallBackBlock(error,nil);
-        }else{
+        }
+        else
+        {
             manager = [[AFHTTPRequestOperationManager manager] initWithBaseURL:[NSURL URLWithString:BASE_URL]];
             NSString *accessToken=[NSString stringWithFormat:@"%@ %@",[[NSUserDefaults standardUserDefaults] objectForKey:@"tokenType"],response];
             
@@ -123,16 +130,22 @@ static ServiceHandler *_sharedInstance=nil;
 - (void)execute:(NSString *)url requestObject:(NSString *)requestValue contentType:(NSString *)contentType requestMethodPostServiceCallBack:(ServiceResultBlock)serviceCallBackBlock{
     
     [self validateAccessToken:^(NSError *error, id response) {
+        
         if(error){
             serviceCallBackBlock(error,nil);
-        }else{
+        }
+        else
+        {
             manager = [[AFHTTPRequestOperationManager manager] initWithBaseURL:[NSURL URLWithString:BASE_URL]];
             NSData* requestData = [requestValue dataUsingEncoding:NSUTF8StringEncoding];
             NSError *error=nil;
             NSDictionary *requestDict;
+            
             if (!requestValue) {
                 requestDict=@{};
-            }else{
+            }
+            else
+            {
                 requestDict=[NSJSONSerialization JSONObjectWithData:requestData options:kNilOptions error:&error];
             }
             manager.requestSerializer = [AFJSONRequestSerializer serializer];
@@ -165,11 +178,13 @@ static ServiceHandler *_sharedInstance=nil;
 }
 - (void)execute:(NSString *)url requestObject:(NSString *)requestValue contentType:(NSString *)contentType requestMethod:(NSString *)requestMethod serviceCallBack:(ServiceResultBlock)serviceCallBackBlock{
     resultBlock=serviceCallBackBlock;
+    
     if ([requestMethod isEqualToString:@"GET"]) {
         url=[NSString stringWithFormat:@"%@",url];
         [self execute:url requestObject:requestValue contentType:contentType requestMethodGetServiceCallBack:serviceCallBackBlock];
     }
-    else{
+    else
+    {
         [self execute:url requestObject:requestValue contentType:contentType requestMethodPostServiceCallBack:serviceCallBackBlock];
     }
     

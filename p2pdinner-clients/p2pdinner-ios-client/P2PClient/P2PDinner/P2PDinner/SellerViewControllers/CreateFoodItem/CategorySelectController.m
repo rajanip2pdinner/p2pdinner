@@ -7,6 +7,7 @@
 //
 
 #import "CategorySelectController.h"
+#import "StringConstants.h"
 
 @interface CategorySelectController ()
 
@@ -14,7 +15,7 @@
 
 @implementation CategorySelectController
 - (IBAction)doneButtonAction:(id)sender{
-    NSSortDescriptor* sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(localizedStandardCompare:)];
+    NSSortDescriptor* sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:kname ascending:YES selector:@selector(localizedStandardCompare:)];
     [self.delegate selectedCategors:[selectedCategory sortedArrayUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]]];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -24,7 +25,7 @@
     UIColor *navBarColor=[UIColor colorWithRed:237.0/255.0 green:134.0/255.0 blue:0.0/255.0 alpha:1];
     NSDictionary *navbarTitleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
                                                [UIColor whiteColor],UITextAttributeTextColor,
-                                               [UIFont fontWithName:@"Plantin" size:24], NSFontAttributeName,[NSValue valueWithUIOffset:UIOffsetMake(-1, 0)],UITextAttributeTextShadowOffset, nil];
+                                               [UIFont fontWithName:kFont_Name size:24], NSFontAttributeName,[NSValue valueWithUIOffset:UIOffsetMake(-1, 0)],UITextAttributeTextShadowOffset, nil];
     [navigationBar  setTitleTextAttributes:navbarTitleTextAttributes];
     [navigationBar setBarTintColor:navBarColor];
 }
@@ -39,7 +40,7 @@
 }
 -(NSArray *)shortOrderCategoryResponse:(NSArray *)resoseCategoryArray{
     NSMutableArray *categoryArray=[NSMutableArray arrayWithArray:resoseCategoryArray];
-    NSPredicate *bobPredicate = [NSPredicate predicateWithFormat:@"name CONTAINS[cd] 'Other'"];
+    NSPredicate *bobPredicate = [NSPredicate predicateWithFormat:kPredicateOther];
     CategoryItems *OthersObject;
     NSArray *arrayOfOthers=[resoseCategoryArray filteredArrayUsingPredicate:bobPredicate];
     if ([arrayOfOthers count]>0) {
@@ -53,7 +54,7 @@
         }
         
     }
-    NSSortDescriptor* sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(localizedStandardCompare:)];
+    NSSortDescriptor* sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:kname ascending:YES selector:@selector(localizedStandardCompare:)];
     
     resoseCategoryArray=[categoryArray sortedArrayUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]];
     
@@ -76,9 +77,9 @@
     [self callCategoryService];
     [super viewDidLoad];
     [self setupNavigationBar];
-    self.navigationItem.title=@"Select Category";
+    self.navigationItem.title=kSelect_Category;
     CategoryItems *categoryItems=[[CategoryItems alloc]init];
-    [categoryItems setName:@"Loading..."];
+    [categoryItems setName:kLoading];
     categoryList=[NSMutableArray arrayWithArray:[NSArray arrayWithObject:categoryItems]];
     selectedCategory=[[NSMutableArray alloc]init];
     categoryTableView.tableFooterView = [UIView new];
@@ -96,7 +97,7 @@
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell= (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"CetegoryCell"];
+    UITableViewCell *cell= (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:kCategoryCell];
     CategoryItems *categoryItems=[categoryList objectAtIndex:indexPath.row];
     cell.textLabel.text=[categoryItems name];
     cell.selectionStyle =UITableViewCellSelectionStyleNone;

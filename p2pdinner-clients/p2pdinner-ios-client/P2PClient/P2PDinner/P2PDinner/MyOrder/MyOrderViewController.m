@@ -16,6 +16,8 @@
 #import "BuyerHandler.h"
 #import "StarRatingView.h"
 #import "MyOrderDetailCell.h"
+#import "StringConstants.h"
+
 @interface MyOrderViewController()<RatingDelegate>
 {
     NSString *selectedDate;
@@ -44,18 +46,18 @@
 - (void)callTodayMyOrderView{
     
    // NSString *timeValue=[NSString stringWithFormat:@"%.0f",([[self getTodayTwellMorning:[NSDate date]] timeIntervalSince1970]*1000)];
-    startDate=[Utility dateToStringFormat:@"MM/dd/YYYY HH:mm:ss" dateString:[self getTodayTwellMorning:[NSDate date]] timeZone:UTC];
-    endDate=[Utility dateToStringFormat:@"MM/dd/YYYY HH:mm:ss" dateString:[self getEndingOfDate:[NSDate date]] timeZone:UTC];
+    startDate=[Utility dateToStringFormat:kDateAndTimeFormat dateString:[self getTodayTwellMorning:[NSDate date]] timeZone:UTC];
+    endDate=[Utility dateToStringFormat:kDateAndTimeFormat dateString:[self getEndingOfDate:[NSDate date]] timeZone:UTC];
     
     [self selectedDateOption:[self getTodayTwellMorning:[NSDate date]]];
 }
 - (void)viewDidLoad{
     
-    self.title=@"My Orders";
+    self.title=kMyOrders;
     tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [dateToolBar intDateToolBar];
     [dateToolBar setButtonDelegate:self];
-    _tableViewArray=[NSArray arrayWithObject:@"Loading"];
+    _tableViewArray=[NSArray arrayWithObject:kLoading];
     [tableView reloadData];
     [self performSelector:@selector(callTodayMyOrderView) withObject:nil afterDelay:1.05];
     
@@ -86,23 +88,23 @@
 {
     if ((NSString *)[NSNull null] !=imageNames) {
         NSString *imageName;
-        NSArray *mutableImageURL=[imageNames componentsSeparatedByString:@","];
+        NSArray *mutableImageURL=[imageNames componentsSeparatedByString:kComa_String];
         if ([mutableImageURL count]>0) {
             imageName=[mutableImageURL objectAtIndex:0];
-            imageName=[imageName stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+            imageName=[imageName stringByReplacingOccurrencesOfString:kSlash_String withString:kEmpty_String];
         }
         return imageName;
     }
-    return @"";
+    return kEmpty_String;
     
 }
 -(NSMutableAttributedString *)createTextWith:(NSString *)passcode withPlateCount:(NSNumber *)numberWithString{
-    NSMutableAttributedString *passcodeString=[[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@" %@ ",passcode]];
+    NSMutableAttributedString *passcodeString=[[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:kSrtingPattenWithSpace,passcode]];
     [passcodeString addAttribute:NSBackgroundColorAttributeName value:[UIColor orangeColor] range:NSMakeRange(0, passcode.length+2)];
     [passcodeString addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, passcode.length+2)];
-    NSMutableAttributedString *returnString=[[NSMutableAttributedString alloc]initWithString:@"Conf# "];
+    NSMutableAttributedString *returnString=[[NSMutableAttributedString alloc]initWithString:kConf];
     [returnString appendAttributedString:passcodeString];
-    [returnString appendAttributedString:[[NSAttributedString alloc]initWithString:[NSString stringWithFormat:@" for %ld Plates",[numberWithString integerValue]]]];
+    [returnString appendAttributedString:[[NSAttributedString alloc]initWithString:[NSString stringWithFormat:kForPlates,[numberWithString integerValue]]]];
     
     return returnString;
 }
@@ -130,11 +132,11 @@
     }
     if (!cell) {
         if ([myOrderObject isKindOfClass:[MyOrderItem class]]|[myOrderObject isKindOfClass:[NSDictionary class]]){
-            cell= [myOrdertableView dequeueReusableCellWithIdentifier:@"MyOrdersCell"];
+            cell= [myOrdertableView dequeueReusableCellWithIdentifier:kMyOrdersCell];
             countLable=(UILabel *)[cell viewWithTag:111];
         }
         else if([myOrderObject isKindOfClass:[CarRecivedItemDetail class]]){
-            MyOrderDetailCell *myOrderDetailcell= [myOrdertableView dequeueReusableCellWithIdentifier:@"MyOrderDetailCell"];
+            MyOrderDetailCell *myOrderDetailcell= [myOrdertableView dequeueReusableCellWithIdentifier:kMyOrderDetailCell];
             [myOrderDetailcell setCartDetail:myOrderObject];
             dinnerImage=(UIImageView *)[myOrderDetailcell viewWithTag:100];
             title=(UILabel *)[myOrderDetailcell viewWithTag:101];
@@ -148,7 +150,7 @@
             cell=myOrderDetailcell;
         }
         else{
-            cell= [myOrdertableView dequeueReusableCellWithIdentifier:@"MyOrdersCellLoading"];
+            cell= [myOrdertableView dequeueReusableCellWithIdentifier:kMyOrdersCellLoading];
             UIActivityIndicatorView *activityView=(UIActivityIndicatorView *)[cell viewWithTag:555];
             [activityView startAnimating];
         }
@@ -159,16 +161,16 @@
         countLable.text=[item.listing.quantityOrdered stringValue];
         countLable.layer.cornerRadius = 5.0f;
         [countLable setClipsToBounds:YES];
-        NSString *startServingTime=[Utility dateToStringFormat:@"hh:mm a" dateString:[Utility stringToDateFormat:@"MM/dd/yyyy HH:mm:ss" dateString:item.listing.startTime  timeZone:UTC]  timeZone:LOCAL];
-        NSString *stopServingTime=[Utility dateToStringFormat:@"hh:mm a" dateString:[Utility stringToDateFormat:@"MM/dd/yyyy HH:mm:ss" dateString:item.listing.endDate  timeZone:UTC]  timeZone:LOCAL];
-        cell.detailTextLabel.text=[NSString stringWithFormat:@"Serving %@ to %@",startServingTime,stopServingTime];
+        NSString *startServingTime=[Utility dateToStringFormat:kTimeMinOnly12hrsFormat2Digit dateString:[Utility stringToDateFormat:kDateAndTimeFormat dateString:item.listing.startTime  timeZone:UTC]  timeZone:LOCAL];
+        NSString *stopServingTime=[Utility dateToStringFormat:kTimeMinOnly12hrsFormat2Digit dateString:[Utility stringToDateFormat:kDateAndTimeFormat dateString:item.listing.endDate  timeZone:UTC]  timeZone:LOCAL];
+        cell.detailTextLabel.text=[NSString stringWithFormat:kServingTo,startServingTime,stopServingTime];
     }
     else if ([myOrderObject isKindOfClass:[CarRecivedItemDetail class]]){
         if ((NSString *)[NSNull null] != cartview.imageUri) {
             [Utility imageRequestOperation:[self makeImageURLfromimageName:cartview.imageUri] witImagView:dinnerImage];
         }
         else{
-            [dinnerImage setImage:[UIImage imageNamed:@"noImage"]];
+            [dinnerImage setImage:[UIImage imageNamed:knoImage]];
         }
         dinnerImage.layer.cornerRadius = 48.0f;
         dinnerImage.layer.masksToBounds = YES;
@@ -178,8 +180,8 @@
         dinnerImage.layer.shadowRadius = 48.0f;
         [dinnerImage setContentMode:UIViewContentModeScaleAspectFill];
         
-        NSString *startServingTime=[Utility dateToStringFormat:@"hh:mm a" dateString:[Utility epochToDate:cartview.startTime]  timeZone:LOCAL];
-        NSString *stopServingTime=[Utility dateToStringFormat:@"hh:mm a" dateString:[Utility epochToDate:cartview.endTime]  timeZone:LOCAL];
+        NSString *startServingTime=[Utility dateToStringFormat:kTimeMinOnly12hrsFormat2Digit dateString:[Utility epochToDate:cartview.startTime]  timeZone:LOCAL];
+        NSString *stopServingTime=[Utility dateToStringFormat:kTimeMinOnly12hrsFormat2Digit dateString:[Utility epochToDate:cartview.endTime]  timeZone:LOCAL];
         title.text=cartview.title;
         
         AppDelegate *appdelegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -195,12 +197,12 @@
         sellerName.text=cartview.buyerName;
         passcode.attributedText=[self createTextWith:cartview.passCode withPlateCount:cartview.orderQuantity];
         if (!cartview.address_line1) {
-            cartview.address_line1=@"";
+            cartview.address_line1=kEmpty_String;
         }
         NSArray *addressArray=[NSArray arrayWithObjects:cartview.address_line1,cartview.address_line2,cartview.city,cartview.state,nil];
-        address.text=[addressArray componentsJoinedByString: @","];
+        address.text=[addressArray componentsJoinedByString: kComa_String];
         countLable.text=[NSString stringWithFormat:@"%ld Plats",(long)[cartview.orderQuantity integerValue]];
-        deliveryOption.text=[NSString stringWithFormat:@"Served between %@ and %@",startServingTime,stopServingTime];
+        deliveryOption.text=[NSString stringWithFormat:kServingBetween,startServingTime,stopServingTime];
         [sareView setMaxrating:[cartview.buyer_rating intValue]*20];
         [sareView setCartId:[cartview.cart_id stringValue]];
         
@@ -208,7 +210,7 @@
     else if([myOrderObject isKindOfClass:[NSDictionary class]]){
         cell.textLabel.text=[myOrderObject objectForKey:@"message"];
         cell.detailTextLabel.text=@"     ";
-        countLable.text= @"";
+        countLable.text= kEmpty_String;
         [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
         
     }
@@ -238,8 +240,8 @@
     }
 }
 - (void)selectedDateOption:(NSDate *)dateValue{
-    startDate=[Utility dateToStringFormat:@"MM/dd/YYYY HH:mm:ss" dateString:dateValue timeZone:UTC];
-    endDate=[Utility dateToStringFormat:@"MM/dd/YYYY HH:mm:ss" dateString:[dateValue dateByAddingTimeInterval:24*60*60] timeZone:UTC];
+    startDate=[Utility dateToStringFormat:kDateAndTimeFormat dateString:dateValue timeZone:UTC];
+    endDate=[Utility dateToStringFormat:kDateAndTimeFormat dateString:[dateValue dateByAddingTimeInterval:24*60*60] timeZone:UTC];
     NSDate *sourceDate = [NSDate dateWithTimeIntervalSinceNow:3600 * 24 * 60];
     NSTimeZone* destinationTimeZone = [NSTimeZone systemTimeZone];
     float timeZoneOffset = [destinationTimeZone secondsFromGMTForDate:sourceDate] / 3600.0;
@@ -249,7 +251,7 @@
 }
 -(IBAction)myOrderDinnerOptions:(id)sender{
     UISegmentedControl *segmentControll=(UISegmentedControl *)sender;
-    _tableViewArray=[NSArray arrayWithObject:@"Loading"];
+    _tableViewArray=[NSArray arrayWithObject:kLoading];
     [tableView reloadData];
     
     

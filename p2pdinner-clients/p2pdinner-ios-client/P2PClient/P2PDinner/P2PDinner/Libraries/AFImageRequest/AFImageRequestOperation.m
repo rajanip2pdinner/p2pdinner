@@ -23,7 +23,7 @@
 #import "AFImageRequestOperation.h"
 #import "AFURLRequestSerialization.h"
 
-static dispatch_queue_t image_request_operation_processing_queue() {
+    static dispatch_queue_t image_request_operation_processing_queue() {
     static dispatch_queue_t af_image_request_operation_processing_queue;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -52,6 +52,7 @@ static dispatch_queue_t image_request_operation_processing_queue() {
 										 success:(void (^)(UIImage *image))success
 {
     return [self imageRequestOperationWithRequest:urlRequest imageProcessingBlock:nil success:^(NSURLRequest __unused *request, NSHTTPURLResponse __unused *response, UIImage *image) {
+        
         if (success) {
             success(image);
         }
@@ -62,6 +63,7 @@ static dispatch_queue_t image_request_operation_processing_queue() {
 										 success:(void (^)(NSImage *image))success
 {
     return [self imageRequestOperationWithRequest:urlRequest imageProcessingBlock:nil success:^(NSURLRequest __unused *request, NSHTTPURLResponse __unused *response, NSImage *image) {
+        
         if (success) {
             success(image);
         }
@@ -77,8 +79,10 @@ static dispatch_queue_t image_request_operation_processing_queue() {
 {
     AFImageRequestOperation *requestOperation = [(AFImageRequestOperation *)[self alloc] initWithRequest:urlRequest];
     [requestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
         if (success) {
             UIImage *image = responseObject;
+            
             if (imageProcessingBlock) {
                 dispatch_async(image_request_operation_processing_queue(), ^(void) {
                     UIImage *processedImage = imageProcessingBlock(image);
@@ -89,11 +93,14 @@ static dispatch_queue_t image_request_operation_processing_queue() {
                     });
 #pragma clang diagnostic pop
                 });
-            } else {
+            }
+            else
+            {
                 success(operation.request, operation.response, image);
             }
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
         if (failure) {
             failure(operation.request, operation.response, error);
         }
@@ -110,8 +117,10 @@ static dispatch_queue_t image_request_operation_processing_queue() {
 {
     AFImageRequestOperation *requestOperation = [(AFImageRequestOperation *)[self alloc] initWithRequest:urlRequest];
     [requestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
         if (success) {
             NSImage *image = responseObject;
+            
             if (imageProcessingBlock) {
                 dispatch_async(image_request_operation_processing_queue(), ^(void) {
                     NSImage *processedImage = imageProcessingBlock(image);
@@ -125,6 +134,7 @@ static dispatch_queue_t image_request_operation_processing_queue() {
             }
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
         if (failure) {
             failure(operation.request, operation.response, error);
         }
@@ -136,6 +146,7 @@ static dispatch_queue_t image_request_operation_processing_queue() {
 
 - (instancetype)initWithRequest:(NSURLRequest *)urlRequest {
     self = [super initWithRequest:urlRequest];
+    
     if (!self) {
         return nil;
     }
@@ -150,6 +161,7 @@ static dispatch_queue_t image_request_operation_processing_queue() {
 #if defined(__MAC_OS_X_VERSION_MIN_REQUIRED)
 - (NSImage *)responseImage {
     [self.lock lock];
+    
     if (!_responseImage && [self.responseData length] > 0 && [self isFinished]) {
         NSError *error = nil;
         self.responseImage = [self.responseSerializer responseObjectForResponse:self.response data:self.responseData error:&error];
@@ -165,6 +177,7 @@ static dispatch_queue_t image_request_operation_processing_queue() {
 #elif defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
 - (UIImage *)responseImage {
     [self.lock lock];
+    
     if (!_responseImage && [self.responseData length] > 0 && [self isFinished]) {
         NSError *error = nil;
         self.responseImage = [self.responseSerializer responseObjectForResponse:self.response data:self.responseData error:&error];
@@ -183,6 +196,7 @@ static dispatch_queue_t image_request_operation_processing_queue() {
     [self.lock lock];
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wfloat-equal"
+    
     if (imageScale != [(AFImageResponseSerializer *)self.responseSerializer imageScale]) {
         [(AFImageResponseSerializer *)self.responseSerializer setImageScale:imageScale];
 
@@ -202,10 +216,12 @@ static dispatch_queue_t image_request_operation_processing_queue() {
     [super setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
+        
         if ([responseObject isKindOfClass:[UIImage class]]) {
             [strongSelf setResponseImage:responseObject];
         }
         #elif defined(__MAC_OS_X_VERSION_MIN_REQUIRED)
+        
         if ([responseObject isKindOfClass:[NSImage class]]) {
             [strongSelf setResponseImage:responseObject];
         }

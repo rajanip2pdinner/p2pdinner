@@ -8,11 +8,10 @@
 
 #import "SelectPhotoCell.h"
 #import "ItemDetailsShared.h"
+#import "StringConstants.h"
+
 @implementation SelectPhotoCell
 
-- (void)awakeFromNib {
-    // Initialization code
-}
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
@@ -27,10 +26,10 @@
     [self.delegate removePhotoOf:self atTag:btn.tag];
     UIButton *removeTitle=(btn.tag==1)?addPhoto1:addPhoto2;
     UIImage *img;
-        img=[UIImage imageNamed:@"addPhoto"];
+        img=[UIImage imageNamed:kAddPhotoImageName];
     [removeTitle setBackgroundImage:img forState:UIControlStateNormal];
     [btn setHidden:YES];
-    [removeTitle setTitle:@"" forState:UIControlStateNormal];
+    [removeTitle setTitle:kEmpty_String forState:UIControlStateNormal];
     [btn setBackgroundColor:[UIColor clearColor]];
 }
 

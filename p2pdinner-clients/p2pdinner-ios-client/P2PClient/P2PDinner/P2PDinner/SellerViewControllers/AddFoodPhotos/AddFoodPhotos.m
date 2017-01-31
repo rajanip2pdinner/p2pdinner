@@ -10,6 +10,8 @@
 #import "AFImageRequestOperation.h"
 #import "SellerHistoryHandler.h"
 #import "ItemDetailsShared.h"
+#import "StringConstants.h"
+
 @interface AddFoodPhotos (){
     NSMutableArray *imageUrls;
 }
@@ -22,7 +24,7 @@
     NSMutableArray *mutableImageURL=[NSMutableArray arrayWithArray:imageNames];
     for (int i=0; i<[imageNames count]; i++) {
         NSString *imageURL=[imageNames objectAtIndex:i];
-        imageURL=[imageURL stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+        imageURL=[imageURL stringByReplacingOccurrencesOfString:kSlash_String withString:kEmpty_String];
         [mutableImageURL replaceObjectAtIndex:i withObject:imageURL];
     
     }
@@ -31,11 +33,11 @@
     
 }
 - (void)viewDidLoad {
-    self.title=@"Dinner Listing";
-    imageURLArray=[itemDetails.imageUri componentsSeparatedByString:@","];
+    self.title=kDinner_Listing;
+    imageURLArray=[itemDetails.imageUri componentsSeparatedByString:kComa_String];
     if (imageURLArray.count>=1) {
         NSMutableArray *removeEmptyObject=[NSMutableArray arrayWithArray:imageURLArray];
-        [removeEmptyObject removeObject:@""];
+        [removeEmptyObject removeObject:kEmpty_String];
         imageURLArray=[NSArray arrayWithArray:removeEmptyObject];
     }
     imageURLMutableArray=[NSMutableArray arrayWithArray:imageURLArray];
@@ -66,8 +68,8 @@
     /* Create custom view to display section header... */
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 30, tableView.frame.size.width, 18)];
     [label setTextColor:[UIColor colorWithRed:237.0/255.0 green:134.0/255.0 blue:0.0/255.0 alpha:1]];
-    [label setFont:[UIFont fontWithName:@"Plantin" size:18]];
-    NSString *string=@"Photos";
+    [label setFont:[UIFont fontWithName:kFont_Name size:18]];
+    NSString *string=kPhotos;
     /* Section header is in 0th index... */
     [label setText:string];
     [view addSubview:label];
@@ -88,10 +90,10 @@
 }
 
 -(void)imageSetForButton:(UIButton *)imgButton withCloseButtonEnable:(UIButton *)closeButton withImageURL:(NSString *)imgURL{
-    [imgButton setTitle:@"Loading.." forState:UIControlStateNormal];
+    [imgButton setTitle:kLoading forState:UIControlStateNormal];
     [self imageRequestOperation:imgURL completionBlock:^(UIImage *img, NSError *err){
         if (!err) {
-            [imgButton setTitle:@"" forState:UIControlStateNormal];
+            [imgButton setTitle:kEmpty_String forState:UIControlStateNormal];
             [imgButton setBackgroundImage:img forState:UIControlStateNormal];
             [self checkEnableButton:imgButton closeBtn:closeButton];
         }
@@ -104,13 +106,13 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row==0) {
-        UITableViewCell *cell=(UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"NoteCell"];
+        UITableViewCell *cell=(UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:kNoteCell];
         cell.selectionStyle =UITableViewCellSelectionStyleNone;
         
         return cell;
     }
     SelectPhotoCell *cell;
-    cell= (SelectPhotoCell *)[tableView dequeueReusableCellWithIdentifier:@"AddPhotoCell"];
+    cell= (SelectPhotoCell *)[tableView dequeueReusableCellWithIdentifier:kAddPhotoCell];
     
     if (indexPath.row==1) {
         UIButton *imgButton1=(UIButton *)[cell viewWithTag:11];
@@ -174,7 +176,7 @@
 }
 
 - (void)checkEnableButton:(UIButton *)imageButton closeBtn:(UIButton *)closeBtn{
-    if ([[imageButton backgroundImageForState:UIControlStateNormal] isEqual:[UIImage imageNamed:@"addPhoto"]]) {
+    if ([[imageButton backgroundImageForState:UIControlStateNormal] isEqual:[UIImage imageNamed:kAddPhotoImageName]]) {
         closeBtn.hidden=YES;
     }else
         closeBtn.hidden=NO;
@@ -184,7 +186,7 @@
     
     // download the photo
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:photoUrl]];
-    [request setAccessibilityLabel:@"selvam"];
+    [request setAccessibilityLabel:kselvam];
     AFImageRequestOperation *operation = [AFImageRequestOperation imageRequestOperationWithRequest:request imageProcessingBlock:^UIImage *(UIImage *image) {
         
         return image;
@@ -214,11 +216,11 @@
     photoButton=(UIButton*)sender;
     [[photoButton imageView] setContentMode:UIViewContentModeScaleAspectFit];
     [photoButton setContentMode:UIViewContentModeScaleAspectFit];
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Add Dinner photo from?"
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:kAdd_Dinner_From
                                                              delegate:self
-                                                    cancelButtonTitle:@"Cancel"
+                                                    cancelButtonTitle:kCancel
                                                destructiveButtonTitle:nil
-                                                    otherButtonTitles:@"Camera", @"Choose from Photos", nil];
+                                                    otherButtonTitles:kCamera, kChoose_Photos, nil];
     
     [actionSheet showInView:self.view];
 }
@@ -232,7 +234,7 @@
     UIColor *navBarColor=[UIColor colorWithRed:237.0/255.0 green:134.0/255.0 blue:0.0/255.0 alpha:1];
     NSDictionary *navbarTitleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
                                                [UIColor whiteColor],UITextAttributeTextColor,
-                                               [UIFont fontWithName:@"Plantin" size:24], NSFontAttributeName,[NSValue valueWithUIOffset:UIOffsetMake(-1, 0)],UITextAttributeTextShadowOffset, nil];
+                                               [UIFont fontWithName:kFont_Name size:24], NSFontAttributeName,[NSValue valueWithUIOffset:UIOffsetMake(-1, 0)],UITextAttributeTextShadowOffset, nil];
     [picker.navigationBar  setTitleTextAttributes:navbarTitleTextAttributes];
     [picker.navigationBar setBarTintColor:navBarColor];
     [picker.navigationBar setTintColor:[UIColor whiteColor]];
@@ -274,26 +276,26 @@
     }
     // Picking Image from Camera/ Library
     [picker dismissViewControllerAnimated:YES completion:^{}];
-    UIImage *img=[info objectForKey:@"UIImagePickerControllerOriginalImage"];
+    UIImage *img=[info objectForKey:kImagePicker];
     [photoButton setBackgroundColor:[UIColor clearColor]];
     [photoButton setTitleShadowColor:[UIColor blackColor] forState:UIControlStateNormal];
     [photoButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [photoButton setTitle:@"Uploading.." forState:UIControlStateNormal];
+    [photoButton setTitle:kUploading forState:UIControlStateNormal];
     [[SellerHistoryHandler sharedSellerHistoryHandler] photoUpload:img imageTag:1 buttonValue:photoButton itemDetails:itemDetails responceCallBack:^(NSError *error, NSString *imageString) {
         
         if (!error) {
             [imageUrls insertObject:imageString atIndex:0];
             [imageURLMutableArray insertObject:imageString atIndex:0];
             imageURLArray=[NSArray arrayWithArray:imageURLMutableArray];
-            [self.itemDetails setImageUri:[imageURLArray componentsJoinedByString:@","]];
+            [self.itemDetails setImageUri:[imageURLArray componentsJoinedByString:kComa_String]];
         }
         else{
             UIImage *img;
-                img=[UIImage imageNamed:@"addPhoto"];
+                img=[UIImage imageNamed:kAddPhotoImageName];
                 photoButton.userInteractionEnabled=NO;
             [photoButton setBackgroundImage:img forState:UIControlStateNormal];
             [self tableviewReLoad];
-            UIAlertView *aleartView=[[UIAlertView alloc]initWithTitle:@"Upload Error" message:[error.userInfo description] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+            UIAlertView *aleartView=[[UIAlertView alloc]initWithTitle:kUploadError message:[error.userInfo description] delegate:nil cancelButtonTitle:kOK otherButtonTitles:nil];
             [aleartView show];
         }
     }];
@@ -315,12 +317,12 @@
     int indexValue=[self arrayObjectAtIndex:row atTag:tag];
     if([imageURLMutableArray count]>=1){
         [imageURLMutableArray removeObjectAtIndex:indexValue];
-        itemDetails.imageUri=[imageURLMutableArray componentsJoinedByString:@","];
+        itemDetails.imageUri=[imageURLMutableArray componentsJoinedByString:kComa_String];
         imageURLArray=[NSArray arrayWithArray:imageURLMutableArray];
         
     }
     else if(([imageURLMutableArray count]==1) &&([[imageURLMutableArray objectAtIndex:0] length]>1)){
-        itemDetails.imageUri=@"";
+        itemDetails.imageUri=kEmpty_String;
     }
 }
 

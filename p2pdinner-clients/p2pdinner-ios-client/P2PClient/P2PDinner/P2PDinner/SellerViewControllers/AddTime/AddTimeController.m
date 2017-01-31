@@ -11,6 +11,8 @@
 #import "ItemDetailsShared.h"
 #import "SellerHistoryHandler.h"
 #import "DateAndTimeController.h"
+#import "StringConstants.h"
+
 #define BetweenStartTimeAndEndTime 2
 @interface AddTimeController ()
 {
@@ -25,11 +27,11 @@
     
     //NSLog(@"%@",itemDetails.startDate);
     [super viewDidLoad];
-    startDate=[Utility stringToDateFormat:@"MM/dd/yyyy HH:mm:ss" dateString:itemDetails.startDate  timeZone:LOCAL];
-    endDate=[Utility stringToDateFormat:@"MM/dd/yyyy HH:mm:ss" dateString:itemDetails.endDate  timeZone:LOCAL];
-    closeDate=[Utility stringToDateFormat:@"MM/dd/yyyy HH:mm:ss" dateString:itemDetails.closeDate  timeZone:LOCAL];
+    startDate=[Utility stringToDateFormat:kDateAndTimeFormat dateString:itemDetails.startDate  timeZone:LOCAL];
+    endDate=[Utility stringToDateFormat:kDateAndTimeFormat dateString:itemDetails.endDate  timeZone:LOCAL];
+    closeDate=[Utility stringToDateFormat:kDateAndTimeFormat dateString:itemDetails.closeDate  timeZone:LOCAL];
     picSelectedDate=[NSDate date];
-    self.title=@"Dinner Listing";
+    self.title=kDinner_Listing;
     
     
 }
@@ -41,16 +43,16 @@
         NSDate *mydate = [NSDate date];
         NSTimeInterval nextHourInterveral = 1 * 60 * 60;
         calculatedDate=[mydate dateByAddingTimeInterval:nextHourInterveral];
-        NSString *calculatedDateString=[Utility dateToStringFormat:@"MM/dd/yyyy HH:mm:ss" dateString:calculatedDate timeZone:UTC];
-        endDate =[Utility stringToDateFormat:@"MM/dd/yyyy HH:mm:ss" dateString:calculatedDateString  timeZone:LOCAL];
+        NSString *calculatedDateString=[Utility dateToStringFormat:kDateAndTimeFormat dateString:calculatedDate timeZone:UTC];
+        endDate =[Utility stringToDateFormat:kDateAndTimeFormat dateString:calculatedDateString  timeZone:LOCAL];
         closeDate=endDate;
     }
     NSString *currentDate=[Utility dateToStringFormat:[NSDate date] timeZone:UTC];
     NSString *endDateString=[Utility dateToStringFormat:calculatedDate timeZone:LOCAL];
     
     if (![currentDate isEqualToString:endDateString]) {
-        NSString *calculatedDateString=[Utility dateToStringFormat:@"MM/dd/yyyy HH:mm:ss" dateString:[Utility endOfDay:[NSDate date]] timeZone:UTC];
-        endDate =[Utility stringToDateFormat:@"MM/dd/yyyy HH:mm:ss" dateString:calculatedDateString  timeZone:LOCAL];
+        NSString *calculatedDateString=[Utility dateToStringFormat:kDateAndTimeFormat dateString:[Utility endOfDay:[NSDate date]] timeZone:UTC];
+        endDate =[Utility stringToDateFormat:kDateAndTimeFormat dateString:calculatedDateString  timeZone:LOCAL];
         closeDate=endDate;
     }
     
@@ -94,9 +96,9 @@
     /* Create custom view to display section header... */
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 30, tableView.frame.size.width, 18)];
     [label setTextColor:[UIColor colorWithRed:237.0/255.0 green:134.0/255.0 blue:0.0/255.0 alpha:1]];
-    [label setFont:[UIFont fontWithName:@"Plantin" size:18]];
+    [label setFont:[UIFont fontWithName:kFont_Name size:18]];
     
-    NSString *string =@"Time";
+    NSString *string =kTime;
     
     /* Section header is in 0th index... */
     [label setText:string];
@@ -111,16 +113,16 @@
 
 - (NSString *)displayTime:(NSDate *)dateToConvert{
     AvialbleTimeTableCell *cell=[[AvialbleTimeTableCell alloc]init];
-    return [NSString stringWithFormat:@"%@%@",[Utility dateToStringFormat:@"h.mm" dateString:dateToConvert  timeZone:LOCAL],[cell amPmConvertFromDate:dateToConvert]];
+    return [NSString stringWithFormat:k2StringAppendFormart,[Utility dateToStringFormat:kTimeMinOnly dateString:dateToConvert  timeZone:LOCAL],[cell amPmConvertFromDate:dateToConvert]];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)
 indexPath
 {
-    static NSString *simpleTableIdentifier= @"DateSelectCell";
-    static NSString *simpleTableIdentifier1= @"TimeSelectCell";
-    static NSString *simpleTableIdentifier3= @"TimeSelectCell1";
-    static NSString *simpleTableIdentifier2= @"AcceptOrdersCell";
+    static NSString *simpleTableIdentifier= kDateSelectCell;
+    static NSString *simpleTableIdentifier1= kTimeSelectCell;
+    static NSString *simpleTableIdentifier3= kTimeSelectCell1;
+    static NSString *simpleTableIdentifier2= kAcceptOrdersCell;
     UITableViewCell *cell;
     if (indexPath.row==0) {
         cell=(UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
@@ -170,20 +172,30 @@ indexPath
     if (date==nil) {
         date=[NSDate date];
     }
-    NSMutableString *amPmSrt=[NSMutableString stringWithString:[[Utility dateToStringFormat:@"a" dateString:date timeZone:UTC] lowercaseString] ];
-    [amPmSrt insertString:@"." atIndex:1];
-    return [NSString stringWithFormat:@" %@.",amPmSrt];
+    NSMutableString *amPmSrt=[NSMutableString stringWithString:[[Utility dateToStringFormat:kAMPM dateString:date timeZone:UTC] lowercaseString] ];
+    [amPmSrt insertString:kDot_String atIndex:1];
+    return [NSString stringWithFormat:kAppendWithDot_String,amPmSrt];
 }
 -(NSDate *)mergeDateValue:(NSDate *)dateValue timeValue:(NSDate *)timeValue{
-    NSString *dateValueString=[Utility dateToStringFormat:@"MM/dd/yyyy" dateString:dateValue timeZone:UTC];
-    NSString *timevalueString=[Utility dateToStringFormat:@"HH:mm:ss" dateString:timeValue timeZone:UTC];
-    NSString *mergedTime=[NSString stringWithFormat:@"%@ %@",dateValueString,timevalueString];
-    return [Utility stringToDateFormat:@"MM/dd/yyyy HH:mm:ss" dateString:mergedTime  timeZone:UTC];
+    NSTimeInterval time = floor([timeValue timeIntervalSinceReferenceDate] / 60.0) * 60.0;
+    timeValue = [NSDate dateWithTimeIntervalSinceReferenceDate:time];
+    
+    NSString *dateValueString=[Utility dateToStringFormat:kDateMonthYearOnly dateString:dateValue timeZone:UTC];
+    NSString *dateTimeValueString=[Utility dateToStringFormat:kDateMonthYearOnly dateString:timeValue timeZone:UTC];
+    NSString *timevalueString=[Utility dateToStringFormat:kTimeMinSecWithColon dateString:timeValue timeZone:UTC];
+    if ([dateValueString isEqualToString:dateTimeValueString]) {
+        return timeValue;
+    }else{
+     NSString *mergedTime=[NSString stringWithFormat:k2StringAppendFormartWithSpace,dateValueString,timevalueString];
+    return [Utility stringToDateFormat:kDateAndTimeFormat dateString:mergedTime  timeZone:UTC];
+    }
 }
 -(void)updateTime{
     startDate=[self mergeDateValue:picSelectedDate timeValue:startDate];
     endDate=[self mergeDateValue:picSelectedDate timeValue:endDate];
     closeDate=[self mergeDateValue:picSelectedDate timeValue:closeDate];
+    NSLog(@"\n\n\nStart Date==> %@ \n EndDate ==>%@ \n CloseDate ==> %@\n\n\n",[startDate descriptionWithLocale:[NSLocale currentLocale]],[endDate descriptionWithLocale:[NSLocale currentLocale]],[closeDate descriptionWithLocale:[NSLocale currentLocale]]);
+    
     [self updatedItems];
 }
 -(NSDate *)calculatePickerMinimumDate{
@@ -209,7 +221,7 @@ indexPath
            //  if (![self validateNextDate:mergedDate]) {
                 startDate=[self mergeDateValue:picSelectedDate timeValue:selectedDate];
                 selectedDate=[Utility getLocalTimeValue:selectedDate];
-                availableCell.fromLable.text=[NSString stringWithFormat:@"%@%@",[Utility dateToStringFormat:@"h.mm" dateString:selectedDate timeZone:UTC],[self amPmConvertFromDate:selectedDate]];
+                availableCell.fromLable.text=[NSString stringWithFormat:k2StringAppendFormart,[Utility dateToStringFormat:kTimeMinOnly dateString:selectedDate timeZone:UTC],[self amPmConvertFromDate:selectedDate]];
                 [self updatedItems];
             // }
         }withMinimumDate:[self calculatePickerMinimumDate] currentDate:[self getNearestTimeValueWithTime:picSelectedDate]];
@@ -222,7 +234,7 @@ indexPath
           //  if (![self validateNextDate:mergedDate]) {
             endDate=[self mergeDateValue:picSelectedDate timeValue:selectedDate];
             selectedDate=[Utility getLocalTimeValue:selectedDate];
-            availableCell.toLable.text=[NSString stringWithFormat:@"%@%@",[Utility dateToStringFormat:@"h.mm" dateString:selectedDate timeZone:UTC],[self amPmConvertFromDate:selectedDate]];
+            availableCell.toLable.text=[NSString stringWithFormat:k2StringAppendFormart,[Utility dateToStringFormat:kTimeMinOnly dateString:selectedDate timeZone:UTC],[self amPmConvertFromDate:selectedDate]];
             [self updatedItems];
           //   }
         }withMinimumDate:startDate currentDate:[self getNearestTimeValueWithTime:picSelectedDate]];
@@ -235,7 +247,7 @@ indexPath
            // if (![self validateNextDate:mergedDate]) {
             closeDate=[self mergeDateValue:picSelectedDate timeValue:selectedDate];
             selectedDate=[Utility getLocalTimeValue:selectedDate];
-            availableCell.availableFrom.text=[NSString stringWithFormat:@"%@%@",[Utility dateToStringFormat:@"h.mm" dateString:selectedDate timeZone:UTC],[self amPmConvertFromDate:selectedDate]];
+            availableCell.availableFrom.text=[NSString stringWithFormat:k2StringAppendFormart,[Utility dateToStringFormat:kTimeMinOnly dateString:selectedDate timeZone:UTC],[self amPmConvertFromDate:selectedDate]];
             [self updatedItems];
            // }
         }withMinimumDate:startDate withMaximumDate:endDate currentDate:[self getNearestTimeValueWithTime:picSelectedDate]];
@@ -247,16 +259,16 @@ indexPath
 - (NSString *)makeDisplayStringFromTime:(NSDate *)dateValue{
     
     if ([Utility validateToday:dateValue]) {
-        return [NSString stringWithFormat:@"Today(%@)",[Utility dateToStringFormat:dateValue  timeZone:LOCAL] ];
+        return [NSString stringWithFormat:kTodayWithDate,[Utility dateToStringFormat:dateValue  timeZone:LOCAL] ];
     }
     return [Utility dateToStringFormat:dateValue  timeZone:LOCAL];
 }
 
 
 - (void)updatedItems{
-     [[[ItemDetailsShared sharedItemDetails] sharedItemDetailsValue] setStartDate:[Utility dateToStringFormat:@"MM/dd/yyyy HH:mm:ss" dateString:startDate  timeZone:UTC]];
-    [[[ItemDetailsShared sharedItemDetails] sharedItemDetailsValue] setEndDate:[Utility dateToStringFormat:@"MM/dd/yyyy HH:mm:ss" dateString:endDate  timeZone:UTC]];
-    [[[ItemDetailsShared sharedItemDetails] sharedItemDetailsValue] setCloseDate:[Utility dateToStringFormat:@"MM/dd/yyyy HH:mm:ss" dateString:closeDate  timeZone:UTC]];
+     [[[ItemDetailsShared sharedItemDetails] sharedItemDetailsValue] setStartDate:[Utility dateToStringFormat:kDateAndTimeFormat dateString:startDate  timeZone:UTC]];
+    [[[ItemDetailsShared sharedItemDetails] sharedItemDetailsValue] setEndDate:[Utility dateToStringFormat:kDateAndTimeFormat dateString:endDate  timeZone:UTC]];
+    [[[ItemDetailsShared sharedItemDetails] sharedItemDetailsValue] setCloseDate:[Utility dateToStringFormat:kDateAndTimeFormat dateString:closeDate  timeZone:UTC]];
 }
 
 - (NSDate *)getNearestTimeValue{
@@ -275,14 +287,4 @@ indexPath
     return mydate;
 }
 
-//- (void)addSellerFlowTimeDetails{
-//    startDate=[[self getNearestTimeValue] dateByAddingTimeInterval:60*60];
-//    endDate=[startDate dateByAddingTimeInterval:BetweenStartTimeAndEndTime * 60*60];
-//    closeDate=startDate;
-//    
-//    [[[ItemDetailsShared sharedItemDetails] sharedItemDetailsValue] setStartDate:[Utility dateToStringFormat:@"MM/dd/yyyy HH:mm:ss" dateString:startDate  timeZone:LOCAL]];
-//    [[[ItemDetailsShared sharedItemDetails] sharedItemDetailsValue] setEndDate:[Utility dateToStringFormat:@"MM/dd/yyyy HH:mm:ss" dateString:endDate  timeZone:LOCAL]];
-//    [[[ItemDetailsShared sharedItemDetails] sharedItemDetailsValue] setCloseDate:[Utility dateToStringFormat:@"MM/dd/yyyy HH:mm:ss" dateString:closeDate  timeZone:LOCAL]];
-//    
-//}
 @end

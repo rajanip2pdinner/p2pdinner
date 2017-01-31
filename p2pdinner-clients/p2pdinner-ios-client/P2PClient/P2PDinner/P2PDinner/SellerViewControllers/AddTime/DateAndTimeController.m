@@ -7,6 +7,7 @@
 //
 
 #import "DateAndTimeController.h"
+#import "StringConstants.h"
 
 
 @implementation DateAndTimeController
@@ -34,7 +35,7 @@
 
 }
 +(void)selectDateAction:(PickerType)pickerType withPresentViewController:(UIViewController *)viewController completionAction:(void (^)(NSDate *))completed withMinimumDate:(NSDate *)minimumDate withMaximumDate:(NSDate *)maximumDate currentDate:(NSDate *)currentDate{
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:@"\n\n\n\n\n\n\n\n\n\n\n\n" preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:kAleartContent preferredStyle:UIAlertControllerStyleActionSheet];
     UIDatePicker *picker = [[UIDatePicker alloc] init];
     picker.center=CGPointMake(alertController.view.center.x, picker.center.y);
     if (pickerType==PickerSelectDate) {
@@ -49,14 +50,11 @@
     [picker setDate:currentDate];
     [alertController.view addSubview:picker];
     [alertController addAction:({
-        UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        UIAlertAction *action = [UIAlertAction actionWithTitle:kOK style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             completed(picker.date);
         }];
         action;
     })];
-    //    UIPopoverPresentationController *popoverController = alertController.popoverPresentationController;
-    //    popoverController.sourceView = sender;
-    //    popoverController.sourceRect = [sender bounds];
     [viewController presentViewController:alertController  animated:YES completion:nil];
 }
 @end

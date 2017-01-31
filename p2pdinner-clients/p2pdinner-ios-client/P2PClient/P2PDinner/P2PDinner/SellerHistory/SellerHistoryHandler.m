@@ -28,7 +28,9 @@ static ServiceHandler *_sharedInstance=nil;
     NSString *urlString=[NSString stringWithFormat:@"api/v1/menu/view/%@",useId];
     [self execute:urlString requestObject:useId contentType:conType requestMethod:requestType serviceCallBack:^(NSError *error, id response) {
         NSArray *arrayOfObject=(NSArray *)response;
+        
         if (!error) {
+            
             if ([arrayOfObject count]>0) {
                 ItemDetails *itemDetails=[[ItemDetails alloc]init];
                 arrayOfObject=[itemDetails getHistoryDinnerDetails:arrayOfObject];
@@ -54,11 +56,14 @@ static ServiceHandler *_sharedInstance=nil;
     // NSLog(@"\nRequest : \n%@\n\n",requestObject);
     [self execute:urlString requestObject:requestObject contentType:conType requestMethod:requestType serviceCallBack:^(NSError *error, id response) {
         [UIApplication sharedApplication].networkActivityIndicatorVisible=NO;
+        
         if(!error){
+            
             if ([[response objectForKey:@"code"] isEqualToString:@"p2pdinner.invalid.starttime"]||[[response objectForKey:@"code"] isEqualToString:@"p2pdinner.missing.orderdate"]||[[response objectForKey:@"code"] isEqualToString:@"p2pdinner.invalid.closetime"]) {
                 NSError *error=[NSError errorWithDomain:@"p2pdinner.add_to_list_invalid_dates" code:420 userInfo:[NSDictionary dictionaryWithObject:[response objectForKey:@"message"] forKey:@"message"]];
                 service(error,nil);
-            }else if ([[response objectForKey:@"code"] isEqualToString:@"p2pdinner.missing.title"]){
+            }
+            else if ([[response objectForKey:@"code"] isEqualToString:@"p2pdinner.missing.title"]){
                 NSError *error=[NSError errorWithDomain:@"p2pdinner.missing.title" code:421 userInfo:[NSDictionary dictionaryWithObject:[response objectForKey:@"message"] forKey:@"message"]];
                 service(error,nil);
             }
@@ -94,7 +99,8 @@ static ServiceHandler *_sharedInstance=nil;
     if ([itemDetails.dinnerId intValue]==0) {
         NSLog(@"Need to register New");
         requestObject=[itemDetails jsonValue:CreatNewItem];
-    }else{
+    }
+    else{
         requestObject=[itemDetails jsonValue:UpdateOldItem];
     }
     NSString *urlString=[NSString stringWithFormat:@"api/v1/menu/add"];
@@ -106,7 +112,8 @@ static ServiceHandler *_sharedInstance=nil;
             if ([[response objectForKey:@"code"] isEqualToString:@"p2pdinner.missing.title"]){
                 NSError *error=[NSError errorWithDomain:@"p2pdinner.missing.title" code:421 userInfo:[NSDictionary dictionaryWithObject:[response objectForKey:@"message"] forKey:@"message"]];
                 service(error,nil);
-            }else if ([[response objectForKey:@"code"] isEqualToString:@"p2pdinner.invalid.category"]){
+            }
+            else if ([[response objectForKey:@"code"] isEqualToString:@"p2pdinner.invalid.category"]){
                 NSError *error=[NSError errorWithDomain:@"p2pdinner.invalid.category" code:422 userInfo:[NSDictionary dictionaryWithObject:[response objectForKey:@"message"] forKey:@"message"]];
                 service(error,nil);
             }
@@ -114,7 +121,8 @@ static ServiceHandler *_sharedInstance=nil;
                 NSError *error=[NSError errorWithDomain:@"p2pdinner.invalid.address" code:423 userInfo:[NSDictionary dictionaryWithObject:[response objectForKey:@"message"] forKey:@"message"]];
                 service(error,nil);
                 
-            }else
+            }
+            else
             {
                 ItemDetails *itemDeatilsTemp=[[ItemDetails alloc]init];
                 service(nil,[itemDeatilsTemp setDinnerDetails:response]);

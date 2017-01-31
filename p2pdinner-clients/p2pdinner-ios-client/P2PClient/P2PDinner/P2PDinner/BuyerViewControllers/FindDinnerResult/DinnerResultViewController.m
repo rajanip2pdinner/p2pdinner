@@ -12,11 +12,10 @@
 #import "Utility.h"
 #import "MenuViewController.h"
 #import "AFImageRequestOperation.h"
-#import "SWTableViewCell.h"
 #import "ItemDetailViewController.h"
 #import "AppDelegate.h"
 
-@interface DinnerResultViewController ()<SWTableViewCellDelegate>{
+@interface DinnerResultViewController (){
     ActivityView *activityView;
 }
 
@@ -93,30 +92,30 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 120.0f;
 }
-- (NSArray *)rightButtons
-{
-    NSMutableArray *rightUtilityButtons = [NSMutableArray new];
-    [rightUtilityButtons sw_addUtilityButtonWithColor:
-     [UIColor colorWithRed:0.78f green:0.78f blue:0.8f alpha:1.0]
-                                                title:@"Buy 1"];
-    [rightUtilityButtons sw_addUtilityButtonWithColor:
-     [UIColor colorWithRed:1.0f green:0.231f blue:0.188 alpha:1.0f]
-                                                title:@"Cancel"];
-    
-    return rightUtilityButtons;
-}
+//- (NSArray *)rightButtons
+//{
+//    NSMutableArray *rightUtilityButtons = [NSMutableArray new];
+//    [rightUtilityButtons sw_addUtilityButtonWithColor:
+//     [UIColor colorWithRed:0.78f green:0.78f blue:0.8f alpha:1.0]
+//                                                title:@"Buy 1"];
+//    [rightUtilityButtons sw_addUtilityButtonWithColor:
+//     [UIColor colorWithRed:1.0f green:0.231f blue:0.188 alpha:1.0f]
+//                                                title:@"Cancel"];
+//    
+//    return rightUtilityButtons;
+//}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)
 indexPath
 {
     static NSString *simpleTableIdentifier= @"DinnerCell";
-    SWTableViewCell *cell;
+    UITableViewCell *cell;
     if (cell == nil) {
-        cell=(SWTableViewCell *)[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
-        cell.rightUtilityButtons = [self rightButtons];
-        cell.delegate = self;
+        cell=[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+        //cell.rightUtilityButtons = [self rightButtons];
+        //cell.delegate = self;
     }
-#warning Need to cleanup code
+    #warning Need to cleanup code
     UIImageView *dinnerImage=(UIImageView *)[cell viewWithTag:100];
     dinnerImage.layer.cornerRadius = 48.0f;
     dinnerImage.layer.masksToBounds = YES;
@@ -136,7 +135,7 @@ indexPath
     UILabel *dinnerServingDuration=(UILabel *)[cell viewWithTag:107];
     ResultItemDetails *dinnerObj=[_dinnerListArray objectAtIndex:indexPath.row];
     dinnerTitle.text=dinnerObj.title;
-    if ((NSString *)[NSNull null] != dinnerObj.imageUri) {
+    if (dinnerObj.imageUri && dinnerObj.imageUri.length>0) {
          [self imageRequestOperation:[self makeImageURLfromimageName:dinnerObj.imageUri] witImagView:dinnerImage];
     }
     else{
@@ -190,9 +189,9 @@ indexPath
 - (void)getDinnerCurrentListing{
   
 }
-- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index{
-    NSLog(@"Need to Implement cart");
-    [cell hideUtilityButtonsAnimated:YES];
-}
+//- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index{
+//    NSLog(@"Need to Implement cart");
+//    [cell hideUtilityButtonsAnimated:YES];
+//}
 
 @end

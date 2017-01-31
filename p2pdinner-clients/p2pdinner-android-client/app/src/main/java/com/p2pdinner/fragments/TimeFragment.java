@@ -4,6 +4,7 @@ package com.p2pdinner.fragments;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -33,6 +34,7 @@ import com.p2pdinner.entities.DinnerMenuItem;
 import com.p2pdinner.restclient.MenuServiceManager;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.springframework.util.StringUtils;
@@ -61,7 +63,6 @@ public class TimeFragment extends BaseFragment implements DateDialogDataTransfer
     private static final int DATE_DIALOG_ID = 0;
     private DinnerMenuItem dinnerMenuItem = null;
     private Button mBtnNext = null;
-    private Handler handler;
 
     @Inject
     MenuServiceManager menuServiceManager;
@@ -79,7 +80,7 @@ public class TimeFragment extends BaseFragment implements DateDialogDataTransfer
         //SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
         EditText editText = (EditText) getActivity().findViewById(resourceId);
         editText.setText(P2PDinnerUtils.convert(dateTime).toDateString());
-        dinnerMenuItem.setAvailableDate(editText.getText().toString());
+        dinnerMenuItem.setAvailableDate(DateTimeFormat.forPattern("MM/dd/yyyy").print(P2PDinnerUtils.convert(editText.getText().toString()).toDate()));
     }
 
     @Override
@@ -101,24 +102,16 @@ public class TimeFragment extends BaseFragment implements DateDialogDataTransfer
         }
     }
 
+    @Override
+    public void onResume() {
+        Log.d(TAG, "onResume");
+        super.onResume();
+        initializeView(dinnerMenuItem);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
-
-        handler = new Handler(Looper.getMainLooper()) {
-            @Override
-            public void handleMessage(Message msg) {
-                switch (msg.what) {
-                    case Constants.Message.SAVE_MENU_ITEM_SUCCESS:
-                        //Toast.makeText(getActivity().getBaseContext(), (String) msg.obj, Toast.LENGTH_SHORT).show();
-                        ListDinnerActivity listDinnerActivity = (ListDinnerActivity) getActivity();
-                        listDinnerActivity.moveToNextTab();
-                        break;
-                    case Constants.Message.UNKNOWN_ERROR:
-                        break;
-                }
-            }
-        };
         dinnerMenuItem = (DinnerMenuItem) getActivity().getIntent().getSerializableExtra(Constants.CURRENT_DINNER_ITEM);
         View view = inflater.inflate(R.layout.time_layout, container, false);
         mAvailabilityDateTxt = (EditText) view.findViewById(R.id.available_date);
@@ -154,7 +147,101 @@ public class TimeFragment extends BaseFragment implements DateDialogDataTransfer
         mFormTime.setOnClickListener(listener);
         mToTime.setOnClickListener(listener);
         mAcceptOrdersTillTime.setOnClickListener(listener);
+        //initializeView(dinnerMenuItem);
 
+
+        mBtnNext = (Button) view.findViewById(R.id.btnNext);
+        mBtnNext.setOnClickListener(  new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dinnerMenuItem.setAvailableDate(DateTimeFormat.forPattern("MM/dd/yyyy").print(P2PDinnerUtils.convert(mAvailabilityDateTxt.getText().toString()).toDate()));
+                dinnerMenuItem.setFromTime(mFormTime.getText().toString());
+                dinnerMenuItem.setToTime(mToTime.getText().toString());
+                dinnerMenuItem.setCloseTime(mAcceptOrdersTillTime.getText().toString());
+                menuServiceManager.saveMenuItem(dinnerMenuItem)
+                        .subscribeOn(Schedulers.newThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<DinnerMenuItem>() {
+                            private DinnerMenuItem item;
+
+                            @Override
+                            public void onCompleted() {
+                                dinnerMenuItem.setId(item.getId());
+                                Log.i(TAG, "Item saved successfully");
+                                //Toast.makeText(getActivity().getBaseContext(), "Item saved successfully", Toast.LENGTH_SHORT).show();
+                                ListDinnerActivity listDinnerActivity = (ListDinnerActivity) getActivity();
+                                listDinnerActivity.moveToNextTab();
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Toast.makeText(getActivity().getBaseContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+
+                            @Override
+                            public void onNext(DinnerMenuItem item) {
+                                this.item = item;
+                            }
+                        });
+            }
+        });
+
+        return view;
+    }
+
+    private void initializeView(DinnerMenuItem dinnerMenuItem) {
+        DateTimeFormatter formatter = DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss");
+        DateTimeFormatter timeFormatter = DateTimeFormat.forPattern("HH:mm");
+        //set availability date to current date
+        DateTime currentTime = DateTime.now();
+        mAvailabilityDateTxt.setText(P2PDinnerUtils.convert(currentTime).toDateString());
+        dinnerMenuItem.setAvailableDate(DateTimeFormat.forPattern("MM/dd/yyyy").print(P2PDinnerUtils.convert(mAvailabilityDateTxt.getText().toString()).toDate()));
+        Log.d(TAG, dinnerMenuItem.toString());
+        DateTime toDateTime = null;
+        DateTime fromDateTime = null;
+        DateTime closeDateTime = null;
+        if (StringUtils.hasText(dinnerMenuItem.getToTime())) {
+            toDateTime = formatter.withZoneUTC().parseDateTime(dinnerMenuItem.getToTime());
+        } else {
+            toDateTime = DateTime.now().plusHours(2);
+        }
+        if (StringUtils.hasText(dinnerMenuItem.getFromTime())) {
+            fromDateTime = formatter.withZoneUTC().parseDateTime(dinnerMenuItem.getFromTime());
+        } else {
+            fromDateTime = DateTime.now().plusHours(1);
+        }
+        if (StringUtils.hasText(dinnerMenuItem.getCloseTime())) {
+            closeDateTime = formatter.withZoneUTC().parseDateTime(dinnerMenuItem.getCloseTime());
+        } else {
+            closeDateTime = DateTime.now().plusHours(2).minusMinutes(1);
+        }
+        if (toDateTime != null) {
+            try {
+                mToTime.setText(timeFormatter.withZone(DateTimeZone.getDefault()).print(toDateTime));
+                dinnerMenuItem.setToTime(mToTime.getText().toString());
+            } catch (Exception e) {
+                Log.e(TAG, e.getMessage());
+            }
+        }
+        Log.d(TAG, dinnerMenuItem.toString());
+        if (fromDateTime != null) {
+            try {
+                mFormTime.setText(timeFormatter.withZone(DateTimeZone.getDefault()).print(fromDateTime));
+                dinnerMenuItem.setFromTime(mFormTime.getText().toString());
+            } catch (Exception e) {
+                Log.e(TAG, e.getMessage());
+            }
+        }
+        Log.d(TAG, dinnerMenuItem.toString());
+        if (closeDateTime != null) {
+            try {
+                mAcceptOrdersTillTime.setText(timeFormatter.withZone(DateTimeZone.getDefault()).print(closeDateTime));
+                dinnerMenuItem.setCloseTime(mAcceptOrdersTillTime.getText().toString());
+            } catch (Exception e) {
+                Log.e(TAG, e.getMessage());
+            }
+        }
+        Log.d(TAG, dinnerMenuItem.toString());
         mFormTime.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -172,7 +259,7 @@ public class TimeFragment extends BaseFragment implements DateDialogDataTransfer
                     return;
                 }
                 DateTimeFormatter timeFormatter = DateTimeFormat.forPattern("HH:mm");
-                DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("MMMM dd, yyyy HH:mm");
+                DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("MMM dd, yyyy HH:mm");
                 DateTime fromDateTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " " + s.toString());
                 DateTime toDateTime;
                 if (StringUtils.hasText(mToTime.getText().toString())) {
@@ -216,8 +303,13 @@ public class TimeFragment extends BaseFragment implements DateDialogDataTransfer
                     return;
                 }
                 DateTimeFormatter timeFormatter = DateTimeFormat.forPattern("HH:mm");
-                DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("MMMM dd, yyyy HH:mm");
-                DateTime fromDateTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " "+ mFormTime.getText().toString());
+                DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("MMM dd, yyyy HH:mm");
+                DateTime fromDateTime;
+                if (StringUtils.hasText(mFormTime.getText().toString())) {
+                    fromDateTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " "+ mFormTime.getText().toString());
+                } else {
+                    fromDateTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " 00:00");
+                }
                 DateTime toDateTime;
                 if (StringUtils.hasText(mToTime.getText().toString())) {
                     toDateTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " " + mToTime.getText().toString());
@@ -258,7 +350,7 @@ public class TimeFragment extends BaseFragment implements DateDialogDataTransfer
                     return;
                 }
                 DateTimeFormatter timeFormatter = DateTimeFormat.forPattern("HH:mm");
-                DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("MMMM dd, yyyy HH:mm");
+                DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("MMM dd, yyyy HH:mm");
                 DateTime fromDateTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " "+ mFormTime.getText().toString());
                 DateTime toDateTime;
                 if (StringUtils.hasText(mToTime.getText().toString())) {
@@ -282,81 +374,6 @@ public class TimeFragment extends BaseFragment implements DateDialogDataTransfer
                 }
             }
         });
-
-
-        mBtnNext = (Button) view.findViewById(R.id.btnNext);
-        mBtnNext.setOnClickListener(  new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dinnerMenuItem.setAvailableDate(DateTimeFormat.forPattern("MM/dd/yyyy").withZoneUTC().print(P2PDinnerUtils.convert(mAvailabilityDateTxt.getText().toString()).toDate()));
-                dinnerMenuItem.setFromTime(mFormTime.getText().toString());
-                dinnerMenuItem.setToTime(mToTime.getText().toString());
-                dinnerMenuItem.setCloseTime(mAcceptOrdersTillTime.getText().toString());
-                menuServiceManager.saveMenuItem(dinnerMenuItem)
-                        .subscribeOn(Schedulers.newThread())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Observer<DinnerMenuItem>() {
-                            private DinnerMenuItem item;
-
-                            @Override
-                            public void onCompleted() {
-                                dinnerMenuItem.setId(item.getId());
-                                Log.i(TAG, "Item saved successfully");
-                                //Toast.makeText(getActivity().getBaseContext(), "Item saved successfully", Toast.LENGTH_SHORT).show();
-                                ListDinnerActivity listDinnerActivity = (ListDinnerActivity) getActivity();
-                                listDinnerActivity.moveToNextTab();
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                Toast.makeText(getActivity().getBaseContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-                            }
-
-                            @Override
-                            public void onNext(DinnerMenuItem item) {
-                                this.item = item;
-                            }
-                        });
-            }
-        });
-        initializeView(dinnerMenuItem);
-        return view;
-    }
-
-    private void initializeView(DinnerMenuItem dinnerMenuItem) {
-        DateTimeFormatter formatter = DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss");
-        DateTimeFormatter timeFormatter = DateTimeFormat.forPattern("HH:mm");
-        //set availability date to current date
-        DateTime currentTime = DateTime.now();
-        mAvailabilityDateTxt.setText(P2PDinnerUtils.convert(currentTime).toDateString());
-        dinnerMenuItem.setAvailableDate(mAvailabilityDateTxt.getText().toString());
-        if (StringUtils.hasText(dinnerMenuItem.getToTime())) {
-            try {
-                DateTime toDateTime = formatter.withZoneUTC().parseDateTime(dinnerMenuItem.getToTime());
-                mToTime.setText(timeFormatter.print(toDateTime.toLocalDateTime()));
-                dinnerMenuItem.setToTime(mToTime.getText().toString());
-            } catch (Exception e) {
-                Log.e(TAG, e.getMessage());
-            }
-        }
-        if (StringUtils.hasText(dinnerMenuItem.getFromTime())) {
-            try {
-                DateTime fromDateTime = formatter.withZoneUTC().parseDateTime(dinnerMenuItem.getFromTime());
-                mFormTime.setText(timeFormatter.print(fromDateTime.toLocalDateTime()));
-                dinnerMenuItem.setToTime(mFormTime.getText().toString());
-            } catch (Exception e) {
-                Log.e(TAG, e.getMessage());
-            }
-        }
-        if (StringUtils.hasText(dinnerMenuItem.getCloseTime())) {
-            try {
-                DateTime closeDateTime = formatter.withZoneUTC().parseDateTime(dinnerMenuItem.getCloseTime());
-                mAcceptOrdersTillTime.setText(timeFormatter.print(closeDateTime.toLocalDateTime()));
-                dinnerMenuItem.setToTime(mAcceptOrdersTillTime.getText().toString());
-            } catch (Exception e) {
-                Log.e(TAG, e.getMessage());
-            }
-        }
     }
 
     public static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {

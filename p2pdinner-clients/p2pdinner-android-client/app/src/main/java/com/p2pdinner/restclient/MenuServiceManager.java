@@ -16,6 +16,10 @@ import com.google.gson.JsonParser;
 import com.p2pdinner.common.Constants;
 import com.p2pdinner.entities.DinnerMenuItem;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.core.io.FileSystemResource;
@@ -36,6 +40,7 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.ByteArrayOutputStream;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -176,6 +181,7 @@ public class MenuServiceManager {
                         startDate.append(dinnerMenuItem.getAvailableDate());
                         endDate.append(dinnerMenuItem.getAvailableDate());
                         closeDate.append(dinnerMenuItem.getAvailableDate());
+                        DateTimeFormatter timeFormatter = DateTimeFormat.forPattern("HH:mm");
                         if (StringUtils.hasText(dinnerMenuItem.getFromTime())) {
                             startDate.append(" " + dinnerMenuItem.getFromTime()).append(":00");
                         }
@@ -185,12 +191,15 @@ public class MenuServiceManager {
                         if (StringUtils.hasText(dinnerMenuItem.getToTime())) {
                             endDate.append(" " + dinnerMenuItem.getToTime()).append(":00");
                         }
-                        jsonObject.put("startDate", startDate.toString());
-                        jsonObject.put("endDate", endDate.toString());
-                        jsonObject.put("closeDate", endDate.toString());
+                        jsonObject.put("startDate", convertToUTC(startDate.toString()));
+                        jsonObject.put("endDate", convertToUTC(endDate.toString()));
+                        jsonObject.put("closeDate", convertToUTC(closeDate.toString()));
                     }
                     HttpHeaders headers = new HttpHeaders();
                     headers.setContentType(MediaType.APPLICATION_JSON);
+                    Log.i(TAG, "### MenuItem Creation/Update Request ###");
+                    Log.i(TAG, jsonObject.toString());
+                    Log.i(TAG, "### MenuItem Creation/Update Request ###");
                     HttpEntity<String> entity = new HttpEntity<>(jsonObject.toString(), headers);
                     DinnerMenuItem savedItem = restTemplate.postForObject(components.toUri(), entity, DinnerMenuItem.class);
                     Log.d(TAG, "Received response .....");
@@ -233,6 +242,7 @@ public class MenuServiceManager {
                 UriComponents uriComponents = builder.build();
                 try {
                     DinnerMenuItem dinnerMenuItem = restTemplate.getForObject(uriComponents.toUri(), DinnerMenuItem.class);
+
                     subscriber.onNext(dinnerMenuItem);
                     subscriber.onCompleted();
                 } catch (Exception e) {
@@ -240,5 +250,11 @@ public class MenuServiceManager {
                 }
             }
         });
+    }
+
+    private String convertToUTC(String localDateTime) {
+        DateTimeFormatter formatter = DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss");
+        DateTime utcDateTime = formatter.parseDateTime(localDateTime);
+        return formatter.withZone(DateTimeZone.forID("UTC")).print(utcDateTime);
     }
 }

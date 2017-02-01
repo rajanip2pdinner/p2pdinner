@@ -56,6 +56,43 @@ public class HaveDinnerFragment extends Fragment {
     private MyOrdersListAdapter myOrdersListAdapter = null;
     private ListView mOrdersListView;
 
+    class MenuTag {
+        private String tag;
+        private String label;
+
+        public String getTag() {
+            return tag;
+        }
+
+        public void setTag(String tag) {
+            this.tag = tag;
+        }
+
+        public String getLabel() {
+            return label;
+        }
+
+        public void setLabel(String label) {
+            this.label = label;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            MenuTag menuTags = (MenuTag) o;
+
+            return label.equals(menuTags.label);
+
+        }
+
+        @Override
+        public int hashCode() {
+            return label.hashCode();
+        }
+    }
+
     @Inject
     DinnerListingManager dinnerListingManager;
 
@@ -80,22 +117,28 @@ public class HaveDinnerFragment extends Fragment {
         //Calendar pastFiveDays = Calendar.getInstance();
         LocalDateTime dateTime = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormat.forPattern("dd(E)");
-        List<String> menuLabels = new ArrayList<>();
+        DateTimeFormatter dateFormatter = DateTimeFormat.forPattern("MM/dd/yyyy");
+        List<MenuTag> menuLabels = new ArrayList<>();
+        List<String> tags = new ArrayList<>();
         // start from two days after
         dateTime = dateTime.plus(Period.hours(48));
         for (int i = 0; i < 5; i++) {
-            menuLabels.add(formatter.print(dateTime));
+            MenuTag menuTag = new MenuTag();
+            menuTag.setLabel(formatter.print(dateTime));
+            menuTag.setTag(dateFormatter.print(dateTime));
+            menuLabels.add(menuTag);
             dateTime = dateTime.minus(Period.hours(24));
         }
         //pastFiveDays.add(Calendar.DATE, -4)
         final Long profileId = getActivity().getIntent().getLongExtra(Constants.PROFILE_ID, -1);
         Collections.reverse(menuLabels);
-        for (String menuLabel : menuLabels) {
+        for (int idx = 0; idx < menuLabels.size(); idx++) {
             TextView txtView = (TextView) inflater.inflate(R.layout.havedinner_text_layout, container, false);
             txtView.setId(startId++);
-            txtView.setText(menuLabel);
+            txtView.setText(menuLabels.get(idx).getLabel());
+            txtView.setTag(menuLabels.get(idx));
             //pastFiveDays.add(Calendar.DATE, 1);
-            if (formatter.print(LocalDateTime.now()).equalsIgnoreCase(menuLabel)) {
+            if (formatter.print(LocalDateTime.now()).equalsIgnoreCase(menuLabels.get(idx).getLabel())) {
                 txtView.setTextColor(Color.BLACK);
             }
             mDateLayout.addView(txtView);
@@ -111,20 +154,12 @@ public class HaveDinnerFragment extends Fragment {
                     }
                     TextView tv = (TextView) v;
                     tv.setTextColor(Color.BLACK);
-                    Calendar now = Calendar.getInstance();
-                    final StringBuffer inputDate = new StringBuffer();
-                    inputDate
-                            .append(now.get(Calendar.MONTH) + 1)
-                            .append("/")
-                            .append(tv.getText().subSequence(0, 2).toString())
-                            .append("/")
-                            .append(now.get(Calendar.YEAR));
-
                     DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("MM/dd/yyyy");
-                    DateTime inputDateTime = dateTimeFormatter.parseDateTime(inputDate.toString());
-                    final long inputDateInMillis = new DateTime(inputDateTime.toDate(), DateTimeZone.UTC).toLocalDateTime().toDate().getTime();
-                    Log.i(TAG, "Input Time in millis <<<<" + inputDateInMillis);
-                    updateListingsView(profileId, inputDateInMillis);
+                    MenuTag menuTag = (MenuTag) tv.getTag();
+                    DateTime inputDateTime = dateTimeFormatter.parseDateTime(menuTag.getTag());
+                    //final long inputDateInMillis = new DateTime(inputDateTime.toDate(), DateTimeZone.UTC).toLocalDateTime().toDate().getTime();
+                    //Log.i(TAG, "Input Time in millis <<<<" + inputDateInMillis);
+                    updateListingsView(profileId, inputDateTime);
 
                 }
             });
@@ -135,14 +170,14 @@ public class HaveDinnerFragment extends Fragment {
                 .withMinuteOfHour(0)
                 .withSecondOfMinute(0)
                 .withMillisOfSecond(0);
-        long inputTimeInMillis = currentDateTime.toDateTime(DateTimeZone.UTC).toLocalDateTime().toDate().getTime();
-        Log.i(TAG, "Input Time in millis >>>>" + inputTimeInMillis);
-        updateListingsView(profileId, inputTimeInMillis);
+        //long inputTimeInMillis = currentDateTime.toDateTime(DateTimeZone.UTC).toLocalDateTime().toDate().getTime();
+        //Log.i(TAG, "Input Time in millis >>>>" + inputTimeInMillis);
+        updateListingsView(profileId, currentDateTime);
         return view;
     }
 
-    private void updateListingsView(Long profileId, long timeInMillis) {
-        dinnerListingManager.listingsByProfile(profileId.intValue(), timeInMillis)
+    private void updateListingsView(Long profileId, DateTime startDateTime) {
+        dinnerListingManager.listingsByProfile(profileId.intValue(), startDateTime)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<SellerListing>>() {

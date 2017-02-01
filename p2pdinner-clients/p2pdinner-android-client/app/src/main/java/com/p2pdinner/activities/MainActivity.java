@@ -39,6 +39,8 @@ import com.p2pdinner.restclient.UserProfileManager;
 import com.p2pdinner.services.P2PDinnerOAuthTokenRefreshService;
 import com.p2pdinner.services.RegistrationIntentService;
 
+import org.springframework.util.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -127,7 +129,8 @@ public class MainActivity extends BaseAppCompatActivity {
                 Boolean isValidProfile = sharedPreferences.getBoolean(Constants.IS_VALID_PROFILE, Boolean.FALSE);
                 switch (option.getIcon()) {
                     case R.drawable.ihavedinner:
-                        if (!sharedPreferences.contains(Constants.ACCESS_TOKEN)) {
+                        if (!sharedPreferences.contains(Constants.ACCESS_TOKEN) &&
+                                !StringUtils.hasText(sharedPreferences.getString(Constants.EMAIL_ADDRESS, ""))) {
                             Intent intent = new Intent(getApplicationContext(), FacebookLoginActivity.class);
                             startActivity(intent);
                         } else {

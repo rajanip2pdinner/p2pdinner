@@ -24,12 +24,14 @@
     return dicVal;
 }
 - (NSString *)setDefaultDate:(id)dicVal{
+    
     if ([dicVal isKindOfClass:[NSNull class]]) {
         return [Utility dateToStringFormat:@"MM/dd/yyyy HH:mm:ss" dateString:[NSDate date] timeZone:LOCAL];
     }
     return dicVal;
 }
 - (NSNumber *)setDefaultNumber:(id)dicVal{
+    
     if ([dicVal isKindOfClass:[NSNull class]]) {
         return [NSNumber numberWithInt:5];
     }
@@ -92,16 +94,20 @@
 - (NSString *)jsonValue:(ItemType)itemType{
     NSMutableString *returnString;
     NSMutableDictionary *objectDict=[Utility dictionaryWithPropertiesOfObject:self];
+    
     if (itemType==CreatNewItem) {
         [objectDict removeObjectForKey:@"id"];
     }
     [self setUpUTC];
     NSError *error=nil;
     NSData *jsonData=[NSJSONSerialization dataWithJSONObject:objectDict options:NSJSONWritingPrettyPrinted error:&error];
+    
     if (!jsonData) {
         NSLog(@"bv_jsonStringWithPrettyPrint: error: %@", error.localizedDescription);
         return @"{}";
-    } else {
+    }
+    else
+    {
         returnString =[NSMutableString stringWithString:[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]];
     }
     

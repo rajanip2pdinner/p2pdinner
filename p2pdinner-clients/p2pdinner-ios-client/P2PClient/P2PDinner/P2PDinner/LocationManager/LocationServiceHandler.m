@@ -31,14 +31,17 @@ static LocationServiceHandler *_sharedInstance=nil;
     
     [self execute:useId requestObject:@"" contentType:@"application/json" requestMethod:@"GET" serviceCallBack:^(NSError *error, id response) {
         NSDictionary *results=(NSDictionary *)response;
+        
         if ([response count]>0) {
+            
             if ([[results objectForKey:@"results"] count]>0) {
                 NSArray *address=[results objectForKey:@"results"];
                 NSString *addressResult=[[address objectAtIndex:0] objectForKey:@"formatted_address"];
                 appDelegate.lastAddress=addressResult;
                 NSLog(@"%@",addressResult);
                 serviceresponceBlock(nil,addressResult);
-            }else
+            }
+            else
             {
                 serviceresponceBlock(nil,[results objectForKey:@"status"]);
             }

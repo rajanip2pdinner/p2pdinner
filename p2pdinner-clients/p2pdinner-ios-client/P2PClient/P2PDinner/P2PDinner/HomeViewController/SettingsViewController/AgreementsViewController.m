@@ -8,6 +8,7 @@
 
 #import "AgreementsViewController.h"
 #import "ActivityView.h"
+#import "StringConstants.h"
 @interface AgreementsViewController ()<UIWebViewDelegate>{
  ActivityView *activityView;
 }
@@ -31,7 +32,7 @@
     // Dispose of any resources that can be recreated.
 }
 - (void)webViewDidStartLoad:(UIWebView *)webView{
-    [activityView startAnimating:@"Loading..."];
+    [activityView startAnimating:kLoadingText];
     [self.view addSubview:activityView];
 
 }

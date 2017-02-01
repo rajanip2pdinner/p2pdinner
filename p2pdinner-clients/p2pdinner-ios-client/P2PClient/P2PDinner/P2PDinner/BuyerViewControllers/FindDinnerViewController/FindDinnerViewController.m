@@ -175,7 +175,7 @@
         dinnerDate=[Utility beginingOfDay:dinnerDate];
     }
     NSString *after_close_time=[Utility dateToStringFormat:@"MM/dd/yyyy HH:mm:ss" dateString:dinnerDate timeZone:UTC];
-    NSString *before_close_time=[Utility dateToStringFormat:@"MM/dd/yyyy HH:mm:ss" dateString:[[Utility endOfDay:dinnerDate]dateByAddingTimeInterval:(60*60*24*1)] timeZone:UTC];
+    NSString *before_close_time=[Utility dateToStringFormat:@"MM/dd/yyyy HH:mm:ss" dateString:[Utility endOfDay:dinnerDate] timeZone:UTC];
     NSMutableString *requestFormat=[NSMutableString stringWithFormat:@"%@&q=after_close_time::%@|before_close_time::%@|guests::%d",selectedAddressField.text,after_close_time,before_close_time,guestValue];
     if (appdelegate.localLocation.length>0) {
         NSString *locationPara=[NSString stringWithFormat:@"&locale=%@",appdelegate.localLocation];

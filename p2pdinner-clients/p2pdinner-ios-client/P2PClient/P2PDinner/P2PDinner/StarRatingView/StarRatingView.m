@@ -7,6 +7,7 @@
 //
 #import <QuartzCore/QuartzCore.h>
 #import "StarRatingView.h"
+#import "StringConstants.h"
 #define kLeftPadding 5.0f
 
 @interface StarRatingView()
@@ -53,7 +54,7 @@
             self.label = [[UILabel alloc]initWithFrame:CGRectMake(self.bounds.size.width-kLabelAllowance , 0,kLabelAllowance, frame.size.height)];
             
             self.label.font             = [UIFont systemFontOfSize:18.0f];
-            self.label.text             = [NSString stringWithFormat:@"%d%%",rating];
+            self.label.text             = [NSString stringWithFormat:kRating_Text,rating];
             self.label.textAlignment    = NSTextAlignmentRight;
             self.label.textColor        = [UIColor blackColor];
             self.label.backgroundColor  = [UIColor clearColor];
@@ -69,7 +70,7 @@
         CGRect newrect = CGRectMake(0, 0, self.bounds.size.width-kLabelAllowance, self.bounds.size.height);
         
         CALayer* starBackground = [CALayer layer];
-        starBackground.contents = (__bridge id)([UIImage imageNamed:@"5starsgray"].CGImage);
+        starBackground.contents = (__bridge id)([UIImage imageNamed:kBackGround_Image].CGImage);
         starBackground.frame    = newrect;
         
         [self.layer addSublayer:starBackground];
@@ -86,7 +87,7 @@
         [self.layer addSublayer:tintLayer];
         
         CALayer* starMask   = [CALayer layer];
-        starMask.contents   = (__bridge id)([UIImage imageNamed:@"5starsgray"].CGImage);
+        starMask.contents   = (__bridge id)([UIImage imageNamed:kBackGround_Image].CGImage);
         starMask.frame      = newrect;
         
         [self.layer addSublayer:starMask];
@@ -122,7 +123,7 @@
     if (_rating<_maxrating) {
             _rating = _rating + 1;
             if (self.label) {
-                    self.label.text = [NSString stringWithFormat:@"%d%%",self.rating];
+                    self.label.text = [NSString stringWithFormat:kRating_Text,self.rating];
             }
     }else{
         
@@ -233,7 +234,7 @@
         [self ratingDidChange];
         
         if (self.label) {
-            self.label.text = [NSString stringWithFormat:@"%d%%",self.rating];
+            self.label.text = [NSString stringWithFormat:kRating_Text,self.rating];
         }
         
         if ([_delegate respondsToSelector:@selector(updatedRatingValue:withCartId:)]) {

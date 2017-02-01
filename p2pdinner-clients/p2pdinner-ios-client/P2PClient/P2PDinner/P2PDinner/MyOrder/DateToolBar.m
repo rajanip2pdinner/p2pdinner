@@ -32,9 +32,12 @@
     UIScreen *screen = [UIScreen mainScreen];
     scale = [screen scale];
     
-    if(scale > 0.0) {
+    if(scale > 0.0)
+    {
         UIGraphicsBeginImageContextWithOptions(size, NO, scale);
-    } else {
+    }
+    else
+    {
         UIGraphicsBeginImageContext(size);
     }
     
@@ -42,6 +45,7 @@
     [addCustomLabel.layer renderInContext: context];
     UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
     context=nil;
+    
 //    CGContextRelease(context);
     
     return img;
@@ -77,6 +81,7 @@
         
         
         [barBtn setAccessibilityLabel:timeValue];
+        
         if (valueToPass==0) {
             [barBtn setTintColor:[UIColor redColor]];
             lastSelectedBtn=barBtn;

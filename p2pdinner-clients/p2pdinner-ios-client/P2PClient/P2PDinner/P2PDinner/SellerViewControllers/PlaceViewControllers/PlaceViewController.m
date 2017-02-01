@@ -10,6 +10,7 @@
 #import "ItemDetailsShared.h"
 #import "Utility.h"
 #import "AppDelegate.h"
+#import "StringConstants.h"
 @interface PlaceViewController()<LocationManagerDelegate,UITextViewDelegate>{
     LocationManger *locationMgr;
     NSString *sharedAddress;
@@ -40,7 +41,7 @@
 -(BOOL)vaidateAddressExist:(ItemDetails *)itemDetail{
     NSMutableArray *array=[[NSMutableArray alloc]initWithObjects:[itemDetail addressLine1],[itemDetail addressLine2],[itemDetail city],[itemDetail state],[itemDetail zipCode], nil];
     [array removeObject:@""];
-    NSString *addressString=[[array valueForKey:@"description"] componentsJoinedByString:@","];
+    NSString *addressString=[[array valueForKey:kDescription] componentsJoinedByString:@","];
     if (addressString.length>0) {
         return TRUE;
     }
@@ -49,7 +50,7 @@
 -(NSString *)getHistoryAddress:(ItemDetails *)itemDetail{
     NSMutableArray *array=[[NSMutableArray alloc]initWithObjects:[itemDetail addressLine1],[itemDetail addressLine2],[itemDetail city],[itemDetail state],[itemDetail zipCode], nil];
     [array removeObject:@""];
-    return [[array valueForKey:@"description"] componentsJoinedByString:@","];
+    return [[array valueForKey:kDescription] componentsJoinedByString:@","];
 }
 -(void)viewDidAppear:(BOOL)animated{
     [itemDetails setAddressLine1:textVeiw.text];
@@ -65,7 +66,7 @@
     }else{
     NSMutableArray *array=[[NSMutableArray alloc]initWithObjects:[itemDetail addressLine1],[itemDetail addressLine2],[itemDetail city],[itemDetail state],[itemDetail zipCode], nil];
     [array removeObject:@""];
-    [itemDetails setAddressLine1:[[array valueForKey:@"description"] componentsJoinedByString:@","]];
+    [itemDetails setAddressLine1:[[array valueForKey:kDescription] componentsJoinedByString:@","]];
     [itemDetails setAddressLine2:@""];
     [itemDetails setCity:@""];
     [itemDetails setState:@""];
@@ -84,7 +85,7 @@
     
 }
 - (NSString *)getAddressArray:(NSArray *)addressArray{
-    return [[addressArray valueForKey:@"description"] componentsJoinedByString:@","];
+    return [[addressArray valueForKey:kDescription] componentsJoinedByString:@","];
 }
 - (void)currentUserLocation:(CLLocation *)Location{
     AppDelegate *appdelegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -94,7 +95,7 @@
     [geoCoder reverseGeocodeLocation:Location completionHandler:^(NSArray *placemarks, NSError *error) {
         for (CLPlacemark * placemark in placemarks)
         {
-            appdelegate.localLocation=[NSString stringWithFormat:@"en_%@",[placemark ISOcountryCode]];
+            appdelegate.localLocation=[NSString stringWithFormat:kLocalizaPatten,[placemark ISOcountryCode]];
             NSArray *addressArray= [NSArray arrayWithObjects:[placemark thoroughfare],[placemark locality],[placemark administrativeArea], nil];
             addressArray=[Utility removeNilArrayOfString:addressArray];
             NSString *addresStr=[addressArray componentsJoinedByString:@","];
@@ -119,9 +120,9 @@
     /* Create custom view to display section header... */
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 30, tableView.frame.size.width, 18)];
     [label setTextColor:[UIColor colorWithRed:237.0/255.0 green:134.0/255.0 blue:0.0/255.0 alpha:1]];
-    [label setFont:[UIFont fontWithName:@"Plantin" size:18]];
+    [label setFont:[UIFont fontWithName:kFont_Name size:18]];
     
-    NSString *string =@"Place";
+    NSString *string =kPlace;
     /* Section header is in 0th index... */
     [label setText:string];
     [view addSubview:label];
@@ -138,8 +139,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)
 indexPath
 {
-    static NSString *simpleTableIdentifier= @"AddressCell";
-    static NSString *simpleTableIdentifier1= @"DeliveryOptionsCell";
+    static NSString *simpleTableIdentifier= kAddressCell;
+    static NSString *simpleTableIdentifier1= kDeliveryOptionsCell;
     UITableViewCell *cell;
     if (indexPath.row==0) {
         cell=(UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
@@ -152,9 +153,9 @@ indexPath
     else if (indexPath.row==1){
         cell=(UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier1];
         eateIn=(UISwitch *)[cell viewWithTag:11];
-        [eateIn setOn:[self swichActionForString:itemDetails.dinnerDelivery withAction:@"Eat-In"]];
+        [eateIn setOn:[self swichActionForString:itemDetails.dinnerDelivery withAction:kEat_In]];
         toGo=(UISwitch *)[cell viewWithTag:22];
-        [toGo setOn:[self swichActionForString:itemDetails.dinnerDelivery withAction:@"To-Go"]];
+        [toGo setOn:[self swichActionForString:itemDetails.dinnerDelivery withAction:kTo_Go]];
 
         
     }
@@ -186,13 +187,13 @@ indexPath
 - (NSString *)getSplNeedsString{
     NSMutableArray *splNeedsStrinArray=[[NSMutableArray alloc]init];
     if (toGo.isOn) {
-        [splNeedsStrinArray addObject:@"To-Go"];
+        [splNeedsStrinArray addObject:kTo_Go];
     }
 //    if (willDeliver.isOn) {
 //        [splNeedsStrinArray addObject:@"Will Deliver"];
 //    }
     if (eateIn.isOn) {
-        [splNeedsStrinArray addObject:@"Eat-In"];
+        [splNeedsStrinArray addObject:kEat_In];
     }
     return [splNeedsStrinArray componentsJoinedByString:@","];
 }
@@ -206,16 +207,16 @@ indexPath
 }
 - (IBAction)editButtonAction:(id)sender{
     UIButton *senderBtn=(UIButton *)sender;
-    if ([senderBtn.titleLabel.text isEqualToString:@"Done"]) {
+    if ([senderBtn.titleLabel.text isEqualToString:kDone]) {
         
         [textVeiw setEditable:NO];
-        [senderBtn setTitle:@"Edit" forState:UIControlStateNormal];
+        [senderBtn setTitle:kEat_In forState:UIControlStateNormal];
         [textVeiw resignFirstResponder];
     }
     else{
         [textVeiw setEditable:YES];
         [textVeiw becomeFirstResponder];
-        [senderBtn setTitle:@"Done" forState:UIControlStateNormal];
+        [senderBtn setTitle:kDone forState:UIControlStateNormal];
     }
     
 }

@@ -20,12 +20,12 @@
 @implementation AddDinnerListItem
 
 - (AddDinnerListItem *)createAddDinnerItemFromDictionary:(NSDictionary *)dicValue{
-    AddDinnerListItem *retunObject=[[AddDinnerListItem alloc]init];
-    [retunObject setStartTime:[dicValue objectForKey:@"startTime"]?[dicValue objectForKey:@"startTime"]:[dicValue objectForKey:@"startDate"]];
-    [retunObject setEndTime:[dicValue objectForKey:@"endTime"]?[dicValue objectForKey:@"endTime"]:[dicValue objectForKey:@"endDate"]];
-    [retunObject setCloseTime:[dicValue objectForKey:@"closeTime"]?[dicValue objectForKey:@"closeTime"]:[dicValue objectForKey:@"closeDate"]];
-    [retunObject setCostPerItem:[dicValue objectForKey:@"costPerItem"]];
-    [retunObject setMenuItemId:[dicValue objectForKey:@"menuItemId"]?[dicValue objectForKey:@"menuItemId"]:[dicValue objectForKey:@"id"]];
+   AddDinnerListItem *retunObject=[[AddDinnerListItem alloc]init];
+        [retunObject setStartTime:[dicValue objectForKey:@"startTime"]?[dicValue objectForKey:@"startTime"]:[dicValue objectForKey:@"startDate"]];
+          [retunObject setEndTime:[dicValue objectForKey:@"endTime"]?[dicValue objectForKey:@"endTime"]:[dicValue objectForKey:@"endDate"]];
+        [retunObject setCloseTime:[dicValue objectForKey:@"closeTime"]?[dicValue objectForKey:@"closeTime"]:[dicValue objectForKey:@"closeDate"]];
+      [retunObject setCostPerItem:[dicValue objectForKey:@"costPerItem"]];
+       [retunObject setMenuItemId:[dicValue objectForKey:@"menuItemId"]?[dicValue objectForKey:@"menuItemId"]:[dicValue objectForKey:@"id"]];
     [retunObject setAvailableQuantity:[dicValue objectForKey:@"availableQuantity"]];
 
     

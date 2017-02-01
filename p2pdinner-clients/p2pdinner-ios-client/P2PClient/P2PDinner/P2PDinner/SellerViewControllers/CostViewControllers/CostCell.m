@@ -8,6 +8,7 @@
 
 #import "CostCell.h"
 #import "Utility.h"
+#import "StringConstants.h"
 
 @implementation CostCell
 - (double)getValueOfPriceLableVlaue:(NSString *)stringValue{
@@ -25,7 +26,7 @@
                 changePriceIntValue++;
                 pricePerMealLable.text=[NSString stringWithFormat:@"%d %@"
                                         ,changePriceIntValue,
-                                        (changePriceIntValue==1)?@"dollars":@"dollars"];
+                                        (changePriceIntValue==1)?kdollars:kdollars];
             }
         }
             break;
@@ -35,7 +36,7 @@
                 changePriceIntValue--;
                 pricePerMealLable.text=[NSString stringWithFormat:@"%d %@",
                                         changePriceIntValue,
-                                        (changePriceIntValue==1)?@"dollars":@"dollars"];
+                                        (changePriceIntValue==1)?kdollars:kdollars];
             }
         }
             break;
@@ -49,12 +50,12 @@
             NSNumberFormatter *fmtr = [[NSNumberFormatter alloc] init];
             [fmtr setNumberStyle:NSNumberFormatterCurrencyPluralStyle];
             [fmtr setLocale:localPrice];
-            NSCharacterSet *numbersSet = [NSCharacterSet characterSetWithCharactersInString:@"0123456789."];
+            NSCharacterSet *numbersSet = [NSCharacterSet characterSetWithCharactersInString:kNumeric_CharSet];
             NSString *trimmedString = [[fmtr stringFromNumber:price] stringByTrimmingCharactersInSet:numbersSet];
             trimmedString = [trimmedString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            [pricePerMealLable setText:[NSString stringWithFormat:@"Cost Per Plate (%@)",trimmedString]];
+            [pricePerMealLable setText:[NSString stringWithFormat:kCostPerPlate,trimmedString]];
     }else
-            [pricePerMealLable setText:[NSString stringWithFormat:@"Cost Per Plate (%@)",[Utility getLocalCurrencyName]]];
+            [pricePerMealLable setText:[NSString stringWithFormat:kCostPerPlate,[Utility getLocalCurrencyName]]];
     
     [self.pricePerMealTextField setText:[price stringValue]];
 }

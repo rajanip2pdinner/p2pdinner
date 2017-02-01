@@ -22,6 +22,7 @@
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
+    
     if (self) {
         // Initialization code
         [self initializeViewWithFrame:frame];
@@ -82,8 +83,8 @@
     if ([progressText length]>0)
     {
         CGFloat viewHeight =  _activityIndicatorView.frame.size.height + _activityLabel.frame.size.height + 5;
-        
-        activityProgressView.frame = CGRectMake((self.frame.size.width * 0.5f - size.width * 0.5f)-(kActivtyProgressViewWidth*0.5f), (self.frame.size.height * 0.5f - viewHeight * 0.5f)-(kActivtyProgressViewWidth*0.5f), size.width+kActivtyProgressViewWidth, viewHeight+kActivtyProgressViewWidth);
+        activityProgressView.frame = CGRectMake((self.frame.size.width * 0.5f - size.width * 0.5f)-(kActivtyProgressViewWidth*0.5f), (self.frame.size.height * 0.5f - viewHeight * 0.5f)-(kActivtyProgressViewWidth*0.5f), size.width+
+        kActivtyProgressViewWidth, viewHeight+kActivtyProgressViewWidth);
         
         CGRect activityIndicatorFrame =_activityIndicatorView.frame;
         activityIndicatorFrame.origin.x = (CGRectGetWidth( activityProgressView.frame) * 0.5f - kSpinnerWidth * 0.5f);
@@ -93,9 +94,10 @@
         CGRect activityLabelFrame = _activityLabel.frame;
         activityLabelFrame.origin.x=activityLabelFrame.origin.y+(kActivtyProgressViewWidth*0.5f);
         activityLabelFrame.origin.y = (CGRectGetHeight(_activityIndicatorView.frame) + 5)+(kActivtyProgressViewWidth*0.5f);
-        _activityLabel.frame = activityLabelFrame;
+            _activityLabel.frame = activityLabelFrame;
         
     }
+    
     else
     {
         activityProgressView.frame = CGRectMake(self.frame.size.width * 0.5f - kSpinnerWidth * 0.5f, self.frame.size.height * 0.5f - kSpinnerHeight * 0.5f, kSpinnerWidth, kSpinnerHeight);

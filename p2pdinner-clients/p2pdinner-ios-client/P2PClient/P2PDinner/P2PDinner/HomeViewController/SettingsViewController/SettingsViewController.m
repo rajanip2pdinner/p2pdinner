@@ -8,6 +8,7 @@
 
 #import "SettingsViewController.h"
 #import "AgreementsViewController.h"
+#import "StringConstants.h"
 
 @interface SettingsViewController ()
 
@@ -17,7 +18,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setTitle:@"Settings"];
+    [self setTitle:kTitle_Settings];
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     // Do any additional setup after loading the view.
 }
@@ -27,7 +28,7 @@
     // Dispose of any resources that can be recreated.
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [self performSegueWithIdentifier:@"AgreementViewController" sender:indexPath];
+    [self performSegueWithIdentifier:kSegueID_AgreementVC sender:indexPath];
 
 }
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
@@ -35,15 +36,15 @@
     NSString *filePath;
     NSIndexPath *indexPath=sender;
     if (indexPath.row==0) {
-       filePath = @"https://dev-p2pdinner-services.herokuapp.com/legal/Terms.html";
-        [viewController setTitle:@"Terms & Conditions"];
+       filePath = kTerms_URL;
+        [viewController setTitle:kTermsConditionText];
     }
     else if (indexPath.row==1){
-        filePath = @"https://dev-p2pdinner-services.herokuapp.com/legal/copyright.html";
-        [viewController setTitle:@"Copyright Agreement"];
+        filePath = kCopyright_URL;
+        [viewController setTitle:kCopyrightText];
     }else {
-        filePath = @"https://dev-p2pdinner-services.herokuapp.com/legal/privacy.html";
-        [viewController setTitle:@"Privacy policy"];
+        filePath = kPrivacy_URL;
+        [viewController setTitle:kPrivacyText];
     }
      NSURL *targetURL = [NSURL URLWithString:filePath];
      [viewController setPdfURL:targetURL];

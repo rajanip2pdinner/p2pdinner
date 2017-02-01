@@ -10,6 +10,7 @@
 #import "Utility.h"
 #import <EventKit/EventKit.h>
 #import "AppDelegate.h"
+#import "StringConstants.h"
 
 @implementation MyOrderDetailCell
 - (void)setCartDetailValues:(CarRecivedItemDetail *)cartDetail{
@@ -19,11 +20,11 @@
     EKEventStore *store = [EKEventStore new];
         [store requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError *error) {
             if (!granted) {
-                [[[UIAlertView alloc]initWithTitle:@"P2P Access Error" message:@"Please enable settings privacy allow to access calender" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil]show];
+                [[[UIAlertView alloc]initWithTitle:kAlert_Title_Access_Error message:kAlert_Message_Access_Error delegate:nil cancelButtonTitle:kAlert_Ok otherButtonTitles:nil]show];
                 return;
             }
             EKEvent *event = [EKEvent eventWithEventStore:store];
-            event.title = @"My P2PDinner";
+            event.title = kMy_P2PDinner_Text;
             event.startDate = [Utility epochToDate:_cartDetail.startTime];
             event.endDate = [Utility epochToDate:_cartDetail.endTime];
             NSTimeInterval interval = 60* -15;
@@ -49,7 +50,7 @@
             NSError *err = nil;
             [store saveEvent:event span:EKSpanThisEvent commit:YES error:&err];
             if (!err) {
-                [[[UIAlertView alloc]initWithTitle:@"P2P Event Added" message:@"Added into calendar" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil]show];
+                [[[UIAlertView alloc]initWithTitle:kAlert_Title_EventAdded message:kAlert_Message_EventAdded delegate:nil cancelButtonTitle:kAlert_Ok otherButtonTitles:nil]show];
                 return;
             }
         }];

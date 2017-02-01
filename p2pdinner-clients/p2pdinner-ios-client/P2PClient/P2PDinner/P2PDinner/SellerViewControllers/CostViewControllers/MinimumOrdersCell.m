@@ -8,6 +8,7 @@
 
 #import "MinimumOrdersCell.h"
 #import "ItemDetailsShared.h"
+#import "StringConstants.h"
 typedef enum{
     DecrementValue,
     IncrementValue
@@ -20,7 +21,7 @@ typedef enum{
 }
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    NSCharacterSet *numbersOnly = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
+    NSCharacterSet *numbersOnly = [NSCharacterSet characterSetWithCharactersInString:kNumeric_CharSet];
     NSCharacterSet *characterSetFromTextField = [NSCharacterSet characterSetWithCharactersInString:textField.text];
     
     BOOL stringIsValid = [numbersOnly isSupersetOfSet:characterSetFromTextField];

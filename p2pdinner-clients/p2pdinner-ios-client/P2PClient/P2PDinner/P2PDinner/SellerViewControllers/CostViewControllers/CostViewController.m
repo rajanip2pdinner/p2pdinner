@@ -7,6 +7,8 @@
 //
 
 #import "CostViewController.h"
+#import "StringConstants.h"
+
 @interface CostViewController()<CostCellDelegate,MinimumOrdersDelegate>
 @end
 @implementation CostViewController
@@ -30,9 +32,9 @@
     /* Create custom view to display section header... */
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 30, tableView.frame.size.width, 18)];
     [label setTextColor:[UIColor colorWithRed:237.0/255.0 green:134.0/255.0 blue:0.0/255.0 alpha:1]];
-    [label setFont:[UIFont fontWithName:@"Plantin" size:18]];
+    [label setFont:[UIFont fontWithName:kFont_Name size:18]];
     
-    NSString *string =@"Cost";
+    NSString *string =kCost;
     /* Section header is in 0th index... */
     [label setText:string];
     [view addSubview:label];
@@ -51,8 +53,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)
 indexPath
 {
-    static NSString *simpleTableIdentifier= @"CostCell";
-    static NSString *simpleTableIdentifier1= @"MaximumCell";
+    static NSString *simpleTableIdentifier= kCostCell;
+    static NSString *simpleTableIdentifier1= kMaximumCell;
     UITableViewCell *cell;
     
     if (indexPath.row==0) {

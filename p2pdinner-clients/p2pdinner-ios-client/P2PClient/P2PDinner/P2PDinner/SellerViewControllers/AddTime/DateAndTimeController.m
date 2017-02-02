@@ -25,7 +25,7 @@
 }
 
 +(void)selectDateAction:(PickerType)pickerType withPresentViewController:(UIViewController *)viewController completionAction:(void (^)(NSDate *))completed{
-    [self selectDateAction:pickerType withPresentViewController:viewController completionAction:completed withMinimumDate:[NSDate date]];
+    [self selectDateAction:pickerType withPresentViewController:viewController completionAction:completed withMinimumDate:nil  withMaximumDate:nil currentDate:[NSDate date]];
  }
 +(void)selectDateAction:(PickerType)pickerType withPresentViewController:(UIViewController *)viewController completionAction:(void (^)(NSDate *))completed withMinimumDate:(NSDate *)minimumDate{
     [self selectDateAction:pickerType withPresentViewController:viewController completionAction:completed withMinimumDate:minimumDate currentDate:[NSDate date]];

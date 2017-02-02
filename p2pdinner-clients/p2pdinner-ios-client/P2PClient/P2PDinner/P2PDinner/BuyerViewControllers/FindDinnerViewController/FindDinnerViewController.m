@@ -181,6 +181,7 @@
         NSString *locationPara=[NSString stringWithFormat:@"&locale=%@",appdelegate.localLocation];
         [requestFormat appendString:locationPara];
         }
+//     NSLog(@"\n\n\nStart Date==> %@ \n EndDate ==>%@ \n CloseDate ==> %@\n\n\n",[startDate descriptionWithLocale:[NSLocale currentLocale]],[endDate descriptionWithLocale:[NSLocale currentLocale]
     
     [[BuyerHandler sharedBuyerHandler] getSearchResultBasedOnLoactionAndFilterRequest:requestFormat resultHandler:^(NSError *error, NSArray *response) {
         [activityView stopAnimating];

@@ -242,10 +242,13 @@
 - (void)selectedDateOption:(NSDate *)dateValue{
     startDate=[Utility dateToStringFormat:kDateAndTimeFormat dateString:dateValue timeZone:UTC];
     endDate=[Utility dateToStringFormat:kDateAndTimeFormat dateString:[dateValue dateByAddingTimeInterval:24*60*60] timeZone:UTC];
-    NSDate *sourceDate = [NSDate dateWithTimeIntervalSinceNow:3600 * 24 * 60];
-    NSTimeZone* destinationTimeZone = [NSTimeZone systemTimeZone];
-    float timeZoneOffset = [destinationTimeZone secondsFromGMTForDate:sourceDate] / 3600.0;
-    selectedDate=[NSString stringWithFormat:@"%.0f",[[dateValue dateByAddingTimeInterval:-(timeZoneOffset*60*60)] timeIntervalSince1970]*1000];
+//    NSDate *sourceDate = [NSDate dateWithTimeIntervalSinceNow:3600 * 24 * 60];
+//    NSTimeZone* destinationTimeZone = [NSTimeZone systemTimeZone];
+//    float timeZoneOffset = [destinationTimeZone secondsFromGMTForDate:sourceDate] / 3600.0;
+//    NSString *requestStr=[NSString stringWithFormat:@"%@?startDate=%@&endDate=%@",[[SharedLogin sharedLogin] userId],startDate,endDate];
+//    selectedDate=[NSString stringWithFormat:@"%.0f",[[dateValue dateByAddingTimeInterval:-(timeZoneOffset*60*60)] timeIntervalSince1970]*1000];
+     selectedDate=[NSString stringWithFormat:@"startDate=%@&endDate=%@",startDate,endDate];
+   // selectedDate=[Utility dateToStringFormat:kDateAndTimeFormat dateString:dateValue timeZone:UTC];
     [self myOrderDinnerOptions:segmentedControl];
 
 }
@@ -284,7 +287,7 @@
     else{
         //Need to call dinner selled options
         
-        [[SellerHistoryHandler sharedSellerHistoryHandler] getItemListing:[NSString stringWithFormat:@"%@?inputDate=%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"],selectedDate] serviceCallBack:^(NSError *error, NSArray *response) {
+        [[SellerHistoryHandler sharedSellerHistoryHandler] getItemListing:[NSString stringWithFormat:@"%@?%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"],selectedDate] serviceCallBack:^(NSError *error, NSArray *response) {
             if (!error) {
                 _tableViewArray=[NSArray arrayWithArray:response];
                 [tableView reloadData];

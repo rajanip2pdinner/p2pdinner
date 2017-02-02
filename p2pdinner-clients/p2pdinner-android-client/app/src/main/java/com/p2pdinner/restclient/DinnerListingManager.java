@@ -12,6 +12,7 @@ import com.p2pdinner.common.ErrorResponse;
 import com.p2pdinner.entities.DinnerMenuItem;
 import com.p2pdinner.entities.SellerListing;
 
+import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -183,7 +184,7 @@ public class DinnerListingManager {
         });
     }
 
-    public Observable<List<SellerListing>> listingsByProfile(final Integer profileId, final long date) {
+    public Observable<List<SellerListing>> listingsByProfile(final Integer profileId, final DateTime startTime) {
         return Observable.create(new Observable.OnSubscribe<List<SellerListing>>() {
             @Override
             public void call(Subscriber<? super List<SellerListing>> subscriber) {
@@ -191,8 +192,11 @@ public class DinnerListingManager {
                 Map<String, String> variables = new HashMap<>();
                 variables.put("profileId", String.valueOf(profileId));
 
+                DateTime endTime = startTime.plusDays(1);
+                DateTimeFormatter formatter = DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss").withZoneUTC();
                 UriComponents components = uriComponentsBuilder.path("/listing/view/{profileId}")
-                        .queryParam("inputDate", date)
+                        .queryParam("startDate", formatter.print(startTime.toDateTime(DateTimeZone.UTC)))
+                        .queryParam("endDate", formatter.print(endTime.toDateTime(DateTimeZone.UTC)))
                         .buildAndExpand(variables);
                 try {
                     String sellerListing = restTemplate.getForObject(components.toUri(), String.class);

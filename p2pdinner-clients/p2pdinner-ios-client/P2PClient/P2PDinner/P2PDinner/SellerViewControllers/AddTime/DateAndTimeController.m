@@ -34,6 +34,11 @@
     [self selectDateAction:pickerType withPresentViewController:viewController completionAction:completed withMinimumDate:minimumDate  withMaximumDate:[self endOfDay] currentDate:currentDate];
 
 }
++(NSDate *)makeMinAndSecondsZero:(NSDate *)dateValue{
+    NSTimeInterval time = floor([dateValue timeIntervalSinceReferenceDate] / 60.0) * 60.0;
+    return [NSDate dateWithTimeIntervalSinceReferenceDate:time];
+    
+}
 +(void)selectDateAction:(PickerType)pickerType withPresentViewController:(UIViewController *)viewController completionAction:(void (^)(NSDate *))completed withMinimumDate:(NSDate *)minimumDate withMaximumDate:(NSDate *)maximumDate currentDate:(NSDate *)currentDate{
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:kAleartContent preferredStyle:UIAlertControllerStyleActionSheet];
     UIDatePicker *picker = [[UIDatePicker alloc] init];
@@ -44,10 +49,16 @@
     {
         [picker setDatePickerMode:UIDatePickerModeTime];
     }
-    picker.minuteInterval=kMinuteDatePickerInterval;
+    minimumDate = [self makeMinAndSecondsZero:minimumDate];
+    maximumDate = [self makeMinAndSecondsZero:maximumDate];
+    currentDate = [self makeMinAndSecondsZero:currentDate];
+    
     [picker setMinimumDate: minimumDate];
     [picker setMaximumDate:maximumDate];
     [picker setDate:currentDate];
+    NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss a"];
+    NSLog(@"\n\n\nMinimumDate==>%@ \nMaximumDate==>%@ \nsetdate==>%@\n\n\n",[dateFormatter stringFromDate:minimumDate],[dateFormatter stringFromDate:maximumDate],[dateFormatter stringFromDate:currentDate]);
     [alertController.view addSubview:picker];
     [alertController addAction:({
         UIAlertAction *action = [UIAlertAction actionWithTitle:kOK style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {

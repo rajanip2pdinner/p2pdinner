@@ -1259,8 +1259,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.p2pdinner.com;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "07ea30da-9060-4fb9-af57-0c05a40c2631";
-				PROVISIONING_PROFILE_SPECIFIER = "P2P Dinner Development";
+				PROVISIONING_PROFILE = "8465625c-6de0-47d8-95c1-65e1e42970b3";
+				PROVISIONING_PROFILE_SPECIFIER = P2PDinnerDev;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -1283,8 +1283,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.p2pdinner.com;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "07ea30da-9060-4fb9-af57-0c05a40c2631";
-				PROVISIONING_PROFILE_SPECIFIER = "P2P Dinner Development";
+				PROVISIONING_PROFILE = "8465625c-6de0-47d8-95c1-65e1e42970b3";
+				PROVISIONING_PROFILE_SPECIFIER = P2PDinnerDev;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

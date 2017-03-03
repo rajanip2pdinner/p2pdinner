@@ -8,6 +8,7 @@
 
 #import "DateAndTimeController.h"
 #import "StringConstants.h"
+#import "Utility.h"
 
 
 @implementation DateAndTimeController
@@ -25,14 +26,13 @@
 }
 
 +(void)selectDateAction:(PickerType)pickerType withPresentViewController:(UIViewController *)viewController completionAction:(void (^)(NSDate *))completed{
-    [self selectDateAction:pickerType withPresentViewController:viewController completionAction:completed withMinimumDate:nil  withMaximumDate:nil currentDate:[NSDate date]];
+    [self selectDateAction:pickerType withPresentViewController:viewController completionAction:completed withMinimumDate:[NSDate date]  withMaximumDate:nil currentDate:[NSDate date]];
  }
 +(void)selectDateAction:(PickerType)pickerType withPresentViewController:(UIViewController *)viewController completionAction:(void (^)(NSDate *))completed withMinimumDate:(NSDate *)minimumDate{
     [self selectDateAction:pickerType withPresentViewController:viewController completionAction:completed withMinimumDate:minimumDate currentDate:[NSDate date]];
 }
 +(void)selectDateAction:(PickerType)pickerType withPresentViewController:(UIViewController *)viewController completionAction:(void (^)(NSDate *))completed withMinimumDate:(NSDate *)minimumDate currentDate:(NSDate *)currentDate{
-    [self selectDateAction:pickerType withPresentViewController:viewController completionAction:completed withMinimumDate:minimumDate  withMaximumDate:[self endOfDay] currentDate:currentDate];
-
+    [self selectDateAction:pickerType withPresentViewController:viewController completionAction:completed withMinimumDate:minimumDate  withMaximumDate:[Utility endOfDay:[NSDate date]] currentDate:currentDate];
 }
 +(NSDate *)makeMinAndSecondsZero:(NSDate *)dateValue{
     NSTimeInterval time = floor([dateValue timeIntervalSinceReferenceDate] / 60.0) * 60.0;
@@ -50,11 +50,15 @@
         [picker setDatePickerMode:UIDatePickerModeTime];
     }
     minimumDate = [self makeMinAndSecondsZero:minimumDate];
-    maximumDate = [self makeMinAndSecondsZero:maximumDate];
+    if (maximumDate) {
+        maximumDate = [self makeMinAndSecondsZero:maximumDate];
+        [picker setMaximumDate:maximumDate];
+    }
+    
     currentDate = [self makeMinAndSecondsZero:currentDate];
     
+    picker.minuteInterval=kMinuteDatePickerInterval;
     [picker setMinimumDate: minimumDate];
-    [picker setMaximumDate:maximumDate];
     [picker setDate:currentDate];
     NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss a"];

@@ -28,6 +28,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.code.geocoder.model.GeocodeResponse;
 import com.google.code.geocoder.model.GeocoderResult;
 import com.google.code.geocoder.model.GeocoderStatus;
@@ -75,6 +77,9 @@ public class FindDinnerActivity extends BaseAppCompatActivity implements DateDia
     @Inject
     PlacesServiceManager placesServiceManager;
 
+    @Inject
+    Tracker mTracker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +87,14 @@ public class FindDinnerActivity extends BaseAppCompatActivity implements DateDia
         intializeControls();
         setupEventListeners();
         initializeLocationManager();
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mTracker.setScreenName(getClass().getName());
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     private void intializeControls() {
@@ -140,6 +153,7 @@ public class FindDinnerActivity extends BaseAppCompatActivity implements DateDia
         mFindDinner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mTracker.send(new HitBuilders.EventBuilder().setAction("Find Dinner").build());
                 int guests = Integer.parseInt(mGuestNumber.getText().toString());
                 DateTime startTime = DateTime.now();
                 if (!mDateView.getText().toString().equalsIgnoreCase("Today")) {

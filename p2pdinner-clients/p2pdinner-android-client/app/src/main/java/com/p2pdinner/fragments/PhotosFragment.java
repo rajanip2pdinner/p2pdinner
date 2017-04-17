@@ -32,6 +32,8 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.p2pdinner.R;
 import com.p2pdinner.activities.ListDinnerActivity;
 import com.p2pdinner.common.Constants;
@@ -75,6 +77,16 @@ public class PhotosFragment extends BaseFragment {
     @Inject
     MenuServiceManager menuServiceManager;
     private DinnerMenuItem dinnerMenuItem;
+
+    @Inject
+    Tracker mTracker;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mTracker.setScreenName(getClass().getName());
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+    }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {

@@ -27,6 +27,8 @@ import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.p2pdinner.R;
 import com.p2pdinner.activities.FacebookLoginActivity;
 import com.p2pdinner.common.Constants;
@@ -34,6 +36,7 @@ import com.p2pdinner.entities.UserProfile;
 import com.p2pdinner.restclient.UserProfileManager;
 
 import org.json.JSONObject;
+import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
 
@@ -61,6 +64,9 @@ public class FacebookLoginActivityFragment extends BaseFragment {
     @Inject
     UserProfileManager userProfileManager;
 
+    @Inject
+    Tracker mTracker;
+
     private static final String TAG = FacebookLoginActivity.class.getName();
 
     private FacebookCallback<LoginResult> callback = new FacebookCallback<LoginResult>() {
@@ -81,7 +87,7 @@ public class FacebookLoginActivityFragment extends BaseFragment {
                         editor.putString(Constants.EMAIL_ADDRESS, object.getString("id"));
                         editor.putString(Constants.PROFILE_NAME, object.getString("name"));
                         editor.putString(Constants.AUTHENTICATION_PROVIDER, "facebook");
-
+                        mTracker.set("&uid", object.getString("id"));
                         userProfileManager.validateProfile(email, accessToken.getToken())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribeOn(Schedulers.io())
@@ -207,6 +213,17 @@ public class FacebookLoginActivityFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         Profile profile = Profile.getCurrentProfile();
+        mTracker.setScreenName(getClass().getName());
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        mTracker.send(new HitBuilders.SocialBuilder()
+            .setNetwork("Facebook")
+            .setAction("Registration")
+            .setTarget("Registration")
+        .build());
+        if (profile != null && StringUtils.hasText(profile.getId())) {
+            mTracker.set("&uid", profile.getId());
+        }
+
     }
 
     @Override

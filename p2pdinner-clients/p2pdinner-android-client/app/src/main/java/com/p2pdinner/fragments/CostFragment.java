@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.p2pdinner.R;
 import com.p2pdinner.activities.ListDinnerActivity;
 import com.p2pdinner.common.Constants;
@@ -48,6 +50,16 @@ public class CostFragment extends BaseFragment {
 
     @Inject
     MenuServiceManager menuServiceManager;
+
+    @Inject
+    Tracker mTracker;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mTracker.setScreenName(getClass().getName());
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+    }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -92,6 +104,7 @@ public class CostFragment extends BaseFragment {
         mBtnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mTracker.send(new HitBuilders.EventBuilder().setAction("Cost - Next").build());
                 Double price = Double.parseDouble(mCostPerPlate.getText().toString());
                 int availableQuantity = Integer.parseInt(mAvailableQuantity.getText().toString());
                 dinnerMenuItem.setCost(price);

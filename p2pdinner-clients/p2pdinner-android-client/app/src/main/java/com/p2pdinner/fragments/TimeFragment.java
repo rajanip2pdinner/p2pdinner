@@ -26,6 +26,8 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.p2pdinner.R;
 import com.p2pdinner.activities.ListDinnerActivity;
 import com.p2pdinner.common.Constants;
@@ -67,6 +69,9 @@ public class TimeFragment extends BaseFragment implements DateDialogDataTransfer
     @Inject
     MenuServiceManager menuServiceManager;
 
+    @Inject
+    Tracker mTracker;
+
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if (isVisibleToUser && getActivity() != null) {
@@ -106,6 +111,8 @@ public class TimeFragment extends BaseFragment implements DateDialogDataTransfer
     public void onResume() {
         Log.d(TAG, "onResume");
         super.onResume();
+        mTracker.setScreenName(getClass().getName());
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
         initializeView(dinnerMenuItem);
     }
 

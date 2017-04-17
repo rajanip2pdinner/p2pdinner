@@ -14,6 +14,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.p2pdinner.R;
 import com.p2pdinner.common.Constants;
 import com.p2pdinner.entities.DinnerMenuItem;
@@ -37,12 +39,18 @@ public class CreateDinnerActivity extends BaseAppCompatActivity {
 
     private ListView listView;
     private ProgressBar favourtiesProgress;
+
     @Inject
     MenuServiceManager menuServiceManager;
+
+    @Inject
+    Tracker mTracker;
 
     @Override
     public void onResume() {
         super.onResume();
+        mTracker.setScreenName("CreateDinner~" + getClass().getName());
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
         listView = (ListView) findViewById(R.id.createDinnerListView);
         favourtiesProgress = (ProgressBar) findViewById(R.id.favouritesProgress);
         populateOptions();
@@ -171,11 +179,13 @@ public class CreateDinnerActivity extends BaseAppCompatActivity {
                 public void onClick(View v) {
                     TextView txtView = (TextView) v.findViewById(R.id.item_title);
                     if (txtView.getText().toString().equalsIgnoreCase(getString(R.string.create_new))) {
+                        mTracker.send(new HitBuilders.EventBuilder().setCategory("Action").setAction("Create New").build());
                         Intent intent = new Intent(getApplicationContext(), ListDinnerActivity.class);
                         intent.putExtra(Constants.CURRENT_DINNER_ITEM, new DinnerMenuItem());
                         startActivity(intent);
                     } else if (!txtView.getText().toString().equalsIgnoreCase(getString(R.string.select_favorites))) {
                         final Long viewId = new Long(v.getId());
+                        mTracker.send(new HitBuilders.EventBuilder().setCategory("Action").setAction("Favourites").build());
                         menuServiceManager.menuItemById(viewId).subscribeOn(Schedulers.newThread())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(new Observer<DinnerMenuItem>() {

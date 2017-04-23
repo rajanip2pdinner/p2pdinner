@@ -15,8 +15,8 @@ android {
         applicationId "com.p2pdinner"
         minSdkVersion 14
         targetSdkVersion 22
-        versionCode 4
-        versionName "1.4"
+        versionCode 6
+        versionName "1.6"
     }
     buildTypes {
         release {

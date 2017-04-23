@@ -64,7 +64,7 @@ public class HaveDinnerFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        mTracker.setScreenName(getClass().getName());
+        mTracker.setScreenName("MyOrders.IHaveDinner");
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 

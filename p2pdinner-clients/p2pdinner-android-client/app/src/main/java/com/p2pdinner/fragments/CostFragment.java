@@ -57,7 +57,7 @@ public class CostFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        mTracker.setScreenName(getClass().getName());
+        mTracker.setScreenName("SellerHome.Cost");
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
@@ -104,7 +104,7 @@ public class CostFragment extends BaseFragment {
         mBtnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mTracker.send(new HitBuilders.EventBuilder().setAction("Cost - Next").build());
+                mTracker.send(new HitBuilders.EventBuilder().setCategory("Action").setAction("Cost - Next").build());
                 Double price = Double.parseDouble(mCostPerPlate.getText().toString());
                 int availableQuantity = Integer.parseInt(mAvailableQuantity.getText().toString());
                 dinnerMenuItem.setCost(price);

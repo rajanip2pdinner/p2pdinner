@@ -20,6 +20,7 @@ import com.p2pdinner.activities.CreateDinnerActivity;
 import com.p2pdinner.activities.DinnerListingActivity;
 import com.p2pdinner.activities.DinnerListingDetailActivity;
 import com.p2pdinner.activities.FindDinnerActivity;
+import com.p2pdinner.activities.LegalViewActivity;
 import com.p2pdinner.activities.ListDinnerActivity;
 import com.p2pdinner.activities.MainActivity;
 import com.p2pdinner.activities.SellerListingDetailActivity;
@@ -82,7 +83,8 @@ import dagger.Provides;
                 SellerListingDetailActivity.class,
                 RegistrationIntentService.class,
                 DinnerListingActivity.class,
-                ListDinnerActivity.class
+                ListDinnerActivity.class,
+                LegalViewActivity.class
         },
         complete = false,
         library = true

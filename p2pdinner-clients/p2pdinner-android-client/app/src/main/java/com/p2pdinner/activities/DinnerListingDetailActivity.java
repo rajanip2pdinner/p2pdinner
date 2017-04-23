@@ -139,7 +139,7 @@ public class DinnerListingDetailActivity extends BaseAppCompatActivity {
             sharedPreferences = getSharedPreferences(Constants.PREFS_PRIVATE, Context.MODE_PRIVATE);
         }
         isValidProfile = sharedPreferences.getBoolean(Constants.IS_VALID_PROFILE, Boolean.FALSE);
-        mTracker.setScreenName(getClass().getName());
+        mTracker.setScreenName("BuyerListingDetail");
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
@@ -242,7 +242,7 @@ public class DinnerListingDetailActivity extends BaseAppCompatActivity {
         mBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mTracker.send(new HitBuilders.EventBuilder().setAction("Buy").setCategory("Action").build());
+                mTracker.send(new HitBuilders.EventBuilder().setAction("BuyerListingDetail.BuyNow").setCategory("Action").build());
                 mBuy.setEnabled(false);
                 final Integer listingId = dinnerListingViewContent.getDinnerListingId();
                 final Integer quantity = Integer.valueOf(mGuests.getText().toString());

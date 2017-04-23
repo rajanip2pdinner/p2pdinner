@@ -84,7 +84,7 @@ public class PhotosFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        mTracker.setScreenName(getClass().getName());
+        mTracker.setScreenName("SellerHome.Photo");
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 

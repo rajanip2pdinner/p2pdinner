@@ -74,7 +74,7 @@ public class SplNeedsFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        mTracker.setScreenName(getClass().getName());
+        mTracker.setScreenName("SellerHome.SpecialNeeds");
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
@@ -160,6 +160,10 @@ public class SplNeedsFragment extends BaseFragment {
         mBtnSell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Action")
+                .setAction("SellerHome.SpecialNeeds.Sell")
+                .build());
                 mBtnSell.setEnabled(false);
                 dinnerMenuItem.setSpecialNeeds(mSplNeeds.getText().toString());
                 Observable<DinnerMenuItem> dinnerMenuItemObservable = menuServiceManager.saveMenuItem(dinnerMenuItem).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread());

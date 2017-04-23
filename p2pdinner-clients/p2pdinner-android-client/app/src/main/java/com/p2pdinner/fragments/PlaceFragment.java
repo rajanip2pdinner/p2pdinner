@@ -86,7 +86,7 @@ public class PlaceFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        mTracker.setScreenName(getClass().getName());
+        mTracker.setScreenName("SellerHome.Place");
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 

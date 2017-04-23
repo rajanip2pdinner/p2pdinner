@@ -79,7 +79,7 @@ public class DinnerListingActivity extends BaseAppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        mTracker.setScreenName(getClass().getName());
+        mTracker.setScreenName("BuyerListing");
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 

@@ -106,8 +106,8 @@ public class MainActivity extends BaseAppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.i(TAG, "Setting screen name " + getClass().getName());
-        tracker.setScreenName("Image~" + getClass().getName());
+        Log.i(TAG, "Setting screen name " + "Home");
+        tracker.setScreenName("Home");
         tracker.send(new HitBuilders.ScreenViewBuilder().build());
         if (!playServicesVerified) {
             checkPlayServices();
@@ -390,12 +390,24 @@ public class MainActivity extends BaseAppCompatActivity {
 
             switch (pos) {
                 case 0:
+                    tracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("Action")
+                    .setAction("CopyrightAgreement")
+                    .build());
                     showDocument(Constants.P2PDINNER_WEB_BASE_URI + getString(R.string.copyRightUri));
                     break;
                 case 1:
+                    tracker.send(new HitBuilders.EventBuilder()
+                            .setCategory("Action")
+                            .setAction("PrivacyPolicy")
+                            .build());
                     showDocument(Constants.P2PDINNER_WEB_BASE_URI +  getString(R.string.privacyUri));
                     break;
                 case 2:
+                    tracker.send(new HitBuilders.EventBuilder()
+                            .setCategory("Action")
+                            .setAction("TermsAndConditions")
+                            .build());
                     showDocument(Constants.P2PDINNER_WEB_BASE_URI +  getString(R.string.tcUri));
                     break;
                 case 3:

@@ -93,7 +93,7 @@ public class FindDinnerActivity extends BaseAppCompatActivity implements DateDia
     @Override
     protected void onResume() {
         super.onResume();
-        mTracker.setScreenName(getClass().getName());
+        mTracker.setScreenName("BuyerHome");
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
@@ -153,7 +153,7 @@ public class FindDinnerActivity extends BaseAppCompatActivity implements DateDia
         mFindDinner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mTracker.send(new HitBuilders.EventBuilder().setAction("Find Dinner").build());
+                mTracker.send(new HitBuilders.EventBuilder().setCategory("Action").setAction("BuyerHome.FindDinner").build());
                 int guests = Integer.parseInt(mGuestNumber.getText().toString());
                 DateTime startTime = DateTime.now();
                 if (!mDateView.getText().toString().equalsIgnoreCase("Today")) {

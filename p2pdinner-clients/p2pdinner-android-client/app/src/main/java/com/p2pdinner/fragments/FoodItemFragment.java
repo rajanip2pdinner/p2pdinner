@@ -80,7 +80,7 @@ public class FoodItemFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        mTracker.setScreenName(getClass().getName());
+        mTracker.setScreenName("SellerHome.FoodItem");
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
@@ -95,7 +95,7 @@ public class FoodItemFragment extends BaseFragment {
         mCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mTracker.send(new HitBuilders.EventBuilder().setAction("Food Item - Next").build());
+                mTracker.send(new HitBuilders.EventBuilder().setCategory("Action").setAction("Food Item - Next").build());
                 final List<String> selectedOptions = new ArrayList<String>();
                 {
                     boolean[] isSelected = new boolean[categoriesList.size()];

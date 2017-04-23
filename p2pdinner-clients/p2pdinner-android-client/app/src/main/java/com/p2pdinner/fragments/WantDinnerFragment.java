@@ -84,7 +84,7 @@ public class WantDinnerFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        mTracker.setScreenName(getClass().getName());
+        mTracker.setScreenName("MyOrder.IWantDinner");
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
         DateTime startTime = DateTime.now();
         // Joda clock 1 - 24

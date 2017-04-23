@@ -49,7 +49,7 @@ public class CreateDinnerActivity extends BaseAppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        mTracker.setScreenName("CreateDinner~" + getClass().getName());
+        mTracker.setScreenName("SellerHome");
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
         listView = (ListView) findViewById(R.id.createDinnerListView);
         favourtiesProgress = (ProgressBar) findViewById(R.id.favouritesProgress);

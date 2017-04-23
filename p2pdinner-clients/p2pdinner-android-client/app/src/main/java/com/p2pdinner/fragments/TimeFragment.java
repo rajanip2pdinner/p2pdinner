@@ -111,7 +111,7 @@ public class TimeFragment extends BaseFragment implements DateDialogDataTransfer
     public void onResume() {
         Log.d(TAG, "onResume");
         super.onResume();
-        mTracker.setScreenName(getClass().getName());
+        mTracker.setScreenName("SellerHome.Time");
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
         initializeView(dinnerMenuItem);
     }

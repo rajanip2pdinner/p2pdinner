@@ -5,26 +5,22 @@ package com.p2pdinner;
  */
 
 import android.content.Context;
-import android.location.Criteria;
 import android.location.LocationManager;
-import android.provider.ContactsContract;
-import android.view.ViewDebug;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 import com.google.gson.GsonBuilder;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.p2pdinner.activities.CreateDinnerActivity;
 import com.p2pdinner.activities.DinnerListingActivity;
 import com.p2pdinner.activities.DinnerListingDetailActivity;
 import com.p2pdinner.activities.FindDinnerActivity;
+import com.p2pdinner.activities.FoodAndSafetyActivity;
 import com.p2pdinner.activities.LegalViewActivity;
 import com.p2pdinner.activities.ListDinnerActivity;
 import com.p2pdinner.activities.MainActivity;
 import com.p2pdinner.activities.SellerListingDetailActivity;
-import com.p2pdinner.common.Constants;
 import com.p2pdinner.deserializers.DinnerMenuItemDeserializer;
 import com.p2pdinner.entities.DinnerMenuItem;
 import com.p2pdinner.fragments.CostFragment;
@@ -53,11 +49,8 @@ import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -84,7 +77,8 @@ import dagger.Provides;
                 RegistrationIntentService.class,
                 DinnerListingActivity.class,
                 ListDinnerActivity.class,
-                LegalViewActivity.class
+                LegalViewActivity.class,
+                FoodAndSafetyActivity.class
         },
         complete = false,
         library = true

@@ -1,8 +1,12 @@
 package com.p2pdinner.restclient;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.p2pdinner.R;
 import com.p2pdinner.common.Constants;
 import com.p2pdinner.common.ErrorResponse;
@@ -15,15 +19,21 @@ import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.FormHttpMessageConverter;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.util.Base64Utils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.ByteArrayOutputStream;
 import java.nio.charset.Charset;
+import java.util.List;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -97,6 +107,9 @@ public class UserProfileManager {
         if (hasValidData(jsonObject, "longitude")) {
             userProfile.setLongitude(jsonObject.getDouble("longitude"));
         }
+        if(hasValidData(jsonObject, "certificates")) {
+            userProfile.setCertificates(jsonObject.getString("certificates"));
+        }
         return userProfile;
     }
 
@@ -125,6 +138,66 @@ public class UserProfileManager {
                     subscriber.onCompleted();
                 } catch (Exception excep) {
                     subscriber.onError(excep);
+                }
+            }
+        });
+    }
+
+    public Observable<UserProfile> updateCertificates(final Long id, final String certificates) {
+        return Observable.create(new Observable.OnSubscribe<UserProfile>() {
+            @Override
+            public void call(Subscriber<? super UserProfile> subscriber) {
+                UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromUriString(Constants.P2PDINNER_BASE_URI);
+                UriComponents components = uriComponentsBuilder.path("/profile/{id}/update").buildAndExpand(id);
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("certificates", certificates);
+                    HttpHeaders headers = new HttpHeaders();
+                    headers.setContentType(MediaType.APPLICATION_JSON);
+                    HttpEntity<String> entity = new HttpEntity<>(jsonObject.toString(), headers);
+                    ResponseEntity<UserProfile> responseEntity = restTemplate.exchange(components.toUri(), HttpMethod.PUT, entity, UserProfile.class);
+
+                    if (responseEntity.getStatusCode() == HttpStatus.OK) {
+                        UserProfile updatedProfile = responseEntity.getBody();
+                        Log.i(TAG, "Received response for create profile ----- " + updatedProfile);
+                        subscriber.onNext(updatedProfile);
+                        subscriber.onCompleted();
+                    } else {
+                        Exception exception = new Exception(responseEntity.getStatusCode() + "--  Failed to update certificates");
+                        subscriber.onError(exception);
+                    }
+
+                } catch (Exception excep) {
+                    subscriber.onError(excep);
+                }
+            }
+        });
+    }
+
+    public Observable<String> uploadBitMap(final String filename, final Bitmap bitmap) {
+        return Observable.create(new Observable.OnSubscribe<String>() {
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
+                Log.i(TAG, "Uploading image -" + filename);
+                List<HttpMessageConverter<?>> messageConverters = restTemplate.getMessageConverters();
+                messageConverters.add(new FormHttpMessageConverter());
+                UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromUriString(Constants.P2PDINNER_BASE_URI);
+                UriComponents components = uriComponentsBuilder.path("/profile/uploadImage").build();
+                MultiValueMap<String, Object> parts = new LinkedMultiValueMap<>();
+                parts.add("filename", filename);
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 10, byteArrayOutputStream);
+                parts.add("image", Base64Utils.encodeToString(byteArrayOutputStream.toByteArray()));
+                try {
+                    String response = restTemplate.postForObject(components.toUri(), parts, String.class);
+                    Log.d(TAG, response);
+                    JsonElement jsonElement = new JsonParser().parse(response);
+                    JsonObject jsonObject = jsonElement.getAsJsonObject();
+                    String url = jsonObject.get("url").toString();
+                    subscriber.onNext(url);
+                    subscriber.onCompleted();
+                } catch (Throwable t) {
+                    subscriber.onError(t);
                 }
             }
         });

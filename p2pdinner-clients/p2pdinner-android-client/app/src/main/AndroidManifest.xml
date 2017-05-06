@@ -8,15 +8,19 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <!-- [START gcm_permission] -->
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.CAMERA" />
 
-    <uses-feature android:name="android.hardware.camera" android:required="false"/>
-    <permission android:name="com.p2pdinner.permission.C2D_MESSAGE"
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <permission
+        android:name="com.p2pdinner.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
     <!-- [END gcm_permission] -->
@@ -107,9 +111,8 @@
         <activity
             android:name=".activities.SellerListingDetailActivity"
             android:label="@string/title_activity_seller_listing_detail" />
-
-
-        <activity android:name=".activities.LegalViewActivity"></activity>
+        <activity android:name=".activities.LegalViewActivity" />
+        <activity android:name=".activities.FoodAndSafetyActivity"></activity>
     </application>
 
 </manifest>

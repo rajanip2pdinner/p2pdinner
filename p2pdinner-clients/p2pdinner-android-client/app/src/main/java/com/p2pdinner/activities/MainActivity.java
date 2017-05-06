@@ -197,6 +197,7 @@ public class MainActivity extends BaseAppCompatActivity {
                         editor.putString(Constants.EMAIL_ADDRESS, userProfile.getEmailAddress());
                         editor.putLong(Constants.PROFILE_ID, userProfile.getId());
                         editor.putBoolean(Constants.IS_VALID_PROFILE, Boolean.TRUE);
+                        editor.putString(Constants.CERTIFICATES, userProfile.getCertificates());
                         tracker.set("&uid", userProfile.getId().toString());
                         editor.commit();
                         boolean sentToken = sharedPreferences.getBoolean(Constants.SENT_TOKEN_TO_SERVER, false);
@@ -238,6 +239,7 @@ public class MainActivity extends BaseAppCompatActivity {
                         editor.putString(Constants.EMAIL_ADDRESS, userProfile.getEmailAddress());
                         if (userProfile != null && userProfile.getId() != null) {
                             editor.putLong(Constants.PROFILE_ID, userProfile.getId());
+                            editor.putString(Constants.CERTIFICATES, userProfile.getCertificates());
                             tracker.set("&uid", userProfile.getId().toString());
                         }
                         editor.commit();
@@ -411,6 +413,14 @@ public class MainActivity extends BaseAppCompatActivity {
                     showDocument(Constants.P2PDINNER_WEB_BASE_URI +  getString(R.string.tcUri));
                     break;
                 case 3:
+                    tracker.send(new HitBuilders.EventBuilder()
+                            .setCategory("Action")
+                            .setAction("Profile")
+                            .build());
+                    Intent intent = new Intent(getApplicationContext(), FoodAndSafetyActivity.class);
+                    startActivity(intent);
+                    break;
+                case 4:
                     clearCache();
                     break;
                 default:

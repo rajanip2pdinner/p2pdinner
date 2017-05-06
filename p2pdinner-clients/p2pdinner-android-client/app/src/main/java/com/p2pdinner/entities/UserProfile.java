@@ -20,6 +20,7 @@ public class UserProfile implements Serializable {
     private Boolean isActive;
     private String name;
     private String authenticationProvider;
+    private String certificates;
 
     public Integer getId() {
         return id;
@@ -131,5 +132,13 @@ public class UserProfile implements Serializable {
 
     public void setAuthenticationProvider(String authenticationProvider) {
         this.authenticationProvider = authenticationProvider;
+    }
+
+    public String getCertificates() {
+        return certificates;
+    }
+
+    public void setCertificates(String certificates) {
+        this.certificates = certificates;
     }
 }

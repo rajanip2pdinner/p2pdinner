@@ -13,4 +13,5 @@
 @property(nonatomic,strong)CarRecivedItemDetail *cartDetail;
 - (void)setCartDetailValues:(CarRecivedItemDetail *)cartDetail;
 - (IBAction)addToCalenderEvent:(id)sender;
+- (IBAction)locateInMap:(id)sender;
 @end

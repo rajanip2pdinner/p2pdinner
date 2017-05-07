@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="dID-ay-iiB">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="dID-ay-iiB">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -776,11 +776,11 @@
                                             </variation>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MyOrderDetailCell" rowHeight="164" id="AbC-pL-Fai" customClass="MyOrderDetailCell">
-                                        <rect key="frame" x="0.0" y="293" width="375" height="164"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MyOrderDetailCell" rowHeight="174" id="AbC-pL-Fai" customClass="MyOrderDetailCell">
+                                        <rect key="frame" x="0.0" y="293" width="375" height="174"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="AbC-pL-Fai" id="gi2-oV-2OF">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="163"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="173"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" tag="100" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="noImage" translatesAutoresizingMaskIntoConstraints="NO" id="4PE-AR-Rvz">
@@ -799,7 +799,7 @@
                                                     <color key="textColor" red="0.96862745100000003" green="0.59215686270000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="104" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Green tea is the healthiest beverage on the planet. It is loaded with antioxidan" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cbI-HI-Rdj">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="104" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" ambiguous="YES" misplaced="YES" text="Green tea is the healthiest beverage on the planet. It is loaded with antioxidan" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cbI-HI-Rdj">
                                                     <rect key="frame" x="107" y="69" width="260" height="17"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -824,7 +824,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="107" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3.30 pm-9.00 pm" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GJI-vi-TuJ">
-                                                    <rect key="frame" x="107" y="111" width="101" height="16"/>
+                                                    <rect key="frame" x="107" y="120" width="101" height="16"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="16" id="34g-ga-rvb"/>
                                                     </constraints>
@@ -832,21 +832,21 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="105" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Green tea is the healthiest beverage on the planet. It is loaded with antioxidan" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q7G-Gu-Lke">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="105" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" ambiguous="YES" misplaced="YES" text="Green tea is the healthiest beverage on the planet. It is loaded with antioxidan" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q7G-Gu-Lke">
                                                     <rect key="frame" x="107" y="88" width="260" height="17"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <view tag="108" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n9V-3M-zKu" customClass="StarRatingView">
-                                                    <rect key="frame" x="107" y="139" width="97" height="16"/>
+                                                    <rect key="frame" x="107" y="148" width="97" height="16"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="97" id="XMr-jL-cdW"/>
                                                         <constraint firstAttribute="height" constant="16" id="za3-IP-RJl"/>
                                                     </constraints>
                                                 </view>
                                                 <button opaque="NO" tag="109" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KHw-Nx-ZEd">
-                                                    <rect key="frame" x="337" y="125" width="30" height="30"/>
+                                                    <rect key="frame" x="337" y="136" width="30" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="30" id="5v3-GE-U2T"/>
                                                         <constraint firstAttribute="height" constant="30" id="hgo-vF-24h"/>
@@ -856,6 +856,17 @@
                                                         <action selector="addToCalenderEvent:" destination="AbC-pL-Fai" eventType="touchUpInside" id="WFp-QV-eX1"/>
                                                     </connections>
                                                 </button>
+                                                <button opaque="NO" tag="109" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7BM-oY-r5G">
+                                                    <rect key="frame" x="299" y="136" width="30" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="30" id="MaP-la-0qi"/>
+                                                        <constraint firstAttribute="height" constant="30" id="d8Y-LI-uPb"/>
+                                                    </constraints>
+                                                    <state key="normal" image="LocateMap"/>
+                                                    <connections>
+                                                        <action selector="locateInMap:" destination="AbC-pL-Fai" eventType="touchUpInside" id="6dn-nz-29h"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="4PE-AR-Rvz" firstAttribute="top" secondItem="gi2-oV-2OF" secondAttribute="top" constant="23" id="0Wv-nS-qF5"/>
@@ -863,6 +874,7 @@
                                                 <constraint firstAttribute="trailing" secondItem="cbI-HI-Rdj" secondAttribute="trailing" constant="8" id="24N-FI-Lv4"/>
                                                 <constraint firstItem="Q7G-Gu-Lke" firstAttribute="top" secondItem="cbI-HI-Rdj" secondAttribute="bottom" constant="2" id="3bL-xB-fvf"/>
                                                 <constraint firstItem="4PE-AR-Rvz" firstAttribute="leading" secondItem="gi2-oV-2OF" secondAttribute="leading" constant="4" id="8GK-YC-RcG"/>
+                                                <constraint firstAttribute="bottom" secondItem="7BM-oY-r5G" secondAttribute="bottom" constant="8" id="A88-a8-SMn"/>
                                                 <constraint firstItem="lAS-Yk-bpO" firstAttribute="top" secondItem="jp1-Bb-nmW" secondAttribute="top" id="BhO-J3-Phc"/>
                                                 <constraint firstAttribute="trailing" secondItem="KHw-Nx-ZEd" secondAttribute="trailing" constant="8" id="E1I-5j-lDk"/>
                                                 <constraint firstAttribute="bottom" secondItem="KHw-Nx-ZEd" secondAttribute="bottom" constant="8" id="LJS-ru-wNx"/>
@@ -871,11 +883,12 @@
                                                 <constraint firstItem="jp1-Bb-nmW" firstAttribute="top" secondItem="gi2-oV-2OF" secondAttribute="top" constant="12" id="SO2-66-RVp"/>
                                                 <constraint firstItem="FDF-iv-P5R" firstAttribute="leading" secondItem="4PE-AR-Rvz" secondAttribute="trailing" constant="3" id="TyK-tw-Bza"/>
                                                 <constraint firstItem="cbI-HI-Rdj" firstAttribute="leading" secondItem="4PE-AR-Rvz" secondAttribute="trailing" constant="3" id="UPp-uU-XNC"/>
-                                                <constraint firstAttribute="bottom" secondItem="n9V-3M-zKu" secondAttribute="bottom" constant="8" id="Xoz-Ef-Feb"/>
+                                                <constraint firstAttribute="bottom" secondItem="n9V-3M-zKu" secondAttribute="bottom" constant="10" id="Xoz-Ef-Feb"/>
                                                 <constraint firstAttribute="trailing" secondItem="lAS-Yk-bpO" secondAttribute="trailing" constant="16" id="gtB-B8-dD1"/>
                                                 <constraint firstItem="FDF-iv-P5R" firstAttribute="top" secondItem="jp1-Bb-nmW" secondAttribute="bottom" constant="6" id="iEf-Wb-k4A"/>
                                                 <constraint firstItem="n9V-3M-zKu" firstAttribute="top" secondItem="GJI-vi-TuJ" secondAttribute="bottom" constant="12" id="l6p-cf-y5e"/>
                                                 <constraint firstItem="Q7G-Gu-Lke" firstAttribute="leading" secondItem="4PE-AR-Rvz" secondAttribute="trailing" constant="3" id="nIK-s1-rYF"/>
+                                                <constraint firstItem="KHw-Nx-ZEd" firstAttribute="leading" secondItem="7BM-oY-r5G" secondAttribute="trailing" constant="8" id="o0J-8x-hT7"/>
                                                 <constraint firstAttribute="trailing" secondItem="Q7G-Gu-Lke" secondAttribute="trailing" constant="8" id="odM-JQ-tm6"/>
                                                 <constraint firstItem="cbI-HI-Rdj" firstAttribute="top" secondItem="FDF-iv-P5R" secondAttribute="bottom" constant="12" id="ohY-UT-7JL"/>
                                                 <constraint firstItem="jp1-Bb-nmW" firstAttribute="leading" secondItem="4PE-AR-Rvz" secondAttribute="trailing" constant="3" id="ozI-wI-CcY"/>
@@ -3209,13 +3222,14 @@ Please Try Later</string>
     <resources>
         <image name="AddCalender" width="30" height="30"/>
         <image name="IhaveDinner" width="67" height="67"/>
+        <image name="LocateMap" width="30" height="30"/>
         <image name="LoginFB" width="304" height="65"/>
         <image name="addPhoto" width="100" height="100"/>
         <image name="calender" width="67" height="67"/>
         <image name="cross" width="46" height="46"/>
         <image name="group" width="67" height="67"/>
         <image name="location" width="67" height="67"/>
-        <image name="noImage" width="85" height="85"/>
+        <image name="noImage" width="50" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Rxg-2A-HS0"/>

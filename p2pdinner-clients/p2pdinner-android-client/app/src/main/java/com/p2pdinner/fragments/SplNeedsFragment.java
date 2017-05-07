@@ -23,6 +23,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.p2pdinner.R;
 import com.p2pdinner.activities.ListDinnerActivity;
 import com.p2pdinner.common.Constants;
@@ -65,6 +67,16 @@ public class SplNeedsFragment extends BaseFragment {
     MenuServiceManager menuServiceManager;
     @Inject
     DinnerListingManager dinnerListingManager;
+
+    @Inject
+    Tracker mTracker;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mTracker.setScreenName("SellerHome.SpecialNeeds");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+    }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -148,6 +160,10 @@ public class SplNeedsFragment extends BaseFragment {
         mBtnSell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Action")
+                .setAction("SellerHome.SpecialNeeds.Sell")
+                .build());
                 mBtnSell.setEnabled(false);
                 dinnerMenuItem.setSpecialNeeds(mSplNeeds.getText().toString());
                 Observable<DinnerMenuItem> dinnerMenuItemObservable = menuServiceManager.saveMenuItem(dinnerMenuItem).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread());

@@ -19,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.p2pdinner.R;
 import com.p2pdinner.common.Constants;
@@ -78,6 +80,9 @@ public class DinnerListingDetailActivity extends BaseAppCompatActivity {
     @Inject
     ImageLoader imageLoader;
 
+    @Inject
+    Tracker mTracker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,6 +139,8 @@ public class DinnerListingDetailActivity extends BaseAppCompatActivity {
             sharedPreferences = getSharedPreferences(Constants.PREFS_PRIVATE, Context.MODE_PRIVATE);
         }
         isValidProfile = sharedPreferences.getBoolean(Constants.IS_VALID_PROFILE, Boolean.FALSE);
+        mTracker.setScreenName("BuyerListingDetail");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     private void initializeControls() {
@@ -235,6 +242,7 @@ public class DinnerListingDetailActivity extends BaseAppCompatActivity {
         mBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mTracker.send(new HitBuilders.EventBuilder().setAction("BuyerListingDetail.BuyNow").setCategory("Action").build());
                 mBuy.setEnabled(false);
                 final Integer listingId = dinnerListingViewContent.getDinnerListingId();
                 final Integer quantity = Integer.valueOf(mGuests.getText().toString());

@@ -28,6 +28,8 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.code.geocoder.model.GeocodeResponse;
 import com.google.code.geocoder.model.GeocoderResult;
 import com.google.code.geocoder.model.GeocoderStatus;
@@ -77,6 +79,16 @@ public class PlaceFragment extends BaseFragment {
     MenuServiceManager menuServiceManager;
     @Inject
     DinnerListingManager dinnerListingManager;
+
+    @Inject
+    Tracker mTracker;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mTracker.setScreenName("SellerHome.Place");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+    }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {

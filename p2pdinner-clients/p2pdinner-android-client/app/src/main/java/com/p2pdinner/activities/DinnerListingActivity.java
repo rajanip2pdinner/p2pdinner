@@ -18,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.p2pdinner.R;
 import com.p2pdinner.common.Constants;
 import com.p2pdinner.entities.DinnerListingViewContent;
@@ -44,13 +46,18 @@ import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
 
-public class DinnerListingActivity extends AppCompatActivity {
+import javax.inject.Inject;
+
+public class DinnerListingActivity extends BaseAppCompatActivity {
 
     private static final String TAG = DinnerListingActivity.class.getName();
 
     private ListView mSearchResultsView;
     private List<DinnerListingViewContent> dinnerListingViewContents = new ArrayList<>();
     private int noOfGuests = 2;
+
+    @Inject
+    Tracker mTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +75,14 @@ public class DinnerListingActivity extends AppCompatActivity {
         mSearchResultsView.setAdapter(searchResultAdapter);
         mSearchResultsView.setEmptyView(findViewById(R.id.emptyElement));
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mTracker.setScreenName("BuyerListing");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -195,6 +210,7 @@ public class DinnerListingActivity extends AppCompatActivity {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    mTracker.send(new HitBuilders.EventBuilder().setAction("Dinner Listing Selected").setCategory("Action").build());
                     Intent intent = new Intent(getContext(), DinnerListingDetailActivity.class);
                     intent.putExtra(Constants.DINNER_LISTING_VIEW_CONTENT, content);
                     intent.putExtra(Constants.NO_OF_GUESTS, noOfGuests);

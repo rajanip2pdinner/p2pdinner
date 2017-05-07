@@ -16,6 +16,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.p2pdinner.P2PDinnerApplication;
 import com.p2pdinner.R;
 import com.p2pdinner.activities.SellerListingDetailActivity;
@@ -55,6 +57,16 @@ public class HaveDinnerFragment extends Fragment {
     private int startId = 50000;
     private MyOrdersListAdapter myOrdersListAdapter = null;
     private ListView mOrdersListView;
+
+    @Inject
+    Tracker mTracker;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mTracker.setScreenName("MyOrders.IHaveDinner");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+    }
 
     class MenuTag {
         private String tag;

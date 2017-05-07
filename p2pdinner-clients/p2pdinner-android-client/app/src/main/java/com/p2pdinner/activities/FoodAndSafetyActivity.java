@@ -1,45 +1,37 @@
-package com.p2pdinner.fragments;
+package com.p2pdinner.activities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
+import android.os.Bundle;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.ContextThemeWrapper;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.p2pdinner.R;
-import com.p2pdinner.activities.ListDinnerActivity;
 import com.p2pdinner.common.Constants;
 import com.p2pdinner.entities.DinnerMenuItem;
+import com.p2pdinner.entities.UserProfile;
 import com.p2pdinner.restclient.ImageDownloadTask;
-import com.p2pdinner.restclient.MenuServiceManager;
+import com.p2pdinner.restclient.UserProfileManager;
 
 import org.springframework.util.StringUtils;
 
@@ -57,25 +49,25 @@ import rx.schedulers.Schedulers;
 
 import static android.content.Intent.CATEGORY_OPENABLE;
 
-/**
- * Created by rajaniy on 9/24/15.
- */
-public class PhotosFragment extends BaseFragment {
-
+public class FoodAndSafetyActivity extends BaseAppCompatActivity {
 
     private ImageView[] imageViews = new ImageView[4];
-    private Button mBtnNext;
+    private Button mBtnGoSell;
     private ImageView selectedImageView;
     private ProgressBar mProgressBar;
     private String selectedImagePath;
 
     private static final int SELECT_PICTURE = 1;
     private static final int REQUEST_IMAGE = 100;
-    private static final String TAG = PhotosFragment.class.getName();
+    private static final String TAG = FoodAndSafetyActivity.class.getName();
 
     private Handler handler;
+
+
     @Inject
-    MenuServiceManager menuServiceManager;
+    UserProfileManager userProfileManager;
+
+
     private DinnerMenuItem dinnerMenuItem;
 
     @Inject
@@ -88,30 +80,22 @@ public class PhotosFragment extends BaseFragment {
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        if (isVisibleToUser && getActivity() != null) {
-            dinnerMenuItem = (DinnerMenuItem) getActivity().getIntent().getSerializableExtra(Constants.CURRENT_DINNER_ITEM);
-        }
-        super.setUserVisibleHint(isVisibleToUser);
-    }
 
-
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.photos_layout, container, false);
-        dinnerMenuItem = (DinnerMenuItem) getActivity().getIntent().getSerializableExtra(Constants.CURRENT_DINNER_ITEM);
-        imageViews[0] = (ImageView) view.findViewById(R.id.photo1);
-        imageViews[1] = (ImageView) view.findViewById(R.id.photo2);
-        imageViews[2] = (ImageView) view.findViewById(R.id.photo3);
-        imageViews[3] = (ImageView) view.findViewById(R.id.photo4);
-        mProgressBar = (ProgressBar) view.findViewById(R.id.uploadProgress);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_food_and_safety);
+        imageViews[0] = (ImageView) findViewById(R.id.photo1);
+        imageViews[1] = (ImageView) findViewById(R.id.photo2);
+        imageViews[2] = (ImageView) findViewById(R.id.photo3);
+        imageViews[3] = (ImageView) findViewById(R.id.photo4);
+        mProgressBar = (ProgressBar) findViewById(R.id.uploadProgress);
         for (int imageIdx = 0; imageIdx < imageViews.length; imageIdx++) {
             imageViews[imageIdx].setOnClickListener(new ImageViewClickListener());
         }
-        if (StringUtils.hasText(dinnerMenuItem.getImageUri())) {
-            String[] images = dinnerMenuItem.getImageUri().split(",");
+        String certificates = getSharedPreferences(Constants.PREFS_PRIVATE, Context.MODE_PRIVATE).getString(Constants.CERTIFICATES, "");
+        if (StringUtils.hasText(certificates)) {
+            String[] images =certificates.split(",");
             if (images != null && images.length != 0) {
                 for (int idx = 0; idx < images.length; idx++) {
                     String uri = StringUtils.replace(images[idx], "\"", "");
@@ -121,46 +105,50 @@ public class PhotosFragment extends BaseFragment {
                 }
             }
         }
-        mBtnNext = (Button) view.findViewById(R.id.btnNext);
-        mBtnNext.setOnClickListener(new View.OnClickListener() {
+
+        mBtnGoSell = (Button) findViewById(R.id.btnGoSell);
+        mBtnGoSell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (StringUtils.hasText(dinnerMenuItem.getTitle())) {
-                    List<String> imageUris = new ArrayList<>();
-                    for (int imageIdx = 0; imageIdx < imageViews.length; imageIdx++) {
-                        if (imageViews[imageIdx].getTag() != null) {
-                            imageUris.add(imageViews[imageIdx].getTag().toString());
-                        }
+                final SharedPreferences sharedPreferences = getSharedPreferences(Constants.PREFS_PRIVATE, Context.MODE_PRIVATE);
+                List<String> imageUris = new ArrayList<>();
+                for (int imageIdx = 0; imageIdx < imageViews.length; imageIdx++) {
+                    if (imageViews[imageIdx].getTag() != null) {
+                        imageUris.add(imageViews[imageIdx].getTag().toString());
                     }
-                    dinnerMenuItem.setImageUri(StringUtils.collectionToCommaDelimitedString(imageUris));
-                    menuServiceManager.saveMenuItem(dinnerMenuItem)
+                }
+                Long profileId = sharedPreferences.getLong(Constants.PROFILE_ID, -1);
+                String certificates = StringUtils.collectionToCommaDelimitedString(imageUris);
+
+                if (StringUtils.hasText(certificates)) {
+                    userProfileManager.updateCertificates(profileId, certificates)
                             .subscribeOn(Schedulers.newThread())
                             .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new Observer<DinnerMenuItem>() {
-                                private DinnerMenuItem item;
-
+                            .subscribe(new Observer<UserProfile>() {
                                 @Override
                                 public void onCompleted() {
-                                    dinnerMenuItem.setId(item.getId());
-                                    Log.i(TAG, "Item saved successfully");
-                                    //Toast.makeText(getActivity(), "Item saved successfully", Toast.LENGTH_SHORT).show();
-                                    ListDinnerActivity listDinnerActivity = (ListDinnerActivity) getActivity();
-                                    listDinnerActivity.moveToNextTab();
+                                    Log.i(TAG, "Certificates updated successfully");
+                                    Intent intent = new Intent(getApplicationContext(), CreateDinnerActivity.class);
+                                    startActivity(intent);
                                 }
 
                                 @Override
                                 public void onError(Throwable e) {
-                                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+                                    Log.e(TAG, e.getMessage(), e);
                                 }
 
                                 @Override
-                                public void onNext(DinnerMenuItem item) {
-                                    this.item = item;
+                                public void onNext(UserProfile userProfile) {
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putString(Constants.CERTIFICATES, userProfile.getCertificates());
+                                    editor.apply();
                                 }
                             });
                 }
+
             }
         });
+
         handler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(Message msg) {
@@ -179,27 +167,23 @@ public class PhotosFragment extends BaseFragment {
                     case Constants.Message.FILE_UPLOAD_FAILURE:
                         Log.i(TAG, "Failed to upload the file");
                         String m = (String) msg.obj;
-                        Toast.makeText(getActivity(), m, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), m, Toast.LENGTH_SHORT).show();
                         break;
                     case Constants.Message.SAVE_MENU_ITEM_SUCCESS:
-                        //Toast.makeText(getActivity().getBaseContext(), (String) msg.obj, Toast.LENGTH_SHORT).show();
-                        ListDinnerActivity listDinnerActivity = (ListDinnerActivity) getActivity();
-                        listDinnerActivity.moveToNextTab();
+                        Toast.makeText(getApplicationContext(), (String) msg.obj, Toast.LENGTH_SHORT).show();
                         break;
                     default:
                         super.handleMessage(msg);
                 }
             }
         };
-        return view;
     }
-
 
     public class ImageViewClickListener implements ImageView.OnClickListener {
 
         @Override
         public void onClick(final View v) {
-            AlertDialog.Builder alertDialog = new AlertDialog.Builder(new ContextThemeWrapper(getContext(), R.style.AppTheme))
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(new ContextThemeWrapper(FoodAndSafetyActivity.this, R.style.AppTheme))
                     .setItems(R.array.choose_photo, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -223,7 +207,6 @@ public class PhotosFragment extends BaseFragment {
         }
     }
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Bitmap image = null;
@@ -234,7 +217,7 @@ public class PhotosFragment extends BaseFragment {
                     selectedImagePath = getAbsolutePath(selectedImageUri);
                     File selectedImage = new File(selectedImagePath);
                     if (selectedImage != null && selectedImage.length() > 2048) {
-                        Toast.makeText(getContext(), "Image too large to upload. Max size cannot be more than 2 MB", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Image too large to upload. Max size cannot be more than 2 MB", Toast.LENGTH_LONG).show();
                         return;
                     }
                     selectedImageView.setImageURI(selectedImageUri);
@@ -247,7 +230,7 @@ public class PhotosFragment extends BaseFragment {
             }
             if (image == null) return;
             mProgressBar.setVisibility(ProgressBar.VISIBLE);
-            menuServiceManager.uploadBitMap("upload.JPEG", image)
+            userProfileManager.uploadBitMap("upload.JPEG", image)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<String>() {
@@ -261,8 +244,8 @@ public class PhotosFragment extends BaseFragment {
 
                         @Override
                         public void onError(Throwable e) {
-                            Toast.makeText(getActivity().getBaseContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-                            mBtnNext.setEnabled(true);
+                            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                            mBtnGoSell.setEnabled(true);
                         }
 
                         @Override
@@ -276,7 +259,7 @@ public class PhotosFragment extends BaseFragment {
     private String getAbsolutePath(Uri uri) {
         String selectedImagePath = null;
         String[] projection = {MediaStore.Images.Media.DATA};
-        Cursor cursor = getActivity().getContentResolver().query(uri, projection, null, null, null);
+        Cursor cursor = getApplicationContext().getContentResolver().query(uri, projection, null, null, null);
         if (cursor != null) {
             int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();

@@ -1,5 +1,6 @@
 package com.p2pdinner.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,11 +15,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.p2pdinner.R;
 import com.p2pdinner.common.Constants;
 import com.p2pdinner.entities.DinnerMenuItem;
 import com.p2pdinner.restclient.MenuServiceManager;
 import com.p2pdinner.seller.dinner.CreateDinnerOption;
+
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,14 +42,22 @@ public class CreateDinnerActivity extends BaseAppCompatActivity {
 
     private ListView listView;
     private ProgressBar favourtiesProgress;
+    private SharedPreferences sharedPreferences;
+
     @Inject
     MenuServiceManager menuServiceManager;
+
+    @Inject
+    Tracker mTracker;
 
     @Override
     public void onResume() {
         super.onResume();
+        mTracker.setScreenName("SellerHome");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
         listView = (ListView) findViewById(R.id.createDinnerListView);
         favourtiesProgress = (ProgressBar) findViewById(R.id.favouritesProgress);
+        sharedPreferences = getSharedPreferences(Constants.PREFS_PRIVATE, Context.MODE_PRIVATE);
         populateOptions();
     }
 
@@ -171,11 +184,19 @@ public class CreateDinnerActivity extends BaseAppCompatActivity {
                 public void onClick(View v) {
                     TextView txtView = (TextView) v.findViewById(R.id.item_title);
                     if (txtView.getText().toString().equalsIgnoreCase(getString(R.string.create_new))) {
-                        Intent intent = new Intent(getApplicationContext(), ListDinnerActivity.class);
-                        intent.putExtra(Constants.CURRENT_DINNER_ITEM, new DinnerMenuItem());
-                        startActivity(intent);
+                        String certificates = sharedPreferences.getString(Constants.CERTIFICATES, "");
+                        if (!StringUtils.hasText(certificates)) {
+                            Intent foodAndSafetyIntent = new Intent(getApplicationContext(), FoodAndSafetyActivity.class);
+                            startActivity(foodAndSafetyIntent);
+                        } else {
+                            mTracker.send(new HitBuilders.EventBuilder().setCategory("Action").setAction("Create New").build());
+                            Intent intent = new Intent(getApplicationContext(), ListDinnerActivity.class);
+                            intent.putExtra(Constants.CURRENT_DINNER_ITEM, new DinnerMenuItem());
+                            startActivity(intent);
+                        }
                     } else if (!txtView.getText().toString().equalsIgnoreCase(getString(R.string.select_favorites))) {
                         final Long viewId = new Long(v.getId());
+                        mTracker.send(new HitBuilders.EventBuilder().setCategory("Action").setAction("Favourites").build());
                         menuServiceManager.menuItemById(viewId).subscribeOn(Schedulers.newThread())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(new Observer<DinnerMenuItem>() {

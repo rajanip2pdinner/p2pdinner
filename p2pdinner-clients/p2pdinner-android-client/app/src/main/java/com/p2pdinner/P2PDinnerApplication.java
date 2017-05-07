@@ -7,6 +7,8 @@ import android.content.pm.Signature;
 import android.util.Base64;
 import android.util.Log;
 
+import com.google.android.gms.analytics.Tracker;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;

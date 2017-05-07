@@ -22,6 +22,8 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.common.base.Charsets;
 import com.p2pdinner.R;
 import com.p2pdinner.common.Constants;
@@ -75,10 +77,15 @@ public class WantDinnerFragment extends BaseFragment {
     @Inject
     DinnerCartManager dinnerCartManager;
 
+    @Inject
+    Tracker mTracker;
+
 
     @Override
     public void onResume() {
         super.onResume();
+        mTracker.setScreenName("MyOrder.IWantDinner");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
         DateTime startTime = DateTime.now();
         // Joda clock 1 - 24
         startTime = startTime.withField(DateTimeFieldType.clockhourOfDay(), 1);

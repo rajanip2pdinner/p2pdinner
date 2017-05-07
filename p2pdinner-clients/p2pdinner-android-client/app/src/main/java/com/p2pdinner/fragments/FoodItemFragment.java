@@ -23,6 +23,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.p2pdinner.R;
 import com.p2pdinner.activities.ListDinnerActivity;
 import com.p2pdinner.common.Constants;
@@ -72,6 +74,16 @@ public class FoodItemFragment extends BaseFragment {
         super.setUserVisibleHint(isVisibleToUser);
     }
 
+    @Inject
+    Tracker mTracker;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mTracker.setScreenName("SellerHome.FoodItem");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+    }
+
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup viewGroup, Bundle savedInstanceState) {
         dinnerMenuItem = (DinnerMenuItem) getActivity().getIntent().getSerializableExtra(Constants.CURRENT_DINNER_ITEM);
@@ -83,6 +95,7 @@ public class FoodItemFragment extends BaseFragment {
         mCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mTracker.send(new HitBuilders.EventBuilder().setCategory("Action").setAction("Food Item - Next").build());
                 final List<String> selectedOptions = new ArrayList<String>();
                 {
                     boolean[] isSelected = new boolean[categoriesList.size()];

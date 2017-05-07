@@ -51,12 +51,17 @@ public class P2PDinnerListenerService extends GcmListenerService {
                 .appendHalfdayOfDayText().toFormatter();
         Log.d(TAG, "From: " + from);
         Log.d(TAG, "Message: " + title);
+        String message = "";
+        if (data.getString("target").equalsIgnoreCase("Buyer")) {
+             message = String.format("Pickup between %s and %s, %s. confirmation code: %s",
+                    printFormatter.withZone(DateTimeZone.getDefault()).print(startDtTime),
+                    printFormatter.withZone(DateTimeZone.getDefault()).print(endDtTime),
+                    address,
+                    confirmationCode);
+        } else {
+            message = String.format("%s - %s order(s) received", data.getString("orderQuantity"), data.getString("menuItemTitle"));
+        }
 
-        String message = String.format("Pickup between %s and %s, %s. confirmation code: %s",
-                printFormatter.withZone(DateTimeZone.getDefault()).print(startDtTime),
-                printFormatter.withZone(DateTimeZone.getDefault()).print(endDtTime),
-                address,
-                confirmationCode);
 
         if (from.startsWith("/topics/")) {
             // message received from some topic.

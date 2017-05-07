@@ -29,6 +29,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.p2pdinner.R;
@@ -68,6 +70,9 @@ public class MainActivity extends BaseAppCompatActivity {
     @Inject
     UserProfileManager userProfileManager;
 
+    @Inject
+    Tracker tracker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +106,9 @@ public class MainActivity extends BaseAppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Log.i(TAG, "Setting screen name " + "Home");
+        tracker.setScreenName("Home");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
         if (!playServicesVerified) {
             checkPlayServices();
             playServicesVerified = true;
@@ -129,6 +137,10 @@ public class MainActivity extends BaseAppCompatActivity {
                 Boolean isValidProfile = sharedPreferences.getBoolean(Constants.IS_VALID_PROFILE, Boolean.FALSE);
                 switch (option.getIcon()) {
                     case R.drawable.ihavedinner:
+                        tracker.send(new HitBuilders.EventBuilder()
+                            .setCategory("Action")
+                            .setAction("I Have Dinner")
+                            .build());
                         if (!sharedPreferences.contains(Constants.ACCESS_TOKEN) &&
                                 !StringUtils.hasText(sharedPreferences.getString(Constants.EMAIL_ADDRESS, ""))) {
                             Intent intent = new Intent(getApplicationContext(), FacebookLoginActivity.class);
@@ -141,6 +153,10 @@ public class MainActivity extends BaseAppCompatActivity {
                         }
                         break;
                     case R.drawable.myorders:
+                        tracker.send(new HitBuilders.EventBuilder()
+                                .setCategory("Action")
+                                .setAction("MyOrders")
+                                .build());
                         sharedPreferences = getSharedPreferences(Constants.PREFS_PRIVATE, Context.MODE_PRIVATE);
                         if (!sharedPreferences.contains(Constants.ACCESS_TOKEN)) {
                             Intent intent = new Intent(getApplicationContext(), FacebookLoginActivity.class);
@@ -153,6 +169,10 @@ public class MainActivity extends BaseAppCompatActivity {
                         }
                         break;
                     case R.drawable.iwantdinner:
+                        tracker.send(new HitBuilders.EventBuilder()
+                                .setCategory("Action")
+                                .setAction("I Want Dinner")
+                                .build());
                         Intent intent = new Intent(getApplicationContext(), FindDinnerActivity.class);
                         startActivity(intent);
                         break;
@@ -177,6 +197,8 @@ public class MainActivity extends BaseAppCompatActivity {
                         editor.putString(Constants.EMAIL_ADDRESS, userProfile.getEmailAddress());
                         editor.putLong(Constants.PROFILE_ID, userProfile.getId());
                         editor.putBoolean(Constants.IS_VALID_PROFILE, Boolean.TRUE);
+                        editor.putString(Constants.CERTIFICATES, userProfile.getCertificates());
+                        tracker.set("&uid", userProfile.getId().toString());
                         editor.commit();
                         boolean sentToken = sharedPreferences.getBoolean(Constants.SENT_TOKEN_TO_SERVER, false);
                         if (!sentToken) {
@@ -217,6 +239,8 @@ public class MainActivity extends BaseAppCompatActivity {
                         editor.putString(Constants.EMAIL_ADDRESS, userProfile.getEmailAddress());
                         if (userProfile != null && userProfile.getId() != null) {
                             editor.putLong(Constants.PROFILE_ID, userProfile.getId());
+                            editor.putString(Constants.CERTIFICATES, userProfile.getCertificates());
+                            tracker.set("&uid", userProfile.getId().toString());
                         }
                         editor.commit();
                         boolean sentToken = sharedPreferences.getBoolean(Constants.SENT_TOKEN_TO_SERVER, false);
@@ -368,15 +392,35 @@ public class MainActivity extends BaseAppCompatActivity {
 
             switch (pos) {
                 case 0:
+                    tracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("Action")
+                    .setAction("CopyrightAgreement")
+                    .build());
                     showDocument(Constants.P2PDINNER_WEB_BASE_URI + getString(R.string.copyRightUri));
                     break;
                 case 1:
+                    tracker.send(new HitBuilders.EventBuilder()
+                            .setCategory("Action")
+                            .setAction("PrivacyPolicy")
+                            .build());
                     showDocument(Constants.P2PDINNER_WEB_BASE_URI +  getString(R.string.privacyUri));
                     break;
                 case 2:
+                    tracker.send(new HitBuilders.EventBuilder()
+                            .setCategory("Action")
+                            .setAction("TermsAndConditions")
+                            .build());
                     showDocument(Constants.P2PDINNER_WEB_BASE_URI +  getString(R.string.tcUri));
                     break;
                 case 3:
+                    tracker.send(new HitBuilders.EventBuilder()
+                            .setCategory("Action")
+                            .setAction("Profile")
+                            .build());
+                    Intent intent = new Intent(getApplicationContext(), FoodAndSafetyActivity.class);
+                    startActivity(intent);
+                    break;
+                case 4:
                     clearCache();
                     break;
                 default:

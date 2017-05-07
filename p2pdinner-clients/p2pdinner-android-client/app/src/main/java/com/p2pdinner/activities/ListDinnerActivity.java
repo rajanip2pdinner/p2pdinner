@@ -15,12 +15,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.p2pdinner.R;
 import com.p2pdinner.common.Constants;
 import com.p2pdinner.entities.DinnerMenuItem;
 import com.p2pdinner.seller.dinner.ListDinnerFragmentAdapter;
 
 import java.util.Map;
+
+import javax.inject.Inject;
 
 
 public class ListDinnerActivity extends AppCompatActivity {
@@ -39,6 +43,12 @@ public class ListDinnerActivity extends AppCompatActivity {
             R.drawable.cost_icon_2x,
             R.drawable.special_needs_1x
     };
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
 
     @Override

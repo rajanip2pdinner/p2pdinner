@@ -74,6 +74,8 @@
         <item>Copyright</item>
         <item>Privacy</item>
         <item><![CDATA[Terms & Conditions]]></item>
+        <item>Profile</item>
+        <item>Help</item>
         <item>Sign Out</item>
     </string-array>
     <string name="drawer_open">Open navigation drawer</string>
@@ -93,8 +95,12 @@
     <string name="footer">By using this app, I agree to the Terms &amp; Conditions</string>
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
+    <string name="gosell">Go Sell</string>
     <string-array name="choose_photo">
         <item>Camera</item>
         <item>Gallery</item>
     </string-array>
+    <string name="government_warning">
+        Govt. Food Safety Approval(s) (Required before selling) Load Photos of Certificates:
+    </string>
 </resources>

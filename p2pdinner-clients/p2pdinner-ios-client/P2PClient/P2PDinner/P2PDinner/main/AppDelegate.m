@@ -43,6 +43,23 @@
     token = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
     [[NSUserDefaults standardUserDefaults]setObject:token forKey:@"devToken"];
 }
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
+    if (application.applicationState == UIApplicationStateActive ) {
+        
+        UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+        localNotification.userInfo = userInfo;
+        localNotification.soundName = UILocalNotificationDefaultSoundName;
+        id alert = [userInfo objectForKey:@"alert"];
+        if ([alert isKindOfClass:[NSString class]]) {
+            localNotification.alertBody = alert;
+        }
+        else{
+            localNotification.alertBody = @"P2PDinner order updated, please check updates in 'My Orders'";
+        }
+        localNotification.fireDate = [NSDate date];
+        [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+    }
+}
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.

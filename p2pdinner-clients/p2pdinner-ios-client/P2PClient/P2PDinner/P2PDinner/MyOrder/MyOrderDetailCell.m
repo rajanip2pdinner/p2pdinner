@@ -16,6 +16,13 @@
 - (void)setCartDetailValues:(CarRecivedItemDetail *)cartDetail{
     _cartDetail=cartDetail;
 }
+- (IBAction)locateInMap:(id)sender{
+    NSArray *addressArray=[NSArray arrayWithObjects:_cartDetail.address_line1,_cartDetail.address_line2,_cartDetail.city,_cartDetail.state,nil];
+    NSString *location=[addressArray componentsJoinedByString: @","];
+    location =[NSString stringWithFormat:@"http://maps.apple.com/?q=%@",location];
+    NSURL *url = [[NSURL alloc] initWithString:[location stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLQueryAllowedCharacterSet]];
+    [[UIApplication sharedApplication] openURL:url];
+}
 - (IBAction)addToCalenderEvent:(id)sender{
     EKEventStore *store = [EKEventStore new];
         [store requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError *error) {

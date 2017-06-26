@@ -35,7 +35,6 @@ static NSString *urlEncode(id object) {
     if (timeZone==LOCAL) {
         inputTimeZone = [NSTimeZone localTimeZone];
     }
-    
     else
     {
         inputTimeZone= [NSTimeZone timeZoneWithAbbreviation:@"UTC"];
@@ -358,4 +357,27 @@ static const char *getPropertyMappedVarName(objc_property_t property) {
     }
     return FALSE;
 }
++ (NSDate *)combineDate:(NSDate *)date withTime:(NSDate *)time {
+    
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:
+                             NSCalendarIdentifierGregorian];
+    
+    unsigned unitFlagsDate = NSCalendarUnitYear | NSCalendarUnitMonth
+    |  NSCalendarUnitDay;
+    NSDateComponents *dateComponents = [gregorian components:unitFlagsDate
+                                                    fromDate:date];
+    unsigned unitFlagsTime = NSCalendarUnitHour | NSCalendarUnitMinute
+    |  NSCalendarUnitSecond;
+    NSDateComponents *timeComponents = [gregorian components:unitFlagsTime
+                                                    fromDate:time];
+    
+    [dateComponents setSecond:[timeComponents second]];
+    [dateComponents setHour:[timeComponents hour]];
+    [dateComponents setMinute:[timeComponents minute]];
+    
+    NSDate *combDate = [gregorian dateFromComponents:dateComponents];   
+    
+    return combDate;
+}
+
 @end

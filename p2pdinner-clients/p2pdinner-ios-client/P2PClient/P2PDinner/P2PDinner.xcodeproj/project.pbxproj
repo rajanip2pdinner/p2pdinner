@@ -202,6 +202,7 @@
 		2CDB4FD61AE8901400535B3A /* CostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CostViewController.m; sourceTree = "<group>"; };
 		2CDB4FD81AE8903000535B3A /* SplNeedsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplNeedsController.h; sourceTree = "<group>"; };
 		2CDB4FD91AE8903000535B3A /* SplNeedsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SplNeedsController.m; sourceTree = "<group>"; };
+		2CDBF2011E4E26A40037FDD2 /* P2PDinner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = P2PDinner.entitlements; sourceTree = "<group>"; };
 		2CDC31491AB670A30019CE77 /* ActivityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityView.h; sourceTree = "<group>"; };
 		2CDC314A1AB670A30019CE77 /* ActivityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityView.m; sourceTree = "<group>"; };
 		2CDC314D1AB670B30019CE77 /* UIViewController+P2PViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+P2PViewController.h"; sourceTree = "<group>"; };
@@ -654,6 +655,7 @@
 		5EA3167C1AA2CB7C006994B0 /* P2PDinner */ = {
 			isa = PBXGroup;
 			children = (
+				2CDBF2011E4E26A40037FDD2 /* P2PDinner.entitlements */,
 				2CB7A3D21DADEEBA002986CA /* StarRatingView */,
 				2C4121F31B97E5440083214D /* CommonDinnerViews */,
 				2CFEF8E51AC5091A00395737 /* CategoryService */,
@@ -958,6 +960,11 @@
 					5EA316791AA2CB7C006994B0 = {
 						CreatedOnToolsVersion = 6.1.1;
 						DevelopmentTeam = L8SP6C8VRV;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					5EA316921AA2CB7C006994B0 = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -1175,7 +1182,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Annamalai Pasupathy (Q3UA9QKP6M)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Annamalai Pasupathy (Q3UA9QKP6M)";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1220,7 +1228,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Annamalai Pasupathy (L8SP6C8VRV)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Annamalai Pasupathy (L8SP6C8VRV)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1247,6 +1256,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				AppName = "${APPLICATION_NAME}";
+				CODE_SIGN_ENTITLEMENTS = P2PDinner/P2PDinner.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Annamalai Pasupathy (Q3UA9QKP6M)";
 				DEVELOPMENT_TEAM = L8SP6C8VRV;
 				ENABLE_BITCODE = NO;
@@ -1259,8 +1269,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.p2pdinner.com;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8465625c-6de0-47d8-95c1-65e1e42970b3";
-				PROVISIONING_PROFILE_SPECIFIER = P2PDinnerDev;
+				PROVISIONING_PROFILE = "2bbc8e0f-ac09-4500-8c9c-86b9d9557d30";
+				PROVISIONING_PROFILE_SPECIFIER = P2PDinner_Distribution;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -1271,6 +1281,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				AppName = "${APPLICATION_NAME}";
+				CODE_SIGN_ENTITLEMENTS = P2PDinner/P2PDinner.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Annamalai Pasupathy (Q3UA9QKP6M)";
 				DEVELOPMENT_TEAM = L8SP6C8VRV;
 				ENABLE_BITCODE = NO;

@@ -51,13 +51,14 @@ public class P2PDinnerOAuthTokenRefreshService {
     }
 
     public AppAccessToken requestAccessToken() {
-        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromUriString(Constants.P2PDINNER_BASE_URI);
-        UriComponents components = uriComponentsBuilder.path("/oauth/token").build();
+        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromUriString(Constants.P2PDINNER_OKTA_URL);
+        UriComponents components = uriComponentsBuilder.path("/token").build();
         MultiValueMap<String, String> formParams = new LinkedMultiValueMap<String, String>();
-        formParams.add("grant_type", "Password");
-        formParams.add("username", context.getString(R.string.p2pdinner_user_name));
-        formParams.add("password", context.getString(R.string.p2pdinner_password));
-        HttpHeaders httpHeaders = createHeaders(context.getString(R.string.p2pdinner_client_id), context.getString(R.string.p2pdinner_client_secret));
+        formParams.add("grant_type", "password");
+        formParams.add("username", context.getString(R.string.okta_user_name));
+        formParams.add("password", context.getString(R.string.okta_password));
+        formParams.add("scope", context.getString(R.string.okta_scopes));
+        HttpHeaders httpHeaders = createHeaders(context.getString(R.string.okta_client_id), context.getString(R.string.okta_client_secret));
         httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(formParams, httpHeaders);
         ResponseEntity<AppAccessToken> appAccessTokenEntity = oauthRequestTemplate.exchange(components.toUri(), HttpMethod.POST, requestEntity, AppAccessToken.class);
@@ -65,12 +66,12 @@ public class P2PDinnerOAuthTokenRefreshService {
     }
 
     public AppAccessToken refreshAccessToken(final String refreshToken) {
-        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromUriString(Constants.P2PDINNER_BASE_URI);
-        UriComponents components = uriComponentsBuilder.path("/oauth/token").build();
+        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromUriString(Constants.P2PDINNER_OKTA_URL);
+        UriComponents components = uriComponentsBuilder.path("/token").build();
         MultiValueMap<String, String> formParams = new LinkedMultiValueMap<String, String>();
         formParams.add("grant_type", "refresh_token");
         formParams.add("refresh_token", refreshToken);
-        HttpHeaders httpHeaders = createHeaders(context.getString(R.string.p2pdinner_client_id), context.getString(R.string.p2pdinner_client_secret));
+        HttpHeaders httpHeaders = createHeaders(context.getString(R.string.okta_client_id), context.getString(R.string.okta_client_secret));
         httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(formParams, httpHeaders);
         ResponseEntity<AppAccessToken> appAccessTokenEntity = oauthRequestTemplate.exchange(components.toUri(), HttpMethod.POST, requestEntity, AppAccessToken.class);

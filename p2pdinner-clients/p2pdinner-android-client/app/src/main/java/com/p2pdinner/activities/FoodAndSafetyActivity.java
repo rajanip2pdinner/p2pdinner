@@ -142,6 +142,7 @@ public class FoodAndSafetyActivity extends BaseAppCompatActivity {
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
                                     editor.putString(Constants.CERTIFICATES, userProfile.getCertificates());
                                     editor.apply();
+                                    editor.commit();
                                 }
                             });
                 }

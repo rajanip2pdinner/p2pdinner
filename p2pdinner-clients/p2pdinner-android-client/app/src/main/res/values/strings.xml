@@ -10,6 +10,12 @@
     <string name="p2pdinner_user_name">rajani1@p2pdinner.com</string>
     <string name="p2pdinner_password">Welcome123</string>
 
+    <string name="okta_client_id">0oaax7idgbxD5ypzg0h7</string>
+    <string name="okta_client_secret">WdRnnH9NrQlDZgjpZTKUqOLIgd1o-Kk5s5tG7kmj</string>
+    <string name="okta_user_name">rajani.shops@gmail.com</string>
+    <string name="okta_password">Raj634713</string>
+    <string name="okta_scopes">offline_access openid profile email</string>
+
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="action_search">Search</string>

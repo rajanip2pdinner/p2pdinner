@@ -22,6 +22,7 @@
 @property(nonatomic,strong) NSString *accountBalance;
 @property(nonatomic,strong) NSString *isActive;
 @property(nonatomic,strong) NSString *stripeCustomerId;
+@property(nonatomic,strong) NSString *userCertificates;
 + (id)sharedLogin;
 - (void)setUserProfileDetails:(NSDictionary *)userProfile;
 @end

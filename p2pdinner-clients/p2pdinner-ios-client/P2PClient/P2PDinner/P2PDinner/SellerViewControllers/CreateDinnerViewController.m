@@ -10,6 +10,8 @@
 #import "SellerHistoryHandler.h"
 #import "SharedLogin.h"
 #import "Utility.h"
+#import "AddFoodPhotos.h"
+#import "StringConstants.h"
 
 @interface CreateDinnerViewController ()
 {
@@ -69,9 +71,38 @@
     [tableView reloadData];
     [self valdateOldDinnerArray];
 }
-
+- (id)validateNull:(id)object{
+    if (!(object == (id)[NSNull null]) || [object isKindOfClass:[NSString class]]) {
+        return object;
+    }
+    return @"";
+}
 - (void)viewDidLoad {
     //[[SharedLogin sharedLogin] setUserId:[NSNumber numberWithInt:935]];    [[NSUserDefaults standardUserDefaults]setObject:@"935" forKey:@"userId"];
+    NSString *userCert = [[SharedLogin sharedLogin] userCertificates];
+    userCert = [self validateNull:userCert];
+    if (!userCert || userCert.length <= 3) {
+        //Need to show food safty
+        
+        AddFoodPhotos *addFoodPhotos = [self.storyboard instantiateViewControllerWithIdentifier:@"addFoodPhotosViewController"];
+        ItemDetails *itemDetails=[[ItemDetails alloc]init];
+        //itemDetails.imageUri = userCert;
+        [addFoodPhotos setTitle:kSafetyProfile];
+        [addFoodPhotos setItemDetails:itemDetails];
+        [addFoodPhotos setIsFromFoodSafty:YES];
+        UINavigationController *nv = [[UINavigationController alloc] initWithRootViewController:addFoodPhotos];
+        [addFoodPhotos completionAction:^(bool value) {
+            if (value) {
+                [self.navigationController popViewControllerAnimated:YES];
+                
+            }
+        }];
+        [self presentViewController:nv animated:YES completion:^{
+            
+        }];
+    }
+    
+    
     [self loadUserDinnerHistory];
     UIBarButtonItem *newBackButton = [[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStylePlain target:self action:@selector(backButtonAction)];
     self.navigationItem.leftBarButtonItem=newBackButton;
@@ -245,25 +276,25 @@
 }
 - (void)navigateMenuView:(MenuViewController *)viewController indexPath:(NSIndexPath *)path{
  //UINavigationController *navigationController =[[UINavigationController alloc] initWithRootViewController:viewController];
-    if (path.row==0) {
-        ItemDetails *item=[self createNewItem];
-        NSMutableArray *oldArray=[NSMutableArray arrayWithArray:oldAddedArray];
-        [oldArray addObject:item];
-        oldAddedArray=[NSArray arrayWithArray:oldArray];
-        [[ItemDetailsShared sharedItemDetails] setSharedItemDetailsValue:item];
-        [viewController setItemDetails:item];
-        
-    }
-    else
-    {
-        ItemDetails *selectedItem=[oldAddedArray objectAtIndex:(path.row-2)];
-        [[ItemDetailsShared sharedItemDetails] setSharedItemDetailsValue:[self getUpdatedCurrentDate:selectedItem]];
-        [viewController setItemDetails:[oldAddedArray objectAtIndex:(path.row-2)]];
-    }
-    //[self naviagtionBarUISetup];
-    [self presentViewController:viewController animated:YES completion:^{
-        
-    }];
+        if (path.row==0) {
+            ItemDetails *item=[self createNewItem];
+            NSMutableArray *oldArray=[NSMutableArray arrayWithArray:oldAddedArray];
+            [oldArray addObject:item];
+            oldAddedArray=[NSArray arrayWithArray:oldArray];
+            [[ItemDetailsShared sharedItemDetails] setSharedItemDetailsValue:item];
+            [viewController setItemDetails:item];
+            
+        }
+        else
+        {
+            ItemDetails *selectedItem=[oldAddedArray objectAtIndex:(path.row-2)];
+            [[ItemDetailsShared sharedItemDetails] setSharedItemDetailsValue:[self getUpdatedCurrentDate:selectedItem]];
+            [viewController setItemDetails:[oldAddedArray objectAtIndex:(path.row-2)]];
+        }
+        //[self naviagtionBarUISetup];
+        [self presentViewController:viewController animated:YES completion:^{
+            
+        }];
 }
 - (void)cancelAction{
     //[self updateMenuItem:[[ItemDetailsShared sharedItemDetails] sharedItemDetailsValue]];

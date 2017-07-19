@@ -17,6 +17,8 @@
 #import "LocationServiceHandler.h"
 #import "AppDelegate.h"
 #import "AgreementsViewController.h"
+#import "LoginServiceHandler.h"
+#import "StringConstants.h"
 @interface HomeViewController ()<LocationManagerDelegate>
 {
     FacebookManager *fbmanager;
@@ -56,7 +58,6 @@
 
 - (void)settingsAction
 {
-
     [self performSegueWithIdentifier:@"SettingsViewController" sender:self];
 }
 
@@ -88,7 +89,14 @@
 }
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
+    NSString *profileId = [[NSUserDefaults standardUserDefaults] objectForKey:@"userId"];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible=YES;
+    [[LoginServiceHandler sharedServiceHandler] getProfileDetails:profileId serviceCallBack:^(NSError *error, LoginResponce *response) {
+        [UIApplication sharedApplication].networkActivityIndicatorVisible=NO;
+        
+    }];
+
+    
     // Do any additional setup after loading the view.
     [self updateCurrentLocation];
     activityView=[[ActivityView alloc]initWithFrame:self.view.frame];
@@ -96,6 +104,8 @@
     [self navigationBarsetup];
     [self displayLaunchScreen];
     
+    [super viewDidLoad];
+
     
 }
 - (void)didReceiveMemoryWarning {
@@ -122,9 +132,9 @@
      if ([[segue identifier] isEqualToString:@"AgreementViewController"])
      {
          AgreementsViewController *viewController=[segue destinationViewController];
-         NSURL *targetURL = [NSURL URLWithString:@"legal/Terms.html"];
+         NSURL *targetURL = [NSURL URLWithString:kTerms_URL];
          [viewController setPdfURL:targetURL];
-         [viewController setTitle:@"Terms & Conditions"];
+         [viewController setTitle:kTermsConditionText];
      }
  }
 

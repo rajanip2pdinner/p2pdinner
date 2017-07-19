@@ -18,5 +18,6 @@ typedef enum {
     IBOutlet UITableView *tableView;
     
 }
+@property(nonatomic,assign)BOOL isFoodSafetyAvailable;
 + (void)backButtonAction;
 @end

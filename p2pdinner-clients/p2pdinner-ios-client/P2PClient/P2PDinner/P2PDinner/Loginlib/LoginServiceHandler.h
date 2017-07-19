@@ -17,4 +17,6 @@ typedef void(^RegisterResultBlock)(NSError *error, LoginResponce *response);
 }
 + (id)sharedServiceHandler;
 - (void)loginServiceHandler:(LoginRequest *)loginRequest serviceCallBack:(RegisterResultBlock)service;
+- (void)profileUpdateCertificate:(NSString *)certificateImage serviceCallBack:(RegisterResultBlock)service;
+- (void)getProfileDetails:(NSString *)profileId serviceCallBack:(RegisterResultBlock)service;
 @end

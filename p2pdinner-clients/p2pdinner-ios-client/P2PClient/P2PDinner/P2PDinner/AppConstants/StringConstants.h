@@ -30,11 +30,12 @@
 
 #define kTitle_Settings @"Settings"
 #define kSegueID_AgreementVC @"AgreementViewController"
-#define kTerms_URL @"https://dev-p2pdinner-services.herokuapp.com/legal/Terms.html"
-#define kCopyright_URL @"https://dev-p2pdinner-services.herokuapp.com/legal/copyright.html"
-#define kPrivacy_URL @"https://dev-p2pdinner-services.herokuapp.com/legal/privacy.html"
+#define kTerms_URL @"https://p2pdinner-services.herokuapp.com/legal/Terms.html"
+#define kCopyright_URL @"https://p2pdinner-services.herokuapp.com/legal/copyright.html"
+#define kPrivacy_URL @"https://p2pdinner-services.herokuapp.com/legal/privacy.html"
 #define kTermsConditionText @"Terms & Conditions"
 #define kCopyrightText @"Copyright Agreement"
+#define kSafetyProfile @"Food Safety"
 #define kPrivacyText @"Privacy policy"
 
 #pragma mark - StarRatingView
@@ -138,6 +139,7 @@
 #define kUploading @"Uploading.."
 #define kImagePicker @"UIImagePickerControllerOriginalImage"
 #define kUploadError @"Upload Error"
+#define kCertUploadError @"Certificate upload error please contact support."
 
 
 #pragma mark - CreateFoodItem
@@ -168,5 +170,5 @@
 #define knoImage @"noImage"
 #define kServingTo @"Serving %@ to %@"
 #define kServingBetween @"Served between %@ and %@"
-
+#define kfoodSaftyNote @"Govt. food safety Approval(s) [Required before selling] Load Photos of Certificates:"
 #endif

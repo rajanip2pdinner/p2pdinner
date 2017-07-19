@@ -176,12 +176,57 @@ static ServiceHandler *_sharedInstance=nil;
         }
     }];
 }
+
+- (void)executePUT:(NSString *)url requestObject:(NSString *)requestValue contentType:(NSString *)contentType requestMethodPostServiceCallBack:(ServiceResultBlock)serviceCallBackBlock{
+    
+    [self validateAccessToken:^(NSError *error, id response) {
+        
+        if(error){
+            serviceCallBackBlock(error,nil);
+        }
+        else
+        {
+            manager = [[AFHTTPRequestOperationManager manager] initWithBaseURL:[NSURL URLWithString:BASE_URL]];
+            NSData* requestData = [requestValue dataUsingEncoding:NSUTF8StringEncoding];
+            NSError *error=nil;
+            NSDictionary *requestDict;
+            
+            if (!requestValue) {
+                requestDict=@{};
+            }
+            else
+            {
+                requestDict=[NSJSONSerialization JSONObjectWithData:requestData options:kNilOptions error:&error];
+            }
+            manager.requestSerializer = [AFJSONRequestSerializer serializer];
+            NSString *accessToken=[NSString stringWithFormat:@"%@ %@",[[NSUserDefaults standardUserDefaults] objectForKey:@"tokenType"],response];
+            manager.requestSerializer = [AFJSONRequestSerializer serializer];
+            [manager.requestSerializer setValue:accessToken forHTTPHeaderField:@"Authorization"];
+            
+            operation=[manager PUT:url parameters:requestDict success:^(AFHTTPRequestOperation *operation, id responseObject){
+                
+                NSLog(@"JSON: %@", responseObject);
+                serviceCallBackBlock(nil,responseObject);
+                
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                
+                NSLog(@"Error: %@", error);
+                serviceCallBackBlock(error,nil);
+                
+            }];
+        }
+    }];
+}
+
 - (void)execute:(NSString *)url requestObject:(NSString *)requestValue contentType:(NSString *)contentType requestMethod:(NSString *)requestMethod serviceCallBack:(ServiceResultBlock)serviceCallBackBlock{
     resultBlock=serviceCallBackBlock;
     
     if ([requestMethod isEqualToString:@"GET"]) {
         url=[NSString stringWithFormat:@"%@",url];
         [self execute:url requestObject:requestValue contentType:contentType requestMethodGetServiceCallBack:serviceCallBackBlock];
+    }
+    else if ([requestMethod isEqualToString:@"PUT"]) {
+         [self executePUT:url requestObject:requestValue contentType:contentType requestMethodPostServiceCallBack:serviceCallBackBlock];
     }
     else
     {

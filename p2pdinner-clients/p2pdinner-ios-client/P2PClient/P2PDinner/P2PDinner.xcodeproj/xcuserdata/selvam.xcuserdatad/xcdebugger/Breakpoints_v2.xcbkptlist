@@ -179,22 +179,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "P2PDinner/SellerViewControllers/DinnerLoginViewController.m"
-            timestampString = "484200960.065462"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "90"
-            endingLineNumber = "90"
-            landmarkName = "-makeLoginOperation:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "P2PDinner/BuyerViewControllers/ItemDetailViewController/ItemDetailViewController.m"
             timestampString = "484203152.46568"
             startingColumnNumber = "9223372036854775807"
@@ -219,70 +203,6 @@
             endingLineNumber = "23"
             landmarkName = "-createAddDinnerItemFromDictionary:"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "P2PDinner/SellerHistory/SellerHistoryHandler.m"
-            timestampString = "502219827.249813"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "54"
-            endingLineNumber = "54"
-            landmarkName = "-addDinnerListingMenuItem:serviceCallBack:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "P2PDinner/SellerHistory/SellerHistoryHandler.m"
-            timestampString = "502219827.249813"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "57"
-            endingLineNumber = "57"
-            landmarkName = "-addDinnerListingMenuItem:serviceCallBack:"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[SellerHistoryHandler addDinnerListingMenuItem:serviceCallBack:]"
-                  moduleName = "P2PDinner"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/selvam/Documents/heroku/GIT/p2pdinner/p2pdinner-clients/p2pdinner-ios-client/P2PClient/P2PDinner/P2PDinner/SellerHistory/SellerHistoryHandler.m"
-                  timestampString = "508049761.692804"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "57"
-                  endingLineNumber = "57"
-                  offsetFromSymbolStart = "388">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__65-[SellerHistoryHandler addDinnerListingMenuItem:serviceCallBack:]_block_invoke"
-                  moduleName = "P2PDinner"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/selvam/Documents/heroku/GIT/p2pdinner/p2pdinner-clients/p2pdinner-ios-client/P2PClient/P2PDinner/P2PDinner/SellerHistory/SellerHistoryHandler.m"
-                  timestampString = "508049761.694826"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "58"
-                  endingLineNumber = "58"
-                  offsetFromSymbolStart = "72">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -362,38 +282,6 @@
             startingLineNumber = "90"
             endingLineNumber = "90"
             landmarkName = "-currentUserLocation:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "P2PDinner/SellerViewControllers/PlaceViewControllers/PlaceViewController.m"
-            timestampString = "500741534.115831"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "148"
-            endingLineNumber = "148"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "P2PDinner/MyOrder/MyOrderViewController.m"
-            timestampString = "501659248.878503"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "298"
-            endingLineNumber = "298"
-            landmarkName = "-updatedRatingValue:withCartId:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -505,54 +393,6 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "P2PDinner/SellerHistory/SellerHistoryHandler.m"
-            timestampString = "507532537.264795"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "205"
-            endingLineNumber = "205"
-            landmarkName = "-getItemListing:serviceCallBack:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "P2PDinner/SellerHistory/SellerHistoryHandler.m"
-            timestampString = "507532540.032464"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "207"
-            endingLineNumber = "207"
-            landmarkName = "-getItemListing:serviceCallBack:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "P2PDinner/SellerHistory/SellerHistoryHandler.m"
-            timestampString = "507532671.424015"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "209"
-            endingLineNumber = "209"
-            landmarkName = "-getItemListing:serviceCallBack:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "P2PDinner/SellerHistory/SellerHistoryHandler.m"
             timestampString = "507532722.952157"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
@@ -569,12 +409,12 @@
                   moduleName = "P2PDinner"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/selvam/Documents/heroku/GIT/p2pdinner/p2pdinner-clients/p2pdinner-ios-client/P2PClient/P2PDinner/P2PDinner/SellerHistory/SellerHistoryHandler.m"
-                  timestampString = "508049761.734347"
+                  timestampString = "517289543.471533"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "223"
                   endingLineNumber = "223"
-                  offsetFromSymbolStart = "308">
+                  offsetFromSymbolStart = "346">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -584,12 +424,12 @@
                   moduleName = "P2PDinner"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/selvam/Documents/heroku/GIT/p2pdinner/p2pdinner-clients/p2pdinner-ios-client/P2PClient/P2PDinner/P2PDinner/SellerHistory/SellerHistoryHandler.m"
-                  timestampString = "508049761.736661"
+                  timestampString = "517289543.473082"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "224"
                   endingLineNumber = "224"
-                  offsetFromSymbolStart = "69">
+                  offsetFromSymbolStart = "76">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -617,12 +457,12 @@
                   moduleName = "P2PDinner"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/selvam/Documents/heroku/GIT/p2pdinner/p2pdinner-clients/p2pdinner-ios-client/P2PClient/P2PDinner/P2PDinner/BuyerViewControllers/FindDinnerViewController/FindDinnerViewController.m"
-                  timestampString = "508049761.741387"
+                  timestampString = "517289543.47873"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "186"
                   endingLineNumber = "186"
-                  offsetFromSymbolStart = "1072">
+                  offsetFromSymbolStart = "1398">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -632,12 +472,12 @@
                   moduleName = "P2PDinner"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/selvam/Documents/heroku/GIT/p2pdinner/p2pdinner-clients/p2pdinner-ios-client/P2PClient/P2PDinner/P2PDinner/BuyerViewControllers/FindDinnerViewController/FindDinnerViewController.m"
-                  timestampString = "508049761.74371"
+                  timestampString = "517289543.481463"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "186"
                   endingLineNumber = "186"
-                  offsetFromSymbolStart = "16">
+                  offsetFromSymbolStart = "14">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -665,12 +505,12 @@
                   moduleName = "P2PDinner"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/selvam/Documents/heroku/GIT/p2pdinner/p2pdinner-clients/p2pdinner-ios-client/P2PClient/P2PDinner/P2PDinner/BuyerViewControllers/FindDinnerViewController/FindDinnerViewController.m"
-                  timestampString = "508049761.748501"
+                  timestampString = "517289543.484821"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "186"
                   endingLineNumber = "186"
-                  offsetFromSymbolStart = "1072">
+                  offsetFromSymbolStart = "1398">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -680,12 +520,12 @@
                   moduleName = "P2PDinner"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/selvam/Documents/heroku/GIT/p2pdinner/p2pdinner-clients/p2pdinner-ios-client/P2PClient/P2PDinner/P2PDinner/BuyerViewControllers/FindDinnerViewController/FindDinnerViewController.m"
-                  timestampString = "508049761.750864"
+                  timestampString = "517289543.486178"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "186"
                   endingLineNumber = "186"
-                  offsetFromSymbolStart = "16">
+                  offsetFromSymbolStart = "14">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -720,6 +560,53 @@
             endingLineNumber = "217"
             landmarkName = "-tableView:didSelectRowAtIndexPath:"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__55-[AddTimeController tableView:didSelectRowAtIndexPath:]_block_invoke"
+                  moduleName = "P2PDinner"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/selvam/Documents/heroku/GIT/p2pdinner/p2pdinner-clients/p2pdinner-ios-client/P2PClient/P2PDinner/P2PDinner/SellerViewControllers/AddTime/AddTimeController.m"
+                  timestampString = "517289543.491508"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "217"
+                  endingLineNumber = "217"
+                  offsetFromSymbolStart = "256">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__copy_helper_block_.148"
+                  moduleName = "P2PDinner"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/selvam/Documents/heroku/GIT/p2pdinner/p2pdinner-clients/p2pdinner-ios-client/P2PClient/P2PDinner/P2PDinner/SellerViewControllers/AddTime/AddTimeController.m"
+                  timestampString = "517289543.494671"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "217"
+                  endingLineNumber = "217"
+                  offsetFromSymbolStart = "34">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__destroy_helper_block_.149"
+                  moduleName = "P2PDinner"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/selvam/Documents/heroku/GIT/p2pdinner/p2pdinner-clients/p2pdinner-ios-client/P2PClient/P2PDinner/P2PDinner/SellerViewControllers/AddTime/AddTimeController.m"
+                  timestampString = "517289543.497075"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "217"
+                  endingLineNumber = "217"
+                  offsetFromSymbolStart = "18">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -751,6 +638,54 @@
             startingLineNumber = "34"
             endingLineNumber = "34"
             landmarkName = "+selectDateAction:withPresentViewController:completionAction:withMinimumDate:currentDate:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "P2PDinner/SellerViewControllers/AddFoodPhotos/AddFoodPhotos.m"
+            timestampString = "517289542.376274"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "115"
+            endingLineNumber = "115"
+            landmarkName = "-completionAction:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "P2PDinner/SellerViewControllers/AddFoodPhotos/AddFoodPhotos.m"
+            timestampString = "517289542.376274"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "463"
+            endingLineNumber = "463"
+            landmarkName = "-updateImageToProfile"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "P2PDinner/SellerViewControllers/CreateDinnerViewController.m"
+            timestampString = "517289004.427945"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
+            landmarkName = "-viewDidLoad"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

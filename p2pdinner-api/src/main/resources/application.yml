@@ -1,0 +1,91 @@
+cxf:
+  path: /api/v1
+  jaxrs:
+    component-scan: true
+  servlet:
+    init:
+      servlet-list-path: /info
+google:
+  api:
+    key: AIzaSyBGg6t140kiCfZRtlfoaC1S7_miTAkwrqA
+  geocoding:
+    api:
+      url: https://maps.googleapis.com/maps/api/geocode/json?address={address}&key={key}
+    coordinate:
+      search:
+        api:
+          url: https://maps.googleapis.com/maps/api/geocode/json?latlng={latlng}&sensor=true&key={key}
+  places:
+    api:
+      add:
+        url: https://maps.googleapis.com/maps/api/place/add/json?key={key}
+      delete:
+        url: https://maps.googleapis.com/maps/api/place/delete/json?key={key}
+      radarsearch:
+        url: https://maps.googleapis.com/maps/api/place/radarsearch/json?key={key}&types=other&keyword=p2pdinner&radius=16000&location={location}&rankby=distance
+      nearbysearch:
+        url: https://maps.googleapis.com/maps/api/place/nearbysearch/json?key={key}&types=other&radius=25000&location={location}&keyword=p2pdinner
+      pagination:
+        radarsearch:
+          url: https://maps.googleapis.com/maps/api/place/radarsearch/json?key={key}&types=other&keyword=p2pdinner&radius=16000&location={location}&rankby=distance&pagetoken={pagetoken}
+        nearbysearch:
+          url: https://maps.googleapis.com/maps/api/place/nearbysearch/json
+stormpath:
+  apiKey:
+    id: 2BZ5P91LP0DPVZZXNI9UP42HG
+    secret: 9Sfjb8Rl8UY/Dyb+W4WrQa8QATBcxInSveRRZ1ZLVys
+sendgrid:
+  username: app31589910@heroku.com
+  password: tgx1wcea
+aws:
+  access:
+    key: AKIAJUWTR7FJQJUUX2SQ
+  secret:
+    key: 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
+  bucket:
+    name: p2pdinner-assets
+filepicker:
+  api:
+    key: AshBoUQjTSMWAY4TRsSoJz
+    secret: D3B5WMPQLFC55ED7ZCHYGC5AJU
+gcm:
+  url: https://android.googleapis.com/gcm/send
+  api:
+   key: AIzaSyCHMAf6d4iqCl-ku_UU7tvr_Ih-Jo0-p54
+apple:
+   cert: /certificates/push_production.p12
+security:
+  oauth2:
+    client:
+      client-id: 0oaax7idgbxD5ypzg0h7
+      client-secret: WdRnnH9NrQlDZgjpZTKUqOLIgd1o-Kk5s5tG7kmj
+      access-token-uri: https://dev-768670.oktapreview.com/oauth2/ausaxf4ch03nY0tMg0h7/v1/token
+      user-authorization-uri: https://dev-768670.oktapreview.com/oauth2/ausaxf4ch03nY0tMg0h7/v1/authorize
+      scope: offline_access openid profile email
+    resource:
+      user-info-uri: https://dev-768670.oktapreview.com/oauth2/ausaxf4ch03nY0tMg0h7/.well-known/oauth-authorization-server
+      perferTokenInfo: false
+spring:
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    ddl-auto: update
+    generate-ddl: true
+---
+spring:
+  profiles: development
+  datasource:
+    url: jdbc:postgresql://localhost:5432/p2pdinner-spring-boot
+    username: rajaniy
+    password: 1800$heemu
+    driverClassName: org.postgresql.Driver
+---
+spring:
+  profiles: cloud
+  datasource:
+    url: jdbc:postgresql://ec2-54-243-249-154.compute-1.amazonaws.com:5432/ddlmbg3obu79rn?sslfactory=org.postgresql.ssl.NonValidatingFactory&ssl=true
+    username: bddbeaqojhfdqt
+    password: OGw99TaWdz2qfU2s7M5meSCFSx
+    driverClassName: org.postgresql.Driver
+
+

@@ -31,6 +31,7 @@ static SharedLogin *_sharedInstance=nil;
     self.accountBalance=[userProfile objectForKey:@"accountBalance"];
     self.isActive=[userProfile objectForKey:@"isActive"];
     self.stripeCustomerId=[userProfile objectForKey:@"stripeCustomerId"];
+    self.userCertificates=[userProfile objectForKey:@"certificates"];
     
 }
 @end

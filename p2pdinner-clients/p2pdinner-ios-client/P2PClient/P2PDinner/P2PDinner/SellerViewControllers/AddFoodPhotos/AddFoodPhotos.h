@@ -10,6 +10,8 @@
 #import "SelectPhotoCell.h"
 #import "ItemDetails.h"
 
+typedef void(^CompletionAction)(bool);
+
 @interface AddFoodPhotos : UIViewController<SelectPhotoDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
     IBOutlet UITableView *photoSelectTableView;
@@ -19,5 +21,10 @@
     
 }
 @property(nonatomic,strong) ItemDetails *itemDetails;
-
+@property(nonatomic,weak) IBOutlet UIButton *updateSaftyBtn;
+@property(nonatomic,assign) BOOL isFromFoodSafty;
+@property(nonatomic,assign) BOOL isFromSettings;
+@property(nonatomic,strong) CompletionAction completionAction;
+- (void)completionAction:(void (^ __nullable)(bool))completion;
+- (IBAction)updateImageToProfile;
 @end

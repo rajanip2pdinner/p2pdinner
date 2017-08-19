@@ -10,6 +10,7 @@
 //TypeDef POST GET
 #define RequestTypeGet @"GET";
 #define RequestTypePost  @"POST";
+#define RequestTypePut @"PUT"
 //RequestType
 #define MIMETypeJSON  @"application/json";
 #define MIMETypeFormURLEncoded  @"application/x-www-form-urlencoded";

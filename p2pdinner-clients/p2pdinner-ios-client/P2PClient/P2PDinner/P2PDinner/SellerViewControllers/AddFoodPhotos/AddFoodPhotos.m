@@ -12,13 +12,43 @@
 #import "ItemDetailsShared.h"
 #import "StringConstants.h"
 
+#import "LoginServiceHandler.h"
+#import "SharedLogin.h"
+#import <AVFoundation/AVFoundation.h>
+
 @interface AddFoodPhotos (){
     NSMutableArray *imageUrls;
 }
 @end
-
 @implementation AddFoodPhotos
 @synthesize itemDetails;
+-(void)navigationBarsetup{
+    UIColor *navBarColor=[UIColor colorWithRed:237.0/255.0
+                                         green:134.0/255.0
+                                          blue:0.0/255.0
+                                         alpha:1];
+    NSDictionary *navbarTitleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                                               [UIColor whiteColor],UITextAttributeTextColor,
+                                               [UIFont fontWithName:@"Plantin" size:24], NSFontAttributeName,[NSValue valueWithUIOffset:UIOffsetMake(-1, 0)],UITextAttributeTextShadowOffset, nil];
+    
+    
+    
+    [self.navigationController.navigationBar  setTitleTextAttributes:navbarTitleTextAttributes];
+    [self.navigationController.navigationBar setBarTintColor:navBarColor];
+}
+
+- (void)backAction{
+    if (_isFromSettings) {
+        [self updateProfileCertificate];
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    else{
+        [self dismissViewControllerAnimated:NO completion:^{
+            _completionAction(true);
+        }];
+        
+    }
+}
 - (void)makeImageURLfromimageName:(NSArray *)imageNames
 {
     NSMutableArray *mutableImageURL=[NSMutableArray arrayWithArray:imageNames];
@@ -33,7 +63,12 @@
     
 }
 - (void)viewDidLoad {
+    if (_isFromFoodSafty) {
+         self.title=kSafetyProfile;
+    }
+    else{
     self.title=kDinner_Listing;
+    }
     imageURLArray=[itemDetails.imageUri componentsSeparatedByString:kComa_String];
     if (imageURLArray.count>=1) {
         NSMutableArray *removeEmptyObject=[NSMutableArray arrayWithArray:imageURLArray];
@@ -48,8 +83,36 @@
     {
         [self makeImageURLfromimageName:imageURLArray];
     }
+    
+    if (_isFromSettings && _isFromFoodSafty){
+        [self navigationBarsetup];
+        CGRect tableviewFrame = photoSelectTableView.frame;
+        [photoSelectTableView setFrame:CGRectMake(tableviewFrame.origin.x, tableviewFrame.origin.y, tableviewFrame.size.width, self.view.frame.size.height)];
+        [_updateSaftyBtn setHidden:YES];
+        
+    }
+    else if (_isFromFoodSafty){
+        [self navigationBarsetup];
+        [self navigationBarsetup];
+        [_updateSaftyBtn setHidden:NO];
+        [_updateSaftyBtn setTitle:@"Go Sell" forState:UIControlStateNormal];
+        if(imageURLArray.count > 0){
+            _updateSaftyBtn.enabled=YES;
+            [_updateSaftyBtn setBackgroundColor:[UIColor colorWithRed:249.0f/255.0f green:221.0f/255.0f blue:129.0f/255.0f alpha:1.0]];
+        }
+        else{
+            _updateSaftyBtn.enabled=NO;
+            [_updateSaftyBtn setBackgroundColor:[UIColor lightGrayColor]];
+        }
+    }
+    else{
+        [_updateSaftyBtn setHidden:YES];
+    }
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+}
+- (void)completionAction:(void (^)(bool))completion{
+    _completionAction=completion;
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -108,7 +171,11 @@
     if (indexPath.row==0) {
         UITableViewCell *cell=(UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:kNoteCell];
         cell.selectionStyle =UITableViewCellSelectionStyleNone;
-        
+        if (_isFromFoodSafty) {
+            UILabel *noteLable = [cell viewWithTag:666];
+            [noteLable setTextColor:[UIColor blackColor]];
+            noteLable.text = kfoodSaftyNote;
+        }
         return cell;
     }
     SelectPhotoCell *cell;
@@ -244,9 +311,32 @@
     {
         case 0:
         {
-            picker.delegate = self;
-            picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-            [self presentViewController:picker animated:YES completion:^{}];
+            if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+            {
+                AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+                
+                if(status == AVAuthorizationStatusAuthorized) {
+                    picker.delegate = self;
+                    picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+                    [self presentViewController:picker animated:YES completion:^{}];
+                } else if(status == AVAuthorizationStatusDenied){
+                    [self cameraAccessErrorMessage];
+                } else if(status == AVAuthorizationStatusRestricted){
+                    [self cameraAccessErrorMessage];
+                } else if(status == AVAuthorizationStatusNotDetermined){
+                    // not determined
+                    [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
+                        if(granted){
+                            picker.delegate = self;
+                            picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+                            [self presentViewController:picker animated:YES completion:^{}];
+                            
+                        } else {
+                            [self cameraAccessErrorMessage];
+                        }
+                    }];
+                }
+            }
         }
             break;
         case 1:
@@ -254,6 +344,7 @@
             picker.delegate = self;
             picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
             [self presentViewController:picker animated:YES completion:^{}];
+            
         }
         default:
             // Do Nothing.........
@@ -261,7 +352,10 @@
     }
 }
 
-
+-(void)cameraAccessErrorMessage{
+    UIAlertView *aleartView=[[UIAlertView alloc]initWithTitle:@"Access Error" message:@"P2P try to access take photo.  Please enable Settings->Privacy->Camera." delegate:nil cancelButtonTitle:kOK otherButtonTitles:nil];
+    [aleartView show];
+}
 
 #pragma mark -
 #pragma - mark Selecting Image from Camera and Library
@@ -287,7 +381,12 @@
             [imageUrls insertObject:imageString atIndex:0];
             [imageURLMutableArray insertObject:imageString atIndex:0];
             imageURLArray=[NSArray arrayWithArray:imageURLMutableArray];
-            [self.itemDetails setImageUri:[imageURLArray componentsJoinedByString:kComa_String]];
+           if (!_isFromSettings && !_isFromFoodSafty){
+                [self.itemDetails setImageUri:[imageURLArray componentsJoinedByString:kComa_String]];
+           }else{
+               [self enableSellButton];
+           }
+            
         }
         else{
             UIImage *img;
@@ -302,7 +401,15 @@
     [photoButton setBackgroundImage:img forState:UIControlStateNormal];
     [photoSelectTableView reloadData];
 }
-
+-(void)enableSellButton{
+    if (imageURLArray.count>0) {
+        [_updateSaftyBtn setEnabled:YES];
+        [_updateSaftyBtn setBackgroundColor:[UIColor colorWithRed:249.0f/255.0f green:221.0f/255.0f blue:129.0f/255.0f alpha:1.0]];
+    }else{
+        [_updateSaftyBtn setEnabled:NO];
+        [_updateSaftyBtn setBackgroundColor:[UIColor lightGrayColor]];
+    }
+}
 - (void)tableviewReLoad{
     [photoSelectTableView reloadData];
 }
@@ -351,5 +458,28 @@
         return 3;
     }
     return 0;
+}
+- (IBAction)updateImageToProfile{
+    [self updateProfileCertificate];
+    if (_isFromFoodSafty){
+        if (imageURLArray.count>0) {
+            [self dismissViewControllerAnimated:YES completion:^{
+            }];
+        }
+    }
+    else{
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+
+- (void)updateProfileCertificate{
+    [[LoginServiceHandler sharedServiceHandler] profileUpdateCertificate:[imageURLArray componentsJoinedByString:kComa_String] serviceCallBack:^(NSError *error, LoginResponce *response) {
+        if (error) {
+            UIAlertView *aleartView=[[UIAlertView alloc]initWithTitle:kUploadError message:kCertUploadError delegate:nil cancelButtonTitle:kOK otherButtonTitles:nil];
+            [aleartView show];
+        }else{
+            [[SharedLogin sharedLogin] setUserCertificates:[imageURLArray componentsJoinedByString:kComa_String]];
+        }
+    }];
 }
 @end

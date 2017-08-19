@@ -43,6 +43,39 @@ static LoginServiceHandler *_sharedInstance=nil;
     
     
 }
+- (void)profileUpdateCertificate:(NSString *)certificateImage serviceCallBack:(RegisterResultBlock)service{
+    certificateImage = [certificateImage stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+    requestType=RequestTypePut;
+    conType=MIMETypeJSON;
+    NSString *userId=[[NSUserDefaults standardUserDefaults]objectForKey:@"userId"];
+    NSString *requestJson = [NSString stringWithFormat:@"{\"certificates\":\"%@\"}",certificateImage];
+     NSString *requestURL=[NSString stringWithFormat:@"/api/v1/profile/%ld/update",(long)[userId integerValue]];
+    [self execute:requestURL requestObject:requestJson contentType:conType requestMethod:requestType serviceCallBack:^(NSError *error, id response) {
+        
+         service(error,response);
+        
+    }];
+}
+- (void)getProfileDetails:(NSString *)profileId serviceCallBack:(RegisterResultBlock)service{
+    requestType=RequestTypeGet;
+    conType=MIMETypeJSON;
+    NSString *userId=[[NSUserDefaults standardUserDefaults]objectForKey:@"userId"];
+    NSString *requestURL=[NSString stringWithFormat:@"api/v1/profile/%ld",(long)[userId integerValue]];
+    [self execute:requestURL requestObject:nil contentType:conType requestMethod:requestType serviceCallBack:^(NSError *error, id response) {
+        
+        LoginResponce * loginResponce=[[LoginResponce alloc]init];
+        
+        if (!error) {
+            [[SharedLogin sharedLogin] setUserProfileDetails:response];
+            [loginResponce setCode:@"p2pdinner.user_found"];
+            [loginResponce setMessage:@"User Login Success."];
+            service(nil,loginResponce);
+        }
+        else
+            service(error,response);
+        
+    }];
+}
 -(BOOL)isRegisteredAlready{
     
     if ([[NSUserDefaults standardUserDefaults]objectForKey:@"devToken"]) {

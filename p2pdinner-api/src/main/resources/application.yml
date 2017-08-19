@@ -81,11 +81,20 @@ spring:
     driverClassName: org.postgresql.Driver
 ---
 spring:
+  profiles: docker
+  datasource:
+    url: jdbc:postgresql://postgres:5432/p2pdinner
+    username: p2pdinner
+    password: p2pdinner
+    driverClassName: org.postgresql.Driver
+---
+spring:
   profiles: cloud
   datasource:
-    url: jdbc:postgresql://ec2-54-243-249-154.compute-1.amazonaws.com:5432/ddlmbg3obu79rn?sslfactory=org.postgresql.ssl.NonValidatingFactory&ssl=true
-    username: bddbeaqojhfdqt
-    password: OGw99TaWdz2qfU2s7M5meSCFSx
     driverClassName: org.postgresql.Driver
+    maxActive: 10
+    minIdle: 2
+    initialSize: 5
+    removeAbandoned: true
 
 

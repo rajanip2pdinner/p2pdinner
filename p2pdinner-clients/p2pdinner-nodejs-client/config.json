@@ -1,8 +1,10 @@
 {
   "development" : {
-    "base64Encode" : "MkJaNVA5MUxQMERQVlpaWE5JOVVQNDJIRzo5U2ZqYjhSbDhVWS9EeWIrVzRXclFhOFFBVEJjeEluU3ZlUlJaMVpMVnlz",
-    "grant_type": "password",
-    "username" : "rajani1@p2pdinner.com",
-    "password" : "Welcome123"
+    "authorizationUri": "https://dev-768670.oktapreview.com/oauth2/ausaxf4ch03nY0tMg0h7/v1/token",
+    "base64Encode" : "MG9hYXg3aWRnYnhENXlwemcwaDc6V2RSbm5IOU5yUWxEWmdqcFpUS1VxT0xJZ2Qxby1LazVzNXRHN2ttag==",
+    "grantType": "password",
+    "username" : "rajani.shops@gmail.com",
+    "password" : "Raj634713",
+    "scope" : "offline_access openid profile email"
   }
 }

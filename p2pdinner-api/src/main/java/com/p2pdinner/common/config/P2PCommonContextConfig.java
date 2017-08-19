@@ -215,7 +215,7 @@ public class P2PCommonContextConfig {
 	}
 
 	@Bean
-	@Profile({"default", "development"})
+	@Profile({"default", "development", "docker"})
 	public ApnsService apnsServiceDevelopment(StorageOperations storageOperations) throws P2PDinnerException, IOException {
 		Resource resource = new ClassPathResource(appleCertificatePath);
 		Path certificatePath = Paths.get(resource.getURI());

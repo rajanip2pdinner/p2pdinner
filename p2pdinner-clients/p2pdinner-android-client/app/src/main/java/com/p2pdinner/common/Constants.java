@@ -37,7 +37,7 @@ public class Constants {
 
     public static final String P2PDINNER_OKTA_URL = "https://dev-768670.oktapreview.com/oauth2/ausaxf4ch03nY0tMg0h7/v1";
 
-    public static final String P2PDINNER_BASE_URI = "http://10.0.2.2:8080/api/v1";
+    public static final String P2PDINNER_BASE_URI = "https://p2pdinner-api.herokuapp.com/v1";
 
     public static class Message {
 

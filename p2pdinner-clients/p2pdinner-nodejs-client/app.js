@@ -54,14 +54,15 @@ app.use(multer({ dest : './uploads/',
 }));
 app.all("*", function(req, res, next) {
   if (app.locals.authenticationInfo === undefined) {
-      unirest.post(app.locals.rest_endpoint + "/oauth/token")
+      unirest.post(app.locals.configuration.authorizationUri)
       .headers({
         "Authorization" : "Basic " + app.locals.configuration.base64Encode
       })
       .send({
-        "grant_type" : "password",
+        "grant_type" : app.locals.configuration.grantType,
         "username" : app.locals.configuration.username,
-        "password" : app.locals.configuration.password
+        "password" : app.locals.configuration.password,
+        "scope": app.locals.configuration.scope
       })
       .end(function(response) {
         authenticationInfo = response.body;

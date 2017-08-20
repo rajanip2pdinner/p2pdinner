@@ -31,7 +31,7 @@ static LoginServiceHandler *_sharedInstance=nil;
     
     requestType=RequestTypePost;
     conType=MIMETypeJSON;
-    [self execute:@"api/v1/profile" requestObject:[loginRequest createLoginRequestContent] contentType:conType requestMethod:requestType serviceCallBack:^(NSError *error, id response) {
+    [self execute:@"v1/profile" requestObject:[loginRequest createLoginRequestContent] contentType:conType requestMethod:requestType serviceCallBack:^(NSError *error, id response) {
         
         if (!error) {
             NSLog(@"Register success");
@@ -49,7 +49,7 @@ static LoginServiceHandler *_sharedInstance=nil;
     conType=MIMETypeJSON;
     NSString *userId=[[NSUserDefaults standardUserDefaults]objectForKey:@"userId"];
     NSString *requestJson = [NSString stringWithFormat:@"{\"certificates\":\"%@\"}",certificateImage];
-     NSString *requestURL=[NSString stringWithFormat:@"/api/v1/profile/%ld/update",(long)[userId integerValue]];
+     NSString *requestURL=[NSString stringWithFormat:@"/v1/profile/%ld/update",(long)[userId integerValue]];
     [self execute:requestURL requestObject:requestJson contentType:conType requestMethod:requestType serviceCallBack:^(NSError *error, id response) {
         
          service(error,response);
@@ -60,7 +60,7 @@ static LoginServiceHandler *_sharedInstance=nil;
     requestType=RequestTypeGet;
     conType=MIMETypeJSON;
     NSString *userId=[[NSUserDefaults standardUserDefaults]objectForKey:@"userId"];
-    NSString *requestURL=[NSString stringWithFormat:@"api/v1/profile/%ld",(long)[userId integerValue]];
+    NSString *requestURL=[NSString stringWithFormat:@"v1/profile/%ld",(long)[userId integerValue]];
     [self execute:requestURL requestObject:nil contentType:conType requestMethod:requestType serviceCallBack:^(NSError *error, id response) {
         
         LoginResponce * loginResponce=[[LoginResponce alloc]init];
@@ -88,7 +88,7 @@ static LoginServiceHandler *_sharedInstance=nil;
     if (![self isRegisteredAlready]) {
         requestType=RequestTypePost;
         conType=MIMETypeJSON;
-        NSString *requestURL=[NSString stringWithFormat:@"api/v1/profile/%ld/devices",(long)[userId integerValue]];
+        NSString *requestURL=[NSString stringWithFormat:@"v1/profile/%ld/devices",(long)[userId integerValue]];
         NSString *requestJson=[NSString stringWithFormat:@"{\"deviceType\" : \"apple\",\"registrationId\" : \"%@\",\"notificationsEnabled\" : true }",[[NSUserDefaults standardUserDefaults]objectForKey:@"devToken"]];
         [self execute:requestURL requestObject:requestJson contentType:conType requestMethod:requestJson serviceCallBack:^(NSError *error, id response) {
             
@@ -106,7 +106,7 @@ static LoginServiceHandler *_sharedInstance=nil;
 - (void)checkUserLogin:(LoginRequest *)loginRequest serviceCallBack:(RegisterResultBlock)service{
     requestType=RequestTypeGet;
     conType=MIMETypeJSON;
-    NSString *requestURL=[NSString stringWithFormat:@"api/v1/profile/validate?emailAddress=%@&password=%@",loginRequest.emailAddress,loginRequest.password];
+    NSString *requestURL=[NSString stringWithFormat:@"v1/profile/validate?emailAddress=%@&password=%@",loginRequest.emailAddress,loginRequest.password];
     [self execute:requestURL requestObject:[loginRequest createLoginRequestContent] contentType:conType requestMethod:requestType serviceCallBack:^(NSError *error, id response) {
         LoginResponce * loginResponce=[[LoginResponce alloc]init];
         

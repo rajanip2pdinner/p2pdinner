@@ -20,22 +20,21 @@ static ServiceHandler *_sharedInstance=nil;
 @synthesize operation;
 
 - (void)newOauthRequestOperation:(NSString *)refreshToken withCompletion:(ServiceResultBlock)returnBlock{
-    manager = [[AFHTTPRequestOperationManager manager] initWithBaseURL:[NSURL URLWithString:BASE_URL]];
+    manager = [[AFHTTPRequestOperationManager manager] initWithBaseURL:[NSURL URLWithString:P2PDINNER_OKTA_URL]];
     manager.requestSerializer = [AFHTTPRequestSerializer serializer];
-    [manager.requestSerializer setAuthorizationHeaderFieldWithUsername:@"7568CL2AX2Z5HJXJ6VUAWDUD7" password:@"kfpZC6leleyLezvC3xxaSJhm6SSaAl65wwG2/xJ/278"];
-    [manager.requestSerializer setValue:@"NzU2OENMMkFYMlo1SEpYSjZWVUFXRFVENzprZnBaQzZsZWxleUxlenZDM3h4YVNKaG02U1NhQWw2NXd3RzIveEovMjc4" forHTTPHeaderField:@"Authorization"];
+    [manager.requestSerializer setAuthorizationHeaderFieldWithUsername:@"0oaax7idgbxD5ypzg0h7" password:@"WdRnnH9NrQlDZgjpZTKUqOLIgd1o-Kk5s5tG7kmj"];
     NSDictionary *request;
     
     if ([refreshToken length]>5) {
-        request=@{@"grant_type":@"refresh_token" , @"username":@"selvam@p2pdinner.com" , @"password":@"Welcome123",@"refresh_token":refreshToken};
+        request=@{@"grant_type":@"refresh_token" , @"username":@"rajani.shops@gmail.com" , @"password":@"Raj634713",@"refresh_token":refreshToken, @"scope": @"offline_access openid profile email"};
     }
     else
     {
-    request=@{@"grant_type":@"password" , @"username":@"selvam@p2pdinner.com" , @"password":@"Welcome123"};
+    request=@{@"grant_type":@"password" , @"username":@"rajani.shops@gmail.com" , @"password":@"Raj634713", @"scope": @"offline_access openid profile email"};
     }
     [manager.requestSerializer  setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     [manager.requestSerializer  setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    operation=[manager POST:@"api/v1/oauth/token" parameters:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    operation=[manager POST:@"/oauth2/ausaxf4ch03nY0tMg0h7/v1/token" parameters:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSDictionary *responseDictionary=(NSDictionary *)responseObject;
         double value=[[responseDictionary objectForKey:@"expires_in"] doubleValue];
         [self saveOauthToken:[responseDictionary objectForKey:@"access_token"] andRefreshToken:[responseDictionary objectForKey:@"refresh_token"] andTokenType:[responseDictionary objectForKey:@"token_type"]  andExpiryTime:value];

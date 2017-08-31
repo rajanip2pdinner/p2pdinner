@@ -68,7 +68,7 @@ security:
 spring:
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: true
+    show-sql: false
     ddl-auto: update
     generate-ddl: true
 ---

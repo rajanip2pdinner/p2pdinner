@@ -5,7 +5,7 @@ services:
     ports:
     -  8080:8080
   postgres:
-    image: postgres
+    image: p2pdinner_db
     environment:
       POSTGRES_USERNAME: p2pdinner
       POSTGRES_PASSWORD: p2pdinner

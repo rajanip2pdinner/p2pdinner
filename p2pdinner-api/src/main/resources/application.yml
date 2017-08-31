@@ -92,9 +92,9 @@ spring:
   profiles: cloud
   datasource:
     driverClassName: org.postgresql.Driver
-    maxActive: 10
+    maxActive: 5
     minIdle: 2
-    initialSize: 5
+    initialSize: 2
     removeAbandoned: true
 
 

@@ -75,9 +75,9 @@ spring:
 spring:
   profiles: development
   datasource:
-    url: jdbc:postgresql://localhost:5432/p2pdinner-spring-boot
-    username: rajaniy
-    password: 1800$heemu
+    url: jdbc:postgresql://ec2-107-22-171-11.compute-1.amazonaws.com:5432/da7hj5fk7uu2af?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory
+    username: lcvrwdgrqstvrm
+    password: 30bce6b1ac59ce6435eb7355b57c75e68b20275d62348a67e24b7bdcc6a5247d
     driverClassName: org.postgresql.Driver
 ---
 spring:
@@ -87,12 +87,16 @@ spring:
     username: p2pdinner
     password: p2pdinner
     driverClassName: org.postgresql.Driver
+    maxActive: 2
+    minIdle: 2
+    initialSize: 2
+    removeAbandoned: true
 ---
 spring:
   profiles: cloud
   datasource:
     driverClassName: org.postgresql.Driver
-    maxActive: 5
+    maxActive: 2
     minIdle: 2
     initialSize: 2
     removeAbandoned: true

@@ -97,8 +97,8 @@ spring:
   datasource:
     driverClassName: org.postgresql.Driver
     maxActive: 2
-    minIdle: 2
-    initialSize: 2
+    minIdle: 1
+    initialSize: 1
     removeAbandoned: true
 
 

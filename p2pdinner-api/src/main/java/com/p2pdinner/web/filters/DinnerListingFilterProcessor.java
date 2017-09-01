@@ -9,6 +9,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
+import org.springframework.stereotype.Component;
 import org.springframework.util.ClassUtils;
 
 import java.lang.reflect.Method;
@@ -59,7 +60,7 @@ public class DinnerListingFilterProcessor implements FilterProcessor<DinnerListi
 		filters = new HashMap<>();
 		ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
 		scanner.addIncludeFilter(new AnnotationTypeFilter(FilterMapper.class));
-		for(BeanDefinition defn : scanner.findCandidateComponents("com.p2p")){
+		for(BeanDefinition defn : scanner.findCandidateComponents("com.p2pdinner")){
 			Class<?> clazz = ClassUtils.resolveClassName(defn.getBeanClassName(), ClassUtils.getDefaultClassLoader());
 			FilterMapper filterMapper = clazz.getAnnotation(FilterMapper.class);
 			System.out.println(filterMapper + "----" + defn.getBeanClassName());

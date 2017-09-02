@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -37,6 +38,7 @@ import com.p2pdinner.R;
 import com.p2pdinner.common.Constants;
 import com.p2pdinner.common.P2PDinnerUtils;
 import com.p2pdinner.entities.DinnerSearchResults;
+import com.p2pdinner.entities.SearchCriteria;
 import com.p2pdinner.fragments.DateDialogDataTransferInterface;
 import com.p2pdinner.restclient.GoogleApiService;
 import com.p2pdinner.restclient.PlacesServiceManager;
@@ -69,6 +71,7 @@ public class FindDinnerActivity extends BaseAppCompatActivity implements DateDia
     private ImageView mModifyDate;
     private Button mFindDinner;
     private ProgressBar mSearchProgress;
+    private CheckBox mFreeFood;
 
     @Inject
     LocationManager locationManager;
@@ -106,6 +109,7 @@ public class FindDinnerActivity extends BaseAppCompatActivity implements DateDia
         mModifyDate = (ImageView) findViewById(R.id.changeDate);
         mFindDinner = (Button) findViewById(R.id.btnFindDinner);
         mSearchProgress = (ProgressBar) findViewById(R.id.searchProgress);
+        mFreeFood = (CheckBox) findViewById(R.id.chkFreeFood);
     }
 
     private void setupEventListeners() {
@@ -161,7 +165,13 @@ public class FindDinnerActivity extends BaseAppCompatActivity implements DateDia
                     startTime = P2PDinnerUtils.convert(mDateView.getText().toString()).toDate();
                 }
                 mSearchProgress.setVisibility(ProgressBar.VISIBLE);
-                placesServiceManager.searchDinnerByLocation(mAddress.getText().toString(), startTime, guests, getResources().getConfiguration().locale)
+                SearchCriteria searchCriteria = null;
+                if (mFreeFood.isChecked()) {
+                    searchCriteria = new SearchCriteria(mAddress.getText().toString(), startTime, guests, 0d, 0d);
+                } else {
+                    searchCriteria = new SearchCriteria(mAddress.getText().toString(), startTime, guests);
+                }
+                placesServiceManager.searchDinnerByLocation(searchCriteria, getResources().getConfiguration().locale)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.io())
                         .subscribe(new Observer<DinnerSearchResults>() {

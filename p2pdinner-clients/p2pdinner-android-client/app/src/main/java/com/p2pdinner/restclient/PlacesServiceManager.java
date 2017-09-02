@@ -14,6 +14,7 @@ import com.p2pdinner.common.Constants;
 import com.p2pdinner.deserializers.DinnerMenuItemDeserializer;
 import com.p2pdinner.entities.DinnerMenuItem;
 import com.p2pdinner.entities.DinnerSearchResults;
+import com.p2pdinner.entities.SearchCriteria;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeFieldType;
@@ -54,25 +55,27 @@ public class PlacesServiceManager {
         this.restTemplate = restTemplate;
     }
 
-    public Observable<DinnerSearchResults> searchDinnerByLocation(final String address, final DateTime startTime, final int guests, final Locale locale) {
+    public Observable<DinnerSearchResults> searchDinnerByLocation(final SearchCriteria searchCriteria, final Locale locale) {
         return Observable.create(new Observable.OnSubscribe<DinnerSearchResults>() {
             @Override
             public void call(Subscriber<? super DinnerSearchResults> subscriber) {
-                Log.d(TAG, "Requesting dinner for address ==> " + address);
+                Log.d(TAG, "Requesting dinner for address ==> " + searchCriteria.getAddress());
                 StringBuffer searchQry = new StringBuffer("");
                 DateTime actualStartTime = DateTime.now();
                 DateTime actualEndTime = DateTime.now();
                 actualEndTime = actualStartTime.withTime(23, 59, 59, 0);
-                if (startTime.isAfter(actualStartTime)) {
-                    actualStartTime = startTime;
+                if (searchCriteria.getStartTime().isAfter(actualStartTime)) {
+                    actualStartTime = searchCriteria.getStartTime();
                     actualEndTime = actualStartTime.withTime(23, 59, 59, 0);
                 }
                 searchQry.append("after_close_time::").append(DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss").withZoneUTC().print(actualStartTime));
                 searchQry.append("|before_close_time::").append(DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss").withZoneUTC().print(actualEndTime));
-                searchQry.append("|guests::").append(guests);
+                searchQry.append("|guests::").append(searchCriteria.getGuests());
+                searchQry.append("|max_price::").append(searchCriteria.getMaxPrice());
+                searchQry.append("|min_price::").append(searchCriteria.getMinPrice());
                 UriComponents uriComponents = UriComponentsBuilder.fromUriString(Constants.P2PDINNER_BASE_URI)
                         .path("/places/nearbysearch")
-                        .queryParam("address", address)
+                        .queryParam("address", searchCriteria.getAddress())
                         .queryParam("q", searchQry.toString())
                         .queryParam("locale", locale.toString())
                         .build();

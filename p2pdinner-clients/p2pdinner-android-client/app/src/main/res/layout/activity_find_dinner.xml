@@ -190,6 +190,42 @@
     </RelativeLayout>
 
     <View
+        android:id="@+id/separator4"
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:layout_below="@+id/calendar_static_layout"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/holo_orange_dark" />
+
+    <RelativeLayout
+        android:id="@+id/freefood_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/separator4">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/chkFreeFood"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:checked="false"
+                android:text="Free Food" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+    <View
         android:id="@+id/separator3"
         android:layout_width="fill_parent"
         android:layout_height="1dip"
@@ -208,12 +244,13 @@
         android:textColor="@color/background_material_light"
         android:textSize="16sp"
         android:textStyle="bold" />
+
     <ProgressBar
         android:id="@+id/searchProgress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:visibility="invisible"
-        android:indeterminate="true"/>
+        android:indeterminate="true"
+        android:visibility="invisible" />
 </RelativeLayout>
 

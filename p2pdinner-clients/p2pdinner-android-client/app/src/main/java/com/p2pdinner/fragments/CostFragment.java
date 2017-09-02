@@ -1,6 +1,7 @@
 package com.p2pdinner.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.InputFilter;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,6 +47,7 @@ public class CostFragment extends BaseFragment {
     private EditText mCostPerPlate;
     private EditText mAvailableQuantity;
     private TextView mCostPerPlateLabel;
+    private CheckBox mFreeFood;
 
     private DinnerMenuItem dinnerMenuItem;
 
@@ -73,6 +76,7 @@ public class CostFragment extends BaseFragment {
         mCostPerPlate = (EditText) view.findViewById(R.id.cost_per_item);
         mAvailableQuantity = (EditText) view.findViewById(R.id.available_quantity);
         mCostPerPlateLabel = (TextView) view.findViewById(R.id.lbl_cost_per_item);
+        mFreeFood = (CheckBox) view.findViewById(R.id.chkFreeFood);
         String costLabel = mCostPerPlateLabel.getText().toString();
         Locale current = getResources().getConfiguration().locale;
         costLabel = costLabel + " ( " + Currency.getInstance(current).getSymbol() + " )";
@@ -83,16 +87,40 @@ public class CostFragment extends BaseFragment {
             availableQuantity = dinnerMenuItem.getAvailableQuantity();
         }
         mAvailableQuantity.setText(String.valueOf(availableQuantity));
-        DecimalFormat decimalFormat = new DecimalFormat("00.00");
-        if (dinnerMenuItem.getCost() != null) {
-            String costPerItem = decimalFormat.format(dinnerMenuItem.getCost());
+        updateCostPerPlate(dinnerMenuItem.getCost());
+        mCostPerPlate.setFilters(new InputFilter[] {new DecimalDigitsInputFilter()});
+        if (dinnerMenuItem.getCost() != null && dinnerMenuItem.getCost() == 0) {
+            mFreeFood.setChecked(true);
+            mCostPerPlate.setEnabled(false);
+        } else {
+            mFreeFood.setChecked(false);
+            mCostPerPlate.setEnabled(true);
+        }
+        mFreeFood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mFreeFood.isChecked()) {
+                    mCostPerPlate.setEnabled(false);
+                    updateCostPerPlate(0d);
+                } else {
+                    mCostPerPlate.setEnabled(true);
+                    updateCostPerPlate(dinnerMenuItem.getCost());
+                }
+            }
+        });
+    }
+
+    @NonNull
+    private void updateCostPerPlate(Double cost) {
+        final DecimalFormat decimalFormat = new DecimalFormat("00.00");
+        if (cost != null) {
+            String costPerItem = decimalFormat.format(cost);
             if (StringUtils.hasText(costPerItem)) {
                 mCostPerPlate.setText(costPerItem);
             }
         } else {
             mCostPerPlate.setText(decimalFormat.format(0d));
         }
-        mCostPerPlate.setFilters(new InputFilter[] {new DecimalDigitsInputFilter()});
     }
 
     @Nullable
@@ -105,7 +133,7 @@ public class CostFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 mTracker.send(new HitBuilders.EventBuilder().setCategory("Action").setAction("Cost - Next").build());
-                Double price = Double.parseDouble(mCostPerPlate.getText().toString());
+                Double price = StringUtils.hasText(mCostPerPlate.getText()) ? Double.parseDouble(mCostPerPlate.getText().toString()) : 0;
                 int availableQuantity = Integer.parseInt(mAvailableQuantity.getText().toString());
                 dinnerMenuItem.setCost(price);
                 dinnerMenuItem.setAvailableQuantity(availableQuantity);

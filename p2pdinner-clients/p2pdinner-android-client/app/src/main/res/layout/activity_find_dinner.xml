@@ -218,7 +218,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:checked="false"
-                android:text="Free Food" />
+                android:text="Free Food Only" />
 
         </LinearLayout>
 
@@ -230,6 +230,16 @@
         android:layout_width="fill_parent"
         android:layout_height="1dip"
         android:layout_below="@+id/calendar_static_layout"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/holo_orange_dark" />
+
+    <View
+        android:id="@+id/separator5"
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:layout_below="@+id/freefood_layout"
         android:layout_centerVertical="true"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"

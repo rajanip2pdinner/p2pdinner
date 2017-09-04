@@ -396,21 +396,21 @@ public class MainActivity extends BaseAppCompatActivity {
                     .setCategory("Action")
                     .setAction("CopyrightAgreement")
                     .build());
-                    showDocument(Constants.P2PDINNER_WEB_BASE_URI + getString(R.string.copyRightUri));
+                    showDocument(Constants.P2PDINNER_LEGAL_URI + getString(R.string.copyRightUri));
                     break;
                 case 1:
                     tracker.send(new HitBuilders.EventBuilder()
                             .setCategory("Action")
                             .setAction("PrivacyPolicy")
                             .build());
-                    showDocument(Constants.P2PDINNER_WEB_BASE_URI +  getString(R.string.privacyUri));
+                    showDocument(Constants.P2PDINNER_LEGAL_URI +  getString(R.string.privacyUri));
                     break;
                 case 2:
                     tracker.send(new HitBuilders.EventBuilder()
                             .setCategory("Action")
                             .setAction("TermsAndConditions")
                             .build());
-                    showDocument(Constants.P2PDINNER_WEB_BASE_URI +  getString(R.string.tcUri));
+                    showDocument(Constants.P2PDINNER_LEGAL_URI +  getString(R.string.tcUri));
                     break;
                 case 3:
                     tracker.send(new HitBuilders.EventBuilder()

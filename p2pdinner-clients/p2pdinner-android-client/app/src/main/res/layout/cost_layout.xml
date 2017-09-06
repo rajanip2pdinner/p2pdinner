@@ -56,7 +56,7 @@
         android:layout_below="@+id/lbl_cost_per_item"
         android:layout_centerHorizontal="true"
         android:checked="false"
-        android:text="Free Food Only"
+        android:text="Free Food"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textSize="18sp" />
 

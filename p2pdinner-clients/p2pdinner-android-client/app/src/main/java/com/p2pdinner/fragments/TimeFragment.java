@@ -158,7 +158,7 @@ public class TimeFragment extends BaseFragment implements DateDialogDataTransfer
 
 
         mBtnNext = (Button) view.findViewById(R.id.btnNext);
-        mBtnNext.setOnClickListener(  new View.OnClickListener() {
+        mBtnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dinnerMenuItem.setAvailableDate(DateTimeFormat.forPattern("MM/dd/yyyy").print(P2PDinnerUtils.convert(mAvailabilityDateTxt.getText().toString()).toDate()));
@@ -208,17 +208,31 @@ public class TimeFragment extends BaseFragment implements DateDialogDataTransfer
         DateTime fromDateTime = null;
         DateTime closeDateTime = null;
         if (StringUtils.hasText(dinnerMenuItem.getToTime())) {
-            toDateTime = formatter.withZoneUTC().parseDateTime(dinnerMenuItem.getToTime());
+            try {
+                toDateTime = formatter.withZoneUTC().parseDateTime(dinnerMenuItem.getToTime());
+            } catch (IllegalArgumentException iex) {
+
+            }
+
         } else {
             toDateTime = DateTime.now().plusHours(2);
         }
         if (StringUtils.hasText(dinnerMenuItem.getFromTime())) {
-            fromDateTime = formatter.withZoneUTC().parseDateTime(dinnerMenuItem.getFromTime());
+            try {
+                fromDateTime = formatter.withZoneUTC().parseDateTime(dinnerMenuItem.getFromTime());
+            } catch (IllegalArgumentException iex) {
+
+            }
+
         } else {
             fromDateTime = DateTime.now().plusHours(1);
         }
         if (StringUtils.hasText(dinnerMenuItem.getCloseTime())) {
-            closeDateTime = formatter.withZoneUTC().parseDateTime(dinnerMenuItem.getCloseTime());
+            try {
+                closeDateTime = formatter.withZoneUTC().parseDateTime(dinnerMenuItem.getCloseTime());
+            } catch (IllegalArgumentException iex) {
+
+            }
         } else {
             closeDateTime = DateTime.now().plusHours(2).minusMinutes(1);
         }
@@ -313,7 +327,7 @@ public class TimeFragment extends BaseFragment implements DateDialogDataTransfer
                 DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("MMM dd, yyyy HH:mm");
                 DateTime fromDateTime;
                 if (StringUtils.hasText(mFormTime.getText().toString())) {
-                    fromDateTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " "+ mFormTime.getText().toString());
+                    fromDateTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " " + mFormTime.getText().toString());
                 } else {
                     fromDateTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " 00:00");
                 }
@@ -358,7 +372,7 @@ public class TimeFragment extends BaseFragment implements DateDialogDataTransfer
                 }
                 DateTimeFormatter timeFormatter = DateTimeFormat.forPattern("HH:mm");
                 DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("MMM dd, yyyy HH:mm");
-                DateTime fromDateTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " "+ mFormTime.getText().toString());
+                DateTime fromDateTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " " + mFormTime.getText().toString());
                 DateTime toDateTime;
                 if (StringUtils.hasText(mToTime.getText().toString())) {
                     toDateTime = dateTimeFormatter.parseDateTime(mAvailabilityDateTxt.getText().toString() + " " + mToTime.getText().toString());

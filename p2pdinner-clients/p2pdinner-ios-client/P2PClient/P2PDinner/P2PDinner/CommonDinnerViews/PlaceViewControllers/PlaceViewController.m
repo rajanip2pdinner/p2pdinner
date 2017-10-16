@@ -210,7 +210,7 @@ indexPath
     if ([senderBtn.titleLabel.text isEqualToString:kDone]) {
         
         [textVeiw setEditable:NO];
-        [senderBtn setTitle:kEat_In forState:UIControlStateNormal];
+        [senderBtn setTitle:kEdit forState:UIControlStateNormal];
         [textVeiw resignFirstResponder];
     }
     else{

@@ -86,6 +86,10 @@ indexPath
     // This will create a "invisible" footer
     return 0.01f;
 }
+//- (void)viewWillAppear:(BOOL)animated{
+//    [super viewWillAppear:animated];
+//    [self updatedItems];
+//}
 -(void)updatedItems{
 
     itemDetails.costPerItem=[costCell getCostForDinner];

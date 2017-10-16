@@ -25,8 +25,9 @@ typedef enum{
 }
 
 @property(nonatomic,weak)IBOutlet UITextField    *pricePerMealTextField;
+@property(nonatomic,weak)IBOutlet UISwitch *freeFood;
 @property(nonatomic,retain) id<CostCellDelegate>  delegate;
-
+-(IBAction)freeFoodAction:(UISwitch *)freeFood;
 - (void)setPrice:(NSNumber *)price;
 - (NSNumber *)getCostForDinner;
 

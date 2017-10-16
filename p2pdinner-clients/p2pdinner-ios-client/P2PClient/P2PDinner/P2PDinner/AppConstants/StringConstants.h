@@ -30,9 +30,9 @@
 
 #define kTitle_Settings @"Settings"
 #define kSegueID_AgreementVC @"AgreementViewController"
-#define kTerms_URL @"https://p2pdinner-services.herokuapp.com/legal/Terms.html"
-#define kCopyright_URL @"https://p2pdinner-services.herokuapp.com/legal/copyright.html"
-#define kPrivacy_URL @"https://p2pdinner-services.herokuapp.com/legal/privacy.html"
+#define kTerms_URL @"https://p2pdinner-legal-svc.herokuapp.com/legal/Terms.html"
+#define kCopyright_URL @"https://p2pdinner-legal-svc.herokuapp.com/legal/Copyright.html"
+#define kPrivacy_URL @"https://p2pdinner-legal-svc.herokuapp.com/legal/privacy.html"
 #define kTermsConditionText @"Terms & Conditions"
 #define kCopyrightText @"Copyright Agreement"
 #define kSafetyProfile @"Food Safety"

@@ -26,6 +26,7 @@
     NSString *findDinneraddressValue;
     int guestValue;
     IBOutlet UIButton *findDinnerButton;
+    BOOL freeFoodEnable;
 }
 -(IBAction)findDinner:(id)sender;
 @end

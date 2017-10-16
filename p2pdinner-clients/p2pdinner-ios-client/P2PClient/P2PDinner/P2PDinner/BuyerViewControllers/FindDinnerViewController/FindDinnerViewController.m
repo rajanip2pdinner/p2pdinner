@@ -35,6 +35,7 @@
     [super viewDidLoad];
     dinnerDate=[NSDate date];
     guestValue=2;
+    freeFoodEnable = false;
     AppDelegate *appdelegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
     LocationManger *locationMgr=[LocationManger sharedLocationManager];
     locationMgr.delegate=self;
@@ -74,7 +75,7 @@
 }
 #pragma UISetupDinnerView
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 3;
+    return 4;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell ;
@@ -135,6 +136,9 @@
     if (indexPath.row==2) {
         return 108;
     }
+    else if (indexPath.row == 3) {
+        return 55;
+    }
     return 138;
 }
 -(NSArray *)shortByDistance:(NSArray *)dinnerResultArray{
@@ -177,6 +181,10 @@
     NSString *after_close_time=[Utility dateToStringFormat:@"MM/dd/yyyy HH:mm:ss" dateString:dinnerDate timeZone:UTC];
     NSString *before_close_time=[Utility dateToStringFormat:@"MM/dd/yyyy HH:mm:ss" dateString:[Utility endOfDay:dinnerDate] timeZone:UTC];
     NSMutableString *requestFormat=[NSMutableString stringWithFormat:@"%@&q=after_close_time::%@|before_close_time::%@|guests::%d",selectedAddressField.text,after_close_time,before_close_time,guestValue];
+    //Need to check free food enable
+    if (freeFoodEnable) {
+        [requestFormat appendString:@"|max_price::0|min_price::0"];
+    }
     if (appdelegate.localLocation.length>0) {
         NSString *locationPara=[NSString stringWithFormat:@"&locale=%@",appdelegate.localLocation];
         [requestFormat appendString:locationPara];
@@ -195,7 +203,9 @@
     }];
     
 }
-
+-(IBAction)freeFood:(UISwitch *)freeFood{
+    freeFoodEnable = freeFood.isOn;
+}
 - (void)updateAddressFieldUsingService:(NSString *)requestURL
 {
     [[LocationServiceHandler sharedLocationHandler] getLocationAdderess:requestURL serviceCallBack:^(NSError *error, NSString *response) {

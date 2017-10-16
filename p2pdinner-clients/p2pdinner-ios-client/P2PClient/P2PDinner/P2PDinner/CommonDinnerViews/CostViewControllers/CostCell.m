@@ -9,6 +9,7 @@
 #import "CostCell.h"
 #import "Utility.h"
 #import "StringConstants.h"
+#import "CostViewController.h"
 
 @implementation CostCell
 - (double)getValueOfPriceLableVlaue:(NSString *)stringValue{
@@ -16,7 +17,19 @@
     return [[valueWithDolor stringByReplacingOccurrencesOfString:@"$" withString:@""] doubleValue];
 }
 
-
+-(IBAction)freeFoodAction:(UISwitch *)freeFood{
+    if ([self.delegate respondsToSelector:@selector(updatedItems)])
+    {
+        CostViewController *costVC = (CostViewController *)self.delegate;
+        [costVC.itemDetails setCostPerItem:[NSNumber numberWithInteger:0]];
+    }
+    if(freeFood.isOn){
+        [_pricePerMealTextField setText:@"0"];
+        [_pricePerMealTextField setEnabled:NO];
+    }else{
+         [_pricePerMealTextField setEnabled:YES];
+    }
+}
 - (void)changePricePerMealValue:(ChangeValue)value{
     int changePriceIntValue=[self getValueOfPriceLableVlaue:pricePerMealLable.text];
     switch (value) {
